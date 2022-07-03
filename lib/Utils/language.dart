@@ -1,0 +1,77 @@
+class AppLanguage {
+  static String loginUpper = "Log in!";
+  static String password = "Wachtwoord";
+  static String logout = "Uitloggen"; //"Log Out";
+  static String welcome = "Welkom terug" ; //"Welcome Back";
+  static String forgetpass = "Wachtwoord vergeten?";
+  static String rememberme = "Remember Me";
+  static String login = "Log In";
+  static String yourRoute = "Route Vandaag";//"Your Route";
+  static String yourProfile = "Uw profiel" ;//"Your Profile";
+  static String route = "Route";
+  static String setting = "Setting";
+  static String draw_your_signature = "Draw your signature";
+  static String submit = "Bevestig"; //"Submit";
+  static String signature1 = "Handtekening"; //"Signature";
+  static String capture_image = "Maak foto"; //"Capture image";
+  static String reason = "Reden"; //" Reason";
+  static String not_delivered = "Not Delivered (type reason)";
+  static String delivered_custom_reason = "Delivered with custom reason.";
+  static String delivered = "Delivered";
+  static String summary_of_Delivery = "Samenvatting"; //"Summary of Delivery.";
+  static String next = "Volgende"; //"Next";
+  static String driverType = "Driver Type";
+  static String email = "Email";
+  static String phoneNumber = "Phone Number";
+  static String to1 = "Naar"; //"To";
+  static String from = "Van"; //From";
+  static String chooseDate ="Kies datum"; //"Choose Date";
+  static String history = "Historie"; //"History";
+  static String upcomings = "Aankomende";
+  static String are_you_sure = "Are you sure";
+  static String do_you_want_to  = "Do you want to exit the App?";
+  static String no = "No";
+  static String yes = "Yes";
+  static String Note = "Notities";
+  static String Person_to_Deliver_to = "Leveren aan";
+  static String Parcel_Type = "Type pakket" ;
+  static String Weight = "Gewicht";
+  static String Size = "Grootte";
+  static String Delivery_Details = "Bezorging details" ;
+  static String Loading_Time_Allowed = "Laadtijd";
+  static String Dateof_Required_Arrival = "Datum van vereist aankomst";
+  static String Time_of_Required_Arrival = "Tijd van vereiste aankomst";
+  static String Arrival_Details = "Aankomst gegevens";
+  static String Show_Distance = "Afstand";
+  static String Show_Estimated_Time = "Verwachte aankomsttijd";
+  static String Status = "Status";
+  static String Duration = "Duratie";
+  static String Car_Number = "Kenteken";
+  static String Time_Start = "Begin tijd";
+  static String Date_End = "Datum einde";
+  static String Date_Start = "Datum start";
+  static String History = "Alle routes";
+  static String Delivery = "Bezorging";
+  static String Completed = "Voltooid";
+  static String Started = "Begonnen";
+  static String Pickup = "Ophalen";
+  static String Car_Number_Plate = "Kenteken";
+  static String End_Address = "Eind adres" ;
+  static String Start_Address = "Begin adres" ;
+  static String Required = "Vereiste";
+  static String Arrival_Details1 = "Aankomst details" ;
+  static String Delivery_condition = "Vereiste checks" ;
+  static String Type_Notes = "Type notities";
+  static String Route_Name = "Route naam";
+  static String End = "Einde" ;
+  static String Address = "Adres";
+  static String Time = "Tijd";
+  static String Date = "datum";
+  static String Car_number_plate = "Kenteken";
+  static String End_Time_Date = "Eind tijd en datum";
+  static String Start_Time_Date = "Start tijd en datum";
+
+
+
+
+}
