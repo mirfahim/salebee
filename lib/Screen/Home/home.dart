@@ -2,14 +2,34 @@ import 'package:flutter/material.dart';
 
 import '../../utils.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+  Widget circleRow(size, option,x,y){
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: primaryColor
+          ),
+          transform: Matrix4.translationValues(x, y, 0.0),
+          child: const Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Icon(Icons.ac_unit,color: Colors.white,),
+          ),
+        ),
+        SizedBox(width: 5,),
+        Container(
+            transform: Matrix4.translationValues(x, y, 0.0),
+            child:  Text('Option $option',style: const TextStyle(
+                color: Colors.grey
+            ),)
+        )
+      ],
+    );
+  }
 
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -278,116 +298,121 @@ class _HomePageState extends State<HomePage> {
                           backgroundImage: AssetImage('images/person.jpg',),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: primaryColor
-                            ),
-                            transform: Matrix4.translationValues((size.width /12), (size.height /15), 0.0),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Icon(Icons.ac_unit,color: Colors.white,),
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Container(
-                              transform: Matrix4.translationValues((size.width /12), (size.height /15), 0.0),
-                              child: const Text('Option E',style: TextStyle(
-                                  color: Colors.grey
-                              ),)
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: primaryColor
-                            ),
-                            transform: Matrix4.translationValues((size.width /2.7), (size.height /8), 0.0),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Icon(Icons.ac_unit,color: Colors.white,),
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Container(
-                              transform: Matrix4.translationValues((size.width /2.7), (size.height /8), 0.0),
-                              child: const Text('Option D',style: TextStyle(
-                                  color: Colors.grey
-                              ),)
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: primaryColor
-                            ),
-                            transform: Matrix4.translationValues((size.width /1.9), (size.height /3.3), 0.0),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Icon(Icons.ac_unit,color: Colors.white,),
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Container(
-                              transform: Matrix4.translationValues((size.width /1.9), (size.height /3.3), 0.0),
-                              child: const Text('Option C',style: TextStyle(
-                                  color: Colors.grey
-                              ),)
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: primaryColor
-                            ),
-                            transform: Matrix4.translationValues((size.width /2.5), (size.height /2), 0.0),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Icon(Icons.ac_unit,color: Colors.white,),
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Container(
-                              transform: Matrix4.translationValues((size.width /2.5), (size.height /2), 0.0),
-                              child: const Text('Option D',style: TextStyle(
-                                  color: Colors.grey
-                              ),)
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: primaryColor
-                            ),
-                            transform: Matrix4.translationValues((size.width /12), (size.height /1.74), 0.0),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Icon(Icons.ac_unit,color: Colors.white,),
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Container(
-                              transform: Matrix4.translationValues((size.width /12), (size.height /1.74), 0.0),
-                              child: const Text('Option A',style: TextStyle(
-                                  color: Colors.grey
-                              ),)
-                          )
-                        ],
-                      ),
+                      circleRow(size, 'E', (size.width /12), (size.height /15)),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: primaryColor
+                      //       ),
+                      //       transform: Matrix4.translationValues((size.width /12), (size.height /15), 0.0),
+                      //       child: const Padding(
+                      //         padding: EdgeInsets.all(12.0),
+                      //         child: Icon(Icons.ac_unit,color: Colors.white,),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 5,),
+                      //     Container(
+                      //         transform: Matrix4.translationValues((size.width /12), (size.height /15), 0.0),
+                      //         child: const Text('Option E',style: TextStyle(
+                      //             color: Colors.grey
+                      //         ),)
+                      //     )
+                      //   ],
+                      // ),
+                      circleRow(size, 'D', (size.width /2.7), (size.height /8)),
+                      circleRow(size, 'C', (size.width /1.9), (size.height /3.3)),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: primaryColor
+                      //       ),
+                      //       transform: Matrix4.translationValues((size.width /2.7), (size.height /8), 0.0),
+                      //       child: const Padding(
+                      //         padding: EdgeInsets.all(12.0),
+                      //         child: Icon(Icons.ac_unit,color: Colors.white,),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 5,),
+                      //     Container(
+                      //         transform: Matrix4.translationValues((size.width /2.7), (size.height /8), 0.0),
+                      //         child: const Text('Option D',style: TextStyle(
+                      //             color: Colors.grey
+                      //         ),)
+                      //     )
+                      //   ],
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: primaryColor
+                      //       ),
+                      //       transform: Matrix4.translationValues((size.width /1.9), (size.height /3.3), 0.0),
+                      //       child: const Padding(
+                      //         padding: EdgeInsets.all(12.0),
+                      //         child: Icon(Icons.ac_unit,color: Colors.white,),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 5,),
+                      //     Container(
+                      //         transform: Matrix4.translationValues((size.width /1.9), (size.height /3.3), 0.0),
+                      //         child: const Text('Option C',style: TextStyle(
+                      //             color: Colors.grey
+                      //         ),)
+                      //     )
+                      //   ],
+                      // ),
+                      circleRow(size, 'B', (size.width /2.5), (size.height /2)),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: primaryColor
+                      //       ),
+                      //       transform: Matrix4.translationValues((size.width /2.5), (size.height /2), 0.0),
+                      //       child: const Padding(
+                      //         padding: EdgeInsets.all(12.0),
+                      //         child: Icon(Icons.ac_unit,color: Colors.white,),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 5,),
+                      //     Container(
+                      //         transform: Matrix4.translationValues((size.width /2.5), (size.height /2), 0.0),
+                      //         child: const Text('Option D',style: TextStyle(
+                      //             color: Colors.grey
+                      //         ),)
+                      //     )
+                      //   ],
+                      // ),
+                      circleRow(size, 'A', (size.width /12), (size.height /1.74)),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: primaryColor
+                      //       ),
+                      //       transform: Matrix4.translationValues((size.width /12), (size.height /1.74), 0.0),
+                      //       child: const Padding(
+                      //         padding: EdgeInsets.all(12.0),
+                      //         child: Icon(Icons.ac_unit,color: Colors.white,),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 5,),
+                      //     Container(
+                      //         transform: Matrix4.translationValues((size.width /12), (size.height /1.74), 0.0),
+                      //         child: const Text('Option A',style: TextStyle(
+                      //             color: Colors.grey
+                      //         ),)
+                      //     )
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
