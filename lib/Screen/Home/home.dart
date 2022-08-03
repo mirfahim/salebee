@@ -1,17 +1,92 @@
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:salebee/Utils/my_colors.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => MyAppState();
 }
 
-class _HomePageState extends State<HomePage> {
+class MyAppState extends State<HomePage> {
+  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    fabKey.currentState?.open();
+    final primaryColor = Theme.of(context).primaryColor;
+   return Scaffold(
+        body: Container(
+          color:  MyColors.appColor,
+
+        ),
+        floatingActionButton: Builder(
+          builder: (context) => FabCircularMenu(
+            key: fabKey,
+            // Cannot be `Alignment.center`
+            alignment: Alignment.bottomRight,
+            ringColor: Colors.white.withAlpha(25),
+            ringDiameter: 500.0,
+            ringWidth: 150.0,
+            fabSize: 64.0,
+            fabElevation: 8.0,
+            fabIconBorder: CircleBorder(),
+            // Also can use specific color based on wether
+            // the menu is open or not:
+            // fabOpenColor: Colors.white
+            // fabCloseColor: Colors.white
+            // These properties take precedence over fabColor
+            fabColor: Colors.white,
+            fabOpenIcon: Icon(Icons.menu, color: primaryColor),
+            fabCloseIcon: Icon(Icons.close, color: primaryColor),
+            fabMargin: const EdgeInsets.all(16.0),
+            animationDuration: const Duration(milliseconds: 800),
+            animationCurve: Curves.easeInOutCirc,
+            onDisplayChange: (isOpen) {
+              _showSnackBar(context, "The menu is ${isOpen ? "open" : "closed"}");
+            },
+            children: <Widget>[
+              RawMaterialButton(
+                onPressed: () {
+                  _showSnackBar(context, "You pressed 1");
+                },
+                shape: CircleBorder(),
+                padding: const EdgeInsets.all(24.0),
+                child: Icon(Icons.looks_one, color: Colors.white),
+              ),
+              RawMaterialButton(
+                onPressed: () {
+                  _showSnackBar(context, "You pressed 2");
+                },
+                shape: CircleBorder(),
+                padding: const EdgeInsets.all(24.0),
+                child: Icon(Icons.looks_two, color: Colors.white),
+              ),
+              RawMaterialButton(
+                onPressed: () {
+                  _showSnackBar(context, "You pressed 3");
+                },
+                shape: CircleBorder(),
+                padding: const EdgeInsets.all(24.0),
+                child: Icon(Icons.looks_3, color: Colors.white),
+              ),
+              RawMaterialButton(
+                onPressed: () {
+                  _showSnackBar(context, "You pressed 4. This one closes the menu on tap");
+                  fabKey.currentState!.close();
+                },
+                shape: CircleBorder(),
+                padding: const EdgeInsets.all(24.0),
+                child: Icon(Icons.looks_4, color: Colors.white),
+              )
+            ],
+          ),
+        ),
 
     );
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 }

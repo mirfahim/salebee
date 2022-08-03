@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:salebee/Model/login_model.dart';
 import 'package:salebee/Utils/Alerts.dart';
+import 'package:salebee/Utils/ApiUrl.dart';
 import 'dart:convert' as convert;
 
 import 'package:salebee/Utils/StringsConst.dart';
@@ -17,6 +19,7 @@ class ApiService {
 
   Future<String> uploadFile(File file, String type) async {
     String url = "${StringsConst.BASEURL}";
+
 
     // final creds = await authRepository.getCredentials();
 
@@ -67,7 +70,7 @@ class ApiService {
 
 
     Uri apiURL = Uri.parse(StringsConst.BASEURL + url);
-
+   // Uri apiURL = Uri.parse("https://fix-era.com/api/v1/login");
 
 
 
@@ -90,15 +93,21 @@ class ApiService {
     return response!.body;
   }
 
-  makeApiRequest({method, url, Map? body, headers}) async {
+  makeApiRequest({method, url, Map? body, headers,}) async {
     print("working started on api request 00");
     print("$method");
     try {
       print("working started on api request 01");
       var response;
       Uri apiURL = Uri.parse(StringsConst.BASEURL + url);
+     // Uri apiURL = Uri.parse("https://fix-era.com/api/v1/login");
       print("working started on api request 02");
       var header = headers;
+      Map <String, String>  headerMap = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+
+      };
       final encoding = Encoding.getByName('utf-8');
       // use storage // getx storage
       // if (headers == null) {
@@ -110,21 +119,9 @@ class ApiService {
       // }
       if (method == apiMethods.post) {
 
-       Map bodys = {
-          'phone_number' : '01782084390',
-          'password' : '12345678',
-
-        };
-       Map <String, String>  headerMap = {
-         'Keydata' : '8741214584542',
 
 
-
-    // "Access-Control-Allow-Origin": "*"
-
-
-    };
-        var bodyString = json.encode(bodys);
+        var bodyString = json.encode(body);
         print("started working on POST REQUEST $bodyString $headerMap $apiURL");
         response = await http.post(apiURL,
             body: bodyString, headers: headerMap,);
@@ -152,8 +149,14 @@ class ApiService {
 
       if (response != null &&
           (response.statusCode == 200 || response.statusCode == 201)) {
+
+        // Map<String, dynamic> res = convert.jsonDecode(response.body);
         var res = convert.jsonDecode(response.body);
-        print("my response is $res");
+
+
+
+        print("my response for 200 and 201 is +++++++ $res");
+
         return res;
       } else if (response != null && (response.statusCode == 403)) {
         var res = convert.jsonDecode(response.body);
@@ -161,10 +164,11 @@ class ApiService {
         return res;
       } else {
         var res = convert.jsonDecode(response!.body);
-
+        print("status code is ++++${response.statuscode}");
         handleError(res);
       }
     } catch (e) {
+      print("status code is ++++}");
       print(e.toString());
       handleError(e);
     }

@@ -7,11 +7,12 @@ class MyColors {
   static const Color primaryVeryLight = Color(0xFFD5E4F1);
   static const Color accent = Color(0xfff7892b);
   static const Color accentDark = Color(0xfff7892b);
-  static const Color accentLight = Color(0xfff7892b);
+  static const Color accentLight = Color(0x020A2DFF);
   static const Color lightBlue = Color(007);
-  static const Color darkBlue = Color(00008);
+  static const Color darkBlue = Color(0x00000008);
+  static const Color totalAppColor = Color(0xE0F9FF);
   static  Color shadeBlue =HexColor("#ebf9ff");
-  static  Color appColor =HexColor("#f8f9fd");
+  static  Color appColor =HexColor("#E0F9FF");
   static  Color grey01 =HexColor("#b8b8b8");
   static  Color appBlue =HexColor("#009ee5");
   static  Color shadeBlack =HexColor("#484848");
@@ -20,7 +21,7 @@ class MyColors {
   static  Color greenLight =HexColor("#54c492");
   static  Color paste =HexColor("#99FEFF");
   static  Color greenPaste =HexColor("#D5FCEB");
-  static  Color deepBlue =HexColor("#3866BB");
+  static  Color deepBlue =HexColor("#071040FF");
 
 
 

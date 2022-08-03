@@ -3,11 +3,14 @@ import 'package:get/get.dart';
 
 import 'package:salebee/Screen/SplashScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:salebee/Service/sharedPref_service.dart';
 
 import 'Provider/Login/login_provider.dart';
 import 'Screen/Authentication/login_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreff.to.initial();
   runApp( MyApp());
 }
 
@@ -25,9 +28,9 @@ class MyApp extends StatelessWidget {
 
         theme: ThemeData(
 
-          primarySwatch: Colors.blue,
+          //primarySwatch: Colors.blue,
         ),
-        home: const LoginPage(),
+        home: const Splash(),
       ),
     );
   }
