@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/notification/notification_1.dart';
 import 'package:salebee/utils.dart';
 
 import 'Screen/Home/home.dart';
@@ -66,7 +67,7 @@ class _BottomNavState extends State<BottomNav> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const NotificationPage();
+                      currentScreen = const NotificationPage1();
                       currentTab = 1;
                     });
                   },

@@ -207,7 +207,7 @@ class Report extends StatelessWidget {
                                   DataColumn(
                                       label: SizedBox(
                                         width: 80,
-                                        child: const Text(
+                                        child: Text(
                                     'Check In',
                                           textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 12),
@@ -216,7 +216,7 @@ class Report extends StatelessWidget {
                                   DataColumn(
                                       label: SizedBox(
                                         width: 80,
-                                        child: const Text(
+                                        child: Text(
                                     'Check Out',
                                           textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 12),
@@ -225,7 +225,7 @@ class Report extends StatelessWidget {
                                   DataColumn(
                                       label: SizedBox(
                                         width: 80,
-                                        child: const Text(
+                                        child: Text(
                                     'Working Hour',
                                           textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 12),
