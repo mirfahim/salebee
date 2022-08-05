@@ -6,8 +6,8 @@ import '../../utils.dart';
 import 'check_in_out.dart';
 
 class AttendenceReport extends StatelessWidget {
-  const AttendenceReport({Key? key}) : super(key: key);
-
+   AttendenceReport({Key? key}) : super(key: key);
+  final selectedDate = DateTime.now().obs;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -28,17 +28,19 @@ class AttendenceReport extends StatelessWidget {
             color: Colors.black
           ),),
           actions: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.help, color: primaryColor,))
+            IconButton(onPressed: (){
+              _dialogOpen(context,'');
+            }, icon: Icon(Icons.help, color: primaryColor,))
           ],
         ),
-        body: ListView(
+        body: Column(
           children:  [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
                 children: [
                   const Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: TabBar(
                         indicatorColor: Colors.black,
                         labelColor: Colors.black,
@@ -54,21 +56,27 @@ class AttendenceReport extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: primaryColorSecond)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 3),
-                        child: Row(
-                          children: [
-                            Icon(Icons.calendar_today,color: primaryColorSecond,size: 14,),
-                            const SizedBox(width: 5,),
-                            Text('2022',style: TextStyle(
-                                color: primaryColorSecond
-                            ),)
-                          ],
+                    child: InkWell(
+                      onTap: (){
+                        _selectDate(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: primaryColorSecond)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 3),
+                          child: Row(
+
+                            children: [
+                              Icon(Icons.calendar_today,color: primaryColorSecond,size: 14,),
+                              const SizedBox(width: 10,),
+                              Obx(()=>Text('${selectedDate.value.year}',style: TextStyle(
+                                  color: primaryColorSecond
+                              ),))
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -76,17 +84,171 @@ class AttendenceReport extends StatelessWidget {
                 ],
               ),
             ),
-             SizedBox(
-              height: 500,
-              child: TabBarView(
-                  children: [
-                    CheckInOut(),
-                    Report()
-                  ]),
-            ),
+            Expanded(
+               child: TabBarView(
+                   children: [
+                     CheckInOut(),
+                     Report()
+                   ]),
+             ),
           ],
         ),
       ),
+    );
+  }
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate.value,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate.value) {
+      selectedDate.value = picked;
+    }
+  }
+  void _dialogOpen(BuildContext context, String message) {
+    showDialog(
+      // barrierDismissible: false,
+      context: context,
+      builder: (BuildContext cxt) {
+        return Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: SizedBox(
+              width: 300,
+              child: Material(
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '\u2022',
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.55,
+                              color: Colors.white
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: Text(
+                              'No Location Found due to phone\'s poor GPS reciever',
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                height: 1.55,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '\u2022',
+                            style: TextStyle(
+                                fontSize: 16,
+                                height: 1.55,
+                                color: Colors.white
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: Text(
+                              'No Location Found due to phone\'s poor GPS reciever',
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                height: 1.55,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '\u2022',
+                            style: TextStyle(
+                                fontSize: 16,
+                                height: 1.55,
+                                color: Colors.white
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: Text(
+                              'No Location Found due to phone\'s poor GPS reciever',
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                height: 1.55,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '\u2022',
+                            style: TextStyle(
+                                fontSize: 16,
+                                height: 1.55,
+                                color: Colors.white
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: Text(
+                              'No Location Found due to phone\'s poor GPS reciever',
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                height: 1.55,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

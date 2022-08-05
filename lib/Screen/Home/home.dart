@@ -97,12 +97,7 @@ class HomePage extends StatelessWidget {
                           backgroundImage: AssetImage('images/person.jpg',),
                         ),
                       ),
-                      InkWell(
-                        onTap: (){
-                          Get.to(const AttendenceReport());
-                        },
-                        child: circleRow(size,'E',(size.width /12),(size.height /24),
-                        ),
+                      circleRow(size,'E',(size.width /12),(size.height /24),
                       ),
 
                       circleRow(size,'D',(size.width /2.5),(size.height /8)),
@@ -129,13 +124,18 @@ class HomePage extends StatelessWidget {
                         ),)
                       ],
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.arrow_forward,color: darkBlue,),
-                        Text('Next',style: TextStyle(
-                            color: darkBlue
-                        ),)
-                      ],
+                    InkWell(
+                      onTap: (){
+                        Get.to( AttendenceReport());
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.arrow_forward,color: darkBlue,),
+                          Text('Next',style: TextStyle(
+                              color: darkBlue
+                          ),)
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -231,13 +231,18 @@ class HomePage extends StatelessWidget {
                         ),)
                       ],
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.arrow_forward,color: darkBlue,),
-                        Text('Next',style: TextStyle(
-                            color: darkBlue
-                        ),)
-                      ],
+                    InkWell(
+                      onTap: (){
+                        Get.to( AttendenceReport());
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.arrow_forward,color: darkBlue,),
+                          Text('Next',style: TextStyle(
+                              color: darkBlue
+                          ),)
+                        ],
+                      ),
                     )
                   ],
                 ),
