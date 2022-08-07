@@ -50,6 +50,7 @@ dependencies:
   geolocator: ^9.0.1
   battery_plus: ^2.1.4
   analog_clock:
+  flutter_secure_storage: ^5.1.0
   #location: any
 dev_dependencies:
   flutter_test:
