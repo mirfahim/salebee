@@ -38,11 +38,12 @@ class LoginPageState extends State<LoginPage> {
             ),
           ),
           TextField(
+
             controller: textPwdController,
             decoration: InputDecoration(
               hintText: "Password",
             ),
-          ),
+          ), // hlw
           TextButton(
               onPressed: () {
                 Provider.of<UserAuthProvider>(context, listen: false).signIN(
