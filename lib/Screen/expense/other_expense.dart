@@ -146,7 +146,7 @@ class OtherExpense extends StatelessWidget {
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
                   SizedBox(height: 10,),
-                  Obx(()=>InkWell(
+                  InkWell(
                     onTap: (){
                       _selectDate(context);
                     },
@@ -161,7 +161,7 @@ class OtherExpense extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: TextStyle(
-                              color: Colors.grey
+                                color: Colors.grey
                             ),)),
                             const SizedBox(width: 10,),
                             Icon(Icons.calendar_today,size: 14,),
@@ -169,7 +169,7 @@ class OtherExpense extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )),
+                  ),
                   SizedBox(height: 20,),
                   Divider(thickness: 1,color: Colors.grey,),
                   SizedBox(height: 10,),

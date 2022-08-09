@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Screen/expense/food.dart';
 import 'package:salebee/utils.dart';
 
-class TransportPage extends StatelessWidget {
-  TransportPage({Key? key}) : super(key: key);
+class FoodExpense extends StatelessWidget {
+  FoodExpense({Key? key}) : super(key: key);
   final selectedDate = DateTime.now().obs;
   final pickedDate = ''.obs;
   @override
@@ -13,7 +12,7 @@ class TransportPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transport',style: TextStyle(
+        title: const Text('Food',style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.w600
         ),),
         automaticallyImplyLeading: true,
@@ -27,23 +26,18 @@ class TransportPage extends StatelessWidget {
           icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         actions: [
-          InkWell(
-            onTap: (){
-              Get.to(FoodExpense());
-            },
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(150),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(150),
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white
               ),
-              child: Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.person,color: darkBlue,),
-                ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.person,color: darkBlue,),
               ),
             ),
           )
@@ -56,7 +50,38 @@ class TransportPage extends StatelessWidget {
             children: [
               ListView(
                 children: [
-                  Text('Way',style: TextStyle(
+                  Text('Meal Type',style: TextStyle(
+                      fontSize: 16,fontWeight: FontWeight.w600
+                  ),),
+                  SizedBox(height: 10,),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border:
+                        Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        // _productController.searchProduct(value);
+                      },
+                      keyboardType: TextInputType.text,
+                      decoration:   InputDecoration(
+                        prefix: Container(
+                          width: 20,
+                        ),
+                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                        hintText: 'Air',
+                        // icon:
+
+                        hintStyle:
+                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 10,),
+                  Text('Dish Name',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
                   SizedBox(height: 10,),
@@ -86,62 +111,6 @@ class TransportPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  Text('Vehical Name',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: 10,),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        hintText: 'Type athe vehical name',
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Text('Vehical Number(Optional)',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: 10,),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        hintText: 'Enter the vehicle Number',
-
-                        hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
                   const Text('Pricing',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
@@ -367,7 +336,7 @@ class TransportPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: (){
-                      // Get.to(FoodExpense());
+                      // Get.to(OtherExpense());
                     },
                     child: Container(
                       height: 48,
