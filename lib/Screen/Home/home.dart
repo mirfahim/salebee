@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Screen/edit_profile.dart';
 
+import '../../Service/sharedPref_service.dart';
 import '../../utils.dart';
 import 'package:get/get.dart';
 
 import '../Attendence_report/attendence_report.dart';
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   Widget circleRow(size, option,x,y){
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: primaryColor
-          ),
-          transform: Matrix4.translationValues(x, y, 0.0),
-          child: const Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Icon(Icons.ac_unit,color: Colors.white,),
-          ),
-        ),
-        SizedBox(width: 5,),
-        Container(
+    return InkWell(
+      onTap: (){
+        print("working");
+      },
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: primaryColor
+            ),
             transform: Matrix4.translationValues(x, y, 0.0),
-            child:  Text('Option $option',style: const TextStyle(
-                color: Colors.grey
-            ),)
-        )
-      ],
+            child: const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Icon(Icons.ac_unit,color: Colors.white,),
+            ),
+          ),
+          SizedBox(width: 5,),
+          Container(
+              transform: Matrix4.translationValues(x, y, 0.0),
+              child:  Text('$option',style: const TextStyle(
+                  color: Colors.grey
+              ),)
+          )
+        ],
+      ),
     );
   }
 
@@ -81,6 +94,7 @@ class HomePage extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: Stack(
+                    clipBehavior: Clip.none,
                     children: [
                       Container(
                         height: size.height / 1.3,
@@ -90,23 +104,51 @@ class HomePage extends StatelessWidget {
                             color: Colors.white
                         ),
                       ),
-                      Container(
-                        transform: Matrix4.translationValues(-(size.width /3.8), (size.height /7), 0.0),
-                        child: const CircleAvatar(
-                          radius: 130,
-                          backgroundImage: AssetImage('images/person.jpg',),
+                      InkWell(
+                        onTap: (){
+                          print("Working1");
+                        },
+                        child: Container(
+                          transform: Matrix4.translationValues(-(size.width /3.8), (size.height /7), 0.0),
+                          child:  CircleAvatar(
+                            radius: 130,
+                            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                            backgroundColor: Colors.transparent,
+                          ),
                         ),
                       ),
-                      circleRow(size,'E',(size.width /12),(size.height /24),
+                      InkWell(
+                        onTap: (){
+                          print("attendance");
+                          Get.to( AttendenceReport());
+                        },
+                        child: circleRow(size,'Attendance',(size.width /12),(size.height /24),
+                        ),
                       ),
 
-                      circleRow(size,'D',(size.width /2.5),(size.height /8)),
+                      InkWell(
+                        onTap: (){
 
-                      circleRow(size,'C',(size.width /1.9),(size.height /3.3)),
+                        },
+                          child: circleRow(size,'Visit',(size.width /2.5),(size.height /8))),
 
-                      circleRow(size,'B',(size.width /2.5),(size.height /2)),
+                      InkWell(
+                        onTap: (){
 
-                      circleRow(size,'A',(size.width /12),(size.height /1.7)),
+                        },
+                          child: circleRow(size,'Prospect',(size.width /1.9),(size.height /3.3))),
+
+                      InkWell(
+                        onTap: (){
+
+                        },
+                          child: circleRow(size,'Lead',(size.width /2.5),(size.height /2))),
+
+                      InkWell(
+                        onTap: (){
+
+                        },
+                          child: circleRow(size,'Report',(size.width /12),(size.height /1.7))),
                     ],
                   ),
                 ),
@@ -157,8 +199,12 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Rayhan Uddin', style: TextStyle(
+                      children: [
+                        StaticData.name == ""  ? Text("salebee", style: TextStyle(
+                            fontSize: 20, color: Colors.black,
+                            fontWeight: FontWeight.w600
+                        ),) :
+                        Text(StaticData.name!, style: TextStyle(
                             fontSize: 20, color: Colors.black,
                             fontWeight: FontWeight.w600
                         ),),
@@ -172,14 +218,19 @@ class HomePage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(150)
                       ),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.edit_outlined,color: darkBlue,),
+                      child: GestureDetector(
+                        onTap: (){
+                          Get.to( EditProfile());
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.edit_outlined,color: darkBlue,),
+                          ),
                         ),
                       ),
                     )
@@ -189,6 +240,7 @@ class HomePage extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: Stack(
+                    clipBehavior: Clip.none,
                     children: [
                       Container(
                         height: size.height / 1.3,
@@ -200,19 +252,43 @@ class HomePage extends StatelessWidget {
                       ),
                       Container(
                         transform: Matrix4.translationValues(-(size.width /3.8), (size.height /5.5), 0.0),
-                        child: const CircleAvatar(
+                        child:  CircleAvatar(
                           radius: 140,
-                          backgroundImage: AssetImage('images/person.jpg',),
+                          backgroundImage:
+                          NetworkImage(SharedPreff.to.prefss.getString("proLink")!),
+                          //backgroundColor: Colors.transparent,
                         ),
                       ),
-                      circleRow(size, 'E', (size.width /12), (size.height /15)),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: (){
+                          print("attendance");
+                          Get.to( AttendenceReport());
+                        },
+                          child: circleRow(size, 'Attendances', (size.width /12), (size.height /15))),
 
-                      circleRow(size, 'D', (size.width /2.7), (size.height /8)),
-                      circleRow(size, 'C', (size.width /1.9), (size.height /3.3)),
+                      InkWell(
+                        onTap: (){
 
-                      circleRow(size, 'B', (size.width /2.5), (size.height /2)),
+                        },
+                          child: circleRow(size, 'Visit', (size.width /2.7), (size.height /8))),
+                      InkWell(
+                        onTap: (){
 
-                      circleRow(size, 'A', (size.width /12), (size.height /1.74)),
+                        },
+                          child: circleRow(size, 'Prospect', (size.width /1.9), (size.height /3.3))),
+
+                      InkWell(
+                          onTap: (){
+
+                          },
+                          child: circleRow(size, 'Lead', (size.width /2.5), (size.height /2))),
+
+                      InkWell(
+                        onTap: (){
+
+                        },
+                          child: circleRow(size, 'Report', (size.width /12), (size.height /1.74))),
 
                     ],
                   ),

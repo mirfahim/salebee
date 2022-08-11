@@ -8,9 +8,11 @@ import 'package:salebee/Screen/Authentication/login_page.dart';
 import 'package:salebee/Screen/Authentication/sub_domain_page.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Widget/bottom_bar.dart';
+import 'package:salebee/bottomNav.dart';
 //import 'package:location/location.dart';
 import '../Data/static_data.dart';
 import '../Service/sharedPref_service.dart';
+import '../Utils/my_colors.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -58,7 +60,7 @@ class _SplashState extends State<Splash> {
     if(StaticData.loggedIN == true){
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => CustomBottomBar(),
+          builder: (context) => BottomNav(),
         ),
       );
     } else if (StaticData.subDomain == '' || StaticData.subDomain == null ){
@@ -83,16 +85,17 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         toolbarHeight: 0.0,
       ),
       //
-      backgroundColor: Color(0xffe2e7ef),
+      backgroundColor: MyColors.appColor,
       //
       body: Center(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white70,
+            color: MyColors.appColor,
             borderRadius: BorderRadius.circular(
               12.0,
             ),
@@ -101,7 +104,7 @@ class _SplashState extends State<Splash> {
             16.0,
           ),
           child: Image.asset(
-            "assets/salebee.jpeg",
+            "images/tap.png",
             width: 100.0,
             height: 100.0,
           ),
