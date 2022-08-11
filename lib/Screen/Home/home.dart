@@ -263,6 +263,14 @@ class HomePage extends StatelessWidget {
 
                       Positioned(
                           top: (size.height /6.0),
+
+
+
+
+
+
+
+
                           left: (size.width /2.5),
                           child: circleRow(size, 'D', (size.width /2.7), (size.height /8))),
                       Positioned(
