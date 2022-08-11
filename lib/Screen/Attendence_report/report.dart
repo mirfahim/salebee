@@ -186,8 +186,7 @@ class Report extends StatelessWidget {
                       physics: AlwaysScrollableScrollPhysics(),
                       // physics: NeverScrollableScrollPhysics(),
                       children: tabs
-                          .map(
-                            (e) => SingleChildScrollView(
+                          .map((e) => SingleChildScrollView(
                               scrollDirection: Axis.vertical,
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,

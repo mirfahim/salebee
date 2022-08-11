@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:salebee/Data/static_data.dart';
-import 'package:salebee/Screen/edit_profile.dart';
+import 'package:salebee/Screen/expense/expense_list.dart';
 
-import '../../Service/sharedPref_service.dart';
 import '../../utils.dart';
 import 'package:get/get.dart';
 
 import '../Attendence_report/attendence_report.dart';
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  Widget circleRow(size, option,x,y){
-    return InkWell(
-      onTap: (){
-        print("working");
-      },
+  Widget circleRow(size, option,top,left){
+    return SizedBox(
+      width: 150,
       child: Row(
         children: [
           Container(
@@ -27,7 +18,7 @@ class _HomePageState extends State<HomePage> {
                 shape: BoxShape.circle,
                 color: primaryColor
             ),
-            transform: Matrix4.translationValues(x, y, 0.0),
+            // transform: Matrix4.translationValues(x, y, 0.0),
             child: const Padding(
               padding: EdgeInsets.all(12.0),
               child: Icon(Icons.ac_unit,color: Colors.white,),
@@ -35,8 +26,8 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(width: 5,),
           Container(
-              transform: Matrix4.translationValues(x, y, 0.0),
-              child:  Text('$option',style: const TextStyle(
+              // transform: Matrix4.translationValues(x, y, 0.0),
+              child:  Text('Option $option',style: const TextStyle(
                   color: Colors.grey
               ),)
           )
@@ -94,7 +85,6 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Center(
                   child: Stack(
-                    clipBehavior: Clip.none,
                     children: [
                       Container(
                         height: size.height / 1.3,
@@ -104,51 +94,65 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white
                         ),
                       ),
-                      InkWell(
-                        onTap: (){
-                          print("Working1");
-                        },
-                        child: Container(
-                          transform: Matrix4.translationValues(-(size.width /3.8), (size.height /7), 0.0),
-                          child:  CircleAvatar(
-                            radius: 130,
-                            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-                            backgroundColor: Colors.transparent,
-                          ),
+                      Container(
+                        transform: Matrix4.translationValues(-(size.width /3.8), (size.height /7), 0.0),
+                        child: const CircleAvatar(
+                          radius: 130,
+                          backgroundImage: AssetImage('images/person.jpg',),
                         ),
                       ),
-                      InkWell(
-                        onTap: (){
-                          print("attendance");
-                          Get.to( AttendenceReport());
-                        },
-                        child: circleRow(size,'Attendance',(size.width /12),(size.height /24),
+                      Positioned(
+                        top: (size.height /13),
+                        left: (size.width /8),
+                        child: InkWell(
+                            onTap: (){
+                              Get.to(AttendenceReport());
+                            },
+                            child: circleRow(size, 'E', 20.0, 50.0)),
+                      ),
+
+                      Positioned(
+                          top: (size.height /6.0),
+                          left: (size.width /2.5),
+                          child: circleRow(size, 'D', (size.width /2.7), (size.height /8))),
+                      Positioned(
+                        top: (size.height /3.1),
+                        left: (size.width /1.9),
+                        child: InkWell(
+                          onTap: (){
+                            Get.to(AttendenceReport());
+                          },
+                          child: circleRow(size, 'C', 240.0, 210.0),
                         ),
                       ),
 
-                      InkWell(
-                        onTap: (){
+                      Positioned(
+                          top: (size.height /2.1),
+                          left: (size.width /2.3),
+                          child: InkWell(
+                              onTap: (){
+                                Get.to(AttendenceReport());
+                              },
+                              child: circleRow(size, 'B', (size.width /2.5), (size.height /2)))),
 
-                        },
-                          child: circleRow(size,'Visit',(size.width /2.5),(size.height /8))),
-
-                      InkWell(
-                        onTap: (){
-
-                        },
-                          child: circleRow(size,'Prospect',(size.width /1.9),(size.height /3.3))),
-
-                      InkWell(
-                        onTap: (){
-
-                        },
-                          child: circleRow(size,'Lead',(size.width /2.5),(size.height /2))),
-
-                      InkWell(
-                        onTap: (){
-
-                        },
-                          child: circleRow(size,'Report',(size.width /12),(size.height /1.7))),
+                      Positioned(
+                        top: (size.height /1.74),
+                        left: (size.width /8),
+                        child: InkWell(
+                            onTap: (){
+                              Get.to(AttendenceReport());
+                            },
+                            child: circleRow(size, 'A', (size.width /12), (size.height /1.74))),
+                      ),
+                      // circleRow(size,'E', (size.width /12), (size.height /24),),
+                      //
+                      // circleRow(size,'D',(size.width /2.5),(size.height /8)),
+                      //
+                      // circleRow(size,'C',(size.width /1.9),(size.height /3.3)),
+                      //
+                      // circleRow(size,'B',(size.width /2.5),(size.height /2)),
+                      //
+                      // circleRow(size,'A',(size.width /12),(size.height /1.7)),
                     ],
                   ),
                 ),
@@ -199,12 +203,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        StaticData.name == ""  ? Text("salebee", style: TextStyle(
-                            fontSize: 20, color: Colors.black,
-                            fontWeight: FontWeight.w600
-                        ),) :
-                        Text(StaticData.name!, style: TextStyle(
+                      children: const [
+                        Text('Rayhan Uddin', style: TextStyle(
                             fontSize: 20, color: Colors.black,
                             fontWeight: FontWeight.w600
                         ),),
@@ -218,19 +218,14 @@ class _HomePageState extends State<HomePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(150)
                       ),
-                      child: GestureDetector(
-                        onTap: (){
-                          Get.to( EditProfile());
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.edit_outlined,color: darkBlue,),
-                          ),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.edit_outlined,color: darkBlue,),
                         ),
                       ),
                     )
@@ -240,7 +235,6 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Center(
                   child: Stack(
-                    clipBehavior: Clip.none,
                     children: [
                       Container(
                         height: size.height / 1.3,
@@ -252,43 +246,54 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Container(
                         transform: Matrix4.translationValues(-(size.width /3.8), (size.height /5.5), 0.0),
-                        child:  CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 140,
-                          backgroundImage:
-                          NetworkImage(SharedPreff.to.prefss.getString("proLink")!),
-                          //backgroundColor: Colors.transparent,
+                          backgroundImage: AssetImage('images/person.jpg',),
                         ),
                       ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: (){
-                          print("attendance");
-                          Get.to( AttendenceReport());
-                        },
-                          child: circleRow(size, 'Attendances', (size.width /12), (size.height /15))),
-
-                      InkWell(
-                        onTap: (){
-
-                        },
-                          child: circleRow(size, 'Visit', (size.width /2.7), (size.height /8))),
-                      InkWell(
-                        onTap: (){
-
-                        },
-                          child: circleRow(size, 'Prospect', (size.width /1.9), (size.height /3.3))),
-
-                      InkWell(
+                      Positioned(
+                        top: (size.height /13),
+                        left: (size.width /8),
+                        child: InkWell(
                           onTap: (){
-
+                            Get.to(AttendenceReport());
                           },
-                          child: circleRow(size, 'Lead', (size.width /2.5), (size.height /2))),
+                            child: circleRow(size, 'E', 20.0, 50.0)),
+                      ),
 
-                      InkWell(
-                        onTap: (){
+                      Positioned(
+                          top: (size.height /6.0),
+                          left: (size.width /2.5),
+                          child: circleRow(size, 'D', (size.width /2.7), (size.height /8))),
+                      Positioned(
+                        top: (size.height /3.1),
+                        left: (size.width /1.9),
+                        child: InkWell(
+                            onTap: (){
+                              Get.to(AttendenceReport());
+                            },
+                            child: circleRow(size, 'C', 240.0, 210.0),
+                        ),
+                      ),
 
-                        },
-                          child: circleRow(size, 'Report', (size.width /12), (size.height /1.74))),
+                      Positioned(
+                          top: (size.height /2.1),
+                          left: (size.width /2.3),
+                          child: InkWell(
+                              onTap: (){
+                                Get.to(AttendenceReport());
+                              },
+                              child: circleRow(size, 'B', (size.width /2.5), (size.height /2)))),
+
+                      Positioned(
+                        top: (size.height /1.74),
+                        left: (size.width /8),
+                        child: InkWell(
+                            onTap: (){
+                              Get.to(AttendenceReport());
+                            },
+                            child: circleRow(size, 'A', (size.width /12), (size.height /1.74))),
+                      ),
 
                     ],
                   ),
