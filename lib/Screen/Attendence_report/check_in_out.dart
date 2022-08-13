@@ -96,7 +96,7 @@ class _CheckInOutState extends State<CheckInOut> {
                     height: 200,
                     width: 200,
                     child: CircularProgressIndicator(
-                      color: checkIn == true ? Colors.blue : Colors.amber,
+                      color: end.value == 1 ? Colors.blue : Colors.amber,
                       value: circularProgressIndicatorValue.value,
                       backgroundColor: Colors.grey,
                       strokeWidth: 5,
@@ -118,7 +118,10 @@ class _CheckInOutState extends State<CheckInOut> {
                           shape: BoxShape.circle,
                           color: end.value == 1 ? Colors.blue : Colors.amber
                       ),
-                      child:  checkIn == true ? CustomWatch(MyColors.appColor):CustomWatch(Colors.redAccent),
+                      child:  Padding(
+                        padding: const EdgeInsets.all(70.0),
+                        child: Image.asset('images/tap.png',height: 40,width: 40,),
+                      ),
                     )),
                   ),
                 ),
