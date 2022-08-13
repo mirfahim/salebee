@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Screen/expense/claimed.dart';
 import 'package:salebee/utils.dart';
 
 class FoodExpense extends StatelessWidget {
@@ -212,7 +213,7 @@ class FoodExpense extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: (){
-                      // Get.to(OtherExpense());
+                      Get.to(Claimed());
                     },
                     child: Container(
                       height: 48,

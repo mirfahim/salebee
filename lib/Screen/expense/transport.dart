@@ -336,8 +336,8 @@ class TransportPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Container(
-                          color: primaryColor.withOpacity(.1),
                           decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(.1),
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(color: Colors.grey.withOpacity(.35))
                           ),
