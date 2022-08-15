@@ -389,9 +389,9 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        transform: Matrix4.translationValues(-(size.width /3.8), (size.height /5.5), 0.0),
+                        transform: Matrix4.translationValues(-(size.width /3.8), (size.height /5.0), 0.0),
                         child: const CircleAvatar(
-                          radius: 140,
+                          radius: 150,
                           backgroundImage: AssetImage('images/person.jpg',),
                         ),
                       ),
