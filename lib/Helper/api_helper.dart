@@ -105,7 +105,7 @@ class ApiService {
       var header = headers;
       Map <String, String>  headerMap = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+       // 'Accept': 'application/json'
 
       };
       final encoding = Encoding.getByName('utf-8');

@@ -278,6 +278,7 @@ class _CheckInOutState extends State<CheckInOut> {
       "UpdatedBy": 0,
       "UpdatedOn": "2022-07-30T04:45:03.240Z",
       "IsDeleted": true
+
     };
     return
         //  apiClient.post(url: "delivery_boy_login", body: bodyString);

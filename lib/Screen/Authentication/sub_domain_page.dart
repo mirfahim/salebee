@@ -91,8 +91,8 @@ class LoginPageState extends State<SubDomainPage> {
                   Map<String, dynamic> res= await apiService.makeApiRequest(
                       method: apiMethods.post, url: "CheckDomain?hostname=${textSubDomainController
                       .text.toString()}", body: bodyString);
-                  print(" my res is yo++++++ ${res['Result']}");
-                  if(res['Result'] == "OK"){
+                  print(" my res is yo++++++ ${res['Result']['data']}");
+                  if(res['Result']['data'] == "OK"){
 
                     Get.to(()=>LoginPage(
 
