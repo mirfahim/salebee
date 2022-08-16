@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:salebee/Screen/Attendence_report/attendence_report.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
+import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/utils.dart';
 
 Future drawer(BuildContext context){
@@ -102,6 +103,40 @@ Future drawer(BuildContext context){
                                     ),
                                     Text(
                                       'Expense List',
+                                      style: TextStyle(
+                                          color: primaryColor),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+
+                              Get.to(Task());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+
+                                  borderRadius:
+                                  BorderRadius.circular(6)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.money,
+                                      color: primaryColor,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      'Tasks',
                                       style: TextStyle(
                                           color: primaryColor),
                                     )

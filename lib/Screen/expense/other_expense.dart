@@ -182,6 +182,7 @@ class OtherExpense extends StatelessWidget {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(.1),
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(color: Colors.grey.withOpacity(.35))
                           ),
