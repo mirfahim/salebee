@@ -105,7 +105,7 @@ class ApiService {
       var header = headers;
       Map <String, String>  headerMap = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+       // 'Accept': 'application/json'
 
       };
       final encoding = Encoding.getByName('utf-8');
@@ -147,11 +147,13 @@ class ApiService {
         print('response code from put: ${response.body}');
       }
 
-      if (response != null &&
+      if (
           (response.statusCode == 200 || response.statusCode == 201)) {
+        print("status 200 printed");
 
         // Map<String, dynamic> res = convert.jsonDecode(response.body);
         var res = convert.jsonDecode(response.body);
+       // var data = Map<String, dynamic>.from(response.body);
 
 
 
@@ -168,7 +170,8 @@ class ApiService {
         handleError(res);
       }
     } catch (e) {
-      print("status code is ++++}");
+
+      print("Error ");
       print(e.toString());
       handleError(e);
     }

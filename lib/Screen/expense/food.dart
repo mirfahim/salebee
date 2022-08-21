@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Screen/expense/claimed.dart';
 import 'package:salebee/utils.dart';
 
 class FoodExpense extends StatelessWidget {
@@ -101,7 +102,7 @@ class FoodExpense extends StatelessWidget {
                           width: 20,
                         ),
                         suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Air',
+                        hintText: 'Type the dish name',
                         // icon:
 
                         hintStyle:
@@ -168,132 +169,7 @@ class FoodExpense extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20,),
-                  const Text('Start',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Location',
-                              suffixIcon: Icon(Icons.location_on_outlined),
 
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10,),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              suffixIcon: Icon(Icons.access_time),
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Enter Time',
-                              // icon:
-
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  const Text('Due',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Location',
-                              suffixIcon: Icon(Icons.location_on_outlined),
-
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10,),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              suffixIcon: Icon(Icons.access_time),
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Enter Time',
-                              // icon:
-
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 30,),
                   Divider(thickness: 1,color: Colors.grey,),
                   SizedBox(height: 10,),
@@ -306,6 +182,7 @@ class FoodExpense extends StatelessWidget {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
+                            color: primaryColor.withOpacity(.1),
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(color: Colors.grey.withOpacity(.35))
                           ),
@@ -336,7 +213,7 @@ class FoodExpense extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: (){
-                      // Get.to(OtherExpense());
+                      Get.to(Claimed());
                     },
                     child: Container(
                       height: 48,
