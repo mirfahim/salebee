@@ -16,8 +16,6 @@ import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
 
 class SubDomainPage extends StatefulWidget {
-
-
   @override
   LoginPageState createState() => LoginPageState();
 }
@@ -25,7 +23,6 @@ class SubDomainPage extends StatefulWidget {
 class LoginPageState extends State<SubDomainPage> {
   var textSubDomainController = TextEditingController();
   ApiService apiService = ApiService();
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,27 +35,39 @@ class LoginPageState extends State<SubDomainPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Text("Sub-domain", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-
-                ),),
+                child: Text(
+                  "Sub-domain",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Center(
-                child: Text("Enter your credintial to access account",style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-
-                ),),
+                child: Text(
+                  "Enter your credintial to access account",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                  ),
+                ),
               ),
-              SizedBox(height: 40,),
-              Text("Sub-Domain",style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-
-              ),),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 40,
+              ),
+              Text(
+                "Sub-Domain",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               TextField(
                 controller: textSubDomainController,
                 decoration: InputDecoration(
@@ -66,38 +75,41 @@ class LoginPageState extends State<SubDomainPage> {
                   hintText: "Enter your sub-domain",
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(
+                height: 40,
+              ),
               GestureDetector(
-                onTap: () async{
-                  setState(() {
-                    StaticData.subDomain = textSubDomainController.text.toString();
-                    print("==================${StaticData.subDomain}");
-                  });
-
-
-                  SharedPreff.to.prefss.setString("subDomain", textSubDomainController.text.toString());
-
-
-                   Future.delayed(const Duration(seconds: 2), () {
-                    // deleayed code here
-                    print('delayed execution');
-                  });
-
-                  Map<String, dynamic> bodyString = {
+                onTap: () async {
+                  Map<String, dynamic> body = {
                     "hostname": textSubDomainController.text.toString(),
                   };
                   print("wrking 1");
+                  try {
+                    Map<String, dynamic> res = await getSubDomainResponse(body);
+                    print(" my res is yo++++++ ${res['Result'][0]}");
+                    if (res['Result']['data'] == "OK") {
+                      setState(() {
+                        SharedPreff.to.prefss.setString("subDomain",
+                            textSubDomainController.text.toString());
+                        StaticData.subDomain =
+                            textSubDomainController.text.toString();
+                        print("==================${StaticData.subDomain}");
+                      });
+                      Get.to(() => LoginPage());
+                    } else {
+                      final snackBar = SnackBar(
+                        content: const Text('Sub-domain did not match'),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
 
-                  Map<String, dynamic> res= await apiService.makeApiRequest(
-                      method: apiMethods.post, url: "CheckDomain?hostname=${textSubDomainController
-                      .text.toString()}", body: bodyString);
-                  print(" my res is yo++++++ ${res['Result']['data']}");
-                  if(res['Result']['data'] == "OK"){
-
-                    Get.to(()=>LoginPage(
-
-                    ));
-                  } else {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  } catch (e) {
                     final snackBar = SnackBar(
                       content: const Text('Sub-domain did not match'),
                       action: SnackBarAction(
@@ -109,33 +121,54 @@ class LoginPageState extends State<SubDomainPage> {
                     );
 
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    print("erorr +++++++++++++ $e");
                   }
 
-
-
+                  // print("my domain result ${res.status}");
                 },
                 child: CustomButton(
                   buttonText: "Submit",
-
                 ),
               ),
-
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Center(
-                child: Text.rich(
-                    TextSpan(text: 'Do you want to register your company?', children: <InlineSpan>[
+                child: Text.rich(TextSpan(
+                    text: 'Do you want to register your company?',
+                    children: <InlineSpan>[
                       TextSpan(
                         text: 'Help & Support',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blue),
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue),
                       )
                     ])),
               )
-
-
             ],
           ),
         ),
       ),
     );
+  }
+
+  getSubDomainResponse(body) async {
+    try {
+      Map<String, String> headerMap = {
+        'Content-Type': 'application/json',
+        // 'Accept': 'application/json'
+      };
+      Uri url = Uri.parse(
+          "https://${textSubDomainController.text.toString()}.salebee.net/api/Salebee/CheckDomain?hostname=${textSubDomainController.text.toString()}");
+      print("sub domin check utl is +++++++${url}");
+      final response =
+          await http.post(url, headers: headerMap, body: json.encode(body));
+      Map<String, dynamic> res = jsonDecode(response.body);
+      print("my res is $res");
+      return res;
+    } catch (e) {
+      print(" my response error is $e");
+    }
   }
 }
