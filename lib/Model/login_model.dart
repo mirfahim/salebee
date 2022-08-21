@@ -18,6 +18,7 @@ class LoginResponseModel {
     this.message,
     this.result,
     this.isSuccess,
+    //kk
   });
 
   String? message;
