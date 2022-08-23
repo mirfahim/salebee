@@ -5,6 +5,7 @@ import 'package:salebee/Screen/expense/expense_list.dart';
 import 'package:salebee/Screen/expense/other_expense.dart';
 import 'package:salebee/Screen/expense/transport.dart';
 import 'package:salebee/Screen/notification/notification.dart';
+import 'package:salebee/Screen/task/task_main.dart';
 
 import '../../utils.dart';
 import 'package:get/get.dart';
@@ -111,9 +112,9 @@ class HomePage extends StatelessWidget {
                         left: (size.width /8),
                         child: InkWell(
                             onTap: (){
-                              Get.to(Approved());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Expenses', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0)),
                       ),
 
                       Positioned(
@@ -121,17 +122,17 @@ class HomePage extends StatelessWidget {
                           left: (size.width /2.5),
                           child: InkWell(
                             onTap:(){
-                              Get.to(TransportPage());
+                              Get.to(AttendenceReport());
                             },
-                              child: circleRow(size, 'Notification', (size.width /2.7), (size.height /8)))),
+                              child: circleRow(size, 'Attendance', (size.width /2.7), (size.height /8)))),
                       Positioned(
                         top: (size.height /3.1),
                         left: (size.width /1.9),
                         child: InkWell(
                           onTap: (){
-                            Get.to(TransportPage());
+                            Get.to(Task());
                           },
-                          child: circleRow(size, 'Transport', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0),
                         ),
                       ),
 
@@ -140,18 +141,18 @@ class HomePage extends StatelessWidget {
                           left: (size.width /2.3),
                           child: InkWell(
                               onTap: (){
-                                Get.to(EditProfile());
+                                Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Edit Profile', (size.width /2.5), (size.height /2)))),
+                              child: circleRow(size, 'Expenses', (size.width /2.5), (size.height /2)))),
 
                       Positioned(
                         top: (size.height /1.74),
                         left: (size.width /8),
                         child: InkWell(
                             onTap: (){
-                              Get.to(AttendenceReport());
+                              Get.to(NotificationPage());
                             },
-                            child: circleRow(size, 'Attendance', (size.width /12), (size.height /1.74))),
+                            child: circleRow(size, 'Notice', (size.width /12), (size.height /1.74))),
                       ),
                       // circleRow(size,'E', (size.width /12), (size.height /24),),
                       //
@@ -262,13 +263,13 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: (size.height /13),
+                        top: (size.height /11),
                         left: (size.width /8),
                         child: InkWell(
                           onTap: (){
-                            Get.to(Approved());
+                            Get.to(AttendenceReport());
                           },
-                            child: circleRow(size, 'Approved', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0)),
                       ),
 
                       Positioned(
@@ -284,17 +285,17 @@ class HomePage extends StatelessWidget {
                           left: (size.width /2.5),
                           child: InkWell(
                             onTap: (){
-                              Get.to(ExpenseList());
+                              Get.to(AttendenceReport());
                             },
-                              child: circleRow(size, 'Expenses List', (size.width /2.7), (size.height /8)))),
+                              child: circleRow(size, 'Attendance', (size.width /2.7), (size.height /8)))),
                       Positioned(
                         top: (size.height /3.1),
                         left: (size.width /1.9),
                         child: InkWell(
                             onTap: (){
-                              Get.to(AttendenceReport());
+                              Get.to(Task());
                             },
-                            child: circleRow(size, 'C', 240.0, 210.0),
+                            child: circleRow(size, 'Tasks', 240.0, 210.0),
                         ),
                       ),
 
@@ -303,18 +304,18 @@ class HomePage extends StatelessWidget {
                           left: (size.width /2.3),
                           child: InkWell(
                               onTap: (){
-                                Get.to(AttendenceReport());
+                                Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Notifications', (size.width /2.5), (size.height /2)))),
+                              child: circleRow(size, 'Expenses', (size.width /2.5), (size.height /2)))),
 
                       Positioned(
                         top: (size.height /1.74),
                         left: (size.width /8),
                         child: InkWell(
                             onTap: (){
-                              Get.to(AttendenceReport());
+                              Get.to(NotificationPage());
                             },
-                            child: circleRow(size, 'Attendance', (size.width /12), (size.height /1.74))),
+                            child: circleRow(size, 'Notice', (size.width /12), (size.height /1.74))),
                       ),
 
                     ],
@@ -421,9 +422,9 @@ class HomePage extends StatelessWidget {
                         left: (size.width /8),
                         child: InkWell(
                             onTap: (){
-                              Get.to(Approved());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Expense', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0)),
                       ),
 
                       Positioned(
@@ -431,17 +432,17 @@ class HomePage extends StatelessWidget {
                           left: (size.width /2.3),
                           child: InkWell(
                             onTap: (){
-                              Get.to(EditProfile());
+                              Get.to(AttendenceReport());
                             },
-                              child: circleRow(size, 'Other', (size.width /2.7), (size.height /8)))),
+                              child: circleRow(size, 'Attendance', (size.width /2.7), (size.height /8)))),
                       Positioned(
                         top: (size.height /2.8),
                         left: (size.width /1.8),
                         child: InkWell(
                           onTap: (){
-                            Get.to(TransportPage());
+                            Get.to(Task());
                           },
-                          child: circleRow(size, 'Transport', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0),
                         ),
                       ),
 
@@ -450,18 +451,18 @@ class HomePage extends StatelessWidget {
                           left: (size.width /2.34),
                           child: InkWell(
                               onTap: (){
-                                Get.to(NotificationPage());
+                                Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Notification', (size.width /2.5), (size.height /2)))),
+                              child: circleRow(size, 'Expenses', (size.width /2.5), (size.height /2)))),
 
                       Positioned(
                         top: (size.height /1.65),
                         left: (size.width /8),
                         child: InkWell(
                             onTap: (){
-                              Get.to(AttendenceReport());
+                              Get.to(NotificationPage());
                             },
-                            child: circleRow(size, 'Attendance', (size.width /12), (size.height /1.74))),
+                            child: circleRow(size, 'Notice', (size.width /12), (size.height /1.74))),
                       ),
 
                     ],
@@ -570,13 +571,13 @@ class HomePage extends StatelessWidget {
                             onTap: (){
                               Get.to(Approved());
                             },
-                            child: circleRow(size, 'Expenses', (size.width /4), (size.height /6))),
+                            child: circleRow(size, 'Leave', (size.width /4), (size.height /6))),
                       ),
 
                       Positioned(
                           top: (size.height/6),
                           left: (size.width /2.2),
-                          child: circleRow(size, 'Other', (size.width /2.7), (size.height /8))),
+                          child: circleRow(size, 'Attendance', (size.width /2.7), (size.height /8))),
                       Positioned(
                         top: (size.height /2.6),
                         left: (size.width /1.75),
@@ -584,7 +585,7 @@ class HomePage extends StatelessWidget {
                           onTap: (){
                             Get.to(OtherExpense());
                           },
-                          child: circleRow(size, 'Transport', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0),
                         ),
                       ),
 
@@ -595,7 +596,7 @@ class HomePage extends StatelessWidget {
                               onTap: (){
                                 Get.to(NotificationPage());
                               },
-                              child: circleRow(size, 'Notification', (size.width /2.5), (size.height /2)))),
+                              child: circleRow(size, 'Expenses', (size.width /2.5), (size.height /2)))),
 
                       Positioned(
                         top: (size.height /1.45),
@@ -604,7 +605,7 @@ class HomePage extends StatelessWidget {
                             onTap: (){
                               Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Attendance', (size.width /12), (size.height /1.74))),
+                            child: circleRow(size, 'Notice', (size.width /12), (size.height /1.74))),
                       ),
 
                     ],
