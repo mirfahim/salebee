@@ -185,7 +185,6 @@ class AssignedToMe extends StatelessWidget {
                       ),),
                   ],
                 ),
-                const SizedBox(height: 10,),
                 Row(
                   children:  [
                     Container(
@@ -199,7 +198,7 @@ class AssignedToMe extends StatelessWidget {
                       ),),
                   ],
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 20,),
                 Row(
                   children: [
                     const Text('Status',
@@ -299,6 +298,76 @@ class AssignedToMe extends StatelessWidget {
                         ),
                       ),
                     )
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Text('Action',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600
+                          ),),
+                        SizedBox(width: 10,),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100)
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(Icons.edit,color: primaryColor,),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100)
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(Icons.delete,color: Colors.red,),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                            bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.map,color: Colors.white,),
+                            SizedBox(width: 5,),
+                            Text('Visit',style: TextStyle(
+                              color: Colors.white
+                            ),)
+                          ],
+                        ),
+                      ),
+                    )
+
                   ],
                 )
               ],
