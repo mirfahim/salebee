@@ -10,9 +10,11 @@ List<LoginResponseModel> loginModelFromJson(dynamic str) =>
     List<LoginResponseModel>.from(str.map((x) => LoginResponseModel.fromJson(x)));
 
 
-
+//hlw hgrjk
 String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
-
+class Name{
+var dshgu;
+}
 class LoginResponseModel {
   LoginResponseModel({
     this.message,
