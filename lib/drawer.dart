@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:salebee/Screen/Attendence_report/attendence_report.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
+import 'package:salebee/Screen/task/add_new_task.dart';
 import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/utils.dart';
 
