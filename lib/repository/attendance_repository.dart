@@ -49,7 +49,7 @@ class AttendanceRepository {
       "IsDeleted": true
     };
 
-      Uri url = Uri.parse("$base_url/checkIN");
+      Uri url = Uri.parse("$base_url/CheckIn");
       final response = await http.post(
 
          url,
