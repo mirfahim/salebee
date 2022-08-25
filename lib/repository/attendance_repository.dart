@@ -14,6 +14,8 @@ class AttendanceRepository {
   Future<CheckinResponse> checkInController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
+
+
     Map<String, dynamic> bodyString = {
       "Id": 0,
       "EmployeeId": employeeId,
