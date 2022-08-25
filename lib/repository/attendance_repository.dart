@@ -64,7 +64,7 @@ class AttendanceRepository {
       print("is it working 1");
 
       print("my resposnse repo ${response.body}");
-     var data = json.decode(response.body);
+    // var data = json.decode(response.body);
 
       return attendanceResponseModelFromJson(response.body);
     }
