@@ -13,6 +13,7 @@ class LeaveFront extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          
           title: const Text('Leave',style: TextStyle(
               color: Colors.black,fontSize: 22
           ),),
@@ -22,7 +23,7 @@ class LeaveFront extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: primaryColorLight.withOpacity(.6),
           elevation: 0,
           centerTitle: true,
           actions: [

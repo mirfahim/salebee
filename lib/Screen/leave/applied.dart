@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:salebee/Screen/leave/leave_details.dart';
 import 'package:salebee/utils.dart';
 
+import 'leave_request.dart';
+
 class Applied extends StatelessWidget {
   const Applied({Key? key}) : super(key: key);
 
@@ -12,7 +14,9 @@ class Applied extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: (){},
+          onTap: (){
+            Get.to(LeaveRequest());
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),

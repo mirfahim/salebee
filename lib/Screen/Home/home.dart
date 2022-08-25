@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: (size.height /13),
+                        top: (size.height /23),
                         left: (size.width /8),
                         child: InkWell(
                             onTap: (){
@@ -113,7 +113,7 @@ class HomePage extends StatelessWidget {
 
                       Positioned(
                           top: (size.height /6.0),
-                          left: (size.width /2.5),
+                          left: (size.width /2.2),
                           child: circleRow(size, 'D', (size.width /2.7), (size.height /8))),
                       Positioned(
                         top: (size.height /3.1),
