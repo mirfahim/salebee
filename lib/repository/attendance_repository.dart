@@ -11,14 +11,21 @@ import '../Utils/StringsConst.dart';
 class AttendanceRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
-  Future<CheckinResponse> checkInController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+   Future<CheckinResponse>checkInController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
 
-    Map<String, dynamic> bodyString = {
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    print(" my url is $base_url");
+    Map <String, String>  headerMap = {
+      'Content-Type': 'application/json',
+      // 'Accept': 'application/json'
+
+    };
+
+    var bodyString = {
       "Id": 0,
-      "EmployeeId": employeeId,
-      "LogTimeIn": "2022-08-16T06:09:14.941Z",
-      "LogTimeOut": "2022-08-16T06:09:14.941Z",
+      "EmployeeId": 1,
+      "LogTimeIn": "2022-08-17T04:41:39.650Z",
+      "LogTimeOut": "2022-08-17T04:41:39.650Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
       "Latitude": 0,
@@ -33,32 +40,31 @@ class AttendanceRepository {
       "LatitudeOut": 0,
       "LongitudeOut": 0,
       "LocationDescriptionOut": "string",
-      "BatteryStatus": "string",
+      "BatteryStatus": "12",
       "Absent": 0,
       "OnLeave": 0,
       "WorkingDays": 0,
       "OnTime": 0,
-      "Token": SharedPreff.to.prefss.getString("token"),
+      "Token": "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9x/CUR9Q0WptXm1ZhWjp0MyuiTiyPhjywkA0sFPr89VzEAqygG2oi/",
       "Active": true,
       "CreatedBy": 0,
-      "CreatedOn": "2022-08-16T06:09:14.941Z",
+      "CreatedOn": "2022-08-17T04:41:39.650Z",
       "UpdatedBy": 0,
-      "UpdatedOn": "2022-08-16T06:09:14.941Z",
+      "UpdatedOn": "2022-08-17T04:41:39.650Z",
       "IsDeleted": true
     };
 
-      Uri url = Uri.parse("$base_url/checkIN");
-      final response = await http.post(
+      Uri url = Uri.parse("https://app.salebee.net/api/Salebee/CheckIn");
+      var response = await http.post(
 
          url,
         body:  jsonEncode(bodyString),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headerMap
       );
+      print("is it working 1");
 
       print("my resposnse repo ${response.body}");
-     String data = response.body;
+     var data = json.decode(response.body);
 
       return attendanceResponseModelFromJson(response.body);
     }

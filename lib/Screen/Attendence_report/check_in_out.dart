@@ -146,6 +146,7 @@ class _CheckInOutState extends State<CheckInOut> {
                 );
               },
             )),
+
         SizedBox(
           height: 10,
         ),
@@ -249,44 +250,76 @@ class _CheckInOutState extends State<CheckInOut> {
     });
   }
 
-  Future<dynamic> checkInController(int id, int employeeId, DateTime logTimeIn,
-      double lat, double lon) async {
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
-    Map<String, dynamic> bodyString = {
-      "Id": 0,
-      "EmployeeId": employeeId,
-      "LogTimeIn": logTimeIn.toString(),
-      "LogTimeOut": "2022-07-30T04:45:03.239Z",
-      "IsLogIn": true,
-      "IsLogFromPhone": true,
-      "Latitude": 0,
-      "Longitude": 0,
-      "LocationDescription": "string",
-      "Remark": "string",
-      "IsLate": true,
-      "IsEarlyOut": true,
-      "IsHalfDay": true,
-      "IsExtremeLate": true,
-      "IsExtremeEarlyOut": true,
-      "LatitudeOut": 0,
-      "LongitudeOut": 0,
-      "LocationDescriptionOut": "string",
-      "Token": SharedPreff.to.prefss.get("token"),
-      "Active": true,
-      "CreatedBy": 0,
-      "CreatedOn": "2022-07-30T04:45:03.240Z",
-      "UpdatedBy": 0,
-      "UpdatedOn": "2022-07-30T04:45:03.240Z",
-      "IsDeleted": true
-
-    };
-    return
-        //  apiClient.post(url: "delivery_boy_login", body: bodyString);
-        apiService.makeApiRequest(
-            method: apiMethods.post,
-            url: "CheckIn",
-            body: bodyString); //we will fetch the overview from this request
-  }
+  // Future<dynamic> checkInController(int id, int employeeId, DateTime logTimeIn,
+  //     double lat, double lon) async {
+  //   print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+  //   Map<String, dynamic> bodyString = {
+  //
+  //       "Id": 0,
+  //       "EmployeeId": employeeId,
+  //       "LogTimeIn": logTimeIn.toString(),
+  //       "LogTimeOut": "2022-08-17T04:41:39.650Z",
+  //       "IsLogIn": true,
+  //       "IsLogFromPhone": true,
+  //       "Latitude": lat,
+  //       "Longitude": lon,
+  //       "LocationDescription": "string",
+  //       "Remark": "string",
+  //       "IsLate": true,
+  //       "IsEarlyOut": true,
+  //       "IsHalfDay": true,
+  //       "IsExtremeLate": true,
+  //       "IsExtremeEarlyOut": true,
+  //       "LatitudeOut": 0,
+  //       "LongitudeOut": 0,
+  //       "LocationDescriptionOut": "string",
+  //       "BatteryStatus": "12",
+  //       "Absent": 0,
+  //       "OnLeave": 0,
+  //       "WorkingDays": 0,
+  //       "OnTime": 0,
+  //       "Token": SharedPreff.to.prefss.get("token"),
+  //       "Active": true,
+  //       "CreatedBy": 0,
+  //       "CreatedOn": "2022-08-17T04:41:39.650Z",
+  //       "UpdatedBy": 0,
+  //       "UpdatedOn": "2022-08-17T04:41:39.650Z",
+  //       "IsDeleted": true
+  //
+  //     // "Id": 0,
+  //     // "EmployeeId": employeeId,
+  //     // "LogTimeIn": logTimeIn.toString(),
+  //     // "LogTimeOut": "2022-07-30T04:45:03.239Z",
+  //     // "IsLogIn": true,
+  //     // "IsLogFromPhone": true,
+  //     // "Latitude": 0,
+  //     // "Longitude": 0,
+  //     // "LocationDescription": "string",
+  //     // "Remark": "string",
+  //     // "IsLate": true,
+  //     // "IsEarlyOut": true,
+  //     // "IsHalfDay": true,
+  //     // "IsExtremeLate": true,
+  //     // "IsExtremeEarlyOut": true,
+  //     // "LatitudeOut": 0,
+  //     // "LongitudeOut": 0,
+  //     // "LocationDescriptionOut": "string",
+  //     // "Token": SharedPreff.to.prefss.get("token"),
+  //     // "Active": true,
+  //     // "CreatedBy": 0,
+  //     // "CreatedOn": "2022-07-30T04:45:03.240Z",
+  //     // "UpdatedBy": 0,
+  //     // "UpdatedOn": "2022-07-30T04:45:03.240Z",
+  //     // "IsDeleted": true
+  //
+  //   };
+  //   return
+  //       //  apiClient.post(url: "delivery_boy_login", body: bodyString);
+  //       apiService.makeApiRequest(
+  //           method: apiMethods.post,
+  //           url: "CheckIn",
+  //           body: bodyString); //we will fetch the overview from this request
+  // }
 
   Future<dynamic> checkOutController() async {
     print("working chekout");
@@ -332,12 +365,12 @@ class _CheckInOutState extends State<CheckInOut> {
           actions: <Widget>[
             TextButton(
               child: const Text('Approve'),
-              onPressed: () {
+              onPressed: () async {
                 geolocatorService.determinePosition().then((ele) {
                   print("my position is ${ele!.latitude}");
                   DateTime now = DateTime.now();
                   attendanceRepository.checkInController(
-                      1, 1, now, ele!.latitude, ele!.longitude, percentage).then((value) => print("ooooopppp${checkinResponse.Result}"));
+                      1, 1, now, ele!.latitude, ele!.longitude, percentage);
                   // print(
                   //     "hkwwww ++++++++++ ${attendanceResponseModel.Message}");
                   // checkInController(1, 1, now, ele!.latitude, ele!.longitude);
