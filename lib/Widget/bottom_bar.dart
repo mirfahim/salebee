@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:salebee/Screen/Attendance/chek_in_out.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Utils/my_colors.dart';
+
+import '../Screen/Attendence_report/check_in_out.dart';
 class CustomBottomBar extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -13,7 +14,7 @@ class _HomePageState extends State<CustomBottomBar> {
   void initState() {
     _pages.add(HomePage());
     _pages.add(HomePage());
-    _pages.add(CheckInOutPage());
+    _pages.add(CheckInOut());
     super.initState();
   }
   @override
