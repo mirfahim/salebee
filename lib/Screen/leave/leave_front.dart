@@ -14,8 +14,8 @@ class LeaveFront extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           
-          title: const Text('Leave',style: TextStyle(
-              color: Colors.black,fontSize: 22
+          title:  Text('Leave',style: TextStyle(
+              color: appBarHeader,fontSize: 24
           ),),
           leading: IconButton(
             onPressed: (){
@@ -23,7 +23,7 @@ class LeaveFront extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
-          backgroundColor: primaryColorLight.withOpacity(.6),
+          backgroundColor: Color(0xFFE5E5E5),
           elevation: 0,
           centerTitle: true,
           actions: [
@@ -37,56 +37,65 @@ class LeaveFront extends StatelessWidget {
                     color: Colors.white
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.person,color: darkBlue,),
+                  padding: const EdgeInsets.all(4.0),
+                  child: Image.asset('images/user_icon.png'),
                 ),
               ),
             )
           ],
         ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: TabBar(
-                        indicatorColor: darkBlue,
-                        labelColor: darkBlue,
-                        unselectedLabelColor: Colors.grey,
-                        isScrollable: true,
-                        tabs: const [
-                          Tab(
-                            text: 'Granted',
-                          ),
-                          Tab(
-                            text: 'Applied',
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Expanded(child: Container())
-                  ],
-                ),
-              ),
-               const Expanded(
-                child: TabBarView(
+        body: Container(
+          color: Color(0xFFE5E5E5),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Granted(),
+                      Expanded(
+                        flex: 4,
+                        child: TabBar(
+                          indicatorColor: darkBlue,
+                          labelColor: darkBlue,
+                          unselectedLabelColor: tabBarUnSelectedColor,
+                          unselectedLabelStyle: TextStyle(
+                            fontSize: 12
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w600
+                          ),
+                          isScrollable: true,
+                          tabs: const [
+                            Tab(
+                              text: 'Granted',
+                            ),
+                            Tab(
+                              text: 'Applied',
+                            ),
+
+                          ],
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Applied(),
-                      )
-                    ]),
-              ),
-            ],
+                      Expanded(child: Container())
+                    ],
+                  ),
+                ),
+                 const Expanded(
+                  child: TabBarView(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Granted(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Applied(),
+                        )
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
       ),
