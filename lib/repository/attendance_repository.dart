@@ -23,8 +23,8 @@ class AttendanceRepository {
       "LogTimeOut": "2022-08-16T06:09:14.941Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
-      "Latitude": 0,
-      "Longitude": 0,
+      "Latitude": lat,
+      "Longitude": lon,
       "LocationDescription": "string",
       "Remark": "string",
       "IsLate": true,
@@ -35,7 +35,7 @@ class AttendanceRepository {
       "LatitudeOut": 0,
       "LongitudeOut": 0,
       "LocationDescriptionOut": "string",
-      "BatteryStatus": "string",
+      "BatteryStatus": battery.toString() ,
       "Absent": 0,
       "OnLeave": 0,
       "WorkingDays": 0,
@@ -65,6 +65,30 @@ class AttendanceRepository {
       return attendanceResponseModelFromJson(response.body);
     }
 
+  Future<dynamic> checkOutController(String token, int emId, DateTime date, String location, double lat, double lon) async {
+    print("working chekout ${SharedPreff.to.prefss.getString("token")}");
+    Map<String, dynamic> bodyString = {
+      "Token": SharedPreff.to.prefss.getString("token"),
+      "EmployeeId": emId,
+      "CheckOutDateTime": "2022-07-30T04:45:03.239Z",
+      "Location": "Striing",
+      "Latitude": 0.0,
+      "Longitude": 0.0,
+    };
+    Uri url = Uri.parse("https://app.salebee.net/api/Salebee/CheckOut?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1&CheckOutDateTime=2022-08-30T07%3A28%3A56.777Z&Latitude=0&Longitude=0&Location=dt");
+    final response = await http.post(
 
+      url,
+      body:  jsonEncode(bodyString),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo ${response.body}");
+    String data = response.body;
+
+    return attendanceResponseModelFromJson(response.body); //we will fetch the overview from this request
+  }
 
 }

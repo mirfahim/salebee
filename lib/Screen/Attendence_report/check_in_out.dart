@@ -246,6 +246,7 @@ class _CheckInOutState extends State<CheckInOut> {
   void changeCheckIn() {
     print("my battery level$percentage");
     setState(() {
+      checkIn = !checkIn;
       status.value = !status.value;
     });
   }
@@ -321,23 +322,7 @@ class _CheckInOutState extends State<CheckInOut> {
   //           body: bodyString); //we will fetch the overview from this request
   // }
 
-  Future<dynamic> checkOutController() async {
-    print("working chekout");
-    Map<String, dynamic> bodyString = {
-      "Token": 0,
-      "EmployeeId": 0,
-      "CheckOutDateTime": "2022-07-30T04:45:03.239Z",
-      "Location": "Striing",
-      "Latitude": 0,
-      "Longitude": 0,
-    };
-    return
-        //  apiClient.post(url: "delivery_boy_login", body: bodyString);
-        apiService.makeApiRequest(
-            method: apiMethods.post,
-            url: "Login",
-            body: bodyString); //we will fetch the overview from this request
-  }
+
 
   void getBatteryPerentage() async {
     final level = await battery.batteryLevel;
@@ -369,19 +354,15 @@ class _CheckInOutState extends State<CheckInOut> {
                 geolocatorService.determinePosition().then((ele) {
                   print("my position is ${ele!.latitude}");
                   DateTime now = DateTime.now();
-                  attendanceRepository.checkInController(
-                      1, 1, now, ele!.latitude, ele!.longitude, percentage);
-                  // print(
-                  //     "hkwwww ++++++++++ ${attendanceResponseModel.Message}");
-                  // checkInController(1, 1, now, ele!.latitude, ele!.longitude);
-                  changeCheckIn();
 
-                  //     .then((value) {
-                  //   // if(value['Message'] == "ok" ) {
-                  //   //
-                  //   // }
-                  // });
+                  checkIn == false ?
+                  attendanceRepository.checkInController(
+                      1, 1, now, ele!.latitude, ele!.longitude, percentage)
+                  : attendanceRepository.checkOutController("ss", 1, now, "location", ele!.latitude, ele!.longitude);
+
+
                 });
+                changeCheckIn();
                 Navigator.of(context).pop();
               },
             ),

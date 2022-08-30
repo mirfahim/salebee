@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Model/AddTaskModel.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/utils.dart';
 
-class AddNewTask extends StatelessWidget {
+class AddNewTask extends StatefulWidget {
 
+  @override
+  State<AddNewTask> createState() => _AddNewTaskState();
+}
+
+class _AddNewTaskState extends State<AddNewTask> {
   final selectedDate = DateTime.now().obs;
+   bool circular  = false ;
   final pickedDate = ''.obs;
+  TaskRepository taskRepository = TaskRepository();
+  AddTaskResponseModel addTaskResponseModel = AddTaskResponseModel();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -539,6 +550,26 @@ class AddNewTask extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
                   onTap: (){
+                    setState(() {
+                      circular = true;
+                    });
+try{
+  taskRepository.taskAddController().then((e){
+    if(e.isSuccess == true)  {
+      setState(() {
+        circular = false;
+      });
+    }
+  });
+}catch(e){
+  setState(() {
+    circular = false;
+  });
+}
+
+
+
+
                     // Get.to(OtherExpense());
                   },
                   child: Container(
@@ -548,10 +579,12 @@ class AddNewTask extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                         color: darkBlue
                     ),
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text('Create',textAlign:TextAlign.center,style: TextStyle(
+                        child: circular == true ?
+                        CircularProgressIndicator():
+                        Text('Create',textAlign:TextAlign.center,style: TextStyle(
                             color: Colors.white
                         ),),
                       ),
@@ -565,6 +598,7 @@ class AddNewTask extends StatelessWidget {
       ),
     );
   }
+
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

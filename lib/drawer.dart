@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:salebee/Screen/Attendence_report/attendence_report.dart';
+import 'package:salebee/Screen/Authentication/login_page.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
 import 'package:salebee/Screen/leave/leave_front.dart';
 import 'package:salebee/Screen/task/add_new_task.dart';
 import 'package:salebee/Screen/task/task_main.dart';
+import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:salebee/utils.dart';
 
 Future drawer(BuildContext context){
@@ -202,6 +204,9 @@ Future drawer(BuildContext context){
                       title: 'Are you sure want to logout?',
                       confirm: InkWell(
                         onTap: () {
+SharedPreff.to.prefss.remove("token");
+SharedPreff.to.prefss.remove("loggedIN");
+Get.to(LoginPage());
 
                         },
                         child: Container(
