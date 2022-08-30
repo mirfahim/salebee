@@ -23,6 +23,7 @@ class SubDomainPage extends StatefulWidget {
 class LoginPageState extends State<SubDomainPage> {
   var textSubDomainController = TextEditingController();
   ApiService apiService = ApiService();
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,10 @@ class LoginPageState extends State<SubDomainPage> {
               ),
               GestureDetector(
                 onTap: () async {
+                  setState(() {
+                    loading = true ;
+                  });
+
                   Map<String, dynamic> body = {
                     "hostname": textSubDomainController.text.toString(),
                   };
@@ -94,6 +99,7 @@ class LoginPageState extends State<SubDomainPage> {
                         StaticData.subDomain =
                             textSubDomainController.text.toString();
                         print("==================${StaticData.subDomain}");
+                        loading = false;
                       });
                       Get.to(() => LoginPage());
                     } else {
@@ -108,6 +114,10 @@ class LoginPageState extends State<SubDomainPage> {
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      setState(() {
+                        loading = false;
+                      });
+
                     }
                   } catch (e) {
                     final snackBar = SnackBar(
@@ -122,6 +132,10 @@ class LoginPageState extends State<SubDomainPage> {
 
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     print("erorr +++++++++++++ $e");
+                    setState(() {
+                      loading = false;
+                    });
+
                   }
 
                   // print("my domain result ${res.status}");
