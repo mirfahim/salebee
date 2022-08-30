@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Screen/expense/food.dart';
+import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 
-class TransportPage extends StatelessWidget {
+class TransportPage extends StatefulWidget {
   TransportPage({Key? key}) : super(key: key);
+
+  @override
+  State<TransportPage> createState() => _TransportPageState();
+}
+
+class _TransportPageState extends State<TransportPage> {
   final selectedDate = DateTime.now().obs;
+  ExpenseRepository expenseRepository = ExpenseRepository();
+
+  bool circular = false ;
+
   final pickedDate = ''.obs;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -368,6 +380,21 @@ class TransportPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: (){
+                      setState(() {
+                        circular = true;
+                      });
+                      try{
+                        expenseRepository.foodExpenseController().then((e) {
+                          setState(() {
+                            circular = false;
+                          });
+                        });
+                      }catch(e){
+                        setState(() {
+                          circular = false;
+                        });
+                      }
+
                       // Get.to(FoodExpense());
                     },
                     child: Container(
@@ -377,10 +404,10 @@ class TransportPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                           color: darkBlue
                       ),
-                      child: const Padding(
+                      child:  Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
+                          child: circular == true ? CircularProgressIndicator():Text('Submit',textAlign:TextAlign.center,style: TextStyle(
                               color: Colors.white
                           ),),
                         ),
@@ -395,6 +422,7 @@ class TransportPage extends StatelessWidget {
       ),
     );
   }
+
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

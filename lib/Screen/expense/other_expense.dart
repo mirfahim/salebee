@@ -7,6 +7,7 @@ class OtherExpense extends StatelessWidget {
    OtherExpense({Key? key}) : super(key: key);
   final selectedDate = DateTime.now().obs;
   final pickedDate = ''.obs;
+  bool circular = false ;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -221,10 +222,10 @@ class OtherExpense extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                           color: darkBlue
                       ),
-                      child: const Padding(
+                      child:  Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
+                          child: circular == true ? CircularProgressIndicator(): Text('Submit',textAlign:TextAlign.center,style: TextStyle(
                               color: Colors.white
                           ),),
                         ),

@@ -12,7 +12,7 @@ import '../Utils/StringsConst.dart';
 class ExpenseRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
-  Future<CheckinResponse> foodExpenseController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
+  Future<CheckinResponse> foodExpenseController() async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
 

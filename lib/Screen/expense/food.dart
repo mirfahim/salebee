@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Screen/expense/claimed.dart';
+import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 
-class FoodExpense extends StatelessWidget {
+class FoodExpense extends StatefulWidget {
   FoodExpense({Key? key}) : super(key: key);
+
+  @override
+  State<FoodExpense> createState() => _FoodExpenseState();
+}
+
+class _FoodExpenseState extends State<FoodExpense> {
   final selectedDate = DateTime.now().obs;
+ExpenseRepository expenseRepository = ExpenseRepository();
   final pickedDate = ''.obs;
+
+  bool circular = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -213,7 +224,24 @@ class FoodExpense extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: (){
-                      Get.to(Claimed());
+                      setState(() {
+                        circular = true ;
+                      });
+                      try{
+                        expenseRepository.foodExpenseController().then((e){
+                         if(e.isSuccess == true) {
+                           setState(() {
+                             circular = false ;
+                           });
+                         }
+                        });
+                      }catch(e){
+                        setState(() {
+                          circular = false ;
+                        });
+                      }
+
+                     // Get.to(Claimed());
                     },
                     child: Container(
                       height: 48,
@@ -222,10 +250,10 @@ class FoodExpense extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                           color: darkBlue
                       ),
-                      child: const Padding(
+                      child:  Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
+                          child: circular == true ? CircularProgressIndicator():Text('Submit',textAlign:TextAlign.center,style: TextStyle(
                               color: Colors.white
                           ),),
                         ),
@@ -240,6 +268,7 @@ class FoodExpense extends StatelessWidget {
       ),
     );
   }
+
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
