@@ -55,18 +55,22 @@ class AttendanceRepository {
     };
 
       Uri url = Uri.parse("https://app.salebee.net/api/Salebee/CheckIn");
-      var response = await http.post(
 
-         url,
-        body:  jsonEncode(bodyString),
-        headers: headerMap
-      );
-      print("is it working 1");
 
-      print("my resposnse repo ${response.body}");
-    // var data = json.decode(response.body);
+        var response = await http.post(
 
-      return attendanceResponseModelFromJson(response.body);
+            url,
+            body:  jsonEncode(bodyString),
+            headers: headerMap
+        );
+        print("is it working 1");
+
+        print("my resposnse repo ${response.body}");
+        // var data = json.decode(response.body);
+
+        return attendanceResponseModelFromJson(response.body);
+
+
     }
 
 
