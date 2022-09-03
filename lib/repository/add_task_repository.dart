@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:salebee/Model/AddTaskModel.dart';
 import 'package:salebee/Model/checkin_model.dart';
+import 'package:salebee/Model/getAllTaskModel.dart';
 
 import '../Helper/api_helper.dart';
+import '../Model/getAssignedTaskModel.dart';
 import '../Service/sharedPref_service.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +14,7 @@ import '../Utils/StringsConst.dart';
 class TaskRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
-  Future<AddTaskResponseModel> taskAddController() async {
+  Future<AddTaskResponseModel> taskAddController(String title, String description,) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
 List list1 = [];
@@ -22,8 +24,8 @@ List list2 = [];
 
     "TaskID": 0,
     "Type": 0,
-    "Title": "afd",
-    "TaskDesc": "stasdfaring",
+    "Title": title,
+    "TaskDesc": description,
     "Notes": "stradfaing",
     "ProspectId": 0,
     "LeadID": 0,
@@ -63,6 +65,51 @@ List list2 = [];
     String data = response.body;
 
     return addTaskResponseModelFromJson(response.body);
+  }
+
+  Future<GetAllTaskModel> getTaskController() async {
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+
+
+
+
+
+    Uri url = Uri.parse("$base_url/GetAllTask?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks");
+    final response = await http.get(
+
+      url,
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo GetAllTask ${response.body}");
+    String data = response.body;
+
+    return getAllTaskModelFromJson(response.body);
+  }
+  Future<GetAssignedTaskModel> getAssignedTaskController() async {
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+
+
+
+
+
+    Uri url = Uri.parse("$base_url/GetAllTaskAssignedToMe?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks");
+    final response = await http.get(
+
+      url,
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo GetAllTaskAssignedToMe${response.body}");
+    String data = response.body;
+
+    return getAssignedTaskModelFromJson(response.body);
   }
 
 

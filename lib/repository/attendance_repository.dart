@@ -11,15 +11,15 @@ import '../Utils/StringsConst.dart';
 class AttendanceRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
-  Future<CheckinResponse> checkInController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
+  Future<CheckinResponse> checkInController(int id, int employeeId, String logTimeIn, double lat, double lon, int battery) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-
+    print("working $logTimeIn ++++++");
 
     Map<String, dynamic> bodyString = {
       "Id": 0,
       "EmployeeId": employeeId,
-      "LogTimeIn": "2022-08-16T06:09:14.941Z",
+      "LogTimeIn": logTimeIn,
       "LogTimeOut": "2022-08-16T06:09:14.941Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
@@ -59,18 +59,19 @@ class AttendanceRepository {
         },
       );
 
-      print("my resposnse repo ${response.body}");
+      print("my resposnse repo checkIN ${response.body}");
      String data = response.body;
 
       return attendanceResponseModelFromJson(response.body);
     }
 
-  Future<dynamic> checkOutController(String token, int emId, DateTime date, String location, double lat, double lon) async {
+  Future<dynamic> checkOutController(String token, int emId, String date, String location, double lat, double lon) async {
     print("working chekout ${SharedPreff.to.prefss.getString("token")}");
+    print("working chekout $date");
     Map<String, dynamic> bodyString = {
       "Token": SharedPreff.to.prefss.getString("token"),
       "EmployeeId": emId,
-      "CheckOutDateTime": "2022-07-30T04:45:03.239Z",
+      "CheckOutDateTime": date,
       "Location": "Striing",
       "Latitude": 0.0,
       "Longitude": 0.0,
@@ -85,7 +86,7 @@ class AttendanceRepository {
       },
     );
 
-    print("my resposnse repo ${response.body}");
+    print("my resposnse repo checkOUt ${response.body}");
     String data = response.body;
 
     return attendanceResponseModelFromJson(response.body); //we will fetch the overview from this request

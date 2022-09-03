@@ -9,6 +9,7 @@ import 'package:salebee/Screen/task/assigned_by_me.dart';
 import 'package:salebee/Screen/task/assigned_to_me.dart';
 import 'package:salebee/Screen/task/my_task.dart';
 import 'package:salebee/Screen/task/task_main.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/utils.dart';
 
 enum timers { all, Follow_up_1, Follow_up_2,Follow_up_3,Follow_up_4 }
@@ -24,6 +25,14 @@ class _TaskState extends State<Task> {
   timers _site = timers.all;
   time _time = time.all;
   status _status = status.all;
+  TaskRepository taskRepository = TaskRepository();
+  @override
+  void initState() {
+    print("task page");
+    //taskRepository.getTaskController();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

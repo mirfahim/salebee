@@ -17,6 +17,8 @@ class _FoodExpenseState extends State<FoodExpense> {
 ExpenseRepository expenseRepository = ExpenseRepository();
   final pickedDate = ''.obs;
 
+  var textTitleController = TextEditingController();
+  var textDesController = TextEditingController();
   bool circular = false;
 
   @override
@@ -104,6 +106,7 @@ ExpenseRepository expenseRepository = ExpenseRepository();
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: textTitleController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -227,19 +230,39 @@ ExpenseRepository expenseRepository = ExpenseRepository();
                       setState(() {
                         circular = true ;
                       });
-                      try{
-                        expenseRepository.foodExpenseController().then((e){
-                         if(e.isSuccess == true) {
-                           setState(() {
-                             circular = false ;
-                           });
-                         }
-                        });
-                      }catch(e){
-                        setState(() {
-                          circular = false ;
-                        });
+                      if(textTitleController.text.isEmpty){
+                        final snackBar = SnackBar(
+                          content: const Text(
+                              'Please fill all the form field'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }else {
+                        try{
+                          expenseRepository.foodExpenseController().then((e){
+                            if(e.isSuccess == true) {
+                              setState(() {
+                                circular = false ;
+                              });
+                            } else {
+                              setState(() {
+                                circular = false ;
+                              });
+                            }
+                          });
+                        }catch(e){
+                          setState(() {
+                            circular = false ;
+                          });
+                        }
                       }
+
 
                      // Get.to(Claimed());
                     },

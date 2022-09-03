@@ -25,7 +25,7 @@ class ExpenseRepository {
         "Expense": 250,
         "ExpenseDate": "2022-08-29T09:47:04.136Z",
         "ApprovedBy": 1,
-        "Token": "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9x/CUR9Q0WptXm1ZhWjp0MyuiTiyPhjywkA0sFPr89VzEAqygG2oi/"
+        "Token": SharedPreff.to.prefss.getString("token"),
 
     };
 
@@ -45,7 +45,7 @@ class ExpenseRepository {
     return attendanceResponseModelFromJson(response.body);
   }
 
-  Future<CheckinResponse> othersExpenseController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
+  Future<CheckinResponse> othersExpenseController() async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
 
@@ -58,7 +58,7 @@ class ExpenseRepository {
         "Expense": 0,
         "ExpenseDate": "2022-08-30T08:14:09.746Z",
         "ApprovedBy": 0,
-        "Token": "string"
+        "Token": SharedPreff.to.prefss.getString("token"),
 
     };
 
@@ -77,7 +77,7 @@ class ExpenseRepository {
 
     return attendanceResponseModelFromJson(response.body);
   }
-  Future<TransportExpenseModel> transportExpenseController(int id, int employeeId, DateTime logTimeIn, double lat, double lon, int battery) async {
+  Future<TransportExpenseModel> transportExpenseController() async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
 
@@ -98,7 +98,7 @@ class ExpenseRepository {
         "CreatedOn": "2022-08-30T04:51:03.429Z",
         "UpdatedBy": 0,
         "UpdatedOn": "2022-08-30T04:51:03.429Z",
-        "Token": "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks"
+        "Token": SharedPreff.to.prefss.getString("token"),
 
     };
 

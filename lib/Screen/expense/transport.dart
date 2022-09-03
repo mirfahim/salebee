@@ -16,7 +16,9 @@ class _TransportPageState extends State<TransportPage> {
   final selectedDate = DateTime.now().obs;
   ExpenseRepository expenseRepository = ExpenseRepository();
 
-  bool circular = false ;
+  var textVhicleController = TextEditingController();
+  var textDesController = TextEditingController();
+  bool circular = false;
 
   final pickedDate = ''.obs;
 
@@ -25,22 +27,26 @@ class _TransportPageState extends State<TransportPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transport',style: TextStyle(
-            color: Colors.black,fontWeight: FontWeight.w600
-        ),),
+        title: const Text(
+          'Transport',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+        ),
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
         ),
         actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               Get.to(FoodExpense());
             },
             child: Card(
@@ -49,12 +55,13 @@ class _TransportPageState extends State<TransportPage> {
               ),
               child: Container(
                 decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white
-                ),
+                    shape: BoxShape.circle, color: Colors.white),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.person,color: darkBlue,),
+                  child: Icon(
+                    Icons.person,
+                    color: darkBlue,
+                  ),
                 ),
               ),
             ),
@@ -68,22 +75,25 @@ class _TransportPageState extends State<TransportPage> {
             children: [
               ListView(
                 children: [
-                  Text('Way',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: 10,),
+                  Text(
+                    'Way',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
@@ -91,131 +101,169 @@ class _TransportPageState extends State<TransportPage> {
                         hintText: 'Air',
                         // icon:
 
-                        hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Vehical Name',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Vehical Name',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: textVhicleController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
                         hintText: 'Type athe vehical name',
                         suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Vehical Number(Optional)',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Vehical Number(Optional)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
                         hintText: 'Enter the vehicle Number',
-
-                        hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('Pricing',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Pricing',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.number,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
                         hintText: 'Enter the Amount',
                         // icon:
 
-                        hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('Date',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Date',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       _selectDate(context);
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey)
-                      ),
+                          border: Border.all(color: Colors.grey)),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: TextStyle(
-                                color: Colors.grey
-                            ),)),
-                            const SizedBox(width: 10,),
-                            Icon(Icons.calendar_today,size: 14,),
+                            Obx(() => Text(
+                                  DateFormat.yMMMd().format(selectedDate.value),
+                                  style: TextStyle(color: Colors.grey),
+                                )),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.calendar_today,
+                              size: 14,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20,),
-                  const Text('Start',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Start',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -223,41 +271,46 @@ class _TransportPageState extends State<TransportPage> {
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                                  Border.all(color: Colors.grey, width: 1.5),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))),
                           child: TextFormField(
                             onChanged: (value) {
                               // _productController.searchProduct(value);
                             },
                             keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
+                            decoration: InputDecoration(
                               prefix: Container(
                                 width: 20,
                               ),
                               hintText: 'Location',
                               suffixIcon: Icon(Icons.location_on_outlined),
-
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              hintStyle: TextStyle(
+                                  fontSize: 14.0,
+                                  fontFamily: 'Roboto',
+                                  color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                                  Border.all(color: Colors.grey, width: 1.5),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))),
                           child: TextFormField(
                             onChanged: (value) {
                               // _productController.searchProduct(value);
                             },
                             keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
+                            decoration: InputDecoration(
                               suffixIcon: Icon(Icons.access_time),
                               prefix: Container(
                                 width: 20,
@@ -265,8 +318,10 @@ class _TransportPageState extends State<TransportPage> {
                               hintText: 'Enter Time',
                               // icon:
 
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              hintStyle: TextStyle(
+                                  fontSize: 14.0,
+                                  fontFamily: 'Roboto',
+                                  color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
@@ -274,11 +329,16 @@ class _TransportPageState extends State<TransportPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20,),
-                  const Text('Due',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Due',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -286,41 +346,46 @@ class _TransportPageState extends State<TransportPage> {
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                                  Border.all(color: Colors.grey, width: 1.5),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))),
                           child: TextFormField(
                             onChanged: (value) {
                               // _productController.searchProduct(value);
                             },
                             keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
+                            decoration: InputDecoration(
                               prefix: Container(
                                 width: 20,
                               ),
                               hintText: 'Location',
                               suffixIcon: Icon(Icons.location_on_outlined),
-
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              hintStyle: TextStyle(
+                                  fontSize: 14.0,
+                                  fontFamily: 'Roboto',
+                                  color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                                  Border.all(color: Colors.grey, width: 1.5),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))),
                           child: TextFormField(
                             onChanged: (value) {
                               // _productController.searchProduct(value);
                             },
                             keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
+                            decoration: InputDecoration(
                               suffixIcon: Icon(Icons.access_time),
                               prefix: Container(
                                 width: 20,
@@ -328,8 +393,10 @@ class _TransportPageState extends State<TransportPage> {
                               hintText: 'Enter Time',
                               // icon:
 
-                              hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              hintStyle: TextStyle(
+                                  fontSize: 14.0,
+                                  fontFamily: 'Roboto',
+                                  color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
@@ -337,13 +404,23 @@ class _TransportPageState extends State<TransportPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 10,),
-                  Text('Photos(Optional)',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Photos(Optional)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -351,27 +428,36 @@ class _TransportPageState extends State<TransportPage> {
                           decoration: BoxDecoration(
                               color: primaryColor.withOpacity(.1),
                               borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: Colors.grey.withOpacity(.35))
-                          ),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(.35))),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Icon(Icons.camera_alt,color: primaryColor,),
-                                SizedBox(width: 10,),
+                                Icon(
+                                  Icons.camera_alt,
+                                  color: primaryColor,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
                                 Text('Tap to Upload')
                               ],
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                         child: Container(),
                       )
                     ],
                   ),
-                  SizedBox(height: 100,),
+                  SizedBox(
+                    height: 100,
+                  ),
                 ],
               ),
               Align(
@@ -379,20 +465,50 @@ class _TransportPageState extends State<TransportPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         circular = true;
                       });
-                      try{
-                        expenseRepository.foodExpenseController().then((e) {
+
+                      if (textVhicleController.text.isEmpty) {
+                        final snackBar = SnackBar(
+                          content: const Text('Please fill all the form field'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        setState(() {
+                          circular == false;
+                        });
+
+                      } else {
+                        try {
+                          expenseRepository
+                              .transportExpenseController()
+                              .then((e) {
+                                if(e.isSuccess == true){
+                                  setState(() {
+                                    circular = false;
+                                  });
+                                }else {
+                                  setState(() {
+                                    circular = false;
+                                  });
+                                }
+                            setState(() {
+                              circular = false;
+                            });
+                          });
+                        } catch (e) {
                           setState(() {
                             circular = false;
                           });
-                        });
-                      }catch(e){
-                        setState(() {
-                          circular = false;
-                        });
+                        }
                       }
 
                       // Get.to(FoodExpense());
@@ -402,14 +518,17 @@ class _TransportPageState extends State<TransportPage> {
                       width: size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: darkBlue
-                      ),
-                      child:  Padding(
+                          color: darkBlue),
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: circular == true ? CircularProgressIndicator():Text('Submit',textAlign:TextAlign.center,style: TextStyle(
-                              color: Colors.white
-                          ),),
+                          child: circular == true
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  'Submit',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white),
+                                ),
                         ),
                       ),
                     ),

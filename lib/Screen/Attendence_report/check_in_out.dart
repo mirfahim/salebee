@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/utils.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../Widget/clock_widget.dart';
-
+import 'package:intl/intl.dart';
 class CheckInOut extends StatefulWidget {
   CheckInOut({Key? key}) : super(key: key);
 
@@ -353,12 +353,23 @@ class _CheckInOutState extends State<CheckInOut> {
               onPressed: () async {
                 geolocatorService.determinePosition().then((ele) {
                   print("my position is ${ele!.latitude}");
-                  DateTime now = DateTime.now();
+                  // DateTime now = DateTime.now();
+                  // Timestamp myTimeStamp = Timestamp.fromDate(now);
+                  // String time = myTimeStamp.toString();
+                  final DateTime now = DateTime.now();
+                  final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
+                  final String formatted = formatter.format(now);
+                  print("my date is $formatted");
+                  var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
+                  var inputDate = inputFormat.parse(formatted); // <-- dd/MM 24H format
 
+                  var outputFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
+                  var outputDate = outputFormat.format(inputDate);
+                  print(outputDate);
                   checkIn == false ?
                   attendanceRepository.checkInController(
-                      1, 1, now, ele!.latitude, ele!.longitude, percentage)
-                  : attendanceRepository.checkOutController("ss", 1, now, "location", ele!.latitude, ele!.longitude);
+                      1, 1, formatted, ele!.latitude, ele!.longitude, percentage)
+                  : attendanceRepository.checkOutController("ss", 1, formatted, "location", ele!.latitude, ele!.longitude);
 
 
                 });
