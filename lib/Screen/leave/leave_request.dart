@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/leave/select_subtitute.dart';
 
 import '../../utils.dart';
 import 'leave_request_succeed.dart';
@@ -65,10 +66,10 @@ class LeaveRequest extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Sick',style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
+                                    fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),),
                                 Text('1 Days',style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
+                                    fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),)
                               ],
                             ),
@@ -77,10 +78,10 @@ class LeaveRequest extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Others',style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
+                                    fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),),
                                 Text('1 Days',style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
+                                    fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),)
                               ],
                             ),
@@ -150,7 +151,11 @@ class LeaveRequest extends StatelessWidget {
                           width: 20,
                         ),
                         hintText: 'Add a Substitute',
-                        suffixIcon: Icon(Icons.add,color: primaryColor,),
+                        suffixIcon: InkWell(
+                          onTap: (){
+                            Get.to(SelectSubtitute());
+                          },
+                            child: Icon(Icons.add,color: primaryColor,)),
                         hintStyle:
                         TextStyle(
                             fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF7C8DB5)
