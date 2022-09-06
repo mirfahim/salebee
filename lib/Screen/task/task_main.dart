@@ -32,50 +32,53 @@ class _TaskState extends State<Task> {
       length: 4,
       child: Scaffold(
         backgroundColor: Colors.white,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: InkWell(
-            onTap: (){
-              Get.to(AddNewTask());
-            },
-            child: Container(
-              height: 48,
-              width: size.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: darkBlue
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text('Add New Task',textAlign:TextAlign.center,style: TextStyle(
-                      color: Colors.white
-                  ),),
+        bottomNavigationBar: Container(
+          height: 58 ,
+          color: Color(0xFFE5E5E5),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: InkWell(
+              onTap: (){
+                Get.to(AddNewTask());
+              },
+              child: Container(
+                height: 48,
+                width: size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: darkBlue
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text('Add New Task',textAlign:TextAlign.center,style: TextStyle(
+                        color: Colors.white
+                    ),),
+                  ),
                 ),
               ),
             ),
           ),
         ),
         appBar: AppBar(
-          title: const Text('Tasks',style: TextStyle(
-              color: Colors.black,fontWeight: FontWeight.w600
+
+          title:  Text('Tasks',style: TextStyle(
+              color: appBarHeader,fontSize: 24
           ),),
-          automaticallyImplyLeading: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
           leading: IconButton(
             onPressed: (){
               Get.back();
             },
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
+          backgroundColor: Color(0xFFE5E5E5),
+          elevation: 0,
+          centerTitle: true,
           actions: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.filter_alt,color: primaryColor,),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset('images/filter.png'),
               ),
             )
           ],
@@ -286,60 +289,71 @@ class _TaskState extends State<Task> {
           ),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TabBar(
-                        indicatorColor: darkBlue,
-                        labelColor: darkBlue,
-                        unselectedLabelColor: Colors.grey,
-                        isScrollable: true,
-                        tabs: const [
-                          Tab(
-                            text: 'Assigned to me',
-                          ),
-                          Tab(
-                            text: 'My Task',
-                          ),
-                          Tab(
-                            text: 'Assigned by me',
-                          ),
-                          Tab(
-                            text: 'All',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Expanded(child: Container())
-                  ],
-                ),
-              ),
-              const Expanded(
-                child: TabBarView(
+          child: Container(
+            color: Color(0xFFE5E5E5),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: AssignedToMe(),
+                      Expanded(
+                        child: TabBar(
+                          indicatorColor: darkBlue,
+                          labelColor: darkBlue,
+                          unselectedLabelColor: Colors.grey,
+                          isScrollable: true,
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600
+                          ),
+                          unselectedLabelStyle: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400
+                          ),
+                          tabs: const [
+                            Tab(
+                              text: 'Assigned to me',
+                            ),
+                            Tab(
+                              text: 'My Task',
+                            ),
+                            Tab(
+                              text: 'Assigned by me',
+                            ),
+                            Tab(
+                              text: 'All',
+                            ),
+                          ],
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: MyTask(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: AssignedByMe(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: AllTask(),
-                      )
-                    ]),
-              ),
-            ],
+                      // Expanded(child: Container())
+                    ],
+                  ),
+                ),
+                const Expanded(
+                  child: TabBarView(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: AssignedToMe(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: MyTask(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: AssignedByMe(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: AllTask(),
+                        )
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
       ),
