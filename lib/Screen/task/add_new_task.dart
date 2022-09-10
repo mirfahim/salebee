@@ -66,16 +66,16 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
-                    Text('Description/Remarks',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                    SizedBox(height: 20,),
+                    Text('Description',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         maxLines: 7,
@@ -90,21 +90,21 @@ class AddNewTask extends StatelessWidget {
                           hintText: 'Enter a task description',
                           // icon:
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
                     Text('Type',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -120,21 +120,21 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
                     Text('Priority',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -150,15 +150,15 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
-                    const Text('Start',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                     Text('Start',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     const SizedBox(height: 10,),
                     Row(
@@ -168,7 +168,7 @@ class AddNewTask extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border:
-                                Border.all(color: Colors.grey, width: 1.5),
+                                Border.all(color: borderColor, width: 1),
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                             child: TextFormField(
                               onChanged: (value) {
@@ -180,10 +180,10 @@ class AddNewTask extends StatelessWidget {
                                   width: 20,
                                 ),
                                 hintText: 'Location',
-                                suffixIcon: Icon(Icons.location_on_outlined),
+                                suffixIcon: Icon(Icons.date_range_sharp, color: Color(0xFF7C8DB5),size: 14,),
 
                                 hintStyle:
-                                TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -195,7 +195,7 @@ class AddNewTask extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border:
-                                Border.all(color: Colors.grey, width: 1.5),
+                                Border.all(color: borderColor, width: 1),
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                             child: TextFormField(
                               onChanged: (value) {
@@ -203,7 +203,7 @@ class AddNewTask extends StatelessWidget {
                               },
                               keyboardType: TextInputType.number,
                               decoration:   InputDecoration(
-                                suffixIcon: Icon(Icons.access_time),
+                                suffixIcon: Icon(Icons.access_time,color: Color(0xFF7C8DB5), size: 14,),
                                 prefix: Container(
                                   width: 20,
                                 ),
@@ -211,7 +211,7 @@ class AddNewTask extends StatelessWidget {
                                 // icon:
 
                                 hintStyle:
-                                TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -221,8 +221,8 @@ class AddNewTask extends StatelessWidget {
                     ),
                     const SizedBox(height: 10,),
 
-                    const Text('Due',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                     Text('Due',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     const SizedBox(height: 10,),
                     Row(
@@ -232,7 +232,7 @@ class AddNewTask extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border:
-                                Border.all(color: Colors.grey, width: 1.5),
+                                Border.all(color: borderColor, width: 1),
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                             child: TextFormField(
                               onChanged: (value) {
@@ -244,10 +244,10 @@ class AddNewTask extends StatelessWidget {
                                   width: 20,
                                 ),
                                 hintText: 'Location',
-                                suffixIcon: Icon(Icons.location_on_outlined),
+                                suffixIcon: Icon(Icons.date_range_rounded, color: Color(0xFF7C8DB5),size: 14,),
 
                                 hintStyle:
-                                TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -259,7 +259,7 @@ class AddNewTask extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border:
-                                Border.all(color: Colors.grey, width: 1.5),
+                                Border.all(color: borderColor, width: 1),
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                             child: TextFormField(
                               onChanged: (value) {
@@ -267,7 +267,9 @@ class AddNewTask extends StatelessWidget {
                               },
                               keyboardType: TextInputType.number,
                               decoration:   InputDecoration(
-                                suffixIcon: Icon(Icons.access_time),
+                                suffixIcon: Icon(
+                                  Icons.access_time, color: Color(0xFF7C8DB5),
+                                size: 14,),
                                 prefix: Container(
                                   width: 20,
                                 ),
@@ -275,7 +277,7 @@ class AddNewTask extends StatelessWidget {
                                 // icon:
 
                                 hintStyle:
-                                TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                                 border: InputBorder.none,
                               ),
                             ),
@@ -283,17 +285,16 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10,),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
                     Text('Reminder',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -309,22 +310,22 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Text('Repeat',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -340,22 +341,22 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Text('Prospect',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -371,22 +372,22 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Text('Contact Person',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -402,22 +403,22 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Text('Lead',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -433,22 +434,22 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Text('Assign to',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -464,7 +465,7 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
@@ -472,14 +473,14 @@ class AddNewTask extends StatelessWidget {
                     SizedBox(height: 10,),
 
                     Text('Visible to',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -495,22 +496,22 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 20,),
 
                     Text('Status',style: TextStyle(
-                        fontSize: 16,fontWeight: FontWeight.w600
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
                     SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                          Border.all(color: Colors.grey, width: 1.5),
+                          Border.all(color: borderColor, width: 1),
                           borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                       child: TextFormField(
                         onChanged: (value) {
@@ -526,7 +527,7 @@ class AddNewTask extends StatelessWidget {
                           // icon:
 
                           hintStyle:
-                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
                           border: InputBorder.none,
                         ),
                       ),
@@ -555,7 +556,7 @@ class AddNewTask extends StatelessWidget {
                         padding: EdgeInsets.all(8.0),
                         child: Center(
                           child: Text('Create',textAlign:TextAlign.center,style: TextStyle(
-                              color: Colors.white
+                              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700
                           ),),
                         ),
                       ),
