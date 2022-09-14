@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Model/AddTaskModel.dart';
-import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/utils.dart';
-import 'package:date_time_picker/date_time_picker.dart';
-class AddNewTask extends StatefulWidget {
-  @override
-  State<AddNewTask> createState() => _AddNewTaskState();
-}
 
-class _AddNewTaskState extends State<AddNewTask> {
+class AddNewTask extends StatelessWidget {
+
   final selectedDate = DateTime.now().obs;
-  bool circular = false;
-var startTime = TextEditingController();
   final pickedDate = ''.obs;
-  TaskRepository taskRepository = TaskRepository();
-  AddTaskResponseModel addTaskResponseModel = AddTaskResponseModel();
-  var textTitleController = TextEditingController();
-  var textDesController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,746 +14,572 @@ var startTime = TextEditingController();
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: const Text(
-          'Tasks',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-        ),
+        title:  Text('Add New Task',style: TextStyle(
+            color: appBarHeader,fontSize: 24
+        ),),
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {
+          onPressed: (){
             Get.back();
           },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
       ),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 70),
-              child: ListView(
-                children: [
-                  Text(
-                    'Task Title',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      controller: textTitleController,
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        hintText: 'Enter a task title',
-                        // icon:
+        child: Container(
+          height: size.height,
+          color: Colors.grey.shade200,
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 70),
+                child: ListView(
+                  children: [
+                    Text('Task Title',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400,color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          hintText: 'Enter a task title',
+                          // icon:
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Description/Remarks',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      controller: textDesController,
-                      maxLines: 7,
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
+                    SizedBox(height: 20,),
+                    Text('Description',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        maxLines: 7,
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          hintText: 'Enter a task description',
+                          // icon:
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
                         ),
-                        hintText: 'Enter a task description',
-                        // icon:
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Type',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Select the type of task',
-                        // icon:
+                    SizedBox(height: 20,),
+                    Text('Type',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Select the type of task',
+                          // icon:
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Priority',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
                         ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Select the priority level of task',
-                        // icon:
-
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Start',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              prefix: Container(
-                                width: 20,
+                    SizedBox(height: 20,),
+                    Text('Priority',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Select the priority level of task',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+
+                     Text('Start',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    const SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                Border.all(color: borderColor, width: 1),
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                            child: TextFormField(
+                              onChanged: (value) {
+                                // _productController.searchProduct(value);
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration:   InputDecoration(
+                                prefix: Container(
+                                  width: 20,
+                                ),
+                                hintText: 'Location',
+                                suffixIcon: Icon(Icons.date_range_sharp, color: Color(0xFF7C8DB5),size: 14,),
+
+                                hintStyle:
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                                border: InputBorder.none,
                               ),
-                              hintText: 'Location',
-                              suffixIcon: Icon(Icons.location_on_outlined),
-                              hintStyle: TextStyle(
-                                  fontSize: 14.0,
-                                  fontFamily: 'Roboto',
-                                  color: Colors.grey),
-                              border: InputBorder.none,
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0))),
-                          child: TextFormField(
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                Border.all(color: borderColor, width: 1),
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                            child: TextFormField(
+                              onChanged: (value) {
+                                // _productController.searchProduct(value);
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration:   InputDecoration(
+                                suffixIcon: Icon(Icons.access_time,color: Color(0xFF7C8DB5), size: 14,),
+                                prefix: Container(
+                                  width: 20,
+                                ),
+                                hintText: 'Enter Time',
+                                // icon:
 
-                            onChanged: (value) {
-                             // selectedDate.value;
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              suffixIcon: GestureDetector(
-                                onTap: (){
-                                  _selectDateTime(context);
-                                },
-                                  child: Icon(Icons.access_time)),
-                              prefix: Container(
-                                width: 20,
+                                hintStyle:
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                                border: InputBorder.none,
                               ),
-                              hintText:selectedDate.value == null ?  'Enter Time' : selectedDate.value.toString(),
-                              // icon:
-
-                              hintStyle: TextStyle(
-                                  fontSize: 14.0,
-                                  fontFamily: 'Roboto',
-                                  color: Colors.grey),
-                              border: InputBorder.none,
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Due',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              prefix: Container(
-                                width: 20,
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
+
+                     Text('Due',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    const SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                Border.all(color: borderColor, width: 1),
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                            child: TextFormField(
+                              onChanged: (value) {
+                                // _productController.searchProduct(value);
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration:   InputDecoration(
+                                prefix: Container(
+                                  width: 20,
+                                ),
+                                hintText: 'Location',
+                                suffixIcon: Icon(Icons.date_range_rounded, color: Color(0xFF7C8DB5),size: 14,),
+
+                                hintStyle:
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                                border: InputBorder.none,
                               ),
-                              hintText: 'Location',
-                              suffixIcon: Icon(Icons.location_on_outlined),
-                              hintStyle: TextStyle(
-                                  fontSize: 14.0,
-                                  fontFamily: 'Roboto',
-                                  color: Colors.grey),
-                              border: InputBorder.none,
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                                  Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0))),
-                          child: TextFormField(
-                            //onTap: selectDate,
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              suffixIcon: GestureDetector(
-                                onTap: (){
-                                  _selectDateTime(context);
-                                },
-                                  child: Icon(Icons.access_time)),
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: selectedDate.value == null ?
-    'Enter Time' : selectedDate.value.toString(),
-                              // icon:
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                Border.all(color: borderColor, width: 1),
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                            child: TextFormField(
+                              onChanged: (value) {
+                                // _productController.searchProduct(value);
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration:   InputDecoration(
+                                suffixIcon: Icon(
+                                  Icons.access_time, color: Color(0xFF7C8DB5),
+                                size: 14,),
+                                prefix: Container(
+                                  width: 20,
+                                ),
+                                hintText: 'Enter Time',
+                                // icon:
 
-                              hintStyle: TextStyle(
-                                  fontSize: 14.0,
-                                  fontFamily: 'Roboto',
-                                  color: Colors.grey),
-                              border: InputBorder.none,
+                                hintStyle:
+                                TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                                border: InputBorder.none,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Reminder',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'No Reminder',
-                        // icon:
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    Text('Reminder',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'No Reminder',
+                          // icon:
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Repeat',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'No Repeat',
-                        // icon:
+                    SizedBox(height: 20,),
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                    Text('Repeat',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'No Repeat',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Prospect',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Select Prospect',
-                        // icon:
+                    SizedBox(height: 20,),
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                    Text('Prospect',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Select Prospect',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Contact Person',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Select Prospect contact',
-                        // icon:
+                    SizedBox(height: 20,),
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                    Text('Contact Person',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Select Prospect contact',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Lead',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Select Lead',
-                        // icon:
+                    SizedBox(height: 20,),
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                    Text('Lead',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Select Lead',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Assign to',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Who will be responsible',
-                        // icon:
+                    SizedBox(height: 20,),
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                    Text('Assign to',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Who will be responsible',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Visible to',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
+                    SizedBox(height: 10,),
+
+                    Text('Visible to',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Who can see',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
                         ),
-                        suffixIcon: GestureDetector(
-
-                            child: Icon(Icons.arrow_drop_down_outlined)),
-
-                        hintText: 'Who can see',
-                        // icon:
-
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Status',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Select Status',
-                        // icon:
+                    SizedBox(height: 20,),
 
-                        hintStyle: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.grey),
-                        border: InputBorder.none,
+                    Text('Status',style: TextStyle(
+                        fontSize: 12,fontWeight: FontWeight.w400, color: text
+                    ),),
+                    SizedBox(height: 10,),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                          Border.all(color: borderColor, width: 1),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          // _productController.searchProduct(value);
+                        },
+                        keyboardType: TextInputType.text,
+                        decoration:   InputDecoration(
+                          prefix: Container(
+                            width: 20,
+                          ),
+                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          hintText: 'Select Status',
+                          // icon:
+
+                          hintStyle:
+                          TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+                    SizedBox(height: 10,),
+
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      circular = true;
-                    });
-                    if(textTitleController.text.isEmpty && textDesController.text.isEmpty) {
-                      print("my title is ${textTitleController.text}");
-                      final snackBar = SnackBar(
-                        content: const Text(
-                            'Please fill all the form field'),
-                        action: SnackBarAction(
-                          label: 'Undo',
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: InkWell(
+                    onTap: (){
+                      // Get.to(OtherExpense());
+                    },
+                    child: Container(
+                      height: 48,
+                      width: size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: darkBlue
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Create',textAlign:TextAlign.center,style: TextStyle(
+                              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700
+                          ),),
                         ),
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      setState(() {
-                        circular = false;
-                      });
-                    } else {
-                      try {
-
-                        final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
-                        final String formatted = formatter.format(selectedDate.value);
-                        print("my date is $formatted");
-                        var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
-                        var inputDate = inputFormat.parse(formatted);
-                        taskRepository.taskAddController(textTitleController.text, textDesController.text, formatted, formatted).then((e) {
-                          if (e.isSuccess == true) {
-                            setState(() {
-                              circular = false;
-                            });
-                          }
-                        });
-                      } catch (e) {
-                        setState(() {
-                          circular = false;
-                        });
-                      }
-                    }
-
-
-                    // Get.to(OtherExpense());
-                  },
-                  child: Container(
-                    height: 48,
-                    width: size.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: darkBlue),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: circular == true
-                            ? CircularProgressIndicator()
-                            : Text(
-                                'Create',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white),
-                              ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-   _selectDateTime(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate.value,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
+    );
     if (picked != null && picked != selectedDate.value) {
       selectedDate.value = picked;
-
+      pickedDate.value = DateFormat.yMMMd().format(picked);
     }
-
   }
- // void _selectDate(BuildContext context) async {
- //    final DateTime? picked = await showDatePicker(
- //      context: context,
- //      initialDate: selectedDate.value,
- //      firstDate: DateTime(2015, 8),
- //      lastDate: DateTime(2101),
- //    );
- //    if (picked != null && picked != selectedDate.value) {
- //      selectedDate.value = picked;
- //      pickedDate.value = DateFormat.yMMMd().format(picked);
- //    }
- //  }
 }

@@ -14,4 +14,5 @@ Color backgroudColor = const Color(0xFFE5E5E5);
 Color tabBarUnSelectedColor = const Color(0xFF7C8DB5);
 Color appBarHeader = const Color(0xFF203856);
 Color text = const Color(0xFF0C162C);
+Color borderColor = const Color(0xFFD2DDEC);
 
