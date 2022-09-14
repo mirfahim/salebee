@@ -70,7 +70,7 @@ class Claimed extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Image.asset('images/food.png',height: 70,),
+                          Image.asset('images/diet.png',height: 70,),
                           SizedBox(width: 10,),
                           Text(' Food',style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -101,7 +101,7 @@ class Claimed extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Image.asset('images/food.png',height: 70,),
+                          Image.asset('images/transportation.png',height: 70,),
                           SizedBox(width: 10,),
                           Text(' Transport',style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -132,7 +132,7 @@ class Claimed extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Image.asset('images/food.png',height: 70,),
+                          Image.asset('images/more.png',height: 70,),
                           SizedBox(width: 10,),
                           Text(' Other',style: TextStyle(
                               fontWeight: FontWeight.w500,

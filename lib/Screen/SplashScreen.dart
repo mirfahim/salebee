@@ -104,7 +104,7 @@ class _SplashState extends State<Splash> {
             16.0,
           ),
           child: Image.asset(
-            "images/tap.png",
+            "images/salbee_logo_color_1024.png",
             width: 100.0,
             height: 100.0,
           ),

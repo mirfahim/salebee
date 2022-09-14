@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:salebee/Model/AddTaskModel.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/utils.dart';
-
+import 'package:date_time_picker/date_time_picker.dart';
 class AddNewTask extends StatefulWidget {
   @override
   State<AddNewTask> createState() => _AddNewTaskState();
@@ -13,6 +13,7 @@ class AddNewTask extends StatefulWidget {
 class _AddNewTaskState extends State<AddNewTask> {
   final selectedDate = DateTime.now().obs;
   bool circular = false;
+var startTime = TextEditingController();
   final pickedDate = ''.obs;
   TaskRepository taskRepository = TaskRepository();
   AddTaskResponseModel addTaskResponseModel = AddTaskResponseModel();
@@ -248,16 +249,22 @@ class _AddNewTaskState extends State<AddNewTask> {
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(10.0))),
                           child: TextFormField(
+
                             onChanged: (value) {
+                             // selectedDate.value;
                               // _productController.searchProduct(value);
                             },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.access_time),
+                              suffixIcon: GestureDetector(
+                                onTap: (){
+                                  _selectDateTime(context);
+                                },
+                                  child: Icon(Icons.access_time)),
                               prefix: Container(
                                 width: 20,
                               ),
-                              hintText: 'Enter Time',
+                              hintText:selectedDate.value == null ?  'Enter Time' : selectedDate.value.toString(),
                               // icon:
 
                               hintStyle: TextStyle(
@@ -323,16 +330,22 @@ class _AddNewTaskState extends State<AddNewTask> {
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(10.0))),
                           child: TextFormField(
+                            //onTap: selectDate,
                             onChanged: (value) {
                               // _productController.searchProduct(value);
                             },
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.access_time),
+                              suffixIcon: GestureDetector(
+                                onTap: (){
+                                  _selectDateTime(context);
+                                },
+                                  child: Icon(Icons.access_time)),
                               prefix: Container(
                                 width: 20,
                               ),
-                              hintText: 'Enter Time',
+                              hintText: selectedDate.value == null ?
+    'Enter Time' : selectedDate.value.toString(),
                               // icon:
 
                               hintStyle: TextStyle(
@@ -596,7 +609,10 @@ class _AddNewTaskState extends State<AddNewTask> {
                         prefix: Container(
                           width: 20,
                         ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                        suffixIcon: GestureDetector(
+
+                            child: Icon(Icons.arrow_drop_down_outlined)),
+
                         hintText: 'Who can see',
                         // icon:
 
@@ -680,7 +696,12 @@ class _AddNewTaskState extends State<AddNewTask> {
                     } else {
                       try {
 
-                        taskRepository.taskAddController(textTitleController.text, textDesController.text).then((e) {
+                        final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
+                        final String formatted = formatter.format(selectedDate.value);
+                        print("my date is $formatted");
+                        var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
+                        var inputDate = inputFormat.parse(formatted);
+                        taskRepository.taskAddController(textTitleController.text, textDesController.text, formatted, formatted).then((e) {
                           if (e.isSuccess == true) {
                             setState(() {
                               circular = false;
@@ -724,17 +745,28 @@ class _AddNewTaskState extends State<AddNewTask> {
       ),
     );
   }
-
-  _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate.value,
-      firstDate: DateTime(2015, 8),
-      lastDate: DateTime(2101),
-    );
+   _selectDateTime(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate.value,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate.value) {
       selectedDate.value = picked;
-      pickedDate.value = DateFormat.yMMMd().format(picked);
+
     }
+
   }
+ // void _selectDate(BuildContext context) async {
+ //    final DateTime? picked = await showDatePicker(
+ //      context: context,
+ //      initialDate: selectedDate.value,
+ //      firstDate: DateTime(2015, 8),
+ //      lastDate: DateTime(2101),
+ //    );
+ //    if (picked != null && picked != selectedDate.value) {
+ //      selectedDate.value = picked;
+ //      pickedDate.value = DateFormat.yMMMd().format(picked);
+ //    }
+ //  }
 }

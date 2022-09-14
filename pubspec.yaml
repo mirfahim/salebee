@@ -46,10 +46,14 @@ dependencies:
   geolocator: ^9.0.1
   battery_plus: ^2.1.4
   fluttertoast: ^8.0.9
+  date_time_picker: ^2.1.0
+  datetime_picker_formfield: ^2.0.1
+  facebook_audience_network: ^1.0.1
  ## analog_clock: ^0.1.1
   flutter_secure_storage: ^5.0.2
   cloud_firestore: ^3.4.6
   ##analog_clock: ^0.1.1
+  image_picker: ^0.8.5+3
 dev_dependencies:
   flutter_test:
     sdk: flutter

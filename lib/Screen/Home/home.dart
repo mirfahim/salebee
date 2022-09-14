@@ -6,6 +6,7 @@ import 'package:salebee/Screen/expense/other_expense.dart';
 import 'package:salebee/Screen/expense/transport.dart';
 import 'package:salebee/Screen/notification/notification.dart';
 import 'package:salebee/Screen/task/task_main.dart';
+import 'package:salebee/Screen/test_screen.dart';
 
 import '../../utils.dart';
 import 'package:get/get.dart';
@@ -202,7 +203,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -363,7 +364,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -524,7 +525,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -688,7 +689,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -849,7 +850,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [

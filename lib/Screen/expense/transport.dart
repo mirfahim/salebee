@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Screen/expense/food.dart';
 import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TransportPage extends StatefulWidget {
   TransportPage({Key? key}) : super(key: key);
@@ -14,14 +18,30 @@ class TransportPage extends StatefulWidget {
 
 class _TransportPageState extends State<TransportPage> {
   final selectedDate = DateTime.now().obs;
+  final ImagePicker _picker = ImagePicker();
   ExpenseRepository expenseRepository = ExpenseRepository();
-
+late File _image;
   var textVhicleController = TextEditingController();
   var textDesController = TextEditingController();
   bool circular = false;
 
   final pickedDate = ''.obs;
+  bool hasImage = false;
+  File? image;
 
+  Future getImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+        hasImage = true;
+      });
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -441,7 +461,11 @@ class _TransportPageState extends State<TransportPage> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text('Tap to Upload')
+                                GestureDetector(
+                                  onTap: (){
+                                    getImage(ImageSource.camera);
+                                  },
+                                    child: Text('Tap to Upload'))
                               ],
                             ),
                           ),
@@ -488,6 +512,7 @@ class _TransportPageState extends State<TransportPage> {
 
                       } else {
                         try {
+                          File file = File("");
                           expenseRepository
                               .transportExpenseController()
                               .then((e) {
@@ -542,6 +567,19 @@ class _TransportPageState extends State<TransportPage> {
     );
   }
 
+  // void getImage(ImageSource imageSource) async {
+  //
+  //   PickedFile imageFile = await picker.getImage(source: imageSource);
+  //   if (imageFile == null) return;
+  //   File tmpFile = File(imageFile.path);
+  //   final appDir = await getApplicationDocumentsDirectory();
+  //   final fileName = basename(imageFile.path);
+  //   tmpFile = await tmpFile.copy('${appDir.path}/$fileName');
+  //   setState(() {
+  //     _image = tmpFile;
+  //
+  //   });
+  // }
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +15,7 @@ class OtherExpense extends StatefulWidget {
 
 class _OtherExpenseState extends State<OtherExpense> {
   final selectedDate = DateTime.now().obs;
+  //final ImagePicker _picker = ImagePicker();
   ExpenseRepository expenseRepository = ExpenseRepository();
   var textExpenseController = TextEditingController();
   var textDesController = TextEditingController();
@@ -249,10 +252,11 @@ class _OtherExpenseState extends State<OtherExpense> {
 
                       } else {
                         try {
+                          File file = File("");
                           expenseRepository
                               .othersExpenseController()
                               .then((e) {
-                            if(e.isSuccess == true){
+                            if(e["IsSuccess"] == true){
                               setState(() {
                                 circular = false;
                               });

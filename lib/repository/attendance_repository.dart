@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:salebee/Model/checkin_model.dart';
 
 import '../Helper/api_helper.dart';
+import '../Model/get_attendance_model.dart';
 import '../Service/sharedPref_service.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:http/http.dart' as http;
@@ -90,6 +91,28 @@ class AttendanceRepository {
     String data = response.body;
 
     return attendanceResponseModelFromJson(response.body); //we will fetch the overview from this request
+  }
+  Future<GetAttendanceDataModel> getAttendanceController(int emp) async {
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+
+
+
+
+
+    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1");
+    final response = await http.get(
+
+      url,
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo get attendance${response.body}");
+    String data = response.body;
+
+    return getAttendanceDataModelFromJson(response.body);
   }
 
 }

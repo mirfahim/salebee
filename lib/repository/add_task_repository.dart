@@ -14,7 +14,7 @@ import '../Utils/StringsConst.dart';
 class TaskRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
-  Future<AddTaskResponseModel> taskAddController(String title, String description,) async {
+  Future<AddTaskResponseModel> taskAddController(String title, String description, startTime, dueTime) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
 List list1 = [];
@@ -30,9 +30,9 @@ List list2 = [];
     "ProspectId": 0,
     "LeadID": 0,
     "SupportID": 0,
-    "StartDate": "2022-08-30T10:46:49.198Z",
+    "StartDate": startTime,
     "StartTime": "string",
-    "DueDate": "2022-08-30T10:46:49.198Z",
+    "DueDate": dueTime,
     "DueTime": "string",
     "ReminderDate": "2022-08-30T10:46:49.198Z",
     "ReminderDays": 0,
