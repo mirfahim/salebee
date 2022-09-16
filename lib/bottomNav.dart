@@ -69,7 +69,7 @@ class _BottomNavState extends State<BottomNav> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const NotificationPage1();
+                      currentScreen = const NotificationPage();
                       currentTab = 1;
                     });
                   },

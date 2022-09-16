@@ -11,24 +11,30 @@ class HomePage extends StatelessWidget {
   Widget circleRow(size, option,top,left){
     return SizedBox(
       width: 150,
+
       child: Row(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: primaryColor
+                gradient:  RadialGradient(
+                  colors: [
+                    Color(0xFF44C5E2),
+                    Color(0xFF0890AE),
+                  ],
+                ),
             ),
             // transform: Matrix4.translationValues(x, y, 0.0),
-            child: const Padding(
+            child:  Padding(
               padding: EdgeInsets.all(12.0),
-              child: Icon(Icons.ac_unit,color: Colors.white,),
+              child: Image.asset('images/command.png',height: 20,),
             ),
           ),
           SizedBox(width: 5,),
           Container(
               // transform: Matrix4.translationValues(x, y, 0.0),
               child:  Text('Option $option',style: const TextStyle(
-                  color: Colors.grey
+                  color: Color(0xFF617692)
               ),)
           )
         ],
@@ -53,14 +59,14 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children:  [
                         Text('Rayhan Uddin', style: TextStyle(
-                            fontSize: 20, color: Colors.black,
+                            fontSize: 24, color: appBarHeader,
                             fontWeight: FontWeight.w600
                         ),),
                         SizedBox(height: 2,),
                         Text('01502020222', style: TextStyle(
-                            fontSize: 16, color: Colors.grey
+                            fontSize: 16, color: tabBarUnSelectedColor
                         ),)
                       ],
                     ),
@@ -75,7 +81,7 @@ class HomePage extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.edit_outlined,color: darkBlue,),
+                          child: Icon(Icons.edit_outlined,color: primaryColor,),
                         ),
                       ),
                     )
@@ -89,9 +95,17 @@ class HomePage extends StatelessWidget {
                       Container(
                         height: size.height / 1.3,
                         transform: Matrix4.translationValues(-(size.width /2.5), 0.0, 0.0),
-                        decoration: const BoxDecoration(
+                        decoration:   BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white
+                            color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.25),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(4, 4), // changes position of shadow
+                            ),
+                          ]
                         ),
                       ),
                       Container(
@@ -165,9 +179,6 @@ class HomePage extends StatelessWidget {
                     Row(
                       children: [
                         Icon(Icons.arrow_back,color: darkBlue,),
-                        Text('Prev',style: TextStyle(
-                            color: darkBlue
-                        ),)
                       ],
                     ),
                     InkWell(
@@ -177,9 +188,6 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.arrow_forward,color: darkBlue,),
-                          Text('Next',style: TextStyle(
-                              color: darkBlue
-                          ),)
                         ],
                       ),
                     )
