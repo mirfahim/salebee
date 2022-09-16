@@ -32,11 +32,11 @@ class Approved extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
                 child: Row(children: [
-                  Text('Total Balance: ',style: TextStyle(
+                  const Text('Total Balance: ',style: TextStyle(
                       color: Colors.grey,
                     fontSize: 20
                   ),),
-                  Text('1000',style: TextStyle(
+                  const Text('1000',style: TextStyle(
                     fontWeight: FontWeight.w600,
                       fontSize: 20
                   ),),
@@ -67,7 +67,7 @@ class Approved extends StatelessWidget {
                         ))
                             .toList(),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
 
                       Expanded(
                         child: Padding(
@@ -96,7 +96,7 @@ class Approved extends StatelessWidget {
                                             thickness: 1,
                                             color: Colors.grey,
                                           ),
-                                          SizedBox(width: 10,),
+                                          const SizedBox(width: 10,),
                                           Expanded(
                                             flex: 5,
                                             child: Row(
@@ -105,15 +105,15 @@ class Approved extends StatelessWidget {
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Text('Lunch'),
-                                                    SizedBox(height: 5,),
+                                                    const Text('Lunch'),
+                                                    const SizedBox(height: 5,),
                                                     Text('30 July 2022',style: TextStyle(
                                                         color: Colors.grey.withOpacity(.7)
                                                     ),),
-                                                    SizedBox(height: 5,),
+                                                    const SizedBox(height: 5,),
                                                     Row(
                                                       children: [
-                                                        Text('250',style: TextStyle(
+                                                        const Text('250',style: TextStyle(
                                                             fontSize: 16,
                                                           fontWeight: FontWeight.w600
                                                         ),),
@@ -124,7 +124,7 @@ class Approved extends StatelessWidget {
                                                     )
                                                   ],
                                                 ),
-                                                Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                               ],
                                             ),
                                           )
@@ -132,7 +132,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -149,7 +149,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -158,15 +158,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -177,7 +177,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )
@@ -185,7 +185,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -202,7 +202,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -211,15 +211,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -230,7 +230,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )
@@ -238,7 +238,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -255,7 +255,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -264,15 +264,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -283,7 +283,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )
@@ -291,7 +291,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -308,7 +308,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -317,15 +317,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -336,7 +336,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )
@@ -344,7 +344,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -361,7 +361,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -370,15 +370,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -389,7 +389,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )
@@ -397,7 +397,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -414,7 +414,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -423,15 +423,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -442,7 +442,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )
@@ -450,7 +450,7 @@ class Approved extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
@@ -467,7 +467,7 @@ class Approved extends StatelessWidget {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Expanded(
                                               flex: 5,
                                               child: Row(
@@ -476,15 +476,15 @@ class Approved extends StatelessWidget {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('Lunch'),
-                                                      SizedBox(height: 5,),
+                                                      const Text('Lunch'),
+                                                      const SizedBox(height: 5,),
                                                       Text('30 July 2022',style: TextStyle(
                                                           color: Colors.grey.withOpacity(.7)
                                                       ),),
-                                                      SizedBox(height: 5,),
+                                                      const SizedBox(height: 5,),
                                                       Row(
                                                         children: [
-                                                          Text('250',style: TextStyle(
+                                                          const Text('250',style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight: FontWeight.w600
                                                           ),),
@@ -495,7 +495,7 @@ class Approved extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                  const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
                                                 ],
                                               ),
                                             )

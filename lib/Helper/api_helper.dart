@@ -16,7 +16,7 @@ class ApiService {
 
 
   Future<String> uploadFile(File file, String type) async {
-    String url = "${StringsConst.BASEURL}";
+    String url = StringsConst.BASEURL;
 
     // final creds = await authRepository.getCredentials();
 
@@ -58,7 +58,7 @@ class ApiService {
     } on SocketException {
       Fluttertoast.showToast(msg: "Please check your internet connection");
     } catch (e) {
-      throw e;
+      rethrow;
     }
     return response!.body;
   }
@@ -85,7 +85,7 @@ class ApiService {
     } on SocketException {
       Fluttertoast.showToast(msg: "Please check your internet connection");
     } catch (e) {
-      throw e;
+      rethrow;
     }
     return response!.body;
   }
@@ -95,7 +95,7 @@ class ApiService {
     print("$method");
     try {
       print("working started on api request 01");
-      var response;
+      http.Response response;
       Uri apiURL = Uri.parse(StringsConst.BASEURL + url);
       print("working started on api request 02");
       var header = headers;
@@ -150,17 +150,16 @@ class ApiService {
         print('response code from put: ${response.body}');
       }
 
-      if (response != null &&
-          (response.statusCode == 200 || response.statusCode == 201)) {
+      if ((response.statusCode == 200 || response.statusCode == 201)) {
         var res = convert.jsonDecode(response.body);
         print("my response is $res");
         return res;
-      } else if (response != null && (response.statusCode == 403)) {
+      } else if ((response.statusCode == 403)) {
         var res = convert.jsonDecode(response.body);
         print("my response is $res");
         return res;
       } else {
-        var res = convert.jsonDecode(response!.body);
+        var res = convert.jsonDecode(response.body);
 
         handleError(res);
       }

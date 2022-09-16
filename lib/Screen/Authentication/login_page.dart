@@ -1,15 +1,10 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:salebee/Helper/api_helper.dart';
 
-import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Service/api_service_dio.dart';
 import 'package:provider/provider.dart';
-import 'package:salebee/Utils/Alerts.dart';
 import '../../Provider/Login/login_provider.dart';
-import '../../Utils/StringsConst.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -27,19 +22,19 @@ class LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: const Text("Login"),
       ),
       body: Column(
         children: [
           TextField(
             controller: textUserController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "User Name",
             ),
           ),
           TextField(
             controller: textPwdController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Password",
             ),
           ),
@@ -67,7 +62,7 @@ class LoginPageState extends State<LoginPage> {
               //   );
                 //  Get.to(()=>HomePage());
               },
-              child: Text("Login"))
+              child: const Text("Login"))
         ],
       ),
     );
@@ -87,7 +82,7 @@ class LoginPageState extends State<LoginPage> {
       //"Accept": "application/json",
     };
     // This will be sent as form data in the post requst
-    var map = new Map<String, dynamic>();
+    var map = <String, dynamic>{};
     map['mobile_number'] = '01782084390';
     map['password'] = '12345678';
 

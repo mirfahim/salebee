@@ -9,7 +9,7 @@ class Claimed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense Claim',style: TextStyle(
+        title: const Text('Expense Claim',style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.w600
         ),),
         automaticallyImplyLeading: true,
@@ -20,7 +20,7 @@ class Claimed extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         actions: [
           Card(
@@ -48,7 +48,7 @@ class Claimed extends StatelessWidget {
               Text('Chose a type of expense',style: TextStyle(
                   color: Colors.grey.withOpacity(.75)
               ),),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
@@ -64,8 +64,8 @@ class Claimed extends StatelessWidget {
                     child: Row(
                       children: [
                         Image.asset('images/food.png',height: 70,),
-                        SizedBox(width: 10,),
-                        Text(' Food',style: TextStyle(
+                        const SizedBox(width: 10,),
+                        const Text(' Food',style: TextStyle(
                             fontWeight: FontWeight.w500,
                           fontSize: 18
                         ),)

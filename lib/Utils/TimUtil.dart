@@ -15,15 +15,15 @@ class TimUtil {
       time = format.format(date);
     } else if (diff.inDays > 0 && diff.inDays < 7) {
       if (diff.inDays == 1) {
-        time = diff.inDays.toString() + ' day';
+        time = '${diff.inDays} day';
       } else {
-        time = diff.inDays.toString() + ' days';
+        time = '${diff.inDays} days';
       }
     } else {
       if (diff.inDays == 7) {
-        time = (diff.inDays / 7).floor().toString() + ' wk';
+        time = '${(diff.inDays / 7).floor()} wk';
       } else {
-        time = (diff.inDays / 7).floor().toString() + ' weeks';
+        time = '${(diff.inDays / 7).floor()} weeks';
       }
     }
 
@@ -31,7 +31,7 @@ class TimUtil {
   }
 
   static int currentTimeInSeconds() {
-    var ms = (new DateTime.now()).millisecondsSinceEpoch;
+    var ms = (DateTime.now()).millisecondsSinceEpoch;
     return (ms / 1000).round();
   }
 
@@ -74,7 +74,7 @@ class TimUtil {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     final date2 = DateTime.now();
     final difference = date2.difference(date);
-    print("diff in minutes " + difference.inMinutes.toString());
+    print("diff in minutes ${difference.inMinutes}");
     if (difference.inMinutes > 10) {
       return true;
     } else {
@@ -94,15 +94,16 @@ class TimUtil {
     String seconds;
     final minutes = duration.inMinutes.remainder(60);
     final sec = duration.inSeconds.remainder(60);
-    if (sec < 10)
+    if (sec < 10) {
       seconds = '0$sec';
-    else
+    } else {
       seconds = '$sec';
+    }
     return '$minutes:$seconds';
   }
 
   static String stringForSeconds(double seconds) {
-    if (seconds == null || seconds == 0) return "00:00";
+    if (seconds == 0) return "00:00";
     return '${(seconds ~/ 60)}:${(seconds.truncate() % 60).toString().padLeft(2, '0')}';
   }
 
@@ -115,9 +116,7 @@ class TimUtil {
       sec = sec % 60;
     }
 
-    return (min >= 10 ? min.toString() : '0' + min.toString()) +
-        ":" +
-        (sec >= 10 ? sec.toString() : '0' + sec.toString());
+    return "${min >= 10 ? min.toString() : '0$min'}:${sec >= 10 ? sec.toString() : '0$sec'}";
   }
 
   static int parseDuration(String s) {
@@ -134,7 +133,7 @@ class TimUtil {
     micros = (double.parse(parts[parts.length - 1]) * 1000000).round();
     int tim = Duration(hours: hours, minutes: minutes, microseconds: micros)
         .inSeconds;
-    print("current video duration = " + tim.toString());
+    print("current video duration = $tim");
     return tim;
   }
 }

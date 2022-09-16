@@ -20,7 +20,7 @@ class CheckInOut extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 50,),
+        const SizedBox(height: 50,),
         SizedBox(
           height: 150,
           child: Column(
@@ -43,7 +43,7 @@ class CheckInOut extends StatelessWidget {
                     ),),
                 ],
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -64,7 +64,7 @@ class CheckInOut extends StatelessWidget {
           ),
         ),
         Obx(()=>TweenAnimationBuilder(
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           tween: Tween(begin: 0.0,end: end.value),
           builder: (context,double value, _){
             circularProgressIndicatorValue.value = value;
@@ -111,18 +111,18 @@ class CheckInOut extends StatelessWidget {
             );
           },
         )),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Icon(Icons.location_on_outlined),
               SizedBox(width: 10,),
               Text('Central park')
             ],
           ),
         ),
-        SizedBox(height: 30,),
+        const SizedBox(height: 30,),
         Row(
           children: [
             Expanded(
@@ -137,7 +137,7 @@ class CheckInOut extends StatelessWidget {
                   children: [
                     Icon(Icons.person, color: primaryColor,),
                     const Text('10:26',style: TextStyle(fontWeight: FontWeight.w600),),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     const Text('Check In',style: TextStyle(color: Colors.grey,fontSize: 12),),
                   ],
                 ),
@@ -145,7 +145,7 @@ class CheckInOut extends StatelessWidget {
                   children: [
                     Icon(Icons.person_add_alt, color: primaryColor,),
                     const Text('--:--',style: TextStyle(fontWeight: FontWeight.w600),),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     const Text('Check Out',style: TextStyle(color: Colors.grey,fontSize: 12),),
                   ],
                 ),
@@ -153,7 +153,7 @@ class CheckInOut extends StatelessWidget {
                   children: [
                     Icon(Icons.arrow_circle_right, color: primaryColor,),
                     const Text('08:26',style: TextStyle(fontWeight: FontWeight.w600),),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     const Text('Working Hour',style: TextStyle(color: Colors.grey,fontSize: 12),),
                   ],
                 ),

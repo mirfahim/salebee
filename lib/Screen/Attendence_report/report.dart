@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../utils.dart';
-import 'check_in_out.dart';
 
 class Report extends StatelessWidget {
   final summaryOpen = false.obs;
@@ -17,7 +16,7 @@ class Report extends StatelessWidget {
           width: 30, child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Column(
-              children: [
+              children: const [
                 Text('13',textAlign: TextAlign.center,),
                 SizedBox(height: 3,),
                 Text('SAT',textAlign: TextAlign.center,),
@@ -26,9 +25,9 @@ class Report extends StatelessWidget {
           )),
     ),
     DataCell(
-      Container(width: 80, child: Column(
+      SizedBox(width: 80, child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text('08:26am',style: TextStyle(
             color: Colors.grey,fontWeight: FontWeight.w600
           ),),
@@ -39,9 +38,9 @@ class Report extends StatelessWidget {
       )),
     ),
     DataCell(
-      Container(width: 80, child: Column(
+      SizedBox(width: 80, child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text('08:26am',style: TextStyle(
               color: Colors.grey,fontWeight: FontWeight.w600
           ),),
@@ -51,8 +50,8 @@ class Report extends StatelessWidget {
         ],
       )),
     ),
-    DataCell(
-      Container(width: 80, child: Text('10hr00mm',style: TextStyle(
+    const DataCell(
+      SizedBox(width: 80, child: Text('10hr00mm',style: TextStyle(
           color: Colors.grey,fontWeight: FontWeight.w600
       ),),),
     ),
@@ -100,8 +99,8 @@ class Report extends StatelessWidget {
                         }
                       },
                       child: summaryOpen.value == false
-                          ? Icon(Icons.keyboard_arrow_down_rounded)
-                          : Icon(Icons.keyboard_arrow_up)))
+                          ? const Icon(Icons.keyboard_arrow_down_rounded)
+                          : const Icon(Icons.keyboard_arrow_up)))
                 ],
               ),
             ),
@@ -183,7 +182,7 @@ class Report extends StatelessWidget {
                   ),
                   Expanded(
                     child: TabBarView(
-                      physics: AlwaysScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       // physics: NeverScrollableScrollPhysics(),
                       children: tabs
                           .map((e) => SingleChildScrollView(

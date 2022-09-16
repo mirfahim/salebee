@@ -8,8 +8,8 @@ class MyColors {
   static const Color accent = Color(0xfff7892b);
   static const Color accentDark = Color(0xfff7892b);
   static const Color accentLight = Color(0xfff7892b);
-  static const Color lightBlue = Color(007);
-  static const Color darkBlue = Color(00008);
+  static const Color lightBlue = Color(0x00000007);
+  static const Color darkBlue = Color(0x00000008);
   static  Color shadeBlue =HexColor("#ebf9ff");
   static  Color appColor =HexColor("#f8f9fd");
   static  Color grey01 =HexColor("#b8b8b8");
@@ -43,7 +43,7 @@ class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
+      hexColor = "FF$hexColor";
     }
     return int.parse(hexColor, radix: 16);
   }

@@ -24,7 +24,7 @@ class TransportPage extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         actions: [
           InkWell(
@@ -56,10 +56,10 @@ class TransportPage extends StatelessWidget {
             children: [
               ListView(
                 children: [
-                  Text('Way',style: TextStyle(
+                  const Text('Way',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -75,21 +75,21 @@ class TransportPage extends StatelessWidget {
                         prefix: Container(
                           width: 20,
                         ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                         hintText: 'Air',
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Vehical Name',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Vehical Name',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -106,18 +106,18 @@ class TransportPage extends StatelessWidget {
                           width: 20,
                         ),
                         hintText: 'Type athe vehical name',
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Vehical Number(Optional)',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Vehical Number(Optional)',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -136,7 +136,7 @@ class TransportPage extends StatelessWidget {
                         hintText: 'Enter the vehicle Number',
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
@@ -165,7 +165,7 @@ class TransportPage extends StatelessWidget {
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
@@ -189,11 +189,11 @@ class TransportPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: TextStyle(
+                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: const TextStyle(
                                 color: Colors.grey
                             ),)),
                             const SizedBox(width: 10,),
-                            Icon(Icons.calendar_today,size: 14,),
+                            const Icon(Icons.calendar_today,size: 14,),
                           ],
                         ),
                       ),
@@ -223,16 +223,16 @@ class TransportPage extends StatelessWidget {
                                 width: 20,
                               ),
                               hintText: 'Location',
-                              suffixIcon: Icon(Icons.location_on_outlined),
+                              suffixIcon: const Icon(Icons.location_on_outlined),
 
                               hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
@@ -246,7 +246,7 @@ class TransportPage extends StatelessWidget {
                             },
                             keyboardType: TextInputType.number,
                             decoration:   InputDecoration(
-                              suffixIcon: Icon(Icons.access_time),
+                              suffixIcon: const Icon(Icons.access_time),
                               prefix: Container(
                                 width: 20,
                               ),
@@ -254,7 +254,7 @@ class TransportPage extends StatelessWidget {
                               // icon:
 
                               hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
@@ -262,7 +262,7 @@ class TransportPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   const Text('Due',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
@@ -286,16 +286,16 @@ class TransportPage extends StatelessWidget {
                                 width: 20,
                               ),
                               hintText: 'Location',
-                              suffixIcon: Icon(Icons.location_on_outlined),
+                              suffixIcon: const Icon(Icons.location_on_outlined),
 
                               hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
@@ -309,7 +309,7 @@ class TransportPage extends StatelessWidget {
                             },
                             keyboardType: TextInputType.number,
                             decoration:   InputDecoration(
-                              suffixIcon: Icon(Icons.access_time),
+                              suffixIcon: const Icon(Icons.access_time),
                               prefix: Container(
                                 width: 20,
                               ),
@@ -317,7 +317,7 @@ class TransportPage extends StatelessWidget {
                               // icon:
 
                               hintStyle:
-                              TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                               border: InputBorder.none,
                             ),
                           ),
@@ -326,12 +326,12 @@ class TransportPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 30,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 10,),
-                  Text('Photos(Optional)',style: TextStyle(
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 10,),
+                  const Text('Photos(Optional)',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       Expanded(
@@ -346,20 +346,20 @@ class TransportPage extends StatelessWidget {
                             child: Row(
                               children: [
                                 Icon(Icons.camera_alt,color: primaryColor,),
-                                SizedBox(width: 10,),
-                                Text('Tap to Upload')
+                                const SizedBox(width: 10,),
+                                const Text('Tap to Upload')
                               ],
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Container(),
                       )
                     ],
                   ),
-                  SizedBox(height: 100,),
+                  const SizedBox(height: 100,),
                 ],
               ),
               Align(

@@ -14,21 +14,21 @@ class Applied extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Container(
         height: 58 ,
-        color: Color(0xFFE5E5E5),
+        color: const Color(0xFFE5E5E5),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: InkWell(
             onTap: (){
-              Get.to(LeaveRequest());
+              Get.to(const LeaveRequest());
             },
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
                   color: darkBlue
               ),
-              child: Center(
+              child: const Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Apply leave request',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -48,15 +48,15 @@ class Applied extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 InkWell(
                   onTap: (){
-                    Get.to(LeaveDetails());
+                    Get.to(const LeaveDetails());
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
-                      color: Color(0xFFFFFFFF)
+                      color: const Color(0xFFFFFFFF)
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -71,7 +71,7 @@ class Applied extends StatelessWidget {
                                 fontSize: 16,
                                 color: appBarHeader
                               ),),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Row(
                                 // mainAxisAlignment: MainAxisAlignment.start,
                                 children: const [
@@ -92,13 +92,13 @@ class Applied extends StatelessWidget {
                           ),
                           IconButton(
                               onPressed: (){},
-                              icon: Icon(Icons.arrow_forward_ios_outlined,color: Color(0xFF7C8DB5),))
+                              icon: const Icon(Icons.arrow_forward_ios_outlined,color: Color(0xFF7C8DB5),))
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
@@ -117,7 +117,7 @@ class Applied extends StatelessWidget {
                                 fontSize: 16,
                                 color: appBarHeader
                             ),),
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
                             Row(
                               // mainAxisAlignment: MainAxisAlignment.start,
                               children: const [
@@ -138,7 +138,7 @@ class Applied extends StatelessWidget {
                         ),
                         IconButton(
                             onPressed: (){},
-                            icon: Icon(Icons.arrow_forward_ios_outlined,color: Color(0xFF7C8DB5)))
+                            icon: const Icon(Icons.arrow_forward_ios_outlined,color: Color(0xFF7C8DB5)))
                       ],
                     ),
                   ),

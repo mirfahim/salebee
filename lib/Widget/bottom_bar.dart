@@ -9,11 +9,11 @@ class CustomBottomBar extends StatefulWidget {
 }
 class _HomePageState extends State<CustomBottomBar> {
   int _currentIndex = 1;
-  List<Widget> _pages = [];
+  final List<Widget> _pages = [];
   @override
   void initState() {
-    _pages.add(HomePage());
-    _pages.add(HomePage());
+    _pages.add(const HomePage());
+    _pages.add(const HomePage());
     _pages.add(CheckInOut());
     super.initState();
   }
@@ -23,13 +23,13 @@ class _HomePageState extends State<CustomBottomBar> {
       backgroundColor: MyColors.appColor,
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
         clipBehavior: Clip.antiAlias,
-        child: Container(
+        child: SizedBox(
           height: kBottomNavigationBarHeight,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
 
             ),
@@ -42,7 +42,7 @@ class _HomePageState extends State<CustomBottomBar> {
                     _currentIndex = index;
                   });
                 },
-                items: [
+                items: const [
                   BottomNavigationBarItem(
                       icon: Icon(Icons.category), label: 'Category'),
                   BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
@@ -58,7 +58,7 @@ class _HomePageState extends State<CustomBottomBar> {
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           backgroundColor: _currentIndex == 1 ? Colors.blue : Colors.blueGrey,
-          child: Icon(Icons.home),
+          child: const Icon(Icons.home),
           onPressed: () => setState(() {
             _currentIndex = 1;
           }),

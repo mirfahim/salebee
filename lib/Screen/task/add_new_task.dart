@@ -25,7 +25,7 @@ class AddNewTask extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
       ),
       body: SafeArea(
@@ -41,7 +41,7 @@ class AddNewTask extends StatelessWidget {
                     Text('Task Title',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400,color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -66,11 +66,11 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text('Description',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -95,11 +95,11 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text('Type',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -115,7 +115,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Select the type of task',
                           // icon:
 
@@ -125,11 +125,11 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text('Priority',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -145,7 +145,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Select the priority level of task',
                           // icon:
 
@@ -155,7 +155,7 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                      Text('Start',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
@@ -180,7 +180,7 @@ class AddNewTask extends StatelessWidget {
                                   width: 20,
                                 ),
                                 hintText: 'Location',
-                                suffixIcon: Icon(Icons.date_range_sharp, color: Color(0xFF7C8DB5),size: 14,),
+                                suffixIcon: const Icon(Icons.date_range_sharp, color: Color(0xFF7C8DB5),size: 14,),
 
                                 hintStyle:
                                 TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
@@ -189,7 +189,7 @@ class AddNewTask extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
@@ -203,7 +203,7 @@ class AddNewTask extends StatelessWidget {
                               },
                               keyboardType: TextInputType.number,
                               decoration:   InputDecoration(
-                                suffixIcon: Icon(Icons.access_time,color: Color(0xFF7C8DB5), size: 14,),
+                                suffixIcon: const Icon(Icons.access_time,color: Color(0xFF7C8DB5), size: 14,),
                                 prefix: Container(
                                   width: 20,
                                 ),
@@ -244,7 +244,7 @@ class AddNewTask extends StatelessWidget {
                                   width: 20,
                                 ),
                                 hintText: 'Location',
-                                suffixIcon: Icon(Icons.date_range_rounded, color: Color(0xFF7C8DB5),size: 14,),
+                                suffixIcon: const Icon(Icons.date_range_rounded, color: Color(0xFF7C8DB5),size: 14,),
 
                                 hintStyle:
                                 TextStyle(fontSize: 12.0, fontFamily: 'Roboto',color: tabBarUnSelectedColor),
@@ -253,7 +253,7 @@ class AddNewTask extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
@@ -267,7 +267,7 @@ class AddNewTask extends StatelessWidget {
                               },
                               keyboardType: TextInputType.number,
                               decoration:   InputDecoration(
-                                suffixIcon: Icon(
+                                suffixIcon: const Icon(
                                   Icons.access_time, color: Color(0xFF7C8DB5),
                                 size: 14,),
                                 prefix: Container(
@@ -285,11 +285,11 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text('Reminder',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -305,7 +305,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'No Reminder',
                           // icon:
 
@@ -315,12 +315,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     Text('Repeat',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -336,7 +336,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'No Repeat',
                           // icon:
 
@@ -346,12 +346,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     Text('Prospect',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -367,7 +367,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Select Prospect',
                           // icon:
 
@@ -377,12 +377,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     Text('Contact Person',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -398,7 +398,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Select Prospect contact',
                           // icon:
 
@@ -408,12 +408,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     Text('Lead',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -429,7 +429,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Select Lead',
                           // icon:
 
@@ -439,12 +439,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     Text('Assign to',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -460,7 +460,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Who will be responsible',
                           // icon:
 
@@ -470,12 +470,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
 
                     Text('Visible to',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -491,7 +491,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Who can see',
                           // icon:
 
@@ -501,12 +501,12 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     Text('Status',style: TextStyle(
                         fontSize: 12,fontWeight: FontWeight.w400, color: text
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -522,7 +522,7 @@ class AddNewTask extends StatelessWidget {
                           prefix: Container(
                             width: 20,
                           ),
-                          suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                          suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                           hintText: 'Select Status',
                           // icon:
 
@@ -532,7 +532,7 @@ class AddNewTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
 
                   ],
                 ),

@@ -21,9 +21,9 @@ class LeaveFront extends StatelessWidget {
             onPressed: (){
               Get.back();
             },
-            icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+            icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
-          backgroundColor: Color(0xFFE5E5E5),
+          backgroundColor: const Color(0xFFE5E5E5),
           elevation: 0,
           centerTitle: true,
           actions: [
@@ -45,7 +45,7 @@ class LeaveFront extends StatelessWidget {
           ],
         ),
         body: Container(
-          color: Color(0xFFE5E5E5),
+          color: const Color(0xFFE5E5E5),
           child: SafeArea(
             child: Column(
               children: [
@@ -59,10 +59,10 @@ class LeaveFront extends StatelessWidget {
                           indicatorColor: darkBlue,
                           labelColor: darkBlue,
                           unselectedLabelColor: tabBarUnSelectedColor,
-                          unselectedLabelStyle: TextStyle(
+                          unselectedLabelStyle: const TextStyle(
                             fontSize: 12
                           ),
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.w600
                           ),
                           isScrollable: true,

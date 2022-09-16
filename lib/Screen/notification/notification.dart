@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:salebee/utils.dart';
 
 class NotificationPage extends StatelessWidget {
@@ -46,7 +45,7 @@ class NotificationPage extends StatelessWidget {
                    child: Text('Yesterday',style: TextStyle(
                     color: darkBlue,fontSize: 16
                 ),),),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
                     color: primaryColorLight,
@@ -72,12 +71,12 @@ class NotificationPage extends StatelessWidget {
                                   child: Image.asset('images/checklist.png',height: 26,),
                                 ),
                             ),
-                            SizedBox(width: 10,),
+                            const SizedBox(width: 10,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Follow up With: ',style: TextStyle(
                                       color: Colors.grey
                                     ),),
@@ -87,9 +86,9 @@ class NotificationPage extends StatelessWidget {
                                     ),)
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Prospect: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -109,7 +108,7 @@ class NotificationPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
                       color: primaryColorLight,
@@ -135,12 +134,12 @@ class NotificationPage extends StatelessWidget {
                                 child: Image.asset('images/checklist.png',height: 26,),
                               ),
                             ),
-                            SizedBox(width: 10,),
+                            const SizedBox(width: 10,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Follow up With: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -151,9 +150,9 @@ class NotificationPage extends StatelessWidget {
                                     ),)
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Prospect: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -162,9 +161,9 @@ class NotificationPage extends StatelessWidget {
                                     ),)
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Lead: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),

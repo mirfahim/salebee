@@ -27,7 +27,7 @@ class AssignedToMe extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
-                              color: Color(0xFFFAF5FF)
+                              color: const Color(0xFFFAF5FF)
                             ),
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),
@@ -49,7 +49,7 @@ class AssignedToMe extends StatelessWidget {
                       fontSize: 14,
                       color: Color(0xFF0C162C)
                     ),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                      const Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit',
                       style: TextStyle(
                         color: Color(0xFF7C8DB5),
@@ -78,8 +78,8 @@ class AssignedToMe extends StatelessWidget {
                     const SizedBox(height: 15,),
                     Row(
                       children: [
-                        Icon(Icons.share,color: Colors.grey,size: 12),
-                        SizedBox(width: 5,),
+                        const Icon(Icons.share,color: Colors.grey,size: 12),
+                        const SizedBox(width: 5,),
                         Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle
@@ -117,9 +117,9 @@ class AssignedToMe extends StatelessWidget {
                                 fontSize: 12
                             ),),
                         ),
-                        SizedBox(width: 15,),
-                        Icon(Icons.remove_red_eye,color: Colors.grey,size: 12,),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 15,),
+                        const Icon(Icons.remove_red_eye,color: Colors.grey,size: 12,),
+                        const SizedBox(width: 10,),
                         Container(
                           decoration: const BoxDecoration(
                               shape: BoxShape.circle
@@ -162,8 +162,8 @@ class AssignedToMe extends StatelessWidget {
                     const SizedBox(height: 15,),
                     Row(
                       children: [
-                        Icon(Icons.send,color: Colors.grey,size: 12,),
-                        SizedBox(width: 10,),
+                        const Icon(Icons.send,color: Colors.grey,size: 12,),
+                        const SizedBox(width: 10,),
                         Container(
                           decoration: const BoxDecoration(
                               shape: BoxShape.circle
@@ -173,7 +173,7 @@ class AssignedToMe extends StatelessWidget {
                             backgroundImage: AssetImage('images/person.jpg',),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         const Text('Rayhan Uddin',
                           style: TextStyle(
                               color: Colors.grey,
@@ -190,8 +190,8 @@ class AssignedToMe extends StatelessWidget {
                               fontSize: 12,
                               fontWeight: FontWeight.w400
                           ),),
-                        SizedBox(width: 10,),
-                        Text('Rahat Mahmud (Chief Executive Officer)',
+                        const SizedBox(width: 10,),
+                        const Text('Rahat Mahmud (Chief Executive Officer)',
                           style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
@@ -237,7 +237,7 @@ class AssignedToMe extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                    fontSize: 12
                                 ),),
-                                Icon(Icons.keyboard_arrow_down_outlined,color: Colors.grey,)
+                                const Icon(Icons.keyboard_arrow_down_outlined,color: Colors.grey,)
                               ],
                             ),
                           ),
@@ -253,63 +253,63 @@ class AssignedToMe extends StatelessWidget {
                               fontSize: 12,
                               fontWeight: FontWeight.w400
                           ),),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100)
                           ),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Icon(Icons.chat,color: Color(0xFF1E40AF),size: 12,),
                             ),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100)
                           ),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 shape: BoxShape.circle
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Icon(Icons.call,color: Color(0xFF1E40AF),size: 12,),
                             ),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100)
                           ),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 shape: BoxShape.circle
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Icon(Icons.local_post_office_rounded,
                                 color: Color(0xFF1E40AF),size: 12,),
                             ),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100)
                           ),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 shape: BoxShape.circle
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Icon(Icons.more_horiz,color: Color(0xFF1E40AF),
                               size: 12,),
                             ),
@@ -329,13 +329,13 @@ class AssignedToMe extends StatelessWidget {
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400
                               ),),
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
                             Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100)
                               ),
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     shape: BoxShape.circle
                                 ),
                                 child: Padding(
@@ -344,17 +344,17 @@ class AssignedToMe extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 5,),
+                            const SizedBox(width: 5,),
                             Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100)
                               ),
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     shape: BoxShape.circle
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: Icon(Icons.delete,color: Colors.red, size: 12,),
                                 ),
                               ),

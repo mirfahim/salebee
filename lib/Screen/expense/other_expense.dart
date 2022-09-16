@@ -12,7 +12,7 @@ class OtherExpense extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense',style: TextStyle(
+        title: const Text('Expense',style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.w600
         ),),
         automaticallyImplyLeading: true,
@@ -23,7 +23,7 @@ class OtherExpense extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         actions: [
           InkWell(
@@ -55,10 +55,10 @@ class OtherExpense extends StatelessWidget {
             children: [
               ListView(
                 children: [
-                  Text('Expense Name',style: TextStyle(
+                  const Text('Expense Name',style: TextStyle(
                     fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -78,16 +78,16 @@ class OtherExpense extends StatelessWidget {
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Description/Remarks',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Description/Remarks',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -107,16 +107,16 @@ class OtherExpense extends StatelessWidget {
                         hintText: 'Type a Short Note',
                         // icon:
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Pricing',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Pricing',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -136,16 +136,16 @@ class OtherExpense extends StatelessWidget {
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Date',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Date',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
                       _selectDate(context);
@@ -160,23 +160,23 @@ class OtherExpense extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: TextStyle(
+                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: const TextStyle(
                                 color: Colors.grey
                             ),)),
                             const SizedBox(width: 10,),
-                            Icon(Icons.calendar_today,size: 14,),
+                            const Icon(Icons.calendar_today,size: 14,),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 10,),
-                  Text('Photos(Optional)',style: TextStyle(
+                  const SizedBox(height: 20,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 10,),
+                  const Text('Photos(Optional)',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       Expanded(
@@ -191,14 +191,14 @@ class OtherExpense extends StatelessWidget {
                             child: Row(
                               children: [
                                 Icon(Icons.camera_alt,color: primaryColor,),
-                                SizedBox(width: 10,),
-                                Text('Tap to Upload')
+                                const SizedBox(width: 10,),
+                                const Text('Tap to Upload')
                               ],
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Container(),
                       )

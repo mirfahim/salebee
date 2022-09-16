@@ -1,10 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:salebee/Service/api_service_dio.dart';
 
-import '../../Utils/ApiUrl.dart';
 
 class UserAuthProvider extends ChangeNotifier {
   String email = "";

@@ -24,7 +24,7 @@ class FoodExpense extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         actions: [
           Card(
@@ -51,10 +51,10 @@ class FoodExpense extends StatelessWidget {
             children: [
               ListView(
                 children: [
-                  Text('Meal Type',style: TextStyle(
+                  const Text('Meal Type',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -70,22 +70,22 @@ class FoodExpense extends StatelessWidget {
                         prefix: Container(
                           width: 20,
                         ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                         hintText: 'Air',
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
 
-                  SizedBox(height: 10,),
-                  Text('Dish Name',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Dish Name',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -101,17 +101,17 @@ class FoodExpense extends StatelessWidget {
                         prefix: Container(
                           width: 20,
                         ),
-                        suffixIcon: Icon(Icons.arrow_drop_down_outlined),
+                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
                         hintText: 'Type the dish name',
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   const Text('Pricing',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
@@ -135,7 +135,7 @@ class FoodExpense extends StatelessWidget {
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
@@ -159,11 +159,11 @@ class FoodExpense extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: TextStyle(
+                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: const TextStyle(
                                 color: Colors.grey
                             ),)),
                             const SizedBox(width: 10,),
-                            Icon(Icons.calendar_today,size: 14,),
+                            const Icon(Icons.calendar_today,size: 14,),
                           ],
                         ),
                       ),
@@ -171,12 +171,12 @@ class FoodExpense extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 30,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 10,),
-                  Text('Photos(Optional)',style: TextStyle(
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 10,),
+                  const Text('Photos(Optional)',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       Expanded(
@@ -191,20 +191,20 @@ class FoodExpense extends StatelessWidget {
                             child: Row(
                               children: [
                                 Icon(Icons.camera_alt,color: primaryColor,),
-                                SizedBox(width: 10,),
-                                Text('Tap to Upload')
+                                const SizedBox(width: 10,),
+                                const Text('Tap to Upload')
                               ],
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Container(),
                       )
                     ],
                   ),
-                  SizedBox(height: 100,),
+                  const SizedBox(height: 100,),
                 ],
               ),
               Align(
@@ -213,7 +213,7 @@ class FoodExpense extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: (){
-                      Get.to(Claimed());
+                      Get.to(const Claimed());
                     },
                     child: Container(
                       height: 48,
