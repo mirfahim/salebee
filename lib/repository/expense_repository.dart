@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:salebee/Model/checkin_model.dart';
 import 'package:salebee/Model/transportExpenseModel.dart';
 
@@ -42,6 +43,38 @@ class ExpenseRepository {
     String data = response.body;
 
     return attendanceResponseModelFromJson(response.body);
+  }
+
+  Future postOtherExpense() async{
+    try{
+      final dio = Dio();
+      String url = "$base_url/ExpenseClaimOthers";
+      final response = await dio.post(
+        url,
+        data: jsonEncode({
+          'data': {
+        "Id": "1",
+        "ExpenseName": "Test Expense",
+        "Description": "Test Expense For Salebee CRM Marketing",
+        "Expense": "500.0",
+        "ExpenseDate": "2022-09-05T08:15:50.746Z",
+        "ApprovedBy": "1",
+        "Token":
+        SharedPreff.to.prefss.getString("token")
+        },
+          "Attachment" : null ,
+
+        })
+      );
+
+      if(response.statusCode == 200){
+        print("working others expense+++++++");
+        print(response.data);
+        return response.data;
+      }
+    } catch(e){
+      print(e);
+    }
   }
 
   othersExpenseController() async {

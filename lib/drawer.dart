@@ -206,6 +206,9 @@ Future drawer(BuildContext context){
                         onTap: () {
 SharedPreff.to.prefss.remove("token");
 SharedPreff.to.prefss.remove("loggedIN");
+SharedPreff.to.prefss.remove("employeeID");
+SharedPreff.to.prefss.remove("userNAME");
+SharedPreff.to.prefss.remove("proLink");
 Get.to(LoginPage());
 
                         },

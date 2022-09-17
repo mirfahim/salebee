@@ -9,24 +9,32 @@ import 'package:salebee/Utils/Alerts.dart';
 import 'package:http/http.dart' as http;
 
 import '../Utils/StringsConst.dart';
+
 class AttendanceRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
-  Future<CheckinResponse> checkInController(int id, int employeeId, String logTimeIn, double lat, double lon, int battery) async {
+  Future<CheckinResponse> checkInController(
+      {required int id,
+      required int employeeId,
+      required String logTimeIn,
+      required double lat,
+      required double lon,
+      required int battery,
+      required String location}) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-    print("working $logTimeIn ++++++");
+    print("working $logTimeIn ++++++ and location is $location");
 
     Map<String, dynamic> bodyString = {
       "Id": 0,
-      "EmployeeId": employeeId,
+      "EmployeeId": 1,
       "LogTimeIn": logTimeIn,
-      "LogTimeOut": "2022-08-16T06:09:14.941Z",
+      "LogTimeOut": "2022-09-08T04:31:42.029Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
-      "Latitude": lat,
-      "Longitude": lon,
-      "LocationDescription": "string",
+      "Latitude": 0,
+      "Longitude": 0,
+      "LocationDescription": location,
       "Remark": "string",
       "IsLate": true,
       "IsEarlyOut": true,
@@ -36,52 +44,59 @@ class AttendanceRepository {
       "LatitudeOut": 0,
       "LongitudeOut": 0,
       "LocationDescriptionOut": "string",
-      "BatteryStatus": battery.toString() ,
+      "BatteryStatus": "string",
       "Absent": 0,
       "OnLeave": 0,
       "WorkingDays": 0,
       "OnTime": 0,
-      "Token": SharedPreff.to.prefss.getString("token"),
+      "Token":
+          "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks",
       "Active": true,
       "CreatedBy": 0,
-      "CreatedOn": "2022-08-16T06:09:14.941Z",
+      "CreatedOn": "2022-09-08T04:31:42.029Z",
       "UpdatedBy": 0,
-      "UpdatedOn": "2022-08-16T06:09:14.941Z",
+      "UpdatedOn": "2022-09-08T04:31:42.029Z",
       "IsDeleted": true
     };
 
-      Uri url = Uri.parse("$base_url/CheckIn");
-      final response = await http.post(
+    Uri url = Uri.parse("$base_url/CheckIn");
+    final response = await http.post(
+      url,
+      body: jsonEncode(bodyString),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
 
-         url,
-        body:  jsonEncode(bodyString),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      );
+    print("my resposnse repo checkIN ${response.body}");
+    String data = response.body;
 
-      print("my resposnse repo checkIN ${response.body}");
-     String data = response.body;
+    return attendanceResponseModelFromJson(response.body);
+  }
 
-      return attendanceResponseModelFromJson(response.body);
-    }
-
-  Future<dynamic> checkOutController(String token, int emId, String date, String location, double lat, double lon) async {
-    print("working chekout ${SharedPreff.to.prefss.getString("token")}");
+  Future<dynamic> checkOutController(String token, int emId, String date,
+      String location, double lat, double lon) async {
+    //elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
+    //elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
+    //elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
     print("working chekout $date");
     Map<String, dynamic> bodyString = {
-      "Token": SharedPreff.to.prefss.getString("token"),
+      "Token":
+          "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks",
       "EmployeeId": emId,
       "CheckOutDateTime": date,
       "Location": "Striing",
       "Latitude": 0.0,
       "Longitude": 0.0,
     };
-    Uri url = Uri.parse("https://app.salebee.net/api/Salebee/CheckOut?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1&CheckOutDateTime=2022-08-30T07%3A28%3A56.777Z&Latitude=0&Longitude=0&Location=dt");
+  //  var encoded = Uri.encodeFull(
+      //  "$base_url/GetEmployeeAttendance?Token=${SharedPreff.to.prefss.get("token")}&EmployeeId=1");
+   // print("my encoded url link is ++++++++++++++++++++++++ $encoded");
+    Uri url = Uri.parse(
+        "https://app.salebee.net/api/Salebee/CheckOut?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1&CheckOutDateTime=$date&Latitude=00&Longitude=00&Location=$location");
     final response = await http.post(
-
       url,
-      body:  jsonEncode(bodyString),
+      body: jsonEncode(bodyString),
       headers: {
         "Content-Type": "application/json",
       },
@@ -90,20 +105,19 @@ class AttendanceRepository {
     print("my resposnse repo checkOUt ${response.body}");
     String data = response.body;
 
-    return attendanceResponseModelFromJson(response.body); //we will fetch the overview from this request
+    return attendanceResponseModelFromJson(
+        response.body); //we will fetch the overview from this request
   }
+
   Future<GetAttendanceDataModel> getAttendanceController(int emp) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-
-
-
-
-    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1");
+    var encoded = Uri.encodeFull(
+        "$base_url/GetEmployeeAttendance?Token=${SharedPreff.to.prefss.get("token")}&EmployeeId=1");
+    print("my encoded url link is ++++++++++++++++++++++++ $encoded");
+    Uri url = Uri.parse(encoded);
     final response = await http.get(
-
       url,
-
       headers: {
         "Content-Type": "application/json",
       },
@@ -114,5 +128,4 @@ class AttendanceRepository {
 
     return getAttendanceDataModelFromJson(response.body);
   }
-
 }

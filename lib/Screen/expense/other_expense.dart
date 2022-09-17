@@ -254,7 +254,7 @@ class _OtherExpenseState extends State<OtherExpense> {
                         try {
                           File file = File("");
                           expenseRepository
-                              .othersExpenseController()
+                              .postOtherExpense()
                               .then((e) {
                             if(e["IsSuccess"] == true){
                               setState(() {

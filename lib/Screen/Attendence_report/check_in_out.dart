@@ -9,6 +9,9 @@ import 'package:salebee/repository/attendance_repository.dart';
 import '../../Helper/location_helper.dart';
 import '../../Utils/my_colors.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+//import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -25,221 +28,232 @@ class CheckInOut extends StatefulWidget {
 
 class _CheckInOutState extends State<CheckInOut> {
   //final checkIn = false.obs;
+  String checkInTime = "";
   AttendanceRepository attendanceRepository = AttendanceRepository();
   LocationPermission? permission;
   CheckinResponse checkinResponse = CheckinResponse();
   GeolocatorService geolocatorService = GeolocatorService();
   ApiService apiService = ApiService();
   var battery = Battery();
+  String locationDis = "";
+  String checkOutTime = "";
   bool checkIn = true;
   final checkOut = false.obs;
   int percentage = 0;
   final circularProgressIndicatorValue = 0.0.obs;
   RxBool status = true.obs;
   final end = 0.0.obs;
-
+   String totalhrs = "";
   Timer? _timer;
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+  void _showSnackBar(BuildContext context, String text) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+ // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 50,
-        ),
-        SizedBox(
-          height: 150,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    DateFormat('hh:mm').format(DateTime.now()),
-                    style: const TextStyle(
-                        fontSize: 60, fontWeight: FontWeight.w300),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    DateFormat('a').format(DateTime.now()),
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat.EEEE().format(DateTime.now()),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    DateFormat.yMd().format(DateTime.now()),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ],
+    return Scaffold(
+      key: _scaffoldkey,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 50,
           ),
-        ),
-        Obx(() => TweenAnimationBuilder(
-              duration: Duration(seconds: 3),
-              tween: Tween(begin: 0.0, end: end.value),
-              builder: (context, double value, _) {
-                circularProgressIndicatorValue.value = value;
-                return Stack(
+          SizedBox(
+            height: 150,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Center(
-                      child: SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: CircularProgressIndicator(
-                          color: end.value == 1 ? Colors.blue : Colors.amber,
-                          value: circularProgressIndicatorValue.value,
-                          backgroundColor: Colors.grey,
-                          strokeWidth: 5,
-                        ),
-                      ),
+                    Text(
+                      DateFormat('hh:mm').format(DateTime.now()),
+                      style: const TextStyle(
+                          fontSize: 60, fontWeight: FontWeight.w300),
                     ),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          end.value = 1;
-                          _showMyDialog();
-                        },
-                        onLongPressCancel: () {
-                          end.value = 0;
-                        },
-                        child: Obx(() => Container(
-                              height: 200,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: status.value == true
-                                      ? Colors.blue
-                                      : Colors.amber),
-                              child: Padding(
-                                padding: const EdgeInsets.all(70.0),
-                                child: Image.asset(
-                                  'images/tap.png',
-                                  height: 40,
-                                  width: 40,
-                                ),
-                              ),
-                            )),
-                      ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      DateFormat('a').format(DateTime.now()),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ],
-                );
-              },
-            )),
-
-        SizedBox(
-          height: 10,
-        ),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.location_on_outlined),
-              SizedBox(
-                width: 10,
-              ),
-              Text('Central park')
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Container(),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      DateFormat.EEEE().format(DateTime.now()),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      DateFormat.yMd().format(DateTime.now()),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            Expanded(
-                flex: 6,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        Icon(
-                          Icons.person,
-                          color: primaryColor,
+          ),
+          Obx(() => TweenAnimationBuilder(
+                duration: Duration(seconds: 3),
+                tween: Tween(begin: 0.0, end: end.value),
+                builder: (context, double value, _) {
+                  circularProgressIndicatorValue.value = value;
+                  return Stack(
+                    children: [
+                      Center(
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: CircularProgressIndicator(
+                            color: end.value == 1 ? Colors.blue : Colors.amber,
+                            value: circularProgressIndicatorValue.value,
+                            backgroundColor: Colors.grey,
+                            strokeWidth: 5,
+                          ),
                         ),
-                        const Text(
-                          '10:26',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            end.value = 1;
+                            _showMyDialog();
+                          },
+                          onLongPressCancel: () {
+                            end.value = 0;
+                          },
+                          child: Obx(() => Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: status.value == true
+                                        ? Colors.blue
+                                        : Colors.amber),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(70.0),
+                                  child: Image.asset(
+                                    'images/tap.png',
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                ),
+                              )),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        const Text(
-                          'Check In',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Icon(
-                          Icons.person_add_alt,
-                          color: primaryColor,
-                        ),
-                        const Text(
-                          '--:--',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        const Text(
-                          'Check Out',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Icon(
-                          Icons.arrow_circle_right,
-                          color: primaryColor,
-                        ),
-                        const Text(
-                          '08:26',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        const Text(
-                          'Working Hour',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
-            Expanded(
-              child: Container(),
-            )
-          ],
-        )
-      ],
+                      ),
+                    ],
+                  );
+                },
+              )),
+
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.location_on_outlined),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(locationDis, maxLines: 2, style: TextStyle(fontSize: 10),)
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Container(),
+              ),
+              Expanded(
+                  flex: 6,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.person,
+                            color: primaryColor,
+                          ),
+                           Text(
+                            checkInTime,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            'Check In',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.person_add_alt,
+                            color: primaryColor,
+                          ),
+                           Text(
+                            checkOutTime,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            'Check Out',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.arrow_circle_right,
+                            color: primaryColor,
+                          ),
+                           Text(
+                            totalhrs,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            'Working Hour',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+              Expanded(
+                child: Container(),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -351,7 +365,13 @@ class _CheckInOutState extends State<CheckInOut> {
             TextButton(
               child: const Text('Approve'),
               onPressed: () async {
+              //  _getLocation();
+
+                print("working chekout ${SharedPreff.to.prefss.getString("token")}");
+                String? token = SharedPreff.to.prefss.getString("token");
+
                 geolocatorService.determinePosition().then((ele) {
+                  getAddressFromLatLong(ele!);
                   print("my position is ${ele!.latitude}");
                   // DateTime now = DateTime.now();
                   // Timestamp myTimeStamp = Timestamp.fromDate(now);
@@ -366,13 +386,64 @@ class _CheckInOutState extends State<CheckInOut> {
                   var outputFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
                   var outputDate = outputFormat.format(inputDate);
                   print(outputDate);
+                  print("my location is +++++++++++++++++ before cheked $locationDis");
+
                   checkIn == false ?
+
                   attendanceRepository.checkInController(
-                      1, 1, formatted, ele!.latitude, ele!.longitude, percentage)
-                  : attendanceRepository.checkOutController("ss", 1, formatted, "location", ele!.latitude, ele!.longitude);
+                     id: 1, employeeId: 1, logTimeIn: formatted, lat: ele!.latitude, lon: ele!.longitude, battery: percentage, location: locationDis ).then((e){
+                      print("my resposne check in is ++++++++${e.isSuccess}");
+
+                        if(e.isSuccess == true){
+                          print("my respons ei s  ________________________${e
+                              .isSuccess}");
+                          String? str = e.result!.logTimeIn!;
+
+                          final endIndex = str!.indexOf(":00", 0);
+
+                           print("my check in time is $endIndex"); // Cars
+                          const snackBar = SnackBar(
+                            content: Text('Already checked in!'),
+                          );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          setState((){
+                            checkInTime =  str.substring(11, endIndex) ;
+                            print("my check IN time is +++++++++$checkInTime");
+                          });
+                        } else if(e.isSuccess == false) {
+                          _showSnack("Already Checked IN");
+                        }
+
+
+
+                  })
+                  : attendanceRepository.checkOutController(token!, 1, formatted, locationDis, ele!.latitude, ele!.longitude).then((e){
+                    duration(e.result!.logTimeIn,e.result!.logTimeOut );
+                      String str = e.result!.logTimeOut;
+
+                      final endIndex = str.indexOf(":00", 0);
+                    String strlogIn = e.result!.logTimeIn;
+
+                    final endIndexLogIn = str.indexOf(":00", 0);
+
+                    //  print(str.substring(11, endIndex)); // Cars
+
+                    setState((){
+                      checkOutTime =  str.substring(11, endIndex) ;
+                      checkInTime = strlogIn.substring(11, endIndexLogIn) ;
+
+                      print("my checkout time is +++++++++$checkOutTime");
+                    });
+                    _showSnack("Checked Out");
+
+                  });
 
 
                 });
+               // GetAddressFromLatLong();
                 changeCheckIn();
                 Navigator.of(context).pop();
               },
@@ -382,4 +453,48 @@ class _CheckInOutState extends State<CheckInOut> {
       },
     );
   }
+  Future<void> getAddressFromLatLong(Position position) async {
+    print("++++++++++++=GetAddressFromLatLong ++++++ working + ${position.latitude}");
+    List<Placemark> _placemarksList = await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    print(_placemarksList);
+    Placemark place = _placemarksList[0];
+    String address = '${place.name},${place.street},${place.thoroughfare},${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+
+    print("my address is ++++++++++++ $address");
+    setState((){
+      locationDis = address;
+    });
+
+  }
+duration(checkin, checkout){
+  final DateTime checkInTime1 = DateTime.parse(checkin);
+  final DateTime checkOutTime1 = DateTime.parse(checkout);
+
+  final hours = checkOutTime1.difference(checkInTime1).inHours;
+  final minutes= checkOutTime1.difference(checkInTime1).inMinutes;
+  final totalWorkingHours = '$hours.${(minutes - (hours*60))} hrs';
+  print("hours  "+totalWorkingHours);
+  print("duration check in  "+checkInTime1.toString());
+  setState((){
+    totalhrs = totalWorkingHours ;
+  }
+  );
+
+}
+  void _showSnack(String msg) {
+    final _snackBarContent = SnackBar(content: Text(msg));
+    ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
+        .showSnackBar(_snackBarContent);
+  }
+
+// _getLocation() async
+  // {
+  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  //   debugPrint('location: ${position.latitude}');
+  //   final coordinates = new Coordinates(position.latitude, position.longitude);
+  //   var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+  //   var first = addresses.first;
+  //   print("my address is +++++++++++++++++++++++++++++++++${first.featureName} : ${first.addressLine}");
+  // }
 }
