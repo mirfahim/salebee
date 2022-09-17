@@ -11,11 +11,11 @@ import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:salebee/utils.dart';
 
-Future drawer(BuildContext context){
+Future drawer(BuildContext context) {
   Size size = MediaQuery.of(context).size;
   return showModalBottomSheet(
     context: context,
-    builder: (context){
+    builder: (context) {
       //k
       return SafeArea(
         child: Stack(
@@ -28,9 +28,7 @@ Future drawer(BuildContext context){
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-
-                      ],
+                      children: const [],
                     ),
                   ),
                 ),
@@ -53,14 +51,11 @@ Future drawer(BuildContext context){
                         children: [
                           InkWell(
                             onTap: () {
-
                               Get.to(AttendenceReport());
                             },
                             child: Container(
                               decoration: BoxDecoration(
-
-                                  borderRadius:
-                                  BorderRadius.circular(6)),
+                                  borderRadius: BorderRadius.circular(6)),
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Row(
@@ -74,8 +69,7 @@ Future drawer(BuildContext context){
                                     ),
                                     Text(
                                       'Attendance Report',
-                                      style: TextStyle(
-                                          color: primaryColor),
+                                      style: TextStyle(color: primaryColor),
                                     )
                                   ],
                                 ),
@@ -87,14 +81,11 @@ Future drawer(BuildContext context){
                           ),
                           InkWell(
                             onTap: () {
-
                               Get.to(ExpenseList());
                             },
                             child: Container(
                               decoration: BoxDecoration(
-
-                                  borderRadius:
-                                  BorderRadius.circular(6)),
+                                  borderRadius: BorderRadius.circular(6)),
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Row(
@@ -108,8 +99,7 @@ Future drawer(BuildContext context){
                                     ),
                                     Text(
                                       'Expense List',
-                                      style: TextStyle(
-                                          color: primaryColor),
+                                      style: TextStyle(color: primaryColor),
                                     )
                                   ],
                                 ),
@@ -121,14 +111,11 @@ Future drawer(BuildContext context){
                           ),
                           InkWell(
                             onTap: () {
-
                               Get.to(Task());
                             },
                             child: Container(
                               decoration: BoxDecoration(
-
-                                  borderRadius:
-                                  BorderRadius.circular(6)),
+                                  borderRadius: BorderRadius.circular(6)),
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Row(
@@ -142,8 +129,7 @@ Future drawer(BuildContext context){
                                     ),
                                     Text(
                                       'Tasks',
-                                      style: TextStyle(
-                                          color: primaryColor),
+                                      style: TextStyle(color: primaryColor),
                                     )
                                   ],
                                 ),
@@ -158,14 +144,11 @@ Future drawer(BuildContext context){
                           ),
                           InkWell(
                             onTap: () {
-
                               Get.to(LeaveFront());
                             },
                             child: Container(
                               decoration: BoxDecoration(
-
-                                  borderRadius:
-                                  BorderRadius.circular(6)),
+                                  borderRadius: BorderRadius.circular(6)),
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Row(
@@ -179,8 +162,7 @@ Future drawer(BuildContext context){
                                     ),
                                     Text(
                                       'Leave',
-                                      style: TextStyle(
-                                          color: primaryColor),
+                                      style: TextStyle(color: primaryColor),
                                     )
                                   ],
                                 ),
@@ -204,13 +186,12 @@ Future drawer(BuildContext context){
                       title: 'Are you sure want to logout?',
                       confirm: InkWell(
                         onTap: () {
-SharedPreff.to.prefss.remove("token");
-SharedPreff.to.prefss.remove("loggedIN");
-SharedPreff.to.prefss.remove("employeeID");
-SharedPreff.to.prefss.remove("userNAME");
-SharedPreff.to.prefss.remove("proLink");
-Get.to(LoginPage());
-
+                          SharedPreff.to.prefss.remove("token");
+                          SharedPreff.to.prefss.remove("loggedIN");
+                          SharedPreff.to.prefss.remove("employeeID");
+                          SharedPreff.to.prefss.remove("userNAME");
+                          SharedPreff.to.prefss.remove("proLink");
+                          Get.to(LoginPage());
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -256,8 +237,7 @@ Get.to(LoginPage());
                       ),
                       Text(
                         'logout'.tr,
-                        style:
-                        TextStyle(color: primaryColor, fontSize: 18),
+                        style: TextStyle(color: primaryColor, fontSize: 18),
                       )
                     ],
                   ),
