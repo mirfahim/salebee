@@ -141,6 +141,7 @@ class LoginPageState extends State<SubDomainPage> {
                   // print("my domain result ${res.status}");
                 },
                 child: CustomButton(
+                  buttonState: loading,
                   buttonText: "Submit",
                 ),
               ),

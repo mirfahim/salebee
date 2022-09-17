@@ -9,6 +9,7 @@ import 'package:salebee/Screen/task/assigned_by_me.dart';
 import 'package:salebee/Screen/task/assigned_to_me.dart';
 import 'package:salebee/Screen/task/my_task.dart';
 import 'package:salebee/Screen/task/task_main.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/utils.dart';
 
 enum timers { all, Follow_up_1, Follow_up_2,Follow_up_3,Follow_up_4 }
@@ -24,6 +25,14 @@ class _TaskState extends State<Task> {
   timers _site = timers.all;
   time _time = time.all;
   status _status = status.all;
+  TaskRepository taskRepository = TaskRepository();
+  @override
+  void initState() {
+    print("task page");
+    //taskRepository.getTaskController();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,314 +41,407 @@ class _TaskState extends State<Task> {
       length: 4,
       child: Scaffold(
         backgroundColor: Colors.white,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: InkWell(
-            onTap: (){
-              Get.to(AddNewTask());
-            },
-            child: Container(
-              height: 48,
-              width: size.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: darkBlue
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text('Add New Task',textAlign:TextAlign.center,style: TextStyle(
-                      color: Colors.white
-                  ),),
+        bottomNavigationBar: Container(
+          height: 58 ,
+          color: Color(0xFFE5E5E5),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: InkWell(
+              onTap: (){
+                Get.to(AddNewTask());
+              },
+              child: Container(
+                height: 48,
+                width: size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: darkBlue
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text('Add New Task',textAlign:TextAlign.center,style: TextStyle(
+                        color: Colors.white
+                    ),),
+                  ),
                 ),
               ),
             ),
           ),
         ),
         appBar: AppBar(
-          title: const Text('Tasks',style: TextStyle(
-              color: Colors.black,fontWeight: FontWeight.w600
+
+          title:  Text('Tasks',style: TextStyle(
+              color: appBarHeader,fontSize: 24
           ),),
-          automaticallyImplyLeading: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
           leading: IconButton(
             onPressed: (){
               Get.back();
             },
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
+          backgroundColor: Color(0xFFE5E5E5),
+          elevation: 0,
+          centerTitle: true,
           actions: [
             Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.filter_alt,color: primaryColor,),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              ),
+              builder: (context) {
+                return InkWell(
+                  onTap: (){
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Image.asset('images/filter.png'),
+                    ),
+                  ),
+                );
+              }
             )
           ],
         ),
         endDrawer: Drawer(
           child: SafeArea(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        IconButton(onPressed: (){
-                          Get.back();
-                        }, icon: Icon(Icons.close))
-                      ],
-                    ),
-                    Text('Follow up Type',style: TextStyle(
-                      color: Colors.black,fontWeight: FontWeight.w700
-                    ),),
-                    SizedBox(height: 10,),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('All'),
-                      leading: Radio(
-                        value: timers.all,
-                        groupValue: _site,
-                        onChanged: (timers? value) {
-                          setState(() {
-                            _site = value!;
-                          });
-                        },
+              child: Container(
+                color: Color(0xFFF9FAFB,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(),
+                          IconButton(onPressed: (){
+                            Get.back();
+                          }, icon: Icon(Icons.close))
+                        ],
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Follow up 1'),
-                      leading: Radio(
-                        value: timers.Follow_up_1,
-                        groupValue: _site,
-                        onChanged: (timers? value) {
-                          setState(() {
-                            _site = value!;
-                          });
-                        },
+                      Text('Follow up Type',style: TextStyle(
+                        color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
+                      ),),
+                      SizedBox(height: 10,),
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('All',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: timers.all,
+                          groupValue: _site,
+                          onChanged: (timers? value) {
+                            setState(() {
+                              _site = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Follow up 2'),
-                      leading: Radio(
-                        value: timers.Follow_up_2,
-                        groupValue: _site,
-                        onChanged: (timers? value) {
-                          setState(() {
-                            _site = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Follow up 1',style: TextStyle(
+                          fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: timers.Follow_up_1,
+                          groupValue: _site,
+                          onChanged: (timers? value) {
+                            setState(() {
+                              _site = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Follow up 3'),
-                      leading: Radio(
-                        value: timers.Follow_up_3,
-                        groupValue: _site,
-                        onChanged: (timers? value) {
-                          setState(() {
-                            _site = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Follow up 2',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: timers.Follow_up_2,
+                          groupValue: _site,
+                          onChanged: (timers? value) {
+                            setState(() {
+                              _site = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    Text('Time',style: TextStyle(
-                        color: Colors.black,fontWeight: FontWeight.w700
-                    ),),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('All'),
-                      leading: Radio(
-                        value: time.all,
-                        groupValue: _time,
-                        onChanged: (time? value) {
-                          setState(() {
-                            _time = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Follow up 3',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: timers.Follow_up_3,
+                          groupValue: _site,
+                          onChanged: (timers? value) {
+                            setState(() {
+                              _site = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Today'),
-                      leading: Radio(
-                        value: timers.Follow_up_1,
-                        groupValue: _site,
-                        onChanged: (timers? value) {
-                          setState(() {
-                            _site = value!;
-                          });
-                        },
+                      SizedBox(height: 20,),
+                      Text('Time',style: TextStyle(
+                          color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
+                      ),),
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('All',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: time.all,
+                          groupValue: _time,
+                          onChanged: (time? value) {
+                            setState(() {
+                              _time = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Last 7 Days'),
-                      leading: Radio(
-                        value: time.last_7,
-                        groupValue: _time,
-                        onChanged: (time? value) {
-                          setState(() {
-                            _time = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Today',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: timers.Follow_up_1,
+                          groupValue: _site,
+                          onChanged: (timers? value) {
+                            setState(() {
+                              _site = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Last 15 Days'),
-                      leading: Radio(
-                        value: time.last_15,
-                        groupValue: _time,
-                        onChanged: (time? value) {
-                          setState(() {
-                            _time = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Last 7 Days',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: time.last_7,
+                          groupValue: _time,
+                          onChanged: (time? value) {
+                            setState(() {
+                              _time = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Last 15 Days',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: time.last_15,
+                          groupValue: _time,
+                          onChanged: (time? value) {
+                            setState(() {
+                              _time = value!;
+                            });
+                          },
+                        ),
+                      ),
 
-                    SizedBox(height: 20,),
-                    Text('Status',style: TextStyle(
-                        color: Colors.black,fontWeight: FontWeight.w700
-                    ),),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('All'),
-                      leading: Radio(
-                        value: status.all,
-                        groupValue: _status,
-                        onChanged: (status? value) {
-                          setState(() {
-                            _status = value!;
-                          });
-                        },
+                      SizedBox(height: 20,),
+                      Text('Status',style: TextStyle(
+                          color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
+                      ),),
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('All',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: status.all,
+                          groupValue: _status,
+                          onChanged: (status? value) {
+                            setState(() {
+                              _status = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Initiated'),
-                      leading: Radio(
-                        value: status.initiated,
-                        groupValue: _status,
-                        onChanged: (status? value) {
-                          setState(() {
-                            _status = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Initiated',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: status.initiated,
+                          groupValue: _status,
+                          onChanged: (status? value) {
+                            setState(() {
+                              _status = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Pending'),
-                      leading: Radio(
-                        value: status.pending,
-                        groupValue: _status,
-                        onChanged: (status? value) {
-                          setState(() {
-                            _status = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Pending',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: status.pending,
+                          groupValue: _status,
+                          onChanged: (status? value) {
+                            setState(() {
+                              _status = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Canceled'),
-                      leading: Radio(
-                        value: status.Canceled,
-                        groupValue: _status,
-                        onChanged: (status? value) {
-                          setState(() {
-                            _status = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Canceled',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: status.Canceled,
+                          groupValue: _status,
+                          onChanged: (status? value) {
+                            setState(() {
+                              _status = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                      title: const Text('Done'),
-                      leading: Radio(
-                        value: status.Done,
-                        groupValue: _status,
-                        onChanged: (status? value) {
-                          setState(() {
-                            _status = value!;
-                          });
-                        },
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('Done',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: status.Done,
+                          groupValue: _status,
+                          onChanged: (status? value) {
+                            setState(() {
+                              _status = value!;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: InkWell(
+                            onTap: (){
+                              // Get.to(OtherExpense());
+                            },
+                            child: Container(
+                              height: 48,
+                              width: size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: darkBlue
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Text('Search',textAlign:TextAlign.center,style: TextStyle(
+                                      color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700
+                                  ),),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TabBar(
-                        indicatorColor: darkBlue,
-                        labelColor: darkBlue,
-                        unselectedLabelColor: Colors.grey,
-                        isScrollable: true,
-                        tabs: const [
-                          Tab(
-                            text: 'Assigned to me',
-                          ),
-                          Tab(
-                            text: 'My Task',
-                          ),
-                          Tab(
-                            text: 'Assigned by me',
-                          ),
-                          Tab(
-                            text: 'All',
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Expanded(child: Container())
-                  ],
-                ),
-              ),
-              const Expanded(
-                child: TabBarView(
+          child: Container(
+            color: Color(0xFFE5E5E5),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: AssignedToMe(),
+                      Expanded(
+                        child: TabBar(
+                          indicatorColor: darkBlue,
+                          labelColor: darkBlue,
+                          unselectedLabelColor: Colors.grey,
+                          isScrollable: true,
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600
+                          ),
+                          unselectedLabelStyle: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400
+                          ),
+                          tabs: const [
+                            Tab(
+                              text: 'Assigned to me',
+                            ),
+                            Tab(
+                              text: 'My Task',
+                            ),
+                            Tab(
+                              text: 'Assigned by me',
+                            ),
+                            Tab(
+                              text: 'All',
+                            ),
+                          ],
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: MyTask(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: AssignedByMe(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: AllTask(),
-                      )
-                    ]),
-              ),
-            ],
+                      // Expanded(child: Container())
+                    ],
+                  ),
+                ),
+                const Expanded(
+                  child: TabBarView(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: AssignedToMe(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: MyTask(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: AssignedByMe(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: AllTask(),
+                        )
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
       ),

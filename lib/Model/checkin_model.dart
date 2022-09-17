@@ -49,8 +49,8 @@ class Result {
   bool? isHalfDay;
   bool? isExtremeLate;
   bool? isExtremeEarlyOut;
-  int? latitudeOut;
-  int? longitudeOut;
+  var latitudeOut;
+  var longitudeOut;
   String? locationDescriptionOut;
   String? batteryStatus;
   int? absent;
@@ -113,8 +113,8 @@ class Result {
     isHalfDay = json['IsHalfDay'];
     isExtremeLate = json['IsExtremeLate'];
     isExtremeEarlyOut = json['IsExtremeEarlyOut'];
-    latitudeOut = json['LatitudeOut'].toInt();
-    longitudeOut = json['LongitudeOut'].toInt();
+    latitudeOut = json['LatitudeOut'];
+    longitudeOut = json['LongitudeOut'];
     locationDescriptionOut = json['LocationDescriptionOut'];
     batteryStatus = json['BatteryStatus'];
     absent = json['Absent'];

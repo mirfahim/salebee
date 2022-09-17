@@ -1,12 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/utils.dart';
+import '../../repository/expense_repository.dart';
 import 'transport.dart';
-class OtherExpense extends StatelessWidget {
+class OtherExpense extends StatefulWidget {
    OtherExpense({Key? key}) : super(key: key);
+
+  @override
+  State<OtherExpense> createState() => _OtherExpenseState();
+}
+
+class _OtherExpenseState extends State<OtherExpense> {
   final selectedDate = DateTime.now().obs;
+  //final ImagePicker _picker = ImagePicker();
+  ExpenseRepository expenseRepository = ExpenseRepository();
+  var textExpenseController = TextEditingController();
+  var textDesController = TextEditingController();
   final pickedDate = ''.obs;
+
+  bool circular = false ;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,6 +82,7 @@ class OtherExpense extends StatelessWidget {
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: textExpenseController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -213,6 +230,52 @@ class OtherExpense extends StatelessWidget {
                   child: InkWell(
                     onTap: (){
                       // Get.to(OtherExpense());
+                      setState(() {
+                        circular = true;
+                      });
+
+                      if (textExpenseController.text.isEmpty) {
+                        final snackBar = SnackBar(
+                          content: const Text('Please fill all the form field'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        setState(() {
+                          circular == false;
+                        });
+
+                      } else {
+                        try {
+                          File file = File("");
+                          expenseRepository
+                              .postOtherExpense()
+                              .then((e) {
+                            if(e["IsSuccess"] == true){
+                              setState(() {
+                                circular = false;
+                              });
+                            }else {
+                              setState(() {
+                                circular = false;
+                              });
+                            }
+                            setState(() {
+                              circular = false;
+                            });
+                          });
+                        } catch (e) {
+                          setState(() {
+                            circular = false;
+                          });
+                        }
+                      }
+
                     },
                     child: Container(
                       height: 48,
@@ -221,10 +284,10 @@ class OtherExpense extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                           color: darkBlue
                       ),
-                      child: const Padding(
+                      child:  Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
+                          child: circular == true ? CircularProgressIndicator(): Text('Submit',textAlign:TextAlign.center,style: TextStyle(
                               color: Colors.white
                           ),),
                         ),
@@ -239,6 +302,7 @@ class OtherExpense extends StatelessWidget {
       ),
     );
   }
+
    _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,

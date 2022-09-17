@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/edit_profile.dart';
 import 'package:salebee/Screen/expense/aproved.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
@@ -6,6 +7,7 @@ import 'package:salebee/Screen/expense/other_expense.dart';
 import 'package:salebee/Screen/expense/transport.dart';
 import 'package:salebee/Screen/notification/notification.dart';
 import 'package:salebee/Screen/task/task_main.dart';
+import 'package:salebee/Screen/test_screen.dart';
 
 import '../../utils.dart';
 import 'package:get/get.dart';
@@ -64,9 +66,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Rayhan Uddin',
+                      children:  [
+                        StaticData.name != null ?    Text(
+                          StaticData.name!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ) : Text(
+                          "No name",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -75,10 +83,13 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(
-                          '01502020222',
+                       StaticData.employeeID != null ? Text(
+                          'ID: ${ StaticData.employeeID}',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
-                        )
+                        ) :  Text(
+                         'ID: ',
+                         style: TextStyle(fontSize: 16, color: Colors.grey),
+                       )
                       ],
                     ),
                     Card(
@@ -113,13 +124,13 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 7), 0.0),
-                        child: const CircleAvatar(
+                        child: StaticData.proLink != null ? CircleAvatar(
                           radius: 130,
-                          backgroundImage: AssetImage(
-                            'images/person.jpg',
-                          ),
-                        ),
-                      ),
+                          backgroundImage: NetworkImage(StaticData.proLink!),
+                        ) :  CircleAvatar(
+                            radius: 130,
+                            backgroundImage: AssetImage("images/person.jpg"),
+                      ),),
                       Positioned(
                         top: (size.height / 13),
                         left: (size.width / 8),
@@ -202,7 +213,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -237,9 +248,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Rayhan Uddin',
+                      children:  [
+                        StaticData.name != null ?    Text(
+                          StaticData.name!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ) : Text(
+                          "No name",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -248,8 +265,11 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(
-                          '01502020222',
+                        StaticData.employeeID != null ? Text(
+                          'ID: ${ StaticData.employeeID}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ) :  Text(
+                          'ID: ',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         )
                       ],
@@ -286,11 +306,12 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child: const CircleAvatar(
+                        child: StaticData.proLink != null ? CircleAvatar(
                           radius: 140,
-                          backgroundImage: AssetImage(
-                            'images/person.jpg',
-                          ),
+                          backgroundImage: NetworkImage(StaticData.proLink!),
+                        ) :  CircleAvatar(
+                          radius: 140,
+                          backgroundImage: AssetImage("images/person.jpg"),
                         ),
                       ),
                       Positioned(
@@ -363,7 +384,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -398,9 +419,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Rayhan Uddin85',
+                      children:  [
+                        StaticData.name != null ?    Text(
+                          StaticData.name!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ) : Text(
+                          "No name",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -409,8 +436,11 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(
-                          '01502020222',
+                        StaticData.employeeID != null ? Text(
+                          'ID: ${ StaticData.employeeID}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ) :  Text(
+                          'ID: ',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         )
                       ],
@@ -447,11 +477,12 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.7), (size.height / 5.5), 0.0),
-                        child: const CircleAvatar(
+                        child: StaticData.proLink != null ? CircleAvatar(
                           radius: 150,
-                          backgroundImage: AssetImage(
-                            'images/person.jpg',
-                          ),
+                          backgroundImage: NetworkImage(StaticData.proLink!),
+                        ) :  CircleAvatar(
+                          radius: 150,
+                          backgroundImage: AssetImage("images/person.jpg"),
                         ),
                       ),
                       Positioned(
@@ -524,7 +555,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -562,9 +593,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Rayhan Uddin9',
+                      children:  [
+                        StaticData.name != null ?    Text(
+                          StaticData.name!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ) : Text(
+                          "No name",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -573,8 +610,11 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(
-                          '01502020222',
+                        StaticData.employeeID != null ? Text(
+                          'ID: ${ StaticData.employeeID}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ) :  Text(
+                          'ID: ',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         )
                       ],
@@ -611,11 +651,12 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.0), 0.0),
-                        child: const CircleAvatar(
+                        child: StaticData.proLink != null ? CircleAvatar(
                           radius: 150,
-                          backgroundImage: AssetImage(
-                            'images/person.jpg',
-                          ),
+                          backgroundImage: NetworkImage(StaticData.proLink!),
+                        ) :  CircleAvatar(
+                          radius: 150,
+                          backgroundImage: AssetImage("images/person.jpg"),
                         ),
                       ),
                       Positioned(
@@ -688,7 +729,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [
@@ -775,11 +816,12 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.7), (size.height / 6.3), 0.0),
-                        child: const CircleAvatar(
+                        child: StaticData.proLink != null ? CircleAvatar(
                           radius: 280,
-                          backgroundImage: AssetImage(
-                            'images/person.jpg',
-                          ),
+                          backgroundImage: NetworkImage(StaticData.proLink!),
+                        ) :  CircleAvatar(
+                          radius: 280,
+                          backgroundImage: AssetImage("images/person.jpg"),
                         ),
                       ),
                       Positioned(
@@ -849,7 +891,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AttendenceReport());
+                        Get.to(AdsPage());
                       },
                       child: Row(
                         children: [

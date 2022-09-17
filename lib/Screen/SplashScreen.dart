@@ -33,13 +33,14 @@ class _SplashState extends State<Splash> {
     StaticData.loggedIN = SharedPreff.to.prefss.getBool("loggedIN");
     StaticData.name = SharedPreff.to.prefss.getString("userNAME") ?? "";
     StaticData.proLink = SharedPreff.to.prefss.getString("proLink") ;
-    StaticData.proLink = SharedPreff.to.prefss.getString("token") ;
+    StaticData.token = SharedPreff.to.prefss.getString("token") ;
     StaticData.employeeID = SharedPreff.to.prefss.getInt("employeeID") ?? 0;
 
     Timer(Duration(seconds: 4), () {
       domainCheck();
      // local();
       print(" my subdomain is ${SharedPreff.to.prefss.getString("subDomain")}");
+      print(" my subdomain is ${SharedPreff.to.prefss.getString("proLink")}");
     });
 
   }
@@ -104,7 +105,7 @@ class _SplashState extends State<Splash> {
             16.0,
           ),
           child: Image.asset(
-            "images/tap.png",
+            "images/salbee_logo_color_1024.png",
             width: 100.0,
             height: 100.0,
           ),

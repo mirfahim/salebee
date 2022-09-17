@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Model/get_attendance_model.dart';
+import '../../repository/attendance_repository.dart';
 import '../../utils.dart';
 import 'check_in_out.dart';
 
-class Report extends StatelessWidget {
+class Report extends StatefulWidget {
+  @override
+  State<Report> createState() => _ReportState();
+}
+
+class _ReportState extends State<Report> {
   final summaryOpen = false.obs;
+AttendanceRepository attendanceRepository = AttendanceRepository();
+GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
+
   List<DataCell> dataRow = [
+
     DataCell(
       Container(
         height: 50,
@@ -57,6 +68,7 @@ class Report extends StatelessWidget {
       ),),),
     ),
   ];
+
   List<String> tabs = [
     'January',
     'February',
@@ -71,7 +83,16 @@ class Report extends StatelessWidget {
     'November'
         'December'
   ];
+  //AttendanceRepository attendanceRepository = AttendanceRepository();
+@override
+  void initState() {
+  attendanceRepository.getAttendanceController(1).then((value) {
+     print(" my get report model is ${value.result!.length}");
+  });
 
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -111,52 +132,109 @@ class Report extends StatelessWidget {
           height: 10,
         ),
         Obx(() => summaryOpen.value == true
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: AnimatedContainer(
-                  curve: Curves.easeIn,
-                  duration: const Duration(seconds: 1),
-                  child: Column(
-                    children: [
-                      summaryRow(Colors.blue, 'Working Days', 25),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
+            ? FutureBuilder<GetAttendanceDataModel>(
+              future: attendanceRepository.getAttendanceController(1),
+              builder: (BuildContext context, AsyncSnapshot<GetAttendanceDataModel> snapshot,) {
+               // print("my report data is ++++++++++++${snapshot.data!.result![0].workingDays}");
+
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: AnimatedContainer(
+                      curve: Curves.easeIn,
+                      duration: const Duration(seconds: 1),
+                      child: Column(
+                        children: [
+                          summaryRow(Colors.blue, 'Working Days', snapshot.data!.result![0].workingDays),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.green, 'On Time', snapshot.data!.result![0].onTime),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.red, 'Late', 2),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.greenAccent, 'Left Timely', 10),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.redAccent, 'Left Early', 25),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.orange, 'On leave', snapshot.data!.result![0].onLeave),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.red.withOpacity(.35), 'Absent', snapshot.data!.result![0].absent),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                        ],
                       ),
-                      summaryRow(Colors.green, 'On Time', 0),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
+                    ),
+                  );
+                } else if (snapshot.hasError){
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: AnimatedContainer(
+                      curve: Curves.easeIn,
+                      duration: const Duration(seconds: 1),
+                      child: Column(
+                        children: [
+                          summaryRow(Colors.blue, 'Working Days', 0),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.green, 'On Time', 0),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.red, 'Late', 2),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.greenAccent, 'Left Timely', 10),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.redAccent, 'Left Early', 25),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.orange, 'On leave', 4),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                          summaryRow(Colors.red.withOpacity(.35), 'Absent', 8),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.grey.withOpacity(.35),
+                          ),
+                        ],
                       ),
-                      summaryRow(Colors.red, 'Late', 2),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
-                      ),
-                      summaryRow(Colors.greenAccent, 'Left Timely', 10),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
-                      ),
-                      summaryRow(Colors.redAccent, 'Left Early', 25),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
-                      ),
-                      summaryRow(Colors.orange, 'On leave', 4),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
-                      ),
-                      summaryRow(Colors.red.withOpacity(.35), 'Absent', 8),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.grey.withOpacity(.35),
-                      ),
-                    ],
-                  ),
-                ),
-              )
+                    ),
+                  );
+                }
+               return CircularProgressIndicator();
+              }
+            )
             : Container()),
         Expanded(
           child: Padding(
@@ -230,7 +308,8 @@ class Report extends StatelessWidget {
                                     style: TextStyle(fontSize: 12),
                                   ),
                                       ))
-                                ], rows: [
+                                ],
+                                    rows: [
                                   DataRow(cells: dataRow.map((e) => e).toList()),
                                   DataRow(cells: dataRow.map((e) => e).toList()),
                                   DataRow(cells: dataRow.map((e) => e).toList()),
@@ -243,7 +322,9 @@ class Report extends StatelessWidget {
                                   DataRow(cells: dataRow.map((e) => e).toList()),
                                   DataRow(cells: dataRow.map((e) => e).toList()),
                                   DataRow(cells: dataRow.map((e) => e).toList()),
-                                ]),
+                                ]
+
+                                ),
                               ),
                             ),
                           )
