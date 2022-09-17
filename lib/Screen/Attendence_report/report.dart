@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../Model/get_attendance_model.dart';
 import '../../repository/attendance_repository.dart';
 import '../../utils.dart';
-import 'check_in_out.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -28,7 +27,7 @@ GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
           width: 30, child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Column(
-              children: [
+              children: const [
                 Text('13',textAlign: TextAlign.center,),
                 SizedBox(height: 3,),
                 Text('SAT',textAlign: TextAlign.center,),
@@ -37,9 +36,9 @@ GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
           )),
     ),
     DataCell(
-      Container(width: 80, child: Column(
+      SizedBox(width: 80, child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text('08:26am',style: TextStyle(
             color: Colors.grey,fontWeight: FontWeight.w600
           ),),
@@ -50,9 +49,9 @@ GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
       )),
     ),
     DataCell(
-      Container(width: 80, child: Column(
+      SizedBox(width: 80, child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text('08:26am',style: TextStyle(
               color: Colors.grey,fontWeight: FontWeight.w600
           ),),
@@ -62,8 +61,8 @@ GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
         ],
       )),
     ),
-    DataCell(
-      Container(width: 80, child: Text('10hr00mm',style: TextStyle(
+    const DataCell(
+      SizedBox(width: 80, child: Text('10hr00mm',style: TextStyle(
           color: Colors.grey,fontWeight: FontWeight.w600
       ),),),
     ),
@@ -121,8 +120,8 @@ GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
                         }
                       },
                       child: summaryOpen.value == false
-                          ? Icon(Icons.keyboard_arrow_down_rounded)
-                          : Icon(Icons.keyboard_arrow_up)))
+                          ? const Icon(Icons.keyboard_arrow_down_rounded)
+                          : const Icon(Icons.keyboard_arrow_up)))
                 ],
               ),
             ),
@@ -261,7 +260,7 @@ GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
                   ),
                   Expanded(
                     child: TabBarView(
-                      physics: AlwaysScrollableScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       // physics: NeverScrollableScrollPhysics(),
                       children: tabs
                           .map((e) => SingleChildScrollView(

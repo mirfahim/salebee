@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:salebee/utils.dart';
 
 class NotificationPage1 extends StatelessWidget {
@@ -55,8 +54,8 @@ class NotificationPage1 extends StatelessWidget {
                               color: darkBlue,
                               borderRadius: BorderRadius.circular(6)
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text('Today',style: TextStyle(
                                 color: Colors.white,fontSize: 16
                             ),),
@@ -73,7 +72,7 @@ class NotificationPage1 extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
                       color: primaryColorLight,
@@ -99,12 +98,12 @@ class NotificationPage1 extends StatelessWidget {
                                 child: Image.asset('images/checklist.png',height: 26,),
                               ),
                             ),
-                            SizedBox(width: 10,),
+                            const SizedBox(width: 10,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Follow up With: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -114,9 +113,9 @@ class NotificationPage1 extends StatelessWidget {
                                     ),)
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Prospect: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -136,7 +135,7 @@ class NotificationPage1 extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
                       color: primaryColorLight,
@@ -162,12 +161,12 @@ class NotificationPage1 extends StatelessWidget {
                                 child: Image.asset('images/checklist.png',height: 26,),
                               ),
                             ),
-                            SizedBox(width: 10,),
+                            const SizedBox(width: 10,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Follow up With: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -178,9 +177,9 @@ class NotificationPage1 extends StatelessWidget {
                                       ),)
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Prospect: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),
@@ -189,9 +188,9 @@ class NotificationPage1 extends StatelessWidget {
                                     ),)
                                   ],
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Text('Lead: ',style: TextStyle(
                                         color: Colors.grey
                                     ),),

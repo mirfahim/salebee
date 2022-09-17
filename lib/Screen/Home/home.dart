@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:salebee/Data/static_data.dart';
-import 'package:salebee/Screen/edit_profile.dart';
-import 'package:salebee/Screen/expense/aproved.dart';
-import 'package:salebee/Screen/expense/expense_list.dart';
-import 'package:salebee/Screen/expense/other_expense.dart';
-import 'package:salebee/Screen/expense/transport.dart';
-import 'package:salebee/Screen/notification/notification.dart';
-import 'package:salebee/Screen/task/task_main.dart';
-import 'package:salebee/Screen/test_screen.dart';
 
 import '../../utils.dart';
 import 'package:get/get.dart';
 
 import '../Attendence_report/attendence_report.dart';
-import '../leave/leave_front.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,25 +14,32 @@ class HomePage extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: primaryColor),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  Color(0xFF44C5E2),
+                  Color(0xFF0890AE),
+                ],
+              ),
+            ),
             // transform: Matrix4.translationValues(x, y, 0.0),
-            child: const Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.ac_unit,
-                color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Image.asset(
+                'images/command.png',
+                height: 20,
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Container(
               // transform: Matrix4.translationValues(x, y, 0.0),
               child: Text(
-            '$option',
-            style: const TextStyle(color: Colors.grey),
+            'Option $option',
+            style: const TextStyle(color: Color(0xFF617692)),
           ))
         ],
       ),
@@ -66,30 +63,22 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
+                      children: [
+                        Text(
+                          'Rayhan Uddin',
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
+                              fontSize: 24,
+                              color: appBarHeader,
                               fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 2,
                         ),
-                       StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                         'ID: ',
-                         style: TextStyle(fontSize: 16, color: Colors.grey),
-                       )
+                        Text(
+                          '01502020222',
+                          style: TextStyle(
+                              fontSize: 16, color: tabBarUnSelectedColor),
+                        )
                       ],
                     ),
                     Card(
@@ -102,7 +91,7 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.edit_outlined,
-                            color: darkBlue,
+                            color: primaryColor,
                           ),
                         ),
                       ),
@@ -119,45 +108,51 @@ class HomePage extends StatelessWidget {
                         transform: Matrix4.translationValues(
                             -(size.width / 2.5), 0.0, 0.0),
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.25),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(4, 4), // changes position of shadow
+                              ),
+                            ]),
                       ),
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 7), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 130,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
-                        ) :  CircleAvatar(
-                            radius: 130,
-                            backgroundImage: AssetImage("images/person.jpg"),
-                      ),),
+                          backgroundImage: AssetImage(
+                            'images/person.jpg',
+                          ),
+                        ),
+                      ),
                       Positioned(
-                        top: (size.height / 13),
+                        top: (size.height / 23),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'E', 20.0, 50.0)),
                       ),
 
                       Positioned(
                           top: (size.height / 6.0),
-                          left: (size.width / 2.5),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                          left: (size.width / 2.2),
+                          child: circleRow(size, 'D', (size.width / 2.7),
+                              (size.height / 8))),
                       Positioned(
                         top: (size.height / 3.1),
                         left: (size.width / 1.9),
                         child: InkWell(
                           onTap: () {
-                            Get.to(Task());
+                            Get.to(AttendenceReport());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'C', 240.0, 210.0),
                         ),
                       ),
 
@@ -166,19 +161,19 @@ class HomePage extends StatelessWidget {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(size, 'B', (size.width / 2.5),
+                                  (size.height / 2)))),
 
                       Positioned(
                         top: (size.height / 1.74),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'A', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                       // circleRow(size,'E', (size.width /12), (size.height /24),),
@@ -205,15 +200,11 @@ class HomePage extends StatelessWidget {
                           Icons.arrow_back,
                           color: darkBlue,
                         ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
                       ],
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AdsPage());
+                        Get.to(AttendenceReport());
                       },
                       child: Row(
                         children: [
@@ -221,10 +212,6 @@ class HomePage extends StatelessWidget {
                             Icons.arrow_forward,
                             color: darkBlue,
                           ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
                         ],
                       ),
                     )
@@ -248,15 +235,9 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
+                      children: const [
+                        Text(
+                          'Rayhan Uddin',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -265,11 +246,8 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
+                        Text(
+                          '01502020222',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         )
                       ],
@@ -306,40 +284,35 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 140,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
-                        ) :  CircleAvatar(
-                          radius: 140,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          backgroundImage: AssetImage(
+                            'images/person.jpg',
+                          ),
                         ),
                       ),
                       Positioned(
-                        top: (size.height / 11),
+                        top: (size.height / 13),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'E', 20.0, 50.0)),
                       ),
                       Positioned(
                           top: (size.height / 6.0),
                           left: (size.width / 2.5),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                          child: circleRow(size, 'D', (size.width / 2.7),
+                              (size.height / 8))),
                       Positioned(
                         top: (size.height / 3.1),
                         left: (size.width / 1.9),
                         child: InkWell(
                           onTap: () {
-                            Get.to(Task());
+                            Get.to(AttendenceReport());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'C', 240.0, 210.0),
                         ),
                       ),
                       Positioned(
@@ -347,18 +320,18 @@ class HomePage extends StatelessWidget {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(size, 'B', (size.width / 2.5),
+                                  (size.height / 2)))),
                       Positioned(
                         top: (size.height / 1.74),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'A', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
@@ -384,7 +357,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AdsPage());
+                        Get.to(AttendenceReport());
                       },
                       child: Row(
                         children: [
@@ -406,180 +379,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
       );
-    } else if (size.height < 850) {
-      return Scaffold(
-        backgroundColor: primaryColorLight,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        )
-                      ],
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: darkBlue,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: size.height / 1.3,
-                        transform: Matrix4.translationValues(
-                            -(size.width / 2.5), 0.0, 0.0),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(
-                            -(size.width / 3.7), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
-                          radius: 150,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
-                        ) :  CircleAvatar(
-                          radius: 150,
-                          backgroundImage: AssetImage("images/person.jpg"),
-                        ),
-                      ),
-                      Positioned(
-                        top: (size.height / 9.5),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to( LeaveFront());
-                            },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
-                      ),
-                      Positioned(
-                          top: (size.height / 5.0),
-                          left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
-                      Positioned(
-                        top: (size.height / 2.8),
-                        left: (size.width / 1.8),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(Task());
-                          },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
-                        ),
-                      ),
-                      Positioned(
-                          top: (size.height / 2.05),
-                          left: (size.width / 2.34),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(ExpenseList());
-                              },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
-                      Positioned(
-                        top: (size.height / 1.80),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(NotificationPage());
-                            },
-                            child: circleRow(size, 'Notice', (size.width / 12),
-                                (size.height / 1.74))),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: darkBlue,
-                        ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(AdsPage());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_forward,
-                            color: darkBlue,
-                          ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      );
-
-
-
     } else if (size.height < 900) {
       return Scaffold(
         backgroundColor: primaryColorLight,
@@ -593,15 +392,9 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
+                      children: const [
+                        Text(
+                          'Rayhan Uddin',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -610,11 +403,8 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
+                        Text(
+                          '01502020222',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         )
                       ],
@@ -651,40 +441,35 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.0), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 150,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
-                        ) :  CircleAvatar(
-                          radius: 150,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          backgroundImage: AssetImage(
+                            'images/person.jpg',
+                          ),
                         ),
                       ),
                       Positioned(
-                        top: (size.height / 9.5),
+                        top: (size.height / 11),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'E', 20.0, 50.0)),
                       ),
                       Positioned(
                           top: (size.height / 5.0),
                           left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                          child: circleRow(size, 'D', (size.width / 2.7),
+                              (size.height / 8))),
                       Positioned(
                         top: (size.height / 2.8),
                         left: (size.width / 1.8),
                         child: InkWell(
                           onTap: () {
-                            Get.to(Task());
+                            Get.to(AttendenceReport());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'C', 240.0, 210.0),
                         ),
                       ),
                       Positioned(
@@ -692,18 +477,18 @@ class HomePage extends StatelessWidget {
                           left: (size.width / 2.34),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(size, 'B', (size.width / 2.5),
+                                  (size.height / 2)))),
                       Positioned(
                         top: (size.height / 1.65),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'A', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
@@ -729,7 +514,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AdsPage());
+                        Get.to(AttendenceReport());
                       },
                       child: Row(
                         children: [
@@ -751,9 +536,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
       );
-
-
-
     } else if (size.height >= 1200) {
       return Scaffold(
         backgroundColor: primaryColorLight,
@@ -769,7 +551,7 @@ class HomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
-                          'Rayhan Uddin12',
+                          'Rayhan Uddin',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -816,12 +598,11 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.7), (size.height / 6.3), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 280,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
-                        ) :  CircleAvatar(
-                          radius: 280,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          backgroundImage: AssetImage(
+                            'images/person.jpg',
+                          ),
                         ),
                       ),
                       Positioned(
@@ -829,24 +610,24 @@ class HomePage extends StatelessWidget {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Leave', (size.width / 4),
+                            child: circleRow(size, 'E', (size.width / 4),
                                 (size.height / 6))),
                       ),
                       Positioned(
                           top: (size.height / 6),
                           left: (size.width / 2.2),
-                          child: circleRow(size, 'Attendance',
-                              (size.width / 2.7), (size.height / 8))),
+                          child: circleRow(size, 'D', (size.width / 2.7),
+                              (size.height / 8))),
                       Positioned(
                         top: (size.height / 2.6),
                         left: (size.width / 1.75),
                         child: InkWell(
                           onTap: () {
-                            Get.to(OtherExpense());
+                            Get.to(AttendenceReport());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'C', 240.0, 210.0),
                         ),
                       ),
                       Positioned(
@@ -854,10 +635,10 @@ class HomePage extends StatelessWidget {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(NotificationPage());
+                                Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(size, 'B', (size.width / 2.5),
+                                  (size.height / 2)))),
                       Positioned(
                         top: (size.height / 1.45),
                         left: (size.width / 8),
@@ -865,7 +646,7 @@ class HomePage extends StatelessWidget {
                             onTap: () {
                               Get.to(AttendenceReport());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'A', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
@@ -891,7 +672,7 @@ class HomePage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(AdsPage());
+                        Get.to(AttendenceReport());
                       },
                       child: Row(
                         children: [

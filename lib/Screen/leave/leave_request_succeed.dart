@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:salebee/utils.dart';
 
 class LeaveRequestSucceed extends StatelessWidget {
@@ -18,11 +17,11 @@ class LeaveRequestSucceed extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset('images/leave_request_sent_successfully.png'),
-                Text('Leave Request Sent successfully'
+                const Text('Leave Request Sent successfully'
                     'Please wait for the approval',textAlign: TextAlign.center,style: TextStyle(
                     color: Color(0xFF203856),fontSize: 18, fontWeight: FontWeight.w400,
                 ),),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
                 Row(
                   children: [
                     Expanded(child: InkWell(
@@ -30,10 +29,10 @@ class LeaveRequestSucceed extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
-                            color: Color(0xFF2563EB)
+                            color: const Color(0xFF2563EB)
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12.0),
                           child: Text('Go to Home',
                             textAlign: TextAlign.center,
                               style: TextStyle(
@@ -42,7 +41,7 @@ class LeaveRequestSucceed extends StatelessWidget {
                         ),
                       ),
                     )),
-                    SizedBox(width: 20,),
+                    const SizedBox(width: 20,),
                     Expanded(child: InkWell(
                       onTap: (){},
                       child: Container(
@@ -50,11 +49,11 @@ class LeaveRequestSucceed extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                             color: Colors.white,
                           border: Border.all(
-                            color: Color(0xFFD2DDEC)
+                            color: const Color(0xFFD2DDEC)
                           )
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12.0),
                           child: Text('View Details',
                             textAlign: TextAlign.center,
                             style: TextStyle(
