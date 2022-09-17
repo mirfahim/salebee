@@ -21,7 +21,7 @@ class ApiService {
     // final creds = await authRepository.getCredentials();
 
     final headers = {
-     // 'Authorization': 'Bearer ' + storage.read("token")
+      // 'Authorization': 'Bearer ' + storage.read("token")
       "Content-Type": "application/json",
     };
 
@@ -36,7 +36,6 @@ class ApiService {
           MultipartFile(File(file.path).readAsBytesSync(), filename: fileName),
       'type': type,
     });
-
     final response = await post(
       url,
       form,
@@ -110,24 +109,24 @@ class ApiService {
       // }
       if (method == apiMethods.post) {
 
-       Map bodys = {
+        Map bodys = {
           'phone_number' : '01782084390',
           'password' : '12345678',
 
         };
-       Map <String, String>  headerMap = {
-         'Keydata' : '8741214584542',
+        Map <String, String>  headerMap = {
+          'Keydata' : '8741214584542',
 
 
 
-    // "Access-Control-Allow-Origin": "*"
+          // "Access-Control-Allow-Origin": "*"
 
 
-    };
+        };
         var bodyString = json.encode(bodys);
         print("started working on POST REQUEST $bodyString $headerMap $apiURL");
         response = await http.post(apiURL,
-            body: bodyString, headers: headerMap,);
+          body: bodyString, headers: headerMap,);
         print("Response code: ${response.statusCode}");
         // print('response code from function: ${response.statusCode}');
         print('response code from function: ${response.body}');
@@ -145,24 +144,24 @@ class ApiService {
       }
       if (method == apiMethods.put) {
         response = await http.put(apiURL,
-            body: convert.jsonEncode(body), headers: header, );
+          body: convert.jsonEncode(body), headers: header, );
         print('response code from put: $apiURL');
         print('response code from put: ${response.body}');
       }
 
-      if ((response.statusCode == 200 || response.statusCode == 201)) {
-        var res = convert.jsonDecode(response.body);
-        print("my response is $res");
-        return res;
-      } else if ((response.statusCode == 403)) {
-        var res = convert.jsonDecode(response.body);
-        print("my response is $res");
-        return res;
-      } else {
-        var res = convert.jsonDecode(response.body);
-
-        handleError(res);
-      }
+      // if ((response.statusCode == 200 || response.statusCode == 201)) {
+      //   var res = convert.jsonDecode(response.body);
+      //   print("my response is $res");
+      //   return res;
+      // } else if ((response.statusCode == 403)) {
+      //   var res = convert.jsonDecode(response.body);
+      //   print("my response is $res");
+      //   return res;
+      // } else {
+      //   var res = convert.jsonDecode(response.body);
+      //
+      //   handleError(res);
+      // }
     } catch (e) {
       print(e.toString());
       handleError(e);
@@ -178,22 +177,22 @@ class ApiService {
     Alerts.showToast(message);
   }
 
-  // makePostRequest() async {
-  //
-  //   final uri = Uri.parse('http://httpbin.org/post');
-  //   final headers = {'Content-Type': 'application/json'};
-  //   Map<String, dynamic> body = {'id': 21, 'name': 'bob'};
-  //   String jsonBody = json.encode(body);
-  //   final encoding = Encoding.getByName('utf-8');
-  //
-  //   Response response = await post(
-  //     uri,
-  //     headers: headers,
-  //     body: jsonBody,
-  //     encoding: encoding,
-  //   );
-  //
-  //   int statusCode = response.statusCode;
-  //   String responseBody = response.body;
-  // }
+// makePostRequest() async {
+//
+//   final uri = Uri.parse('http://httpbin.org/post');
+//   final headers = {'Content-Type': 'application/json'};
+//   Map<String, dynamic> body = {'id': 21, 'name': 'bob'};
+//   String jsonBody = json.encode(body);
+//   final encoding = Encoding.getByName('utf-8');
+//
+//   Response response = await post(
+//     uri,
+//     headers: headers,
+//     body: jsonBody,
+//     encoding: encoding,
+//   );
+//
+//   int statusCode = response.statusCode;
+//   String responseBody = response.body;
+// }
 }
