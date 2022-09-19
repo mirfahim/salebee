@@ -19,6 +19,7 @@ import 'package:salebee/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../Widget/clock_widget.dart';
 import 'package:intl/intl.dart';
+
 class CheckInOut extends StatefulWidget {
   CheckInOut({Key? key}) : super(key: key);
 
@@ -43,13 +44,13 @@ class _CheckInOutState extends State<CheckInOut> {
   final circularProgressIndicatorValue = 0.0.obs;
   RxBool status = true.obs;
   final end = 0.0.obs;
-   String totalhrs = "";
+  String totalhrs = "";
   Timer? _timer;
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
- // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +122,9 @@ class _CheckInOutState extends State<CheckInOut> {
                           height: 200,
                           width: 200,
                           child: CircularProgressIndicator(
-                            color: end.value == 1 ? Colors.blue : Colors.amber,
+                            color: end.value == 1
+                                ? Colors.blue
+                                : Colors.amber,
                             value: circularProgressIndicatorValue.value,
                             backgroundColor: Colors.grey,
                             strokeWidth: 5,
@@ -130,9 +133,15 @@ class _CheckInOutState extends State<CheckInOut> {
                       ),
                       Center(
                         child: GestureDetector(
-                          onTap: () {
+                          // onTap: () {
+                          //
+                          // },
+                          onLongPress: () async {
+                            // end.value = 1;
+                            //_showMyDialog();
                             end.value = 1;
-                            _showMyDialog();
+
+                            attendanceFunction();
                           },
                           onLongPressCancel: () {
                             end.value = 0;
@@ -159,7 +168,6 @@ class _CheckInOutState extends State<CheckInOut> {
                   );
                 },
               )),
-
           SizedBox(
             height: 10,
           ),
@@ -171,7 +179,11 @@ class _CheckInOutState extends State<CheckInOut> {
                 SizedBox(
                   width: 10,
                 ),
-                Text(locationDis, maxLines: 2, style: TextStyle(fontSize: 10),)
+                Text(
+                  locationDis,
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 8),
+                )
               ],
             ),
           ),
@@ -194,17 +206,24 @@ class _CheckInOutState extends State<CheckInOut> {
                             Icons.person,
                             color: primaryColor,
                           ),
-                           Text(
+                          Text(
                             checkInTime,
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          const Text(
-                            'Check In',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
+                          status.value == true
+                              ? Text(
+                                  'Check In',
+                                  style: TextStyle(
+                                      color: Colors.blueAccent, fontSize: 12),
+                                )
+                              : Text(
+                                  'Check In',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ),
                         ],
                       ),
                       Column(
@@ -213,17 +232,24 @@ class _CheckInOutState extends State<CheckInOut> {
                             Icons.person_add_alt,
                             color: primaryColor,
                           ),
-                           Text(
+                          Text(
                             checkOutTime,
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          const Text(
-                            'Check Out',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
+                          status.value == true
+                              ? Text(
+                                  'Check Out',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                )
+                              : Text(
+                                  'Check Out',
+                                  style: TextStyle(
+                                      color: Colors.blueAccent, fontSize: 12),
+                                ),
                         ],
                       ),
                       Column(
@@ -232,15 +258,16 @@ class _CheckInOutState extends State<CheckInOut> {
                             Icons.arrow_circle_right,
                             color: primaryColor,
                           ),
-                           Text(
+                          Text(
                             totalhrs,
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          const Text(
+                           Text(
                             'Working Hour',
+                            // status.value.toString(),
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                         ],
@@ -261,7 +288,7 @@ class _CheckInOutState extends State<CheckInOut> {
     print("my battery level$percentage");
     setState(() {
       checkIn = !checkIn;
-      status.value = !status.value;
+      // status.value = !status.value;
     });
   }
 
@@ -336,8 +363,6 @@ class _CheckInOutState extends State<CheckInOut> {
   //           body: bodyString); //we will fetch the overview from this request
   // }
 
-
-
   void getBatteryPerentage() async {
     final level = await battery.batteryLevel;
     percentage = level;
@@ -365,87 +390,7 @@ class _CheckInOutState extends State<CheckInOut> {
             TextButton(
               child: const Text('Approve'),
               onPressed: () async {
-              //  _getLocation();
-
-                print("working chekout ${SharedPreff.to.prefss.getString("token")}");
-                String? token = SharedPreff.to.prefss.getString("token");
-
-                geolocatorService.determinePosition().then((ele) {
-                  getAddressFromLatLong(ele!);
-                  print("my position is ${ele!.latitude}");
-                  // DateTime now = DateTime.now();
-                  // Timestamp myTimeStamp = Timestamp.fromDate(now);
-                  // String time = myTimeStamp.toString();
-                  final DateTime now = DateTime.now();
-                  final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
-                  final String formatted = formatter.format(now);
-                  print("my date is $formatted");
-                  var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
-                  var inputDate = inputFormat.parse(formatted); // <-- dd/MM 24H format
-
-                  var outputFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
-                  var outputDate = outputFormat.format(inputDate);
-                  print(outputDate);
-                  print("my location is +++++++++++++++++ before cheked $locationDis");
-
-                  checkIn == false ?
-
-                  attendanceRepository.checkInController(
-                     id: 1, employeeId: 1, logTimeIn: formatted, lat: ele!.latitude, lon: ele!.longitude, battery: percentage, location: locationDis ).then((e){
-                      print("my resposne check in is ++++++++${e.isSuccess}");
-
-                        if(e.isSuccess == true){
-                          print("my respons ei s  ________________________${e
-                              .isSuccess}");
-                          String? str = e.result!.logTimeIn!;
-
-                          final endIndex = str!.indexOf(":00", 0);
-
-                           print("my check in time is $endIndex"); // Cars
-                          const snackBar = SnackBar(
-                            content: Text('Already checked in!'),
-                          );
-
-// Find the ScaffoldMessenger in the widget tree
-// and use it to show a SnackBar.
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          setState((){
-                            checkInTime =  str.substring(11, endIndex) ;
-                            print("my check IN time is +++++++++$checkInTime");
-                          });
-                        } else if(e.isSuccess == false) {
-                          _showSnack("Already Checked IN");
-                        }
-
-
-
-                  })
-                  : attendanceRepository.checkOutController(token!, 1, formatted, locationDis, ele!.latitude, ele!.longitude).then((e){
-                    duration(e.result!.logTimeIn,e.result!.logTimeOut );
-                      String str = e.result!.logTimeOut;
-
-                      final endIndex = str.indexOf(":00", 0);
-                    String strlogIn = e.result!.logTimeIn;
-
-                    final endIndexLogIn = str.indexOf(":00", 0);
-
-                    //  print(str.substring(11, endIndex)); // Cars
-
-                    setState((){
-                      checkOutTime =  str.substring(11, endIndex) ;
-                      checkInTime = strlogIn.substring(11, endIndexLogIn) ;
-
-                      print("my checkout time is +++++++++$checkOutTime");
-                    });
-                    _showSnack("Checked Out");
-
-                  });
-
-
-                });
-               // GetAddressFromLatLong();
-                changeCheckIn();
-                Navigator.of(context).pop();
+                //  _getLocation();
               },
             ),
           ],
@@ -453,41 +398,150 @@ class _CheckInOutState extends State<CheckInOut> {
       },
     );
   }
+
   Future<void> getAddressFromLatLong(Position position) async {
-    print("++++++++++++=GetAddressFromLatLong ++++++ working + ${position.latitude}");
-    List<Placemark> _placemarksList = await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(
+        "++++++++++++=GetAddressFromLatLong ++++++ working + ${position.latitude}");
+    List<Placemark> _placemarksList =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
 
     print(_placemarksList);
     Placemark place = _placemarksList[0];
-    String address = '${place.name},${place.street},${place.thoroughfare},${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    String address =
+        '${place.name},${place.street},${place.thoroughfare},${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
 
     print("my address is ++++++++++++ $address");
-    setState((){
+    setState(() {
       locationDis = address;
     });
-
   }
-duration(checkin, checkout){
-  final DateTime checkInTime1 = DateTime.parse(checkin);
-  final DateTime checkOutTime1 = DateTime.parse(checkout);
 
-  final hours = checkOutTime1.difference(checkInTime1).inHours;
-  final minutes= checkOutTime1.difference(checkInTime1).inMinutes;
-  final totalWorkingHours = '$hours.${(minutes - (hours*60))} hrs';
-  print("hours  "+totalWorkingHours);
-  print("duration check in  "+checkInTime1.toString());
-  setState((){
-    totalhrs = totalWorkingHours ;
+  duration(checkin, checkout) {
+    final DateTime checkInTime1 = DateTime.parse(checkin);
+    final DateTime checkOutTime1 = DateTime.parse(checkout);
+
+    final hours = checkOutTime1.difference(checkInTime1).inHours;
+    final minutes = checkOutTime1.difference(checkInTime1).inMinutes;
+    final totalWorkingHours = '$hours.${(minutes - (hours * 60))} hrs';
+    print("hours  " + totalWorkingHours);
+    print("duration check in  " + checkInTime1.toString());
+    setState(() {
+      totalhrs = totalWorkingHours;
+    });
   }
-  );
 
-}
   void _showSnack(String msg) {
     final _snackBarContent = SnackBar(content: Text(msg));
     ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
         .showSnackBar(_snackBarContent);
   }
 
+  attendanceFunction() async {
+    print("working chekout ${SharedPreff.to.prefss.getString("token")}");
+    String? token = SharedPreff.to.prefss.getString("token");
+
+    geolocatorService.determinePosition().then((ele) {
+      getAddressFromLatLong(ele!);
+      print("my position is ${ele!.latitude}");
+      // DateTime now = DateTime.now();
+      // Timestamp myTimeStamp = Timestamp.fromDate(now);
+      // String time = myTimeStamp.toString();
+      final DateTime now = DateTime.now();
+      final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
+      final String formatted = formatter.format(now);
+      print("my date is $formatted");
+      var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
+      var inputDate = inputFormat.parse(formatted); // <-- dd/MM 24H format
+
+      var outputFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
+      var outputDate = outputFormat.format(inputDate);
+      print(outputDate);
+      print("my location is +++++++++++++++++ before cheked $locationDis");
+
+      status.value == true
+          ? attendanceRepository
+              .checkInController(
+                  id: 1,
+                  employeeId: 1,
+                  logTimeIn: formatted,
+                  lat: ele!.latitude,
+                  lon: ele!.longitude,
+                  battery: percentage,
+                  location: locationDis)
+              .then((e) {
+              print("my resposne check in is ++++++++${e.isSuccess}");
+
+              if (e.isSuccess == true) {
+                print(
+                    "my respons ei s  ________________________${e.isSuccess}");
+                String? str = e.result!.logTimeIn!;
+
+                final endIndex = str!.indexOf(":00", 0);
+
+                print("my check in time is $endIndex"); // Cars
+                const snackBar = SnackBar(
+                  content: Text('Already checked in!'),
+                );
+
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                setState(() {
+                  checkInTime = str.substring(11, endIndex);
+                  print("my check IN time is +++++++++$checkInTime");
+
+                  status.value = false;
+                  print("+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
+                });
+
+              } else if (e.isSuccess == false) {
+                status.value = false;
+                 end.value = 0;
+                _showSnack(e.message!);
+                print("+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
+                setState(() {
+
+                });
+
+
+              }
+            })
+          : attendanceRepository
+              .checkOutController(token!, StaticData.employeeID!, formatted,
+                  locationDis, ele!.latitude, ele!.longitude)
+              .then((e) {
+              duration(e.result!.logTimeIn, e.result!.logTimeOut);
+              String str = e.result!.logTimeOut;
+
+              //  final endIndex = str.indexOf(":00", 0);
+              String strlogIn = e.result!.logTimeIn;
+
+              // final endIndexLogIn = str.indexOf(":00", 0);
+              // ../../UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal Photo.jpg.jpg
+              //http://nexzen.salebee.net/assets/images/nexzen.png
+              //  print(str.substring(11, endIndex)); // Cars
+
+              setState(() {
+                checkOutTime = str.substring(11, 16);
+                checkInTime = strlogIn.substring(11, 16);
+
+                print("my checkout time is +++++++++$checkOutTime");
+                print("my checkout time is checkIN time+++++++++$checkInTime");
+              });
+              if (e.isSuccess == true) {
+                _showSnack("Checked Out");
+                end.value = 0;
+                status.value = true;
+              } else if (e.isSuccess == false) {
+                status.value = false;
+              }
+            });
+    });
+    // GetAddressFromLatLong();
+    changeCheckIn();
+    // Navigator.of(context).pop();
+  }
 // _getLocation() async
   // {
   //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

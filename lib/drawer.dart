@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:salebee/Screen/Attendence_report/attendence_report.dart';
 import 'package:salebee/Screen/Authentication/login_page.dart';
 import 'package:salebee/Screen/Home/home.dart';
+import 'package:salebee/Screen/SplashScreen.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
 import 'package:salebee/Screen/leave/leave_front.dart';
 import 'package:salebee/Screen/task/add_new_task.dart';
@@ -191,7 +192,7 @@ Future drawer(BuildContext context) {
                           SharedPreff.to.prefss.remove("employeeID");
                           SharedPreff.to.prefss.remove("userNAME");
                           SharedPreff.to.prefss.remove("proLink");
-                          Get.to(LoginPage());
+                          Get.to(Splash());
                         },
                         child: Container(
                           decoration: BoxDecoration(
