@@ -7,10 +7,10 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: primaryColorLight,
+      backgroundColor: const Color(0xFFE5E5E5),
       appBar: AppBar(
-        title: const Text('Notification',style: TextStyle(
-          color: Colors.black,fontSize: 22
+        title:  Text('Notification',style: TextStyle(
+            color: appBarHeader,fontSize: 24
         ),),
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -28,7 +28,7 @@ class NotificationPage extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.person,color: darkBlue,),
+                child: Icon(Icons.person,color: primaryColor,),
               ),
             ),
           )
@@ -41,10 +41,40 @@ class NotificationPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                 Center(
-                   child: Text('Yesterday',style: TextStyle(
-                    color: darkBlue,fontSize: 16
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.end,
+                   crossAxisAlignment: CrossAxisAlignment.end,
+                   children: [
+                     Expanded(
+                       child: Container(),
+                     ),
+                     Expanded(
+                       child: Container(
+                         width: 100,
+                         decoration: BoxDecoration(
+                           color: darkBlue,
+                           borderRadius: BorderRadius.circular(6)
+                         ),
+                         child: Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Center(
+                             child: Text('Yesterday',style: TextStyle(
+                              color: Colors.white,fontSize: 12
                 ),),),
+                         ),
+                       ),
+                     ),
+                     Expanded(
+                       child: Padding(
+                         padding: const EdgeInsets.all(8.0),
+                         child: Center(
+                           child: Text('Mark as read',style: TextStyle(
+                               color: primaryColor,fontSize: 12
+                           ),),),
+                       ),
+                     )
+                   ],
+                 ),
                 const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
@@ -52,7 +82,7 @@ class NotificationPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10)
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +98,7 @@ class NotificationPage extends StatelessWidget {
                               ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: Image.asset('images/checklist.png',height: 26,),
+                                  child: Image.asset('images/checklist.png',height: 20,),
                                 ),
                             ),
                             const SizedBox(width: 10,),
@@ -76,24 +106,24 @@ class NotificationPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: const [
+                                  children:  [
                                     Text('Follow up With: ',style: TextStyle(
-                                      color: Colors.grey
+                                      color: Colors.grey,fontSize: 12
                                     ),),
                                     SizedBox(width: 10,),
                                     Text('Rotex',style: TextStyle(
-                                        color: Colors.black,fontWeight: FontWeight.w600
+                                        color: text,fontWeight: FontWeight.w400,fontSize: 12
                                     ),)
                                   ],
                                 ),
                                 const SizedBox(height: 5,),
                                 Row(
-                                  children: const [
+                                  children:  [
                                     Text('Prospect: ',style: TextStyle(
-                                        color: Colors.grey
+                                        color: Colors.grey,fontSize: 12
                                     ),),
                                     Text('Rotex bangladesh Ltd',style: TextStyle(
-                                        color: Colors.black,fontWeight: FontWeight.w600
+                                        color: text,fontWeight: FontWeight.w400,fontSize: 12
                                     ),)
                                   ],
                                 ),
@@ -102,7 +132,7 @@ class NotificationPage extends StatelessWidget {
                           ],
                         ),
                         Text('8m ago',style: TextStyle(
-                          color: primaryColor
+                          color: primaryColor,fontSize: 12
                         ),)
                       ],
                     ),
@@ -131,7 +161,7 @@ class NotificationPage extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: Image.asset('images/checklist.png',height: 26,),
+                                child: Image.asset('images/checklist.png',height: 20,),
                               ),
                             ),
                             const SizedBox(width: 10,),
@@ -139,36 +169,36 @@ class NotificationPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: const [
+                                  children: [
                                     Text('Follow up With: ',style: TextStyle(
-                                        color: Colors.grey
+                                        color: Colors.grey,fontSize: 12
                                     ),),
                                     Text('Executive',
                                       maxLines: 2,
                                       style: TextStyle(
-                                        color: Colors.black,fontWeight: FontWeight.w600
+                                        color: text,fontWeight: FontWeight.w400,fontSize: 12
                                     ),)
                                   ],
                                 ),
                                 const SizedBox(height: 5,),
                                 Row(
-                                  children: const [
+                                  children:  [
                                     Text('Prospect: ',style: TextStyle(
-                                        color: Colors.grey
+                                        color: Colors.grey,fontSize: 12
                                     ),),
                                     Text('Rotex bangladesh Ltd',style: TextStyle(
-                                        color: Colors.black,fontWeight: FontWeight.w600
+                                        color: text,fontWeight: FontWeight.w400,fontSize: 12
                                     ),)
                                   ],
                                 ),
                                 const SizedBox(height: 5,),
                                 Row(
-                                  children: const [
+                                  children: [
                                     Text('Lead: ',style: TextStyle(
-                                        color: Colors.grey
+                                        color: Colors.grey,fontSize: 12
                                     ),),
                                     Text('SaleBee CRM',style: TextStyle(
-                                        color: Colors.black,fontWeight: FontWeight.w600
+                                        color: text,fontWeight: FontWeight.w400,fontSize: 12
                                     ),)
                                   ],
                                 )
@@ -177,7 +207,7 @@ class NotificationPage extends StatelessWidget {
                           ],
                         ),
                         Text('8m ago',style: TextStyle(
-                            color: primaryColor
+                            color: primaryColor,fontSize: 12
                         ),)
                       ],
                     ),
