@@ -17,11 +17,12 @@ class _EditProfileState extends State<EditProfile> {
       body: Center(
         child: GestureDetector(
           onTap: (){
+            SharedPreff.to.prefss.remove("token");
             SharedPreff.to.prefss.remove("loggedIN");
+            SharedPreff.to.prefss.remove("employeeID");
             SharedPreff.to.prefss.remove("userNAME");
             SharedPreff.to.prefss.remove("proLink");
-            SharedPreff.to.prefss.remove("token");
-            SharedPreff.to.prefss.remove("employeeID");
+
             Get.to( Splash());
             //SharedPreff.to.prefss.remove("key");
           },

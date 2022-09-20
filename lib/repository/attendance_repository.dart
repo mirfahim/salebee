@@ -76,10 +76,20 @@ class AttendanceRepository {
 
   Future<dynamic> checkOutController(String token, int emId, String date,
       String location, double lat, double lon) async {
+
+    String tokenString = SharedPreff.to.prefss.get("token").toString() ;
+     String convertToken = tokenString.replaceAll('+', '%2B');
+     String finalToken = convertToken.replaceAll('/', '%2F');
+
     //elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
     //elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
     //elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
+    print("checkout chekout em id $emId");
     print("working chekout $date");
+    print("working chekout lat $lat");
+    print("working chekout  lon $lon");
+     print("working chekout $token");
+    print("working chekout $convertToken");
     Map<String, dynamic> bodyString = {
       "Token":
           "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks",
@@ -93,7 +103,7 @@ class AttendanceRepository {
       //  "$base_url/GetEmployeeAttendance?Token=${SharedPreff.to.prefss.get("token")}&EmployeeId=1");
    // print("my encoded url link is ++++++++++++++++++++++++ $encoded");
     Uri url = Uri.parse(
-        "https://app.salebee.net/api/Salebee/CheckOut?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1&CheckOutDateTime=$date&Latitude=00&Longitude=00&Location=$location");
+        "https://app.salebee.net/api/Salebee/CheckOut?Token=$finalToken&EmployeeId=$emId&CheckOutDateTime=$date%3A42.029Z&Latitude=$lat&Longitude=$lon&Location=$location");
     final response = await http.post(
       url,
       body: jsonEncode(bodyString),
