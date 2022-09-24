@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:salebee/Utils/my_colors.dart';
 
 class CustomButton extends StatefulWidget {
   String? buttonText;
@@ -23,7 +22,7 @@ class _CustomButtonState extends State<CustomButton> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: widget.buttonState == true ? CircularProgressIndicator() : Text("${widget.buttonText}", style: TextStyle(color: Colors.white),),
+        child: widget.buttonState == true ? const CircularProgressIndicator() : Text("${widget.buttonText}", style: const TextStyle(color: Colors.white),),
 
       ),
     );

@@ -19,7 +19,7 @@ class AttendenceReport extends StatelessWidget {
             onPressed: (){
               Get.back();
             },
-            icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+            icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -114,7 +114,7 @@ class AttendenceReport extends StatelessWidget {
         return Align(
           alignment: Alignment.topRight,
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: 300,
               child: Material(
@@ -122,7 +122,7 @@ class AttendenceReport extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [

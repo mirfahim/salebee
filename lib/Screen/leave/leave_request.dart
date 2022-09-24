@@ -21,7 +21,7 @@ class LeaveRequest extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         elevation: 0,
         centerTitle: true,
@@ -36,10 +36,10 @@ class LeaveRequest extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Leave Type',style: TextStyle(
+                  const Text('Leave Type',style: TextStyle(
                     fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Card(
                     child: Container(
                       decoration: BoxDecoration(
@@ -52,7 +52,7 @@ class LeaveRequest extends StatelessWidget {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                   Text('Annual',style: TextStyle(
                                       fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                   ),),
@@ -61,10 +61,10 @@ class LeaveRequest extends StatelessWidget {
                                 ),)
                               ],
                             ),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Text('Sick',style: TextStyle(
                                     fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),),
@@ -73,10 +73,10 @@ class LeaveRequest extends StatelessWidget {
                                 ),)
                               ],
                             ),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Text('Others',style: TextStyle(
                                     fontSize: 10, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),),
@@ -85,10 +85,10 @@ class LeaveRequest extends StatelessWidget {
                                 ),)
                               ],
                             ),
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Text(''),
                                 Text('Remaining: 20 Days',style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF617692)
@@ -100,16 +100,16 @@ class LeaveRequest extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Note*',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Note*',style: TextStyle(
                       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border:
-                        Border.all(color: Color(0xFFD2DDEC), width: 1),
+                        Border.all(color: const Color(0xFFD2DDEC), width: 1),
                         borderRadius: const BorderRadius.all(Radius.circular(8.0))),
                     child: TextFormField(
                       onChanged: (value) {
@@ -123,23 +123,23 @@ class LeaveRequest extends StatelessWidget {
                         ),
                         hintText: 'Type a short note',
 
-                        hintStyle:TextStyle(
+                        hintStyle:const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF7C8DB5)
                         ),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Substitute',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Substitute',style: TextStyle(
                       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border:
-                        Border.all(color: Color(0xFFD2DDEC), width: 1),
+                        Border.all(color: const Color(0xFFD2DDEC), width: 1),
                         borderRadius: const BorderRadius.all(Radius.circular(8.0))),
                     child: TextFormField(
                       onChanged: (value) {
@@ -157,14 +157,14 @@ class LeaveRequest extends StatelessWidget {
                           },
                             child: Icon(Icons.add,color: primaryColor,)),
                         hintStyle:
-                        TextStyle(
+                        const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF7C8DB5)
                         ),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -172,15 +172,15 @@ class LeaveRequest extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('From',style: TextStyle(
+                            const Text('From',style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                             ),),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
-                                  Border.all(color: Color(0xFFD2DDEC), width: 1),
+                                  Border.all(color: const Color(0xFFD2DDEC), width: 1),
                                   borderRadius: const BorderRadius.all(Radius.circular(8.0))),
                               child: TextFormField(
                                 onChanged: (value) {
@@ -194,7 +194,7 @@ class LeaveRequest extends StatelessWidget {
                                   hintText: 'Pick a date',
                                   suffixIcon: Icon(Icons.calendar_today,color: primaryColor,size: 16,),
                                   hintStyle:
-                                  TextStyle(
+                                  const TextStyle(
                                       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF7C8DB5)
                                   ),
                                   border: InputBorder.none,
@@ -204,20 +204,20 @@ class LeaveRequest extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('To',style: TextStyle(
+                            const Text('To',style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                             ),),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
-                                  Border.all(color: Color(0xFFD2DDEC), width: 1),
+                                  Border.all(color: const Color(0xFFD2DDEC), width: 1),
                                   borderRadius: const BorderRadius.all(Radius.circular(8.0))),
                               child: TextFormField(
                                 onChanged: (value) {
@@ -231,7 +231,7 @@ class LeaveRequest extends StatelessWidget {
                                   hintText: 'Pick a date',
                                   suffixIcon: Icon(Icons.calendar_today,color: primaryColor,size: 16,),
                                   hintStyle:
-                                  TextStyle(
+                                  const TextStyle(
                                       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF7C8DB5)
                                   ),
                                   border: InputBorder.none,
@@ -243,17 +243,17 @@ class LeaveRequest extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20,),
-                  Text('*0 days',style: TextStyle(
+                  const SizedBox(height: 20,),
+                  const Text('*0 days',style: TextStyle(
                       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                   ),),
-                  SizedBox(height: 10,),
-                  Divider(thickness: 1, color: Color(0xFFD2DDEC),),
-                  SizedBox(height: 10,),
-                  Text('Photos(Optional)',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Divider(thickness: 1, color: Color(0xFFD2DDEC),),
+                  const SizedBox(height: 10,),
+                  const Text('Photos(Optional)',style: TextStyle(
                       fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       Expanded(
@@ -268,8 +268,8 @@ class LeaveRequest extends StatelessWidget {
                             child: Row(
                               children: [
                                 Icon(Icons.camera_alt,color: primaryColor,),
-                                SizedBox(width: 10,),
-                                Text('Tap to Upload',style: TextStyle(
+                                const SizedBox(width: 10,),
+                                const Text('Tap to Upload',style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF0C162C)
                                 ),)
                               ],
@@ -277,7 +277,7 @@ class LeaveRequest extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Expanded(
                         child: Container(),
                       )
@@ -293,21 +293,21 @@ class LeaveRequest extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Container(
           height: 58 ,
-          color: Color(0xFFE5E5E5),
+          color: const Color(0xFFE5E5E5),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: InkWell(
               onTap: (){
-                Get.to(LeaveRequestSucceed());
+                Get.to(const LeaveRequestSucceed());
               },
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     color: darkBlue
                 ),
-                child: Center(
+                child: const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text('Submit request',
                       textAlign: TextAlign.center,
                       style: TextStyle(

@@ -14,7 +14,7 @@ class ExpenseList extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Expense',style: TextStyle(
+          title: const Text('Expense',style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.w600
           ),),
           automaticallyImplyLeading: true,
@@ -25,7 +25,7 @@ class ExpenseList extends StatelessWidget {
             onPressed: (){
               Get.back();
             },
-            icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+            icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
           actions: [
             Card(
