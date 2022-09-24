@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
+import 'package:salebee/Screen/notification/notification_1.dart';
 import 'package:salebee/drawer.dart';
 import 'package:salebee/utils.dart';
+import 'package:get/get.dart';
 import 'Screen/Home/home.dart';
 import 'Screen/notification/notification.dart';
 
@@ -16,7 +19,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
 
   final PageStorageBucket _pageStorageBucket = PageStorageBucket();
-  Widget currentScreen = const HomePage();
+  Widget currentScreen = HomePage();
   int currentTab = 0;
   final storage = const FlutterSecureStorage();
   static  final List<Widget> _widgetOptions = <Widget>[
@@ -42,9 +45,9 @@ class _BottomNavState extends State<BottomNav> {
           },
         ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
+        shape: CircularNotchedRectangle(),
         notchMargin: 15,
-        child: SizedBox(
+        child: Container(
           height: 60,
           child: Center(
             child: Row(
@@ -54,7 +57,7 @@ class _BottomNavState extends State<BottomNav> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const HomePage();
+                      currentScreen = HomePage();
                       currentTab = 0;
                     });
                   },
@@ -66,7 +69,7 @@ class _BottomNavState extends State<BottomNav> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const NotificationPage();
+                      currentScreen = const NotificationPage1();
                       currentTab = 1;
                     });
                   },
@@ -81,8 +84,8 @@ class _BottomNavState extends State<BottomNav> {
         ),
       ),
       body: PageStorage(
-        bucket: _pageStorageBucket,
         child: currentScreen,
+        bucket: _pageStorageBucket,
       ),
     );
   }

@@ -32,7 +32,7 @@ class SelectSubtitute extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         elevation: 0,
         centerTitle: true,
@@ -54,14 +54,14 @@ class SelectSubtitute extends StatelessWidget {
                           TabBar(
                             indicator: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: const Color(0xFF617692)),
-                                color: const Color(0xFF617692)),
-                            labelPadding: const EdgeInsets.symmetric(horizontal: 16,vertical: 2),
+                                border: Border.all(color: Color(0xFF617692)),
+                                color: Color(0xFF617692)),
+                            labelPadding: EdgeInsets.symmetric(horizontal: 16,vertical: 2),
                             isScrollable: true,
                             // indicatorColor: Colors.black,
                             labelColor: Colors.white,
-                            unselectedLabelColor: const Color(0xFF617692),
-                            unselectedLabelStyle: const TextStyle(
+                            unselectedLabelColor: Color(0xFF617692),
+                            unselectedLabelStyle: TextStyle(
                               color: Color(0xFF617692)
                             ),
                             tabs: tabs
@@ -71,11 +71,11 @@ class SelectSubtitute extends StatelessWidget {
                             ))
                                 .toList(),
                           ),
-                          const SizedBox(height: 10,),
+                          SizedBox(height: 10,),
                           Container(
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFF44C5E2),width: 2),
+                                border: Border.all(color: Color(0xFF44C5E2),width: 2),
                                 borderRadius: BorderRadius.circular(8)
                             ),
                             child: const Padding(
@@ -85,7 +85,7 @@ class SelectSubtitute extends StatelessWidget {
                               ),),
                             ),
                           ),
-                          const SizedBox(height: 10,),
+                          SizedBox(height: 10,),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 0.0),
@@ -98,8 +98,8 @@ class SelectSubtitute extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text('CXO'),
-                                      const SizedBox(height: 10,),
+                                      Text('CXO'),
+                                      SizedBox(height: 10,),
                                       Card(
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(8)
@@ -113,10 +113,10 @@ class SelectSubtitute extends StatelessWidget {
                                                 width: 20,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  border: Border.all(color: const Color(0xFF617692))
+                                                  border: Border.all(color: Color(0xFF617692))
                                                 ),
                                               ),
-                                              const Expanded(
+                                              Expanded(
                                                 child: ListTile(
                                                   leading: CircleAvatar(
                                                     radius: 30,
@@ -130,7 +130,7 @@ class SelectSubtitute extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 10,),
+                                      SizedBox(height: 10,),
                                       Card(
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(8)
@@ -144,10 +144,10 @@ class SelectSubtitute extends StatelessWidget {
                                                 width: 20,
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    border: Border.all(color: const Color(0xFF617692))
+                                                    border: Border.all(color: Color(0xFF617692))
                                                 ),
                                               ),
-                                              const Expanded(
+                                              Expanded(
                                                 child: ListTile(
                                                   leading: CircleAvatar(
                                                     radius: 30,
@@ -161,9 +161,9 @@ class SelectSubtitute extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 15,),
-                                      const Text('Accounts'),
-                                      const SizedBox(height: 10,),
+                                      SizedBox(height: 15,),
+                                      Text('Accounts'),
+                                      SizedBox(height: 10,),
                                       Card(
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(8)
@@ -177,10 +177,10 @@ class SelectSubtitute extends StatelessWidget {
                                                 width: 20,
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    border: Border.all(color: const Color(0xFF617692))
+                                                    border: Border.all(color: Color(0xFF617692))
                                                 ),
                                               ),
-                                              const Expanded(
+                                              Expanded(
                                                 child: ListTile(
                                                   leading: CircleAvatar(
                                                     radius: 30,
@@ -194,9 +194,9 @@ class SelectSubtitute extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 15,),
-                                      const Text('Executive'),
-                                      const SizedBox(height: 10,),
+                                      SizedBox(height: 15,),
+                                      Text('Executive'),
+                                      SizedBox(height: 10,),
                                       Card(
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(8)
@@ -210,10 +210,10 @@ class SelectSubtitute extends StatelessWidget {
                                                 width: 20,
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    border: Border.all(color: const Color(0xFF617692))
+                                                    border: Border.all(color: Color(0xFF617692))
                                                 ),
                                               ),
-                                              const Expanded(
+                                              Expanded(
                                                 child: ListTile(
                                                   leading: CircleAvatar(
                                                     radius: 30,
@@ -227,7 +227,7 @@ class SelectSubtitute extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 10,),
+                                      SizedBox(height: 10,),
                                       Card(
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(8)
@@ -241,10 +241,10 @@ class SelectSubtitute extends StatelessWidget {
                                                 width: 20,
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    border: Border.all(color: const Color(0xFF617692))
+                                                    border: Border.all(color: Color(0xFF617692))
                                                 ),
                                               ),
-                                              const Expanded(
+                                              Expanded(
                                                 child: ListTile(
                                                   leading: CircleAvatar(
                                                     radius: 30,
@@ -280,7 +280,7 @@ class SelectSubtitute extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Container(
             height: 58 ,
-            color: const Color(0xFFE5E5E5),
+            color: Color(0xFFE5E5E5),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: InkWell(
@@ -292,9 +292,9 @@ class SelectSubtitute extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                       color: darkBlue
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text('Select substitute',
                         textAlign: TextAlign.center,
                         style: TextStyle(

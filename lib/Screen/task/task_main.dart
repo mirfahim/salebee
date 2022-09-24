@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/expense/aproved.dart';
+import 'package:salebee/Screen/expense/claimed.dart';
+import 'package:salebee/Screen/expense/pending.dart';
 import 'package:salebee/Screen/task/add_new_task.dart';
 import 'package:salebee/Screen/task/all_task.dart';
 import 'package:salebee/Screen/task/assigned_by_me.dart';
 import 'package:salebee/Screen/task/assigned_to_me.dart';
 import 'package:salebee/Screen/task/my_task.dart';
+import 'package:salebee/Screen/task/task_main.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/utils.dart';
 
 enum timers { all, Follow_up_1, Follow_up_2,Follow_up_3,Follow_up_4 }
@@ -20,6 +25,14 @@ class _TaskState extends State<Task> {
   timers _site = timers.all;
   time _time = time.all;
   status _status = status.all;
+  TaskRepository taskRepository = TaskRepository();
+  @override
+  void initState() {
+    print("task page");
+    //taskRepository.getTaskController();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +43,7 @@ class _TaskState extends State<Task> {
         backgroundColor: Colors.white,
         bottomNavigationBar: Container(
           height: 58 ,
-          color: const Color(0xFFE5E5E5),
+          color: Color(0xFFE5E5E5),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: InkWell(
@@ -65,9 +78,9 @@ class _TaskState extends State<Task> {
             onPressed: (){
               Get.back();
             },
-            icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
+            icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
-          backgroundColor: const Color(0xFFE5E5E5),
+          backgroundColor: Color(0xFFE5E5E5),
           elevation: 0,
           centerTitle: true,
           actions: [
@@ -92,7 +105,7 @@ class _TaskState extends State<Task> {
           child: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                color: const Color(0xFFF9FAFB,
+                color: Color(0xFFF9FAFB,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -105,15 +118,15 @@ class _TaskState extends State<Task> {
                           Container(),
                           IconButton(onPressed: (){
                             Get.back();
-                          }, icon: const Icon(Icons.close))
+                          }, icon: Icon(Icons.close))
                         ],
                       ),
-                      const Text('Follow up Type',style: TextStyle(
+                      Text('Follow up Type',style: TextStyle(
                         color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
                       ),),
-                      const SizedBox(height: 10,),
+                      SizedBox(height: 10,),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('All',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -129,7 +142,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Follow up 1',style: TextStyle(
                           fontSize: 12
                         ),),
@@ -145,7 +158,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Follow up 2',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -161,7 +174,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Follow up 3',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -176,12 +189,12 @@ class _TaskState extends State<Task> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 20,),
-                      const Text('Time',style: TextStyle(
+                      SizedBox(height: 20,),
+                      Text('Time',style: TextStyle(
                           color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
                       ),),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('All',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -197,7 +210,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Today',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -213,7 +226,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Last 7 Days',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -229,7 +242,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Last 15 Days',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -245,12 +258,12 @@ class _TaskState extends State<Task> {
                         ),
                       ),
 
-                      const SizedBox(height: 20,),
-                      const Text('Status',style: TextStyle(
+                      SizedBox(height: 20,),
+                      Text('Status',style: TextStyle(
                           color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
                       ),),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('All',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -266,7 +279,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Initiated',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -282,7 +295,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Pending',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -298,7 +311,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Canceled',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -314,7 +327,7 @@ class _TaskState extends State<Task> {
                         ),
                       ),
                       ListTile(
-                        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                         title: const Text('Done',style: TextStyle(
                             fontSize: 12
                         ),),
@@ -365,7 +378,7 @@ class _TaskState extends State<Task> {
         ),
         body: SafeArea(
           child: Container(
-            color: const Color(0xFFE5E5E5),
+            color: Color(0xFFE5E5E5),
             child: Column(
               children: [
                 Padding(
@@ -378,11 +391,11 @@ class _TaskState extends State<Task> {
                           labelColor: darkBlue,
                           unselectedLabelColor: Colors.grey,
                           isScrollable: true,
-                          labelStyle: const TextStyle(
+                          labelStyle: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600
                           ),
-                          unselectedLabelStyle: const TextStyle(
+                          unselectedLabelStyle: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400
                           ),

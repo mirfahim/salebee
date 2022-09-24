@@ -1,8 +1,11 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:platform/platform.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'package:http/http.dart' as http;
 
 // customize this one
 
@@ -35,7 +38,7 @@ class Alerts {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text("t.ok"),
+              child: Text("t.ok"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -60,7 +63,7 @@ class Alerts {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text("t.ok"),
+              child: Text("t.ok"),
               onPressed: () {
                 // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                 //     Register()), (Route<dynamic> route) => false);
@@ -137,12 +140,12 @@ class Alerts {
     return showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(message),
+              title: new Text(title),
+              content: new Text(message),
               actions: <Widget>[
                 CupertinoDialogAction(
                   isDefaultAction: true,
-                  child: const Text("t.ok"),
+                  child: Text("t.ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -161,15 +164,15 @@ class Alerts {
               content: Flex(
                 direction: Axis.horizontal,
                 children: <Widget>[
-                  const CircularProgressIndicator(),
-                  const Padding(
+                  CircularProgressIndicator(),
+                  Padding(
                     padding: EdgeInsets.only(left: 15),
                   ),
                   Flexible(
                       flex: 8,
                       child: Text(
                         title,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       )),
                 ],
@@ -187,17 +190,17 @@ class Alerts {
       barrierDismissible: false, // user must tap button for close dialog!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("t.loginrequired"),
-          content: const Text("t.loginrequiredhint"),
+          title: Text("t.loginrequired"),
+          content: Text("t.loginrequiredhint"),
           actions: <Widget>[
             TextButton(
-              child: const Text("t.cancel.toUpperCase()"),
+              child: Text("t.cancel.toUpperCase()"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("t.login.toUpperCase()"),
+              child: Text("t.login.toUpperCase()"),
               onPressed: () {
                 // Navigator.of(context).pop();
                 // Navigator.pushNamed(context, LoginScreen.routeName);
@@ -215,17 +218,17 @@ class Alerts {
       barrierDismissible: false, // user must tap button for close dialog!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("t.subscribehint"),
-          content: const Text("t.playsubscriptionrequiredhint"),
+          title: Text("t.subscribehint"),
+          content: Text("t.playsubscriptionrequiredhint"),
           actions: <Widget>[
             TextButton(
-              child: const Text("t.cancel.toUpperCase()"),
+              child: Text("t.cancel.toUpperCase()"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("t.subscribe"),
+              child: Text("t.subscribe"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -242,17 +245,17 @@ class Alerts {
       barrierDismissible: false, // user must tap button for close dialog!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("t.subscribehint"),
-          content: const Text("t.previewsubscriptionrequiredhint"),
+          title: Text("t.subscribehint"),
+          content: Text("t.previewsubscriptionrequiredhint"),
           actions: <Widget>[
             TextButton(
-              child: const Text("t.cancel.toUpperCase()"),
+              child: Text("t.cancel.toUpperCase()"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text("t.subscribe"),
+              child: Text("t.subscribe"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
