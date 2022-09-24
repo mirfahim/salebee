@@ -1,7 +1,9 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:salebee/Model/getAssignedTaskModel.dart';
+import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/utils.dart';
 
+import '../../Model/getAllTaskModel.dart';
 import '../../repository/add_task_repository.dart';
 
 class AllTask extends StatefulWidget {
@@ -17,9 +19,9 @@ class _AssignedToMeState extends State<AllTask> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return FutureBuilder<GetAssignedTaskModel>(
-      future: taskRepository.getAssignedTaskController(), // async work
-      builder: (BuildContext context, AsyncSnapshot<GetAssignedTaskModel> snapshot) {
+    return FutureBuilder<GetAllTaskModel>(
+      future: taskRepository.getTaskController(), // async work
+      builder: (BuildContext context, AsyncSnapshot<GetAllTaskModel> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting: return Text('Loading....');
           default:
@@ -30,374 +32,403 @@ class _AssignedToMeState extends State<AllTask> {
                   itemCount: snapshot.data!.result!.length,
                   itemBuilder: (context, index) {
                     var data = snapshot.data!.result![index];
-                    return Stack(
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          color: Colors.redAccent
+                    return ExpandableNotifier(
+                      child: Stack(
+
+                        children: [
+                          Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6),
+                                            color: Colors.redAccent
+                                        ),
+                                        child:  Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),
+                                          child: Text(data!.priorityName!,style: TextStyle(
+                                              color: Colors.white
+                                          ),),
+                                        ),
                                       ),
-                                      child:  Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 8),
-                                        child: Text(data!.priorityName!,style: TextStyle(
-                                            color: Colors.white
-                                        ),),
-                                      ),
-                                    ),
-                                    const Text('Jul 27',style: TextStyle(
-                                        color: Colors.grey
-                                    ),)
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                Text('Fix a meeting with ${data!.leadName!}',style: TextStyle(
-                                    fontWeight: FontWeight.w600
-                                ),),
-                                SizedBox(height: 10,),
-                                Text(data.taskDesc!,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14
+                                      const Text('Jul 27',style: TextStyle(
+                                          color: Colors.grey
+                                      ),)
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Text('${data!.title!}',style: TextStyle(
+                                      fontWeight: FontWeight.w600
                                   ),),
-                                const SizedBox(height: 30,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(children: const [
-                                      Icon(Icons.calendar_today,color: Colors.grey,),
-                                      SizedBox(width: 5,),
-                                      Text('29 Jul 2021 10:30 AM',
+                                  Text('Fix a meeting with ${data!.leadName!}',style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    color: Colors.black54,
+                                    fontSize: 12
+                                  ),),
+                                  SizedBox(height: 10,),
+                                  Text(data.taskDesc!,
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 14
+                                    ),),
+                                  const SizedBox(height: 30,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(children: const [
+                                        Icon(Icons.calendar_today,color: Colors.grey,),
+                                        SizedBox(width: 5,),
+                                        Text('29 Jul 2021 10:30 AM',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 14
+                                          ),),
+                                      ],),
+                                      const Text('+5 days',
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 14
                                         ),),
-                                    ],),
-                                    const Text('+5 days',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14
-                                      ),),
-                                  ],
-                                ),
-                                const SizedBox(height: 15,),
-                                Row(
-                                  children: [
-                                    Icon(Icons.share,color: Colors.grey,),
-                                    SizedBox(width: 5,),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    Container(
-                                      transform: Matrix4.translationValues(-10, 0, 0.0),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    Container(
-                                      transform: Matrix4.translationValues(-20, 0, 0.0),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    const Text('+12',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14
-                                      ),),
-                                    SizedBox(width: 15,),
-                                    Icon(Icons.remove_red_eye,color: Colors.grey,),
-                                    SizedBox(width: 10,),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    Container(
-                                      transform: Matrix4.translationValues(-10, 0, 0.0),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    Container(
-                                      transform: Matrix4.translationValues(-20, 0, 0.0),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    const Text('+22',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14
-                                      ),),
-                                  ],
-                                ),
-                                const SizedBox(height: 15,),
-                                Row(
-                                  children: [
-                                    Icon(Icons.send,color: Colors.grey,),
-                                    SizedBox(width: 10,),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle
-                                      ),
-                                      child: const CircleAvatar(
-                                        radius: 12,
-                                        backgroundImage: AssetImage('images/person.jpg',),
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(data!.assignedPerson!,
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14
-                                      ),)
-                                  ],
-                                ),
-                                const SizedBox(height: 30,),
-                                Row(
-                                  children: const [
-                                    Text('Contact',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600
-                                      ),),
-                                    SizedBox(width: 10,),
-                                    Text('Rahat Mahmud (Chief Executive Officer)',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14,
-                                      ),),
-                                  ],
-                                ),
-                                Row(
-                                  children:  [
-                                    Container(
-                                      width: 50,
-                                    ),
-                                    const SizedBox(width: 10,),
-                                    const Text('01911111111',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14,
-                                      ),),
-                                  ],
-                                ),
-                                const SizedBox(height: 20,),
-                                Row(
-                                  children: [
-                                    const Text('Status',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600
-                                      ),),
-                                    const SizedBox(width: 10,),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          border: Border.all(color: Colors.grey)
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: const [
-                                            Text('Initialized',style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600
-                                            ),),
-                                            Icon(Icons.keyboard_arrow_down_outlined,color: Colors.grey,)
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                Row(
-                                  children: [
-                                    const Text('Pick Any',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600
-                                      ),),
-                                    SizedBox(width: 10,),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100)
-                                      ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15,),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.share,color: Colors.grey,),
+                                      SizedBox(width: 5,),
+                                      Container(
+                                        decoration: const BoxDecoration(
                                             shape: BoxShape.circle
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.chat,color: primaryColor,),
+                                        child: const CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage('images/person.jpg',),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100)
-                                      ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
+                                      Container(
+                                        transform: Matrix4.translationValues(-10, 0, 0.0),
+                                        decoration: const BoxDecoration(
                                             shape: BoxShape.circle
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.call,color: primaryColor,),
+                                        child: const CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage('images/person.jpg',),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100)
-                                      ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
+                                      Container(
+                                        transform: Matrix4.translationValues(-20, 0, 0.0),
+                                        decoration: const BoxDecoration(
                                             shape: BoxShape.circle
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.messenger,color: primaryColor,),
+                                        child: const CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage('images/person.jpg',),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100)
-                                      ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
+                                      const Text('+12',
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14
+                                        ),),
+                                      SizedBox(width: 15,),
+                                      Icon(Icons.remove_red_eye,color: Colors.grey,),
+                                      SizedBox(width: 10,),
+                                      Container(
+                                        decoration: const BoxDecoration(
                                             shape: BoxShape.circle
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.more_horiz,color: primaryColor,),
+                                        child: const CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage('images/person.jpg',),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                                      Container(
+                                        transform: Matrix4.translationValues(-10, 0, 0.0),
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: const CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage('images/person.jpg',),
+                                        ),
+                                      ),
+                                      Container(
+                                        transform: Matrix4.translationValues(-20, 0, 0.0),
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: const CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage('images/person.jpg',),
+                                        ),
+                                      ),
+                                      const Text('+22',
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14
+                                        ),),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 05,),
+                                  ScrollOnExpand(
+                    scrollOnExpand: true,
+                    scrollOnCollapse: false,
+                    child: ExpandablePanel(
+                    theme: const ExpandableThemeData(
+                    headerAlignment: ExpandablePanelHeaderAlignment.center,
+                    tapBodyToCollapse: true,
+                    ),
+                                    header: Row(
                                       children: [
-                                        const Text('Action',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600
-                                          ),),
+                                        Icon(Icons.send,color: Colors.grey,),
                                         SizedBox(width: 10,),
-                                        Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(100)
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle
                                           ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Icon(Icons.edit,color: primaryColor,),
-                                            ),
+                                          child: const CircleAvatar(
+                                            radius: 12,
+                                            backgroundImage: AssetImage('images/person.jpg',),
                                           ),
                                         ),
                                         SizedBox(width: 5,),
-                                        Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(100)
-                                          ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Icon(Icons.delete,color: Colors.red,),
-                                            ),
-                                          ),
-                                        ),
+                                        Text(data!.assignedPerson!,
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 14
+                                          ),)
                                       ],
                                     ),
-                                    Container(
+                      collapsed:  const SizedBox(height: 10,),
+                      expanded: Column(
+                        children: [
+
+                          Row(
+                            children:  [
+                              Text('Contact',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                              SizedBox(width: 10,),
+                              data!.contact == null ?
+                              Text( "",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                ),) : Text(data!.contact!,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                ),),
+                            ],
+                          ),
+                          Row(
+                            children:  [
+                              Container(
+                                width: 50,
+                              ),
+                              const SizedBox(width: 10,),
+                              const Text('01911111111',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                ),),
+                            ],
+                          ),
+                          const SizedBox(height: 20,),
+                          Row(
+                            children: [
+                              const Text('Status',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                              const SizedBox(width: 10,),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(color: Colors.grey)
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: const [
+                                      Text('Initialized',style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600
+                                      ),),
+                                      Icon(Icons.keyboard_arrow_down_outlined,color: Colors.grey,)
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              const Text('Pick Any',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                              SizedBox(width: 10,),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100)
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.chat,color: primaryColor,),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100)
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.call,color: primaryColor,),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100)
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.messenger,color: primaryColor,),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100)
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.more_horiz,color: primaryColor,),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text('Action',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600
+                                    ),),
+                                  SizedBox(width: 10,),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(100)
+                                    ),
+                                    child: Container(
                                       decoration: BoxDecoration(
-                                        color: primaryColor,
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(30),
-                                            topRight: Radius.circular(30),
-                                            bottomLeft: Radius.circular(30),
-                                            bottomRight: Radius.circular(30)
-                                        ),
+                                          shape: BoxShape.circle
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
-                                        child: Row(
-                                          children: const [
-                                            Icon(Icons.map,color: Colors.white,),
-                                            SizedBox(width: 5,),
-                                            Text('Visit',style: TextStyle(
-                                                color: Colors.white
-                                            ),)
-                                          ],
-                                        ),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.edit,color: primaryColor,),
                                       ),
-                                    )
+                                    ),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(100)
+                                    ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.delete,color: Colors.red,),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(30),
+                                      topRight: Radius.circular(30),
+                                      bottomLeft: Radius.circular(30),
+                                      bottomRight: Radius.circular(30)
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
+                                  child: Row(
+                                    children: const [
+                                      Icon(Icons.map,color: Colors.white,),
+                                      SizedBox(width: 5,),
+                                      Text('Visit',style: TextStyle(
+                                          color: Colors.white
+                                      ),)
+                                    ],
+                                  ),
+                                ),
+                              )
 
-                                  ],
-                                )
-                              ],
+                            ],
+                          )
+                        ],
+                      ),
+                                  ),
+
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     );
                   }
               );
@@ -406,3 +437,33 @@ class _AssignedToMeState extends State<AllTask> {
     );
   }
 }
+// {
+// "TaskID": 141759,
+// "CreatedOn": "2020-12-27T16:42:48.197",
+// "CreatedBy": 65,
+// "Title": "Follow up with -JK",
+// "AssignedTo": 79,
+// "AssignedPerson": "Md. Kamal Hossain",
+// "TaskDesc": "Have to follow up just for hi-hello to keep going business relation",
+// "StatusId": 5,
+// "DueDate": "2021-04-30T16:02:48",
+// "Type": 1,
+// "TaskType": "Call",
+// "AllStatus": "1,Incomplete,0;2,Need More Time,0;3,Partially Done,0;4,Done,0;5,Initiated,1;9,Need others help,0;11,Cancelled,0",
+// "PriorityName": "Very High",
+// "Priority": 5,
+// "ProspectName": "prospect name 31613",
+// "ProspectId": 31613,
+// "ProspectStatus": true,
+// "IsIndividual": false,
+// "ProspectNumber": "",
+// "StatusUpdateDate": null,
+// "LeadName": "",
+// "DoneOrder": 0,
+// "Contact": "41695,contact person x,Managing partner,000000",
+// "TaskShares": "",
+// "CanDelete": false,
+// "OverDueOrder": 1,
+// "IsProspectActive": "T",
+// "CreatedByName": "Md. Kamal Hossain"
+// },

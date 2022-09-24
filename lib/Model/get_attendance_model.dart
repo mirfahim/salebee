@@ -57,7 +57,11 @@ class Result {
     this.onLeave,
     this.workingDays,
     this.onTime,
+    this.checkInNote,
+    this.checkOutNote,
     this.token,
+    this.hours,
+    this.overTime,
     this.active,
     this.createdBy,
     this.createdOn,
@@ -68,14 +72,14 @@ class Result {
 
   int? id;
   int? employeeId;
-  DateTime? logTimeIn;
-  DateTime? logTimeOut;
+  var logTimeIn;
+  var logTimeOut;
   bool? isLogIn;
   bool? isLogFromPhone;
-  double? latitude;
-  double? longitude;
-  LocationDescription? locationDescription;
-  LocationDescription? remark;
+  var latitude;
+ var longitude;
+  String? locationDescription;
+  String? remark;
   bool? isLate;
   bool? isEarlyOut;
   bool? isHalfDay;
@@ -83,13 +87,17 @@ class Result {
   bool? isExtremeEarlyOut;
   var latitudeOut;
   var longitudeOut;
-  LocationDescription? locationDescriptionOut;
+  String? locationDescriptionOut;
   String? batteryStatus;
   int? absent;
   int? onLeave;
   int? workingDays;
   int? onTime;
-  dynamic token;
+  String? checkInNote;
+  String? checkOutNote;
+  var token;
+  var hours;
+  var overTime;
   bool? active;
   int? createdBy;
   DateTime? createdOn;
@@ -100,14 +108,14 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
     employeeId: json["EmployeeId"],
-    logTimeIn: DateTime.parse(json["LogTimeIn"]),
-    logTimeOut: DateTime.parse(json["LogTimeOut"]),
+    logTimeIn: json["LogTimeIn"]   ,
+    logTimeOut: json["LogTimeOut"]  ,
     isLogIn: json["IsLogIn"],
     isLogFromPhone: json["IsLogFromPhone"],
-    latitude: json["Latitude"].toDouble(),
-    longitude: json["Longitude"].toDouble(),
-    locationDescription: locationDescriptionValues.map![json["LocationDescription"]],
-    remark: locationDescriptionValues.map![json["Remark"]],
+    latitude: json["Latitude"],
+    longitude: json["Longitude"],
+    locationDescription: json["LocationDescription"],
+    remark: json["Remark"],
     isLate: json["IsLate"],
     isEarlyOut: json["IsEarlyOut"],
     isHalfDay: json["IsHalfDay"],
@@ -115,13 +123,17 @@ class Result {
     isExtremeEarlyOut: json["IsExtremeEarlyOut"],
     latitudeOut: json["LatitudeOut"],
     longitudeOut: json["LongitudeOut"],
-    locationDescriptionOut: locationDescriptionValues.map![json["LocationDescriptionOut"]],
+    locationDescriptionOut: json["LocationDescriptionOut"],
     batteryStatus: json["BatteryStatus"],
     absent: json["Absent"],
     onLeave: json["OnLeave"],
     workingDays: json["WorkingDays"],
     onTime: json["OnTime"],
+    checkInNote: json["CheckInNote"],
+    checkOutNote: json["CheckOutNote"],
     token: json["Token"],
+    hours: json["Hours"],
+    overTime: json["OverTime"],
     active: json["Active"],
     createdBy: json["CreatedBy"],
     createdOn: DateTime.parse(json["CreatedOn"]),
@@ -139,8 +151,8 @@ class Result {
     "IsLogFromPhone": isLogFromPhone,
     "Latitude": latitude,
     "Longitude": longitude,
-    "LocationDescription": locationDescriptionValues.reverse[locationDescription],
-    "Remark": locationDescriptionValues.reverse[remark],
+    "LocationDescription": locationDescription,
+    "Remark": remark,
     "IsLate": isLate,
     "IsEarlyOut": isEarlyOut,
     "IsHalfDay": isHalfDay,
@@ -148,13 +160,17 @@ class Result {
     "IsExtremeEarlyOut": isExtremeEarlyOut,
     "LatitudeOut": latitudeOut,
     "LongitudeOut": longitudeOut,
-    "LocationDescriptionOut": locationDescriptionValues.reverse[locationDescriptionOut],
+    "LocationDescriptionOut": locationDescriptionOut,
     "BatteryStatus": batteryStatus,
     "Absent": absent,
     "OnLeave": onLeave,
     "WorkingDays": workingDays,
     "OnTime": onTime,
+    "CheckInNote": checkInNote,
+    "CheckOutNote": checkOutNote,
     "Token": token,
+    "Hours": hours,
+    "OverTime": overTime,
     "Active": active,
     "CreatedBy": createdBy,
     "CreatedOn": createdOn!.toIso8601String(),
@@ -162,25 +178,4 @@ class Result {
     "UpdatedOn": updatedOn!.toIso8601String(),
     "IsDeleted": isDeleted,
   };
-}
-
-enum LocationDescription { STRING, DT }
-
-final locationDescriptionValues = EnumValues({
-  "dt": LocationDescription.DT,
-  "string": LocationDescription.STRING
-});
-
-class EnumValues<T> {
-  Map<String, T>? map;
-  Map<T, String>? reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map!.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap!;
-  }
 }

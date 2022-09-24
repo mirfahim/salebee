@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-GetAllTaskModel getAllTaskModelFromJson(String str) => GetAllTaskModel.fromJson(json.decode(str));
+GetAllMyTaskModel getAllMyTaskModelFromJson(String str) => GetAllMyTaskModel.fromJson(json.decode(str));
 
-String getAllTaskModelModelToJson(GetAllTaskModel data) => json.encode(data.toJson());
+String getAllMyTaskModelModelToJson(GetAllMyTaskModel data) => json.encode(data.toJson());
 
-class GetAllTaskModel {
-  GetAllTaskModel({
+class GetAllMyTaskModel {
+  GetAllMyTaskModel({
     this.message,
     this.result,
     this.isSuccess,
@@ -19,7 +19,7 @@ class GetAllTaskModel {
   List<Result>? result;
   bool? isSuccess;
 
-  factory GetAllTaskModel.fromJson(Map<String, dynamic> json) => GetAllTaskModel(
+  factory GetAllMyTaskModel.fromJson(Map<String, dynamic> json) => GetAllMyTaskModel(
     message: json["Message"],
     result: List<Result>.from(json["Result"].map((x) => Result.fromJson(x))),
     isSuccess: json["IsSuccess"],

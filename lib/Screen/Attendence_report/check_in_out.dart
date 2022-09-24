@@ -30,6 +30,7 @@ class CheckInOut extends StatefulWidget {
 class _CheckInOutState extends State<CheckInOut> {
   //final checkIn = false.obs;
   String checkInTime = "";
+  var textNoteController = TextEditingController();
   AttendanceRepository attendanceRepository = AttendanceRepository();
   LocationPermission? permission;
   CheckinResponse checkinResponse = CheckinResponse();
@@ -49,6 +50,30 @@ class _CheckInOutState extends State<CheckInOut> {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    attendanceRepository.getAttendanceController(StaticData.employeeID!).then((value) {
+      print(" my get report model is ${value.result!.length}");
+      String apiDate = value.result!.last!.logTimeIn! ;
+      
+     if (apiDate.substring(0, 10) == DateTime.now().toIso8601String().substring(0, 10)){
+       setState((){
+         checkInTime = value.result!.last!.logTimeIn!.substring(11, 16);
+         if(checkInTime.isNotEmpty){
+           status.value = false;
+         }
+       });
+
+      }else{
+       print("data for not today it's an error ${value.result!.last!.logTimeIn}");
+       print("data for not today it's an error ${DateTime.now().toIso8601String()}");
+     };
+    });
+    //status.value = SharedPreff.to.prefss.getBool("checkedIn")!;
+    super.initState();
   }
   // final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -122,9 +147,7 @@ class _CheckInOutState extends State<CheckInOut> {
                           height: 200,
                           width: 200,
                           child: CircularProgressIndicator(
-                            color: end.value == 1
-                                ? Colors.blue
-                                : Colors.amber,
+                            color: end.value == 1 ? Colors.blue : Colors.amber,
                             value: circularProgressIndicatorValue.value,
                             backgroundColor: Colors.grey,
                             strokeWidth: 5,
@@ -134,14 +157,28 @@ class _CheckInOutState extends State<CheckInOut> {
                       Center(
                         child: GestureDetector(
                           // onTap: () {
-                          //
+                          //   end.value = 1;
                           // },
                           onLongPress: () async {
                             // end.value = 1;
                             //_showMyDialog();
-                            end.value = 1;
+                            print("status is &&&&&&&&& ${status.value}");
+                           if(status.value ==true ){
+                             if(DateTime.now().hour > 10) {
+                               _showMyDialog(true,);
+                             }else {
+                               attendanceFunction();
+                             }
+                           }else {
+                             if(DateTime.now().hour <= 18) {
+                               _showMyDialog(false,);
+                             }else {
+                               attendanceFunction();
+                             }
+                           }
 
-                            attendanceFunction();
+
+
                           },
                           onLongPressCancel: () {
                             end.value = 0;
@@ -265,7 +302,7 @@ class _CheckInOutState extends State<CheckInOut> {
                           SizedBox(
                             height: 5,
                           ),
-                           Text(
+                          Text(
                             'Working Hour',
                             // status.value.toString(),
                             style: TextStyle(color: Colors.grey, fontSize: 12),
@@ -282,14 +319,6 @@ class _CheckInOutState extends State<CheckInOut> {
         ],
       ),
     );
-  }
-
-  void changeCheckIn() {
-    print("my battery level$percentage");
-    setState(() {
-      checkIn = !checkIn;
-      // status.value = !status.value;
-    });
   }
 
   // Future<dynamic> checkInController(int id, int employeeId, DateTime logTimeIn,
@@ -368,7 +397,7 @@ class _CheckInOutState extends State<CheckInOut> {
     percentage = level;
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog(bool checkStatus,) async {
     getBatteryPerentage();
     return showDialog<void>(
       context: context,
@@ -379,17 +408,27 @@ class _CheckInOutState extends State<CheckInOut> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure ?'),
-                checkIn == true
-                    ? Text('You want to check in?')
-                    : Text('You want to check out?'),
+               checkStatus == true ?  Text('Please enter your reason of late ?')
+                : Text('Please enter your reason of early leave ?'),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  controller: textNoteController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter Note',
+                      hintText: 'Reason'),
+                ),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('Done'),
               onPressed: () async {
+                attendanceFunction();
+                Navigator.pop(context);
                 //  _getLocation();
               },
             ),
@@ -437,6 +476,7 @@ class _CheckInOutState extends State<CheckInOut> {
   }
 
   attendanceFunction() async {
+    end.value = 1;
     print("working chekout ${SharedPreff.to.prefss.getString("token")}");
     String? token = SharedPreff.to.prefss.getString("token");
 
@@ -467,80 +507,102 @@ class _CheckInOutState extends State<CheckInOut> {
                   lat: ele!.latitude,
                   lon: ele!.longitude,
                   battery: percentage,
-                  location: locationDis)
+                  location: locationDis,
+      note: textNoteController.text,
+      token: token!)
               .then((e) {
-              print("my resposne check in is ++++++++${e.isSuccess}");
-
-              if (e.isSuccess == true) {
-                print(
-                    "my respons ei s  ________________________${e.isSuccess}");
-                String? str = e.result!.logTimeIn!;
-
-                final endIndex = str!.indexOf(":00", 0);
-
-                print("my check in time is $endIndex"); // Cars
-                const snackBar = SnackBar(
-                  content: Text('Already checked in!'),
-                );
+        checkInMethod(e);
+        print("my resposne check in is ++++++++${e.isSuccess}");
 
 
-// Find the ScaffoldMessenger in the widget tree
-// and use it to show a SnackBar.
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                setState(() {
-                  checkInTime = str.substring(11, endIndex);
-                  print("my check IN time is +++++++++$checkInTime");
-
-                  status.value = false;
-                  print("+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
-                });
-
-              } else if (e.isSuccess == false) {
-                status.value = false;
-                 end.value = 0;
-                _showSnack(e.message!);
-                print("+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
-                setState(() {
-
-                });
-
-
-              }
-            })
+      })
           : attendanceRepository
               .checkOutController(token!, StaticData.employeeID!, formatted,
-                  locationDis, ele!.latitude, ele!.longitude)
+                  locationDis, ele!.latitude, ele!.longitude, textNoteController.text??"")
               .then((e) {
-              duration(e.result!.logTimeIn, e.result!.logTimeOut);
-              String str = e.result!.logTimeOut;
+                String time = DateFormat('hh:mm').format(DateTime.now()).toString();
+                String convertNowTime = time.replaceAll(":", ".");
+                print("HOUR MIN TIME NOW ######################### $convertNowTime");
+               double timeNow = double.parse(convertNowTime);
+               print("HOUR MIN TIME NOW ######################### $timeNow");
 
-              //  final endIndex = str.indexOf(":00", 0);
-              String strlogIn = e.result!.logTimeIn;
-
-              // final endIndexLogIn = str.indexOf(":00", 0);
-              // ../../UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal Photo.jpg.jpg
-              //http://nexzen.salebee.net/assets/images/nexzen.png
-              //  print(str.substring(11, endIndex)); // Cars
-
-              setState(() {
-                checkOutTime = str.substring(11, 16);
-                checkInTime = strlogIn.substring(11, 16);
-
-                print("my checkout time is +++++++++$checkOutTime");
-                print("my checkout time is checkIN time+++++++++$checkInTime");
-              });
-              if (e.isSuccess == true) {
-                _showSnack("Checked Out");
-                end.value = 0;
-                status.value = true;
-              } else if (e.isSuccess == false) {
-                status.value = false;
-              }
+                checkOutMethod(e);
             });
     });
     // GetAddressFromLatLong();
-    changeCheckIn();
+
     // Navigator.of(context).pop();
+  }
+
+  checkOutMethod(e){
+    duration(e.result!.logTimeIn, e.result!.logTimeOut);
+    String str = e.result!.logTimeOut;
+
+    //  final endIndex = str.indexOf(":00", 0);
+    String strlogIn = e.result!.logTimeIn;
+
+    // final endIndexLogIn = str.indexOf(":00", 0);
+    // ../../UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal Photo.jpg.jpg
+    //http://nexzen.salebee.net/assets/images/nexzen.png
+    //  print(str.substring(11, endIndex)); // Cars
+
+    setState(() {
+      checkOutTime = str.substring(11, 16);
+      checkInTime = strlogIn.substring(11, 16);
+
+      print("my checkout time is +++++++++$checkOutTime");
+      print("my checkout time is checkIN time+++++++++$checkInTime");
+    });
+    if (e.isSuccess == true) {
+      _showSnack("Checked Out");
+      double checkedOutT = double.parse("04.38");
+      print("MY CHECKED OUT TIME IS +++++++++++++++++++++ $checkedOutT ");
+      SharedPreff.to.prefss.setBool("loggedIN", true);
+
+      //end.value = 0;
+      status.value = true;
+    } else if (e.isSuccess == false) {
+      status.value = false;
+      // _showMyDialog();
+    }
+  }
+
+  checkInMethod(e){
+    if(e.isSuccess == true){
+    print(
+        "my respons ei s  ________________________${e.isSuccess}");
+    String? str = e.result!.logTimeIn!;
+
+    checkInTime = str!.substring(11, 16);
+    SharedPreff.to.prefss.setBool("checkedIn", false);
+
+    print("my check in time is $checkInTime"); // Cars
+    const snackBar = SnackBar(
+      content: Text('You have checked in!'),
+    );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    setState(() {
+      checkInTime = str.substring(11, 16);
+      print("my check IN time is +++ IF++++++$checkInTime");
+      // checkInTime = strlogIn.substring(11, 16);
+
+      status.value = false;
+      print(
+          "+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
+    });
+
+
+  } else if (e.isSuccess == false) {
+    status.value = false;
+    end.value = 0;
+    _showSnack(e.message!);
+    print(
+    "+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
+    setState(() {});
+    }
   }
 // _getLocation() async
   // {

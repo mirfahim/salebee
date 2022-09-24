@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 
 import '../Attendence_report/attendence_report.dart';
 import '../leave/leave_front.dart';
+import '../test.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -281,7 +282,7 @@ class HomePage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.to(EditProfile());
+                        Get.to(TestApp());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
