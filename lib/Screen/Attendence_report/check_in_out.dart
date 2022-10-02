@@ -47,6 +47,7 @@ class _CheckInOutState extends State<CheckInOut> {
   final end = 0.0.obs;
   String totalhrs = "";
   Timer? _timer;
+
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
@@ -55,21 +56,40 @@ class _CheckInOutState extends State<CheckInOut> {
   @override
   void initState() {
     // TODO: implement initState
+    geolocatorService.determinePosition().then((ele){
+      getAddressFromLatLong(ele!);
+    });
+
     attendanceRepository.getAttendanceController(StaticData.employeeID!).then((value) {
-      print(" my get report model is ${value.result!.length}");
-      String apiDate = value.result!.last!.logTimeIn! ;
-      
+
+      String apiDate = value.result!.first!.logTimeIn! ;
+      print(" my get report model is ${apiDate.substring(0, 10)}");
+      print(" my get report today is ${DateTime.now().toIso8601String().substring(0, 10)}");
+
      if (apiDate.substring(0, 10) == DateTime.now().toIso8601String().substring(0, 10)){
+       print("working in if");
+       if(value.result!.first!.logTimeOut != null){
+         duration(value.result!.first!.logTimeIn, value.result!.first!.logTimeOut);
+       }
+
        setState((){
-         checkInTime = value.result!.last!.logTimeIn!.substring(11, 16);
+         checkInTime = DateFormat.jm().format(DateTime.parse(apiDate));
+         if(value.result!.first!.logTimeOut != null){
+           checkOutTime = DateFormat.jm().format(DateTime.parse(value.result!.first!.logTimeOut));
+         }
+
+         print("check in time initState $checkInTime");
          if(checkInTime.isNotEmpty){
-           status.value = false;
+           setState(() {
+             status.value = false;
+           });
+
          }
        });
 
       }else{
-       print("data for not today it's an error ${value.result!.last!.logTimeIn}");
-       print("data for not today it's an error ${DateTime.now().toIso8601String()}");
+       print("data for not today it's an api ${value.result!.first!.logTimeIn}");
+       print("data for  today it's an  error ${DateTime.now().toIso8601String()}");
      };
     });
     //status.value = SharedPreff.to.prefss.getBool("checkedIn")!;
@@ -81,242 +101,244 @@ class _CheckInOutState extends State<CheckInOut> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldkey,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          SizedBox(
-            height: 150,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      DateFormat('hh:mm').format(DateTime.now()),
-                      style: const TextStyle(
-                          fontSize: 60, fontWeight: FontWeight.w300),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      DateFormat('a').format(DateTime.now()),
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      DateFormat.EEEE().format(DateTime.now()),
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      DateFormat.yMd().format(DateTime.now()),
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 50,
             ),
-          ),
-          Obx(() => TweenAnimationBuilder(
-                duration: Duration(seconds: 3),
-                tween: Tween(begin: 0.0, end: end.value),
-                builder: (context, double value, _) {
-                  circularProgressIndicatorValue.value = value;
-                  return Stack(
+            SizedBox(
+              height: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Center(
-                        child: SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: CircularProgressIndicator(
-                            color: end.value == 1 ? Colors.blue : Colors.amber,
-                            value: circularProgressIndicatorValue.value,
-                            backgroundColor: Colors.grey,
-                            strokeWidth: 5,
-                          ),
-                        ),
+                      Text(
+                        DateFormat('hh:mm').format(DateTime.now()),
+                        style: const TextStyle(
+                            fontSize: 60, fontWeight: FontWeight.w300),
                       ),
-                      Center(
-                        child: GestureDetector(
-                          // onTap: () {
-                          //   end.value = 1;
-                          // },
-                          onLongPress: () async {
-                            // end.value = 1;
-                            //_showMyDialog();
-                            print("status is &&&&&&&&& ${status.value}");
-                           if(status.value ==true ){
-                             if(DateTime.now().hour > 10) {
-                               _showMyDialog(true,);
-                             }else {
-                               attendanceFunction();
-                             }
-                           }else {
-                             if(DateTime.now().hour <= 18) {
-                               _showMyDialog(false,);
-                             }else {
-                               attendanceFunction();
-                             }
-                           }
-
-
-
-                          },
-                          onLongPressCancel: () {
-                            end.value = 0;
-                          },
-                          child: Obx(() => Container(
-                                height: 200,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: status.value == true
-                                        ? Colors.blue
-                                        : Colors.amber),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(70.0),
-                                  child: Image.asset(
-                                    'images/tap.png',
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                              )),
-                        ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        DateFormat('a').format(DateTime.now()),
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w400),
                       ),
                     ],
-                  );
-                },
-              )),
-          SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        DateFormat.EEEE().format(DateTime.now()),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        DateFormat.yMd().format(DateTime.now()),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Obx(() => TweenAnimationBuilder(
+                  duration: Duration(seconds: 3),
+                  tween: Tween(begin: 0.0, end: end.value),
+                  builder: (context, double value, _) {
+                    circularProgressIndicatorValue.value = value;
+                    return Stack(
+                      children: [
+                        Center(
+                          child: SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: CircularProgressIndicator(
+                              color: end.value == 1 ? Colors.blue : Colors.amber,
+                              value: circularProgressIndicatorValue.value,
+                              backgroundColor: Colors.grey,
+                              strokeWidth: 5,
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: GestureDetector(
+                            // onTap: () {
+                            //   end.value = 1;
+                            // },
+                            onLongPress: () async {
+                              // end.value = 1;
+                              //_showMyDialog();
+                              print("status is &&&&&&&&& ${status.value}");
+                             if(status.value ==true ){
+                               if(DateTime.now().hour > 10) {
+                                 _showMyDialog(true,);
+                               }else {
+                                 attendanceFunction();
+                               }
+                             }else {
+                               if(DateTime.now().hour <= 18) {
+                                 _showMyDialog(false,);
+                               }else {
+                                 attendanceFunction();
+                               }
+                             }
+
+
+
+                            },
+                            onLongPressCancel: () {
+                              end.value = 0;
+                            },
+                            child: Obx(() => Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: status.value == true
+                                          ? Colors.blue
+                                          : Colors.amber),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(70.0),
+                                    child: Image.asset(
+                                      'images/tap.png',
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.location_on_outlined),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    locationDis,
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 8),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
               children: [
-                Icon(Icons.location_on_outlined),
-                SizedBox(
-                  width: 10,
+                Expanded(
+                  child: Container(),
                 ),
-                Text(
-                  locationDis,
-                  maxLines: 2,
-                  style: TextStyle(fontSize: 8),
+                Expanded(
+                    flex: 6,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: primaryColor,
+                            ),
+                            Text(
+                              checkInTime,
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            status.value == true
+                                ? Text(
+                                    'Check In',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent, fontSize: 12),
+                                  )
+                                : Text(
+                                    'Check In',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.person_add_alt,
+                              color: primaryColor,
+                            ),
+                            Text(
+                              checkOutTime,
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            status.value == true
+                                ? Text(
+                                    'Check Out',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                  )
+                                : Text(
+                                    'Check Out',
+                                    style: TextStyle(
+                                        color: Colors.blueAccent, fontSize: 12),
+                                  ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.arrow_circle_right,
+                              color: primaryColor,
+                            ),
+                            Text(
+                              totalhrs,
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Working Hour',
+                              // status.value.toString(),
+                              style: TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+                Expanded(
+                  child: Container(),
                 )
               ],
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(),
-              ),
-              Expanded(
-                  flex: 6,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.person,
-                            color: primaryColor,
-                          ),
-                          Text(
-                            checkInTime,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          status.value == true
-                              ? Text(
-                                  'Check In',
-                                  style: TextStyle(
-                                      color: Colors.blueAccent, fontSize: 12),
-                                )
-                              : Text(
-                                  'Check In',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.person_add_alt,
-                            color: primaryColor,
-                          ),
-                          Text(
-                            checkOutTime,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          status.value == true
-                              ? Text(
-                                  'Check Out',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                )
-                              : Text(
-                                  'Check Out',
-                                  style: TextStyle(
-                                      color: Colors.blueAccent, fontSize: 12),
-                                ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.arrow_circle_right,
-                            color: primaryColor,
-                          ),
-                          Text(
-                            totalhrs,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'Working Hour',
-                            // status.value.toString(),
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-              Expanded(
-                child: Container(),
-              )
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -547,8 +569,10 @@ class _CheckInOutState extends State<CheckInOut> {
     //  print(str.substring(11, endIndex)); // Cars
 
     setState(() {
-      checkOutTime = str.substring(11, 16);
-      checkInTime = strlogIn.substring(11, 16);
+      checkOutTime =  DateFormat.jm().format(DateTime.parse(str));
+     // checkOutTime = str.substring(11, 16);
+
+      checkInTime = DateFormat.jm().format(DateTime.parse(strlogIn));
 
       print("my checkout time is +++++++++$checkOutTime");
       print("my checkout time is checkIN time+++++++++$checkInTime");

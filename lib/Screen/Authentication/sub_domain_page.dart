@@ -101,6 +101,7 @@ class LoginPageState extends State<SubDomainPage> {
                         print("==================${StaticData.subDomain}");
                         loading = false;
                       });
+
                       Get.to(() => LoginPage());
                     } else {
                       final snackBar = SnackBar(

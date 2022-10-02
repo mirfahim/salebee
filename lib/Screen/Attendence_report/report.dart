@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../Data/static_data.dart';
 import '../../Model/get_attendance_model.dart';
 import '../../repository/attendance_repository.dart';
 import '../../utils.dart';
 import 'check_in_out.dart';
+///import 'package:my_app/globals.dart' as globals;
 
 class Report extends StatefulWidget {
   @override
@@ -16,13 +18,15 @@ class _ReportState extends State<Report> {
   final summaryOpen = false.obs;
   AttendanceRepository attendanceRepository = AttendanceRepository();
   GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
-  List listData =[];
-  int workingDays = 0 ;
-  int onTime = 0 ;
-  int late = 0 ;
-  int leftEarly = 0 ;
-  int onLeave = 0 ;
-  int absent = 0 ;
+  //TabController _tabController;
+  List listData = [];
+  int workingDays = 0;
+  int onTime = 0;
+  int late = 0;
+  int leftEarly = 0;
+  int onLeave = 0;
+  int absent = 0;
+  int monthSelection = int.parse(DateTime.now().toString().substring(5,7));
   List<DataCell> dataRow = [
     DataCell(
       Container(
@@ -113,75 +117,71 @@ class _ReportState extends State<Report> {
     'August',
     'September',
     'October',
-    'November'
+    'November',
         'December'
   ];
+
 
   //AttendanceRepository attendanceRepository = AttendanceRepository();
   @override
   void initState() {
-
-
-          attendanceRepository
+    attendanceRepository
         .getAttendanceController(StaticData.employeeID!)
         .then((value) {
-
-
-       listData = value.result! ;
-
-
-       leaveCount(listData);
-       onTimeCount(listData);
-       workingDaysCount(listData);
-       absentCount(listData);
-       leaveCount(listData);
-       leftTimelyCount(listData);
-
-
-
-
-
-          });
-
+      listData = value.result!;
+     // _tabController = new TabController(vsync: this, length: tabs.length);
+      leaveCount(listData);
+      onTimeCount(listData);
+      workingDaysCount(listData);
+      absentCount(listData);
+      leaveCount(listData);
+      leftTimelyCount(listData);
+    });
 
     // TODO: implement initState
     super.initState();
   }
-    leaveCount(List data) {
-    num  count =0;
-     data.forEach((item) => count+=item.onLeave);
-     print("on leave is $count");
-     onLeave = count.toInt();
-    return count;
-  }
-  leftTimelyCount(List data) {
-    num  count =0;
-    data.forEach((item) => count+=item.onLeave);
+
+  leaveCount(List data) {
+    num count = 0;
+    data.forEach((item) => count += item.onLeave);
     print("on leave is $count");
     onLeave = count.toInt();
     return count;
   }
+
+  leftTimelyCount(List data) {
+    num count = 0;
+    data.forEach((item) => count += item.onLeave);
+    print("on leave is $count");
+    onLeave = count.toInt();
+    return count;
+  }
+
   onTimeCount(List data) {
-    num  count =0;
-    data.forEach((item) => count+=item.onLeave);
+    num count = 0;
+    data.forEach((item) => count += item.onLeave);
     print("on leave is $count");
     onTime = count.toInt();
     return count;
   }
+
   workingDaysCount(List data) {
-    num  count =0;
-    data.forEach((item) => count+=item.onLeave);
+    num count = 0;
+    data.forEach((item) => count += item.onLeave);
     print("on leave is $count");
     workingDays = count.toInt();
     return count;
   }
+
   absentCount(List data) {
-    num  count =0;
-    data.forEach((item) => count+=item.onLeave);
+    num count = 0;
+    data.forEach((item) => count += item.onLeave);
     print("on leave is $count");
     absent = count.toInt();
     return count;
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -238,14 +238,13 @@ class _ReportState extends State<Report> {
                         duration: const Duration(seconds: 1),
                         child: Column(
                           children: [
-                            summaryRow(Colors.blue, 'Working Days',
-                                workingDays),
+                            summaryRow(
+                                Colors.blue, 'Working Days', workingDays),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
                             ),
-                            summaryRow(Colors.green, 'On Time',
-                                onTime),
+                            summaryRow(Colors.green, 'On Time', onTime),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
@@ -255,24 +254,25 @@ class _ReportState extends State<Report> {
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
                             ),
-                            summaryRow(Colors.greenAccent, 'Left Timely', leftEarly),
+                            summaryRow(
+                                Colors.greenAccent, 'Left Timely', leftEarly),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
                             ),
-                            summaryRow(Colors.redAccent, 'Left Early', leftEarly),
+                            summaryRow(
+                                Colors.redAccent, 'Left Early', leftEarly),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
                             ),
-                            summaryRow(Colors.orange, 'On leave',
-                               onLeave),
+                            summaryRow(Colors.orange, 'On leave', onLeave),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
                             ),
-                            summaryRow(Colors.red.withOpacity(.35), 'Absent',
-                                absent),
+                            summaryRow(
+                                Colors.red.withOpacity(.35), 'Absent', absent),
                             Divider(
                               thickness: 2,
                               color: Colors.grey.withOpacity(.35),
@@ -337,16 +337,26 @@ class _ReportState extends State<Report> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: DefaultTabController(
-              length: 11,
+              initialIndex: monthSelection -1,
+              length: 12,
               child: Column(
                 children: [
                   TabBar(
+
                     indicator: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: primaryColor),
                     isScrollable: true,
                     indicatorColor: Colors.black,
                     labelColor: Colors.black,
+
+
+                    onTap: (index){
+                      setState((){
+                        monthSelection = index+1;
+                      });
+
+                    },
                     tabs: tabs
                         .map((tab) => Tab(
                               icon: Padding(
@@ -378,162 +388,201 @@ class _ReportState extends State<Report> {
                             .getAttendanceController(StaticData.employeeID!),
                         builder: (BuildContext context,
                             AsyncSnapshot<GetAttendanceDataModel> snapshot) {
-                          return ListView.builder(
-                              itemCount: snapshot.data!.result!.length,
-                              itemBuilder: (BuildContext context, index) {
-                                var data = snapshot.data!.result![index];
-
-                                final hours = DateTime.parse(data.logTimeOut ?? "2035-09-13T21:06:40.32")
-                                    .difference(DateTime.parse(data.logTimeIn))
-                                    .inHours;
-                                final minutes = DateTime.parse(data.logTimeOut ?? "2035-09-13T21:06:40.32")
-                                    .difference(DateTime.parse(data.logTimeIn))
-                                    .inMinutes;
-                                final totalWorkingHours =
-                                    '$hours.${(minutes - (hours * 60))}';
-
-
-                                return Card(
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey,
-                                                borderRadius:
-                                                    BorderRadius.circular(6)),
-                                            width: 30,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  //"LogTimeIn":"2022-09-13T08:36:40.32"
-                                                  Center(
-                                                    child: Text(
-                                                      data.logTimeIn
-                                                          .toString()
-                                                          .substring(8, 10),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ),
-                                                  // SizedBox(
-                                                  //   height: 3,
-                                                  // ),
-                                                  // Text(
-                                                  //   'SAT',
-                                                  //   textAlign: TextAlign.center,
-                                                  // ),
-                                                ],
-                                              ),
-                                            )),
-                                        Container(
-                                            width: 80,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  data.logTimeIn
-                                                      .toString()
-                                                      .substring(11, 16),
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                Text(
-                                                  data.locationDescription
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 8),
-                                                )
-                                              ],
-                                            )),
-                                        Container(
-                                            width: 80,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                data.logTimeOut == null
-                                                    ? Text(
-                                                        "",
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      )
-                                                    : Text(
-                                                        data.logTimeOut
-                                                                .toString()
-                                                                .substring(
-                                                                    11, 16) ??
-                                                            "",
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                itemCount: snapshot.data!.result!.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  var data = snapshot.data!.result![index];
+                                  print(
+                                      "my month selection is length ++ ${snapshot.data!.result!.length} and month ${data.logTimeIn.toString().substring(5, 7)}");
+                                  final hours = DateTime.parse(
+                                          data.logTimeOut ??
+                                              "2035-09-13T21:06:40.32")
+                                      .difference(
+                                          DateTime.parse(data.logTimeIn))
+                                      .inHours;
+                                  final minutes = DateTime.parse(
+                                          data.logTimeOut ??
+                                              "2035-09-13T21:06:40.32")
+                                      .difference(
+                                          DateTime.parse(data.logTimeIn))
+                                      .inMinutes;
+                                  final totalWorkingHours =
+                                      '$hours.${(minutes - (hours * 60))}';
+                                  if ( monthSelection ==
+                                      int.parse(data.logTimeIn
+                                          .toString()
+                                          .substring(5, 7))) {
+                                    return Card(
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6)),
+                                                width: 30,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 4.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      //"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                      Center(
+                                                        child: Text(
+                                                          data.logTimeIn
+                                                              .toString()
+                                                              .substring(8, 10),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
                                                       ),
-                                                data.locationDescriptionOut ==
-                                                        null
-                                                    ? Text(
-                                                        "No Data",
+                                                      SizedBox(
+                                                        height: 3,
+                                                      ),
+                                                      Text(
+                                                        DateFormat('EEEE').format(DateTime.parse(data.logTimeIn)).toString().substring(0,3),
+
+                                                        textAlign: TextAlign.center,
                                                         style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 8),
-                                                      )
-                                                    : Text(
-                                                        data.locationDescriptionOut
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 8),
-                                                      )
-                                              ],
-                                            )),
-                                        Container(
-                                          width: 80,
-                                          child: totalWorkingHours == null
-                                              ? Text(
-                                                  "No Data",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                )
-                                              :double.parse(totalWorkingHours) > 18.00 ? Text(
-                                                  "You did not check out",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ) :  Text(
-                                            totalWorkingHours.toString() + " hrs",
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight:
-                                                FontWeight.w600),
-                                          ),
-                                        ),
-                                      ]),
-                                );
-                              });
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
+                                            Container(
+                                                width: 80,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      DateFormat.jm().format(DateTime.parse(data.logTimeIn))
+
+                                                          ,
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                    Text(
+                                                      data.locationDescription
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 8),
+                                                    )
+                                                  ],
+                                                )),
+                                            Container(
+                                                width: 80,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    data.logTimeOut == null
+                                                        ? Text(
+                                                            "",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          )
+                                                        : Text(
+                                                      DateFormat.jm().format(DateTime.parse(data.logTimeOut)) ??
+                                                                "",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                    data.locationDescriptionOut ==
+                                                            null
+                                                        ? Text(
+                                                            "No Data",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 8),
+                                                          )
+                                                        : Text(
+                                                            data.locationDescriptionOut
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 8),
+                                                          )
+                                                  ],
+                                                )),
+                                            Container(
+                                              width: 80,
+                                              child: totalWorkingHours == null
+                                                  ? Text(
+                                                      "No Data",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    )
+                                                  : double.parse(
+                                                              totalWorkingHours) >
+                                                          18.00
+                                                      ? Text(
+                                                          "You did not check out",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        )
+                                                      : Text(
+                                                          totalWorkingHours
+                                                                  .toString() +
+                                                              " hrs",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                            ),
+                                          ]),
+                                    );
+                                  }
+
+                                  return Container();
+                                });
+                          } else {
+                            CircularProgressIndicator();
+                          }
+                          return Container(
+                            child: Center(
+                              child: Text("No Data Found"),
+                            ),
+                          );
                         }),
                   ),
                 ],

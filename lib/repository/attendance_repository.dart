@@ -26,19 +26,40 @@ class AttendanceRepository {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
     print("working $logTimeIn ++++++ and location is $location");
+    print("CHECK IN ++++++++++++++++LOGTIME IN IS ++++++ $logTimeIn ");
     String finalToken = token.replaceAll('/', '%2F');
+    // {
 
+
+    // "LongitudeOut": 0,
+    // "LocationDescriptionOut": "string",
+    // "BatteryStatus": "string",
+    // "Absent": 0,
+    // "OnLeave": 0,
+    // "WorkingDays": 0,
+    // "OnTime": 0,
+    // "CheckInNote": "string",
+    // "CheckOutNote": "string",
+    // "Token": "IfJylQXq9j2bT+BxKl9eAB+mgLuVFQLU8Ex21yo+TPzqkMgN55lU/xSnY+YOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks",
+    // "Hours": "string",
+    // "OverTime": "string",
+    // "Active": true,
+    // "CreatedBy": 0,
+    // "CreatedOn": "2022-10-02T04:49:01.264Z",
+    // "UpdatedBy": 0,
+    // "UpdatedOn": "2022-10-02T04:49:01.264Z",
+    // "IsDeleted": true
+    // }
     Map<String, dynamic> bodyString = {
       "Id": 0,
-      "EmployeeId": employeeId,
+      "EmployeeId": 100,
       "LogTimeIn": logTimeIn,
-      "LogTimeOut": "2022-09-08T04:31:42.029Z",
+      "LogTimeOut": "2022-10-02T04:49:01.264Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
-      "Latitude":
-      lat,
-      "Longitude": lon,
-      "LocationDescription": location,
+      "Latitude": 0,
+      "Longitude": 0,
+      "LocationDescription": "string",
       "Remark": "string",
       "IsLate": true,
       "IsEarlyOut": true,
@@ -53,14 +74,16 @@ class AttendanceRepository {
       "OnLeave": 0,
       "WorkingDays": 0,
       "OnTime": 0,
-      "Token":
-      token,
-      "CheckInNote": note,
+      "CheckInNote": "string",
+      "CheckOutNote": "string",
+      "Token": token,
+      "Hours": "string",
+      "OverTime": "string",
       "Active": true,
       "CreatedBy": 0,
-      "CreatedOn": "2022-09-08T04:31:42.029Z",
+      "CreatedOn": "2022-10-02T04:49:01.264Z",
       "UpdatedBy": 0,
-      "UpdatedOn": "2022-09-08T04:31:42.029Z",
+      "UpdatedOn": "2022-10-02T04:49:01.264Z",
       "IsDeleted": true
     };
 
@@ -131,9 +154,12 @@ class AttendanceRepository {
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 $finalToken ++++++");
 
-    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?Token=$finalToken&EmployeeId=$emp");
-    final response = await http.get(
+    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?EmployeeId=$emp");
+    final response = await http.post(
       url,
+      body: jsonEncode({
+        "Token": tokenString
+      },),
       headers: {
         "Content-Type": "application/json",
       },

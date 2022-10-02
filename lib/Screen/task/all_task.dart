@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Model/getAllTaskModel.dart';
 import '../../repository/add_task_repository.dart';
@@ -20,7 +21,7 @@ class _AssignedToMeState extends State<AllTask> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return FutureBuilder<GetAllTaskModel>(
-      future: taskRepository.getTaskController(), // async work
+      future: taskRepository.getAllTaskController(), // async work
       builder: (BuildContext context, AsyncSnapshot<GetAllTaskModel> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting: return Text('Loading....');
@@ -287,47 +288,65 @@ class _AssignedToMeState extends State<AllTask> {
                                     fontWeight: FontWeight.w600
                                 ),),
                               SizedBox(width: 10,),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle
+                              InkWell(
+                                splashColor: Colors.blue,
+                                onTap: (){
+                                  _textMe();
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.chat,color: primaryColor,),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 5,),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.call,color: primaryColor,),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.chat,color: primaryColor,),
+                                    ),
                                   ),
                                 ),
                               ),
                               SizedBox(width: 5,),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle
+                              InkWell(
+                                splashColor: Colors.blue,
+                                onTap: (){
+                                  launchPhoneDialer("01700000000");
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.messenger,color: primaryColor,),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.call,color: primaryColor,),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              InkWell(
+                                splashColor: Colors.blue,
+                                onTap: (){
+                                  _launchWhatsapp();
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100)
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.messenger,color: primaryColor,),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -435,6 +454,46 @@ class _AssignedToMeState extends State<AllTask> {
         }
       },
     );
+  }
+  _launchWhatsapp() async {
+    var whatsapp = "+91XXXXXXXXXX";
+    var whatsappAndroid =Uri.parse("whatsapp://send?phone=$whatsapp&text=hello");
+    if (await canLaunchUrl(whatsappAndroid)) {
+      await launchUrl(whatsappAndroid);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("WhatsApp is not installed on the device"),
+        ),
+      );
+    }
+  }
+  Future<void> launchPhoneDialer(String contactNumber) async {
+    final Uri _phoneUri = Uri(
+        scheme: "tel",
+        path: contactNumber
+    );
+    try {
+      if (await canLaunch(_phoneUri.toString()))
+        await launch(_phoneUri.toString());
+    } catch (error) {
+      throw("Cannot dial");
+    }
+  }
+  _textMe() async {
+    // Android
+    const uri = 'sms:+39 348 060 888?body=hello%20there';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      // iOS
+      const uri = 'sms:0039-222-060-888?body=hello%20there';
+      if (await canLaunch(uri)) {
+        await launch(uri);
+      } else {
+        throw 'Could not launch $uri';
+      }
+    }
   }
 }
 // {
