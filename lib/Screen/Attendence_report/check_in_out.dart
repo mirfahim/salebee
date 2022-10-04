@@ -501,6 +501,7 @@ class _CheckInOutState extends State<CheckInOut> {
     end.value = 1;
     print("working chekout ${SharedPreff.to.prefss.getString("token")}");
     String? token = SharedPreff.to.prefss.getString("token");
+    int? employeeId = SharedPreff.to.prefss.getInt("employeeID");
 
     geolocatorService.determinePosition().then((ele) {
       getAddressFromLatLong(ele!);
@@ -509,6 +510,7 @@ class _CheckInOutState extends State<CheckInOut> {
       // Timestamp myTimeStamp = Timestamp.fromDate(now);
       // String time = myTimeStamp.toString();
       final DateTime now = DateTime.now();
+      final tomorrow = DateTime(now.year, now.month, now.day + 1);
       final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
       final String formatted = formatter.format(now);
       print("my date is $formatted");
@@ -524,7 +526,7 @@ class _CheckInOutState extends State<CheckInOut> {
           ? attendanceRepository
               .checkInController(
                   id: 1,
-                  employeeId: 1,
+                  employeeId: StaticData.employeeID!,
                   logTimeIn: formatted,
                   lat: ele!.latitude,
                   lon: ele!.longitude,

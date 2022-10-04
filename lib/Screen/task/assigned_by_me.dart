@@ -1,10 +1,13 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Model/getAllTaskAssignedByMeModel.dart';
+import '../../Provider/Login/provider_manager.dart';
 import '../../repository/add_task_repository.dart';
 
 class AssignedByMe extends StatefulWidget {
@@ -19,6 +22,7 @@ class _AssignedToMeState extends State<AssignedByMe> {
 
   @override
   Widget build(BuildContext context) {
+    ProviderManager providersss = Provider.of<ProviderManager>(context, listen: true);
     Size size = MediaQuery.of(context).size;
     return FutureBuilder<GetAssignedTaskToMeModel>(
       future: taskRepository.getAssignedTaskByMeController(), // async work
@@ -29,13 +33,13 @@ class _AssignedToMeState extends State<AssignedByMe> {
             return Text('Loading....');
           default:
             if (snapshot.hasError)
-              return Text('Error: ${snapshot.error}');
+              return Center(child: Text('No Data Found'));
             else
               return ListView.builder(
                   itemCount: snapshot.data!.result!.length,
                   itemBuilder: (context, index) {
                     var data = snapshot.data!.result![index];
-                    return ExpandableNotifier(
+                    return data.priorityName == providersss.filterData ||  providersss.filterData == "All" || providersss.filterData.isEmpty? ExpandableNotifier(
                       child: Stack(
                         children: [
                           Card(
@@ -66,8 +70,8 @@ class _AssignedToMeState extends State<AssignedByMe> {
                                           ),
                                         ),
                                       ),
-                                      const Text(
-                                        'Jul 27',
+                                       Text(
+                                        DateFormat.yMd().format(data!.createdOn!),
                                         style: TextStyle(color: Colors.grey),
                                       )
                                     ],
@@ -103,7 +107,7 @@ class _AssignedToMeState extends State<AssignedByMe> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
-                                        children: const [
+                                        children:  [
                                           Icon(
                                             Icons.calendar_today,
                                             color: Colors.grey,
@@ -112,7 +116,7 @@ class _AssignedToMeState extends State<AssignedByMe> {
                                             width: 5,
                                           ),
                                           Text(
-                                            '29 Jul 2021 10:30 AM',
+                                            DateFormat.yMd().format(data!.dueDate!),
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 14),
@@ -618,7 +622,7 @@ class _AssignedToMeState extends State<AssignedByMe> {
                           )
                         ],
                       ),
-                    );
+                    ): Container();
                   });
         }
       },

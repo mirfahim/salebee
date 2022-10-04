@@ -25,7 +25,7 @@ class AttendanceRepository {
       String? note}) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-    print("working $logTimeIn ++++++ and location is $location");
+    print("working $logTimeIn ++++++ and location is $location emloyee id $employeeId");
     print("CHECK IN ++++++++++++++++LOGTIME IN IS ++++++ $logTimeIn ");
     String finalToken = token.replaceAll('/', '%2F');
     // {
@@ -52,14 +52,14 @@ class AttendanceRepository {
     // }
     Map<String, dynamic> bodyString = {
       "Id": 0,
-      "EmployeeId": 100,
+      "EmployeeId": employeeId,
       "LogTimeIn": logTimeIn,
       "LogTimeOut": "2022-10-02T04:49:01.264Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
       "Latitude": 0,
       "Longitude": 0,
-      "LocationDescription": "string",
+      "LocationDescription": location,
       "Remark": "string",
       "IsLate": true,
       "IsEarlyOut": true,
@@ -93,6 +93,7 @@ class AttendanceRepository {
       body: jsonEncode(bodyString),
       headers: {
         "Content-Type": "application/json",
+        'Accept': 'application/json'
       },
     );
 

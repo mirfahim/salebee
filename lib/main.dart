@@ -6,7 +6,7 @@ import 'package:salebee/Screen/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 
-import 'Provider/Login/login_provider.dart';
+import 'Provider/Login/provider_manager.dart';
 import 'Screen/Authentication/login_page.dart';
 import 'Screen/task/notification_service.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserAuthProvider()),
+        ChangeNotifierProvider(create: (context) => ProviderManager()),
       ],
       child: GetMaterialApp(
 

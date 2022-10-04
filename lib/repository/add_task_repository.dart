@@ -27,6 +27,9 @@ class TaskRepository {
       required int type,
       required int repeat,
       required int priority,
+        int? prospectId,
+        int? leadID,
+        int? assignaTo,
       required int status}) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
@@ -35,12 +38,12 @@ class TaskRepository {
 
     Map<String, dynamic> bodyString = {
       "TaskID": 0,
-      "Type": 0,
+      "Type": type,
       "Title": title,
       "TaskDesc": description,
       "Notes": "stradfaing",
-      "ProspectId": 0,
-      "LeadID": 0,
+      "ProspectId": prospectId,
+      "LeadID": leadID,
       "SupportID": 0,
       "StartDate": "2022-09-21T10:46:49.198Z",
       "StartTime": "string",
@@ -50,10 +53,10 @@ class TaskRepository {
       "ReminderDays": 0,
       "ReminderHour": 0,
       "ReminderMinutes": 0,
-      "Repeat": 0,
-      "AssignedTo": 0,
-      "Priority": 0,
-      "StatusId": 0,
+      "Repeat": repeat,
+      "AssignedTo": assignaTo,
+      "Priority": priority,
+      "StatusId": status,
       "FollowUpID": 0,
       "IsViewed": true,
       "StatusUpdateDate": "2022-08-30T10:46:49.198Z",
@@ -88,7 +91,7 @@ class TaskRepository {
     final response = await http.post(
       url,
       body: jsonEncode({
-        "Token": tokenString
+        "Token": tokenString,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -186,9 +189,12 @@ class TaskRepository {
 //IfJylQXq9j2bT%2BBxKl9eAB%2BmgLuVFQLU8Ex21yo%2BTPzqkMgN55lU%2FxSnY%2BYOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks
 
     Uri url = Uri.parse(
-        "https://app.salebee.net/api/Salebee/ManageTask?Token=IfJylQXq9j2bT%2BBxKl9eAB%2BmgLuVFQLU8Ex21yo%2BTPzqkMgN55lU%2FxSnY%2BYOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks");
+        "https://app.salebee.net/api/Salebee/ManageTask");
     final response = await http.post(
       url,
+      body: jsonEncode({
+        "Token": tokenString
+      }),
       headers: {
         "Content-Type": "application/json",
       },
