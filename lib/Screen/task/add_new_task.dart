@@ -968,7 +968,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                             ),
                           ],
                         );
-                      } else {
+                      } else if(snapshot.data != null){
                         print(
                             "my all list is __________________________${snapshot.data!.result!["SelectListProspects"]![0].text}");
                         print(
@@ -1144,7 +1144,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     value:
-                                        newPriority!,
+                                        newPriority! ?? "",
                                     icon: Icon(Icons.arrow_drop_down_outlined),
                                     elevation: 16,
                                     style: const TextStyle(
@@ -1677,9 +1677,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                     const EdgeInsets.only(left: 8, right: 8),
                                 child: DropdownButton<String>(
                                   isExpanded: true,
-                                  value: leadAssignedId == null
-                                      ? null
-                                      : assign_to[leadAssignedId],
+                                  value: newEmployee,
                                   icon: Icon(Icons.arrow_drop_down_outlined),
                                   elevation: 16,
                                   style:
@@ -1691,16 +1689,15 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   onChanged: (String? value) {
                                     // This is called when the user selects an item.
                                     setState(() {
-                                      leadAssignedId =
-                                          assign_to.indexOf(value!);
+                                      newEmployee = value!;
                                     });
                                   },
-                                  items: assign_to
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
+                                  items: snapshot
+                                      .data!.result!["SelectListEmployee"]!
+                                      .map((value) {
                                     return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
+                                      value: value.text.toString(),
+                                      child: Text(value.text.toString()),
                                     );
                                   }).toList(),
                                 ),
