@@ -11,7 +11,7 @@ import 'package:salebee/Service/api_service_dio.dart';
 import 'package:provider/provider.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:salebee/Widget/button_widget.dart';
-import '../../Provider/Login/login_provider.dart';
+import '../../Provider/Login/provider_manager.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
 
@@ -101,6 +101,7 @@ class LoginPageState extends State<SubDomainPage> {
                         print("==================${StaticData.subDomain}");
                         loading = false;
                       });
+
                       Get.to(() => LoginPage());
                     } else {
                       final snackBar = SnackBar(

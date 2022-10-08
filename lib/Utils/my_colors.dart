@@ -7,12 +7,11 @@ class MyColors {
   static const Color primaryVeryLight = Color(0xFFD5E4F1);
   static const Color accent = Color(0xfff7892b);
   static const Color accentDark = Color(0xfff7892b);
-  static const Color accentLight = Color(0x020A2DFF);
-  static const Color lightBlue = Color(007);
+  static const Color accentLight = Color(0xfff7892b);
+  static const Color lightBlue = Color(0x00000007);
   static const Color darkBlue = Color(0x00000008);
-  static const Color totalAppColor = Color(0xE0F9FF);
   static  Color shadeBlue =HexColor("#ebf9ff");
-  static  Color appColor =HexColor("#E0F9FF");
+  static  Color appColor =HexColor("#f8f9fd");
   static  Color grey01 =HexColor("#b8b8b8");
   static  Color appBlue =HexColor("#009ee5");
   static  Color shadeBlack =HexColor("#484848");
@@ -21,7 +20,7 @@ class MyColors {
   static  Color greenLight =HexColor("#54c492");
   static  Color paste =HexColor("#99FEFF");
   static  Color greenPaste =HexColor("#D5FCEB");
-  static  Color deepBlue =HexColor("#071040FF");
+  static  Color deepBlue =HexColor("#3866BB");
 
 
 
@@ -44,7 +43,7 @@ class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
+      hexColor = "FF$hexColor";
     }
     return int.parse(hexColor, radix: 16);
   }

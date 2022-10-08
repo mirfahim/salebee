@@ -5,6 +5,7 @@ import '../Service/sharedPref_service.dart';
 class StringsConst {
   //api url
   //list of strings used in the app
-static  String BASEURL = "https://${StaticData.subDomain}.salebee.net/api/Salebee/";
+  static String MAINURL = "https://${StaticData.subDomain}" + ".salebee.net/";
+static  String BASEURL = "$MAINURL" + "api/Salebee/";
 //static  String BASEURL = "http://app.salebee.net/api/Salebee/";
 }

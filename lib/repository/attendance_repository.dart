@@ -15,21 +15,46 @@ class AttendanceRepository {
   ApiService apiService = ApiService();
   Future<CheckinResponse> checkInController(
       {required int id,
+        required String token,
       required int employeeId,
       required String logTimeIn,
       required double lat,
       required double lon,
       required int battery,
-      required String location}) async {
+      required String location,
+      String? note}) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-    print("working $logTimeIn ++++++ and location is $location");
+    print("working $logTimeIn ++++++ and location is $location emloyee id $employeeId");
+    print("CHECK IN ++++++++++++++++LOGTIME IN IS ++++++ $logTimeIn ");
+    String finalToken = token.replaceAll('/', '%2F');
+    // {
 
+
+    // "LongitudeOut": 0,
+    // "LocationDescriptionOut": "string",
+    // "BatteryStatus": "string",
+    // "Absent": 0,
+    // "OnLeave": 0,
+    // "WorkingDays": 0,
+    // "OnTime": 0,
+    // "CheckInNote": "string",
+    // "CheckOutNote": "string",
+    // "Token": "IfJylQXq9j2bT+BxKl9eAB+mgLuVFQLU8Ex21yo+TPzqkMgN55lU/xSnY+YOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks",
+    // "Hours": "string",
+    // "OverTime": "string",
+    // "Active": true,
+    // "CreatedBy": 0,
+    // "CreatedOn": "2022-10-02T04:49:01.264Z",
+    // "UpdatedBy": 0,
+    // "UpdatedOn": "2022-10-02T04:49:01.264Z",
+    // "IsDeleted": true
+    // }
     Map<String, dynamic> bodyString = {
       "Id": 0,
-      "EmployeeId": 1,
+      "EmployeeId": employeeId,
       "LogTimeIn": logTimeIn,
-      "LogTimeOut": "2022-09-08T04:31:42.029Z",
+      "LogTimeOut": "2022-10-02T04:49:01.264Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
       "Latitude": 0,
@@ -49,13 +74,16 @@ class AttendanceRepository {
       "OnLeave": 0,
       "WorkingDays": 0,
       "OnTime": 0,
-      "Token":
-          "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks",
+      "CheckInNote": "string",
+      "CheckOutNote": "string",
+      "Token": token,
+      "Hours": "string",
+      "OverTime": "string",
       "Active": true,
       "CreatedBy": 0,
-      "CreatedOn": "2022-09-08T04:31:42.029Z",
+      "CreatedOn": "2022-10-02T04:49:01.264Z",
       "UpdatedBy": 0,
-      "UpdatedOn": "2022-09-08T04:31:42.029Z",
+      "UpdatedOn": "2022-10-02T04:49:01.264Z",
       "IsDeleted": true
     };
 
@@ -65,6 +93,7 @@ class AttendanceRepository {
       body: jsonEncode(bodyString),
       headers: {
         "Content-Type": "application/json",
+        'Accept': 'application/json'
       },
     );
 
@@ -75,25 +104,36 @@ class AttendanceRepository {
   }
 
   Future<dynamic> checkOutController(String token, int emId, String date,
-      String location, double lat, double lon) async {
+      String location, double lat, double lon, String note) async {
+
+// IfJylQXq9j2bT%2BBxKl9eAB%2BmgLuVFQLU8Ex21yo%2BTPzqkMgN55lU%2FxSnY%2BYOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks
+
+     String finalToken = token.replaceAll('/', '%2F');
+
     //elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
     //elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
     //elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks
+     //IfJylQXq9j2bT+BxKl9eAB+mgLuVFQLU8Ex21yo+TPzqkMgN55lU/xSnY+YOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks  //kamal
+    print("checkout chekout em id $emId");
     print("working chekout $date");
+    print("working chekout lat $lat");
+    print("working chekout  lon $lon");
+     print("working chekout token token$token");
+    print("working chekout final token$finalToken");
     Map<String, dynamic> bodyString = {
-      "Token":
-          "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks",
+      "Token": token,
       "EmployeeId": emId,
       "CheckOutDateTime": date,
-      "Location": "Striing",
-      "Latitude": 0.0,
-      "Longitude": 0.0,
+      "Latitude": lat,
+      "Longitude": lon,
+      "Location": location,
+      "CheckOutNote": note,
     };
   //  var encoded = Uri.encodeFull(
       //  "$base_url/GetEmployeeAttendance?Token=${SharedPreff.to.prefss.get("token")}&EmployeeId=1");
    // print("my encoded url link is ++++++++++++++++++++++++ $encoded");
     Uri url = Uri.parse(
-        "https://app.salebee.net/api/Salebee/CheckOut?Token=elKJVFof4wcxS98Luvq%2B%2BVWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks&EmployeeId=1&CheckOutDateTime=$date&Latitude=00&Longitude=00&Location=$location");
+        "$base_url/CheckOut");
     final response = await http.post(
       url,
       body: jsonEncode(bodyString),
@@ -110,14 +150,17 @@ class AttendanceRepository {
   }
 
   Future<GetAttendanceDataModel> getAttendanceController(int emp) async {
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    String tokenString = SharedPreff.to.prefss.get("token").toString();
+    String convertToken = tokenString.replaceAll("+", "%2B");
+    String finalToken = convertToken.replaceAll("/", "%2F");
+    print("working 1 $finalToken ++++++");
 
-    var encoded = Uri.encodeFull(
-        "$base_url/GetEmployeeAttendance?Token=${SharedPreff.to.prefss.get("token")}&EmployeeId=1");
-    print("my encoded url link is ++++++++++++++++++++++++ $encoded");
-    Uri url = Uri.parse(encoded);
-    final response = await http.get(
+    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?EmployeeId=$emp");
+    final response = await http.post(
       url,
+      body: jsonEncode({
+        "Token": tokenString
+      },),
       headers: {
         "Content-Type": "application/json",
       },

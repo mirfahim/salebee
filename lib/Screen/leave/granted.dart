@@ -12,21 +12,21 @@ class Granted extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Container(
         height: 58 ,
-        color: Color(0xFFE5E5E5),
+        color: const Color(0xFFE5E5E5),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: InkWell(
             onTap: (){
-              Get.to(LeaveRequest());
+              Get.to(const LeaveRequest());
             },
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
                   color: darkBlue
               ),
-              child: Center(
+              child: const Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Apply leave request',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -40,7 +40,7 @@ class Granted extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Color(0xFFE5E5E5),
+        color: const Color(0xFFE5E5E5),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -53,7 +53,7 @@ class Granted extends StatelessWidget {
                     color: darkBlue,
                     fontSize: 18
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   const Text('Eureka! Keep your enthusiasm.',style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12

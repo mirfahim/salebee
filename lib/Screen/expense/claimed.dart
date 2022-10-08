@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:salebee/Screen/expense/food.dart';
-import 'package:salebee/Screen/expense/other_expense.dart';
-import 'package:salebee/Screen/expense/transport.dart';
 import 'package:salebee/utils.dart';
 
 class Claimed extends StatelessWidget {
@@ -12,7 +9,7 @@ class Claimed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense Claim',style: TextStyle(
+        title: const Text('Expense Claim',style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.w600
         ),),
         automaticallyImplyLeading: true,
@@ -23,7 +20,7 @@ class Claimed extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         actions: [
           Card(
@@ -51,95 +48,28 @@ class Claimed extends StatelessWidget {
               Text('Chose a type of expense',style: TextStyle(
                   color: Colors.grey.withOpacity(.75)
               ),),
-              SizedBox(height: 10,),
-              GestureDetector(
-                onTap:()
-                { Get.to(() => FoodExpense());},
-                child: Card(
-
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: primaryColor)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Image.asset('images/diet.png',height: 70,),
-                          SizedBox(width: 10,),
-                          Text(' Food',style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            fontSize: 18
-                          ),)
-                        ],
-                      ),
-                    ),
-                  ),
+              const SizedBox(height: 10,),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
                 ),
-              ),
-              SizedBox(height: 10,),
-              GestureDetector(
-                onTap:()
-                { Get.to(() => TransportPage());},
-                child: Card(
-
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+                child: Container(
+                  height: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: primaryColor)
                   ),
-                  child: Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: primaryColor)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Image.asset('images/transportation.png',height: 70,),
-                          SizedBox(width: 10,),
-                          Text(' Transport',style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18
-                          ),)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10,),
-              GestureDetector(
-                onTap:()
-                { Get.to(() => OtherExpense());},
-                child: Card(
-
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: primaryColor)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Image.asset('images/more.png',height: 70,),
-                          SizedBox(width: 10,),
-                          Text(' Other',style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18
-                          ),)
-                        ],
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Image.asset('images/food.png',height: 70,),
+                        const SizedBox(width: 10,),
+                        const Text(' Food',style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          fontSize: 18
+                        ),)
+                      ],
                     ),
                   ),
                 ),

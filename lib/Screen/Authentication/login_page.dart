@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/Widget/button_widget.dart';
-import '../../Provider/Login/login_provider.dart';
+import '../../Provider/Login/provider_manager.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
 
@@ -117,7 +117,7 @@ class LoginPageState extends State<LoginPage> {
                       circularLoad = true;
                     });
 
-                    Provider.of<UserAuthProvider>(context, listen: false)
+                    Provider.of<ProviderManager>(context, listen: false)
                         .signIN(textUserController.text.toString(),
                             textPwdController.text.toString());
 

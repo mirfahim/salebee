@@ -35,28 +35,19 @@ class _SplashState extends State<Splash> {
     StaticData.proLink = SharedPreff.to.prefss.getString("proLink") ;
     StaticData.token = SharedPreff.to.prefss.getString("token") ;
     StaticData.employeeID = SharedPreff.to.prefss.getInt("employeeID") ?? 0;
-
+    setState(() {
+      StaticData.subDomain = SharedPreff.to.prefss.getString("subDomain");
+    });
+    print(" my subdomain is ${SharedPreff.to.prefss.getString("subDomain")}");
     Timer(Duration(seconds: 4), () {
       domainCheck();
      // local();
-      print(" my subdomain is ${SharedPreff.to.prefss.getString("subDomain")}");
+
       print(" my subdomain is ${SharedPreff.to.prefss.getString("proLink")}");
     });
 
   }
-  // local() async {
-  //   //Location location = new Location();
-  //
-  // //  locationData = await location.getLocation();
-  //   print("MY LOCATION from splash__________$locationData");
-  //   print(locationData.latitude);
-  //   print(locationData.longitude);
-  //   StaticData.myLocationLat = locationData.latitude;
-  //   StaticData.myLocationLon = locationData.longitude;
-  //   print("MY----user----location-----${StaticData.myLocationLat}");
-  //   return locationData;
-  //
-  // }
+
   domainCheck()  {
     if(StaticData.loggedIN == true){
       Navigator.of(context).pushReplacement(
@@ -71,13 +62,27 @@ class _SplashState extends State<Splash> {
         ),
       );
 
-  } else {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => LoginPage(),
-      ),
-    );
-  }
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    }
+  // local() async {
+  //   //Location location = new Location();
+  //
+  // //  locationData = await location.getLocation();
+  //   print("MY LOCATION from splash__________$locationData");
+  //   print(locationData.latitude);
+  //   print(locationData.longitude);
+  //   StaticData.myLocationLat = locationData.latitude;
+  //   StaticData.myLocationLon = locationData.longitude;
+  //   print("MY----user----location-----${StaticData.myLocationLat}");
+  //   return locationData;
+  //
+  // }
+
 
 
   }

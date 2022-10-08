@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:salebee/Provider/Login/provider_manager.dart';
 import 'package:salebee/Screen/expense/aproved.dart';
 import 'package:salebee/Screen/expense/claimed.dart';
 import 'package:salebee/Screen/expense/pending.dart';
@@ -26,16 +28,20 @@ class _TaskState extends State<Task> {
   time _time = time.all;
   status _status = status.all;
   TaskRepository taskRepository = TaskRepository();
+  //UserAuthProvider providersss = UserAuthProvider();
   @override
   void initState() {
     print("task page");
     //taskRepository.getTaskController();
     // TODO: implement initState
+
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    ProviderManager providersss = Provider.of<ProviderManager>(context, listen: true);
     Size size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 4,
@@ -272,8 +278,15 @@ class _TaskState extends State<Task> {
                           value: status.all,
                           groupValue: _status,
                           onChanged: (status? value) {
+                            // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                            // providerss.filterTask(value);
                             setState(() {
+
                               _status = value!;
+                              String? selection = "";
+                              value == status.all ? selection = "All" : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterTask(selection!);
                             });
                           },
                         ),
@@ -288,8 +301,16 @@ class _TaskState extends State<Task> {
                           value: status.initiated,
                           groupValue: _status,
                           onChanged: (status? value) {
+                            // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                            // providerss.filterTask(value);
                             setState(() {
+
+
                               _status = value!;
+                              String selection = "" ;
+                              value == status.initiated ? selection = "Initiated" : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterTask(selection);
                             });
                           },
                         ),
@@ -304,8 +325,15 @@ class _TaskState extends State<Task> {
                           value: status.pending,
                           groupValue: _status,
                           onChanged: (status? value) {
+                            // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                            // providerss.filterTask(value);
                             setState(() {
+
                               _status = value!;
+                              String? selection = "";
+                              value == status.pending ? selection = "Pending" : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterTask(selection!);
                             });
                           },
                         ),
@@ -321,7 +349,12 @@ class _TaskState extends State<Task> {
                           groupValue: _status,
                           onChanged: (status? value) {
                             setState(() {
+
                               _status = value!;
+                              String? selection = "" ;
+                              value == status.Canceled ? selection = "Canceled" : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterTask(selection!);
                             });
                           },
                         ),
@@ -337,7 +370,12 @@ class _TaskState extends State<Task> {
                           groupValue: _status,
                           onChanged: (status? value) {
                             setState(() {
+
                               _status = value!;
+                              String? selection = "" ;
+                              value == status.Done ? selection = "Done" : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterTask(selection!);
                             });
                           },
                         ),

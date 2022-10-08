@@ -20,7 +20,7 @@ class LeaveDetails extends StatelessWidget {
           onPressed: (){
             Get.back();
           },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
         backgroundColor: backgroudColor,
         elevation: 0,
@@ -28,7 +28,7 @@ class LeaveDetails extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             // color: primaryColorLight.withOpacity(.6),
             height: MediaQuery.of(context).size.height,
             child: Padding(
@@ -49,7 +49,7 @@ class LeaveDetails extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color(0xFFFFEDD5)
+                              color: const Color(0xFFFFEDD5)
                             ),
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
@@ -61,9 +61,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -82,9 +82,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -103,9 +103,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -124,9 +124,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -145,9 +145,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -172,9 +172,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -199,9 +199,9 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
@@ -230,7 +230,7 @@ class LeaveDetails extends StatelessWidget {
                                 Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
-                                      color: Color(0xFFFFEDD5)
+                                      color: const Color(0xFFFFEDD5)
                                   ),
                                   child: const Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
@@ -245,8 +245,8 @@ class LeaveDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 5,),
-                  Divider(thickness: 1,color: Colors.grey,)
+                  const SizedBox(height: 5,),
+                  const Divider(thickness: 1,color: Colors.grey,)
                 ],
               ),
             ),

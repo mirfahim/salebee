@@ -49,12 +49,17 @@ dependencies:
   date_time_picker: ^2.1.0
   datetime_picker_formfield: ^2.0.1
   facebook_audience_network: ^1.0.1
+  url_launcher: ^6.1.5
  ## analog_clock: ^0.1.1
   flutter_secure_storage: ^5.0.2
   cloud_firestore: ^3.4.6
   ##analog_clock: ^0.1.1
   image_picker: ^0.8.5+3
+  flutter_datetime_picker: ^1.5.1
   geocoding: ^2.0.5
+  flutter_local_notifications: ^9.6.1
+  flutter_native_timezone: ^2.0.0
+  expandable: ^5.0.1
   #url_encoder: ^0.0.3
   ##geocoder: any
 dev_dependencies:

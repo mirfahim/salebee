@@ -9,11 +9,13 @@ import 'package:salebee/Screen/notification/notification.dart';
 import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/Screen/test_screen.dart';
 
+import '../../Utils/StringsConst.dart';
 import '../../utils.dart';
 import 'package:get/get.dart';
 
 import '../Attendence_report/attendence_report.dart';
 import '../leave/leave_front.dart';
+import '../test.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -92,17 +94,22 @@ class HomePage extends StatelessWidget {
                        )
                       ],
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: darkBlue,
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(EditProfile());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(150)),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: darkBlue,
+                            ),
                           ),
                         ),
                       ),
@@ -123,14 +130,16 @@ class HomePage extends StatelessWidget {
                       ),
                       Container(
                         transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 7), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
-                          radius: 130,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
+                            -(size.width / 3.8), (size.height / 5.5), 0.0),
+                        child:  StaticData.proLink!.startsWith(".", 0)
+                            ? CircleAvatar(
+                          radius: 140,
+                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
                         ) :  CircleAvatar(
-                            radius: 130,
-                            backgroundImage: AssetImage("images/person.jpg"),
-                      ),),
+                          radius: 140,
+                          backgroundImage:  NetworkImage(StaticData.proLink!),
+                        ),
+                      ),
                       Positioned(
                         top: (size.height / 13),
                         left: (size.width / 8),
@@ -274,17 +283,22 @@ class HomePage extends StatelessWidget {
                         )
                       ],
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: darkBlue,
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(EditProfile());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(150)),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: darkBlue,
+                            ),
                           ),
                         ),
                       ),
@@ -306,14 +320,17 @@ class HomePage extends StatelessWidget {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
+                        child:  StaticData.proLink!.startsWith(".", 0)
+                            ? CircleAvatar(
                           radius: 140,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
+                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
                         ) :  CircleAvatar(
                           radius: 140,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          backgroundImage:  NetworkImage(StaticData.proLink!),
                         ),
                       ),
+                      //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg -- working
+                      //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg
                       Positioned(
                         top: (size.height / 11),
                         left: (size.width / 8),
@@ -445,17 +462,22 @@ class HomePage extends StatelessWidget {
                         )
                       ],
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: darkBlue,
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(EditProfile());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(150)),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: darkBlue,
+                            ),
                           ),
                         ),
                       ),
@@ -476,13 +498,14 @@ class HomePage extends StatelessWidget {
                       ),
                       Container(
                         transform: Matrix4.translationValues(
-                            -(size.width / 3.7), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
-                          radius: 150,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
+                            -(size.width / 3.8), (size.height / 5.5), 0.0),
+                        child:  StaticData.proLink!.startsWith(".", 0)
+                            ? CircleAvatar(
+                          radius: 140,
+                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
                         ) :  CircleAvatar(
-                          radius: 150,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          radius: 140,
+                          backgroundImage:  NetworkImage(StaticData.proLink!),
                         ),
                       ),
                       Positioned(
@@ -619,17 +642,22 @@ class HomePage extends StatelessWidget {
                         )
                       ],
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: darkBlue,
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(EditProfile());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(150)),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: darkBlue,
+                            ),
                           ),
                         ),
                       ),
@@ -650,13 +678,14 @@ class HomePage extends StatelessWidget {
                       ),
                       Container(
                         transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 5.0), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
-                          radius: 150,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
+                            -(size.width / 3.8), (size.height / 5.5), 0.0),
+                        child:  StaticData.proLink!.startsWith(".", 0)
+                            ? CircleAvatar(
+                          radius: 140,
+                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
                         ) :  CircleAvatar(
-                          radius: 150,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          radius: 140,
+                          backgroundImage:  NetworkImage(StaticData.proLink!),
                         ),
                       ),
                       Positioned(
@@ -815,13 +844,14 @@ class HomePage extends StatelessWidget {
                       ),
                       Container(
                         transform: Matrix4.translationValues(
-                            -(size.width / 3.7), (size.height / 6.3), 0.0),
-                        child: StaticData.proLink != null ? CircleAvatar(
-                          radius: 280,
-                          backgroundImage: NetworkImage(StaticData.proLink!),
+                            -(size.width / 3.8), (size.height / 5.5), 0.0),
+                        child:  StaticData.proLink!.startsWith(".", 0)
+                            ? CircleAvatar(
+                          radius: 140,
+                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
                         ) :  CircleAvatar(
-                          radius: 280,
-                          backgroundImage: AssetImage("images/person.jpg"),
+                          radius: 140,
+                          backgroundImage:  NetworkImage(StaticData.proLink!),
                         ),
                       ),
                       Positioned(

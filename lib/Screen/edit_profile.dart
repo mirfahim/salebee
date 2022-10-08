@@ -14,19 +14,42 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: GestureDetector(
-          onTap: (){
-            SharedPreff.to.prefss.remove("loggedIN");
-            SharedPreff.to.prefss.remove("userNAME");
-            SharedPreff.to.prefss.remove("proLink");
-            SharedPreff.to.prefss.remove("token");
-            SharedPreff.to.prefss.remove("employeeID");
-            Get.to( Splash());
-            //SharedPreff.to.prefss.remove("key");
-          },
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: GestureDetector(
+              onTap: (){
+                SharedPreff.to.prefss.remove("token");
+                SharedPreff.to.prefss.remove("loggedIN");
+                SharedPreff.to.prefss.remove("employeeID");
+                SharedPreff.to.prefss.remove("userNAME");
+                SharedPreff.to.prefss.remove("proLink");
 
-            child: Text("Log Out")),
+                Get.to( Splash());
+                //SharedPreff.to.prefss.remove("key");
+              },
+
+                child: Text("Log Out")),
+          ),
+          SizedBox(height: 20,),
+          Center(
+            child: GestureDetector(
+                onTap: (){
+                  SharedPreff.to.prefss.remove("token");
+                  SharedPreff.to.prefss.remove("loggedIN");
+                  SharedPreff.to.prefss.remove("employeeID");
+                  SharedPreff.to.prefss.remove("userNAME");
+                  SharedPreff.to.prefss.remove("proLink");
+                  SharedPreff.to.prefss.remove("subDomain");
+
+                  Get.to( Splash());
+                  //SharedPreff.to.prefss.remove("key");
+                },
+
+                child: Text("Remove SubDomain")),
+          ),
+        ],
       ),
     );
   }

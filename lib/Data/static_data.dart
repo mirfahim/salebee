@@ -10,4 +10,7 @@ class StaticData {
   static  double myLocationLat = 0.0;
   static double myLocationLon = 0.0;
   static LoginResponseModel loginData = LoginResponseModel();
+  static bool? checkedIn ;
+
+
 }
