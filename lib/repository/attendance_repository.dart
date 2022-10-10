@@ -60,7 +60,7 @@ class AttendanceRepository {
       "Latitude": 0,
       "Longitude": 0,
       "LocationDescription": location,
-      "Remark": "string",
+      "Remark": note,
       "IsLate": true,
       "IsEarlyOut": true,
       "IsHalfDay": true,

@@ -76,8 +76,8 @@ class _AddNewTaskState extends State<AddNewTask> {
   int leadId = 0;
   String? newLead ;
   int employeeId = 0;
-  String? newEmployee = "Select";
-  int leadAssignedId = 0;
+  String? newEmployee ;
+  int leadAssignedId = 01;
   String? newLeadAssign = "Select";
   int statusId = 0;
   String? newStatus ;
@@ -94,9 +94,10 @@ class _AddNewTaskState extends State<AddNewTask> {
 
     service = LocalNotificationService();
     taskRepository.getAllListForTaskController().then((value) {
-      newStatus = value.result!["SelectListTaskStatus"]![0].text ;
+      newStatus = value.result!["SelectListTaskStatus"]![4].text ;
       newLead = value.result!["SelectListLeads"]![0].text ;
       newCantactPerson = value.result!["SelectListEmployee"]![0].text ;
+      newEmployee = value.result!["SelectListEmployee"]![0].text ;
       newPriority = value.result!["SelectListPriority"]![0].text ;
     });
     service.initialize();

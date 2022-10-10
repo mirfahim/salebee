@@ -183,7 +183,6 @@ class _CheckInOutState extends State<CheckInOut> {
                             onLongPress: () async {
                               // end.value = 1;
                               //_showMyDialog();
-                              print("status is &&&&&&&&& ${status.value}");
                              if(status.value ==true ){
                                if(DateTime.now().hour > 10) {
                                  _showMyDialog(true,);
@@ -191,7 +190,7 @@ class _CheckInOutState extends State<CheckInOut> {
                                  attendanceFunction();
                                }
                              }else {
-                               if(DateTime.now().hour <= 18) {
+                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) <= 17) {
                                  _showMyDialog(false,);
                                }else {
                                  attendanceFunction();
@@ -440,6 +439,7 @@ class _CheckInOutState extends State<CheckInOut> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Enter Note',
+
                       hintText: 'Reason'),
                 ),
               ],
