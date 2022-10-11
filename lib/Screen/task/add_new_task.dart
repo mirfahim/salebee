@@ -1145,7 +1145,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     value:
-                                        newPriority! ?? "",
+                                        newPriority!,
                                     icon: Icon(Icons.arrow_drop_down_outlined),
                                     elevation: 16,
                                     style: const TextStyle(
@@ -1796,7 +1796,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                     });
 
                                   },
-                                  value: newStatus ,
+                                  value: newStatus! ,
                                 ),
                               ),
                             ),

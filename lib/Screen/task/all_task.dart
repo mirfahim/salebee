@@ -8,6 +8,7 @@ import 'package:salebee/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Model/getAllTaskModel.dart';
+import '../../Service/sharedPref_service.dart';
 import '../../repository/add_task_repository.dart';
 
 class AllTask extends StatefulWidget {
@@ -19,11 +20,23 @@ class AllTask extends StatefulWidget {
 
 class _AssignedToMeState extends State<AllTask> {
   TaskRepository taskRepository = TaskRepository();
-
+  String statusName = "";
+  int stausID = 1;
+  int repeatId = 0;
+  List<String> status = <String>[
+    'Cancelled',
+    'Done',
+    'Incomplete',
+    'Initiated',
+    'Need More Time',
+    'Need Others help',
+    'Partially done'
+  ];
   @override
   Widget build(BuildContext context) {
     ProviderManager providersss = Provider.of<ProviderManager>(context, listen: true);
     Size size = MediaQuery.of(context).size;
+    String? token = SharedPreff.to.prefss.getString("token");
     return Consumer<ProviderManager>(
       builder: (context, provider, widget) {
         return FutureBuilder<GetAllTaskModel>(
@@ -36,9 +49,11 @@ class _AssignedToMeState extends State<AllTask> {
                   return Center(child: Text('No Data Found'));
                 else
                   return ListView.builder(
+
                       itemCount: snapshot.data!.result!.length,
                       itemBuilder: (context, index) {
                         var data = snapshot.data!.result![index];
+                       // statusName  = status[0];
                         return data.priorityName == providersss.filterData ||
                             providersss.filterData == "All" ||
                             providersss.filterData.isEmpty
@@ -59,9 +74,10 @@ class _AssignedToMeState extends State<AllTask> {
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text("Task Id: 01", style: TextStyle(
+                                          Text("Task Id: ${data!.taskId}", style: TextStyle(
                                               color:primaryColor,
-                                              fontWeight: FontWeight.bold
+                                              fontWeight: FontWeight.bold,
+                                            fontSize: 12
                                           ),),
                                           Text(
                                             DateFormat.yMd()
@@ -270,6 +286,9 @@ class _AssignedToMeState extends State<AllTask> {
                                             width: 10,
                                           ),
                                           Container(
+                                            width: 120,
+                                            height: 40,
+
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                 BorderRadius
@@ -279,29 +298,47 @@ class _AssignedToMeState extends State<AllTask> {
                                                     Colors.grey)),
                                             child: Padding(
                                               padding:
-                                              const EdgeInsets
-                                                  .all(4.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
-                                                children: const [
-                                                  Text(
-                                                    'Initialized',
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .black,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w600),
-                                                  ),
-                                                  Icon(
-                                                    Icons
-                                                        .keyboard_arrow_down_outlined,
-                                                    color:
-                                                    Colors.grey,
-                                                  )
-                                                ],
+                                              const EdgeInsets.only(left: 4, right: 4),
+                                              child: DropdownButton<String>(
+                                                isExpanded: true,
+                                                value: stausID == null
+                                                    ? null
+                                                    : status[stausID],
+                                                icon: Icon(Icons.arrow_drop_down_outlined),
+                                                elevation: 16,
+                                                style:
+                                                const TextStyle(color: Colors.deepPurple),
+                                                underline: Container(
+                                                  height: 2,
+                                                  color: Colors.transparent,
+                                                ),
+                                                onChanged: (String? value) {
+                                                  // This is called when the user selects an item.
+                                                  setState(() {
+                                                    stausID =
+                                                        status.indexOf(value!);
+                                                  });
+                                                  taskRepository.taskUpdateController(
+                                                      token: token!, title: data!.title!,
+                                                      taskID: data!.taskId!,
+                                                      assignaTo: data!.assignedTo!,
+                                                      description:  data!.taskDesc!, type:  data!.type! ?? 0,
+                                                      repeat: repeatId ?? 0, priority: data!.priority! ?? 0,
+                                                      status: stausID ?? 0);
+                                                },
+                                                items: status
+                                                    .map<DropdownMenuItem<String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<String>(
+                                                        value: value,
+                                                        child: Text(value, style: TextStyle(
+                                                            color: Colors
+                                                                .black,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w600),),
+                                                      );
+                                                    }).toList(),
                                               ),
                                             ),
                                           ),

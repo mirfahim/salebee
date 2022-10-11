@@ -9,6 +9,7 @@ import '../Helper/api_helper.dart';
 import '../Model/getAllMyTaskModel.dart';
 import '../Model/getAssignedTaskToMeModel.dart';
 import '../Model/getListForTaskModel.dart';
+import '../Model/task_update_model.dart';
 import '../Service/sharedPref_service.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:http/http.dart' as http;
@@ -80,7 +81,117 @@ class TaskRepository {
 
     return addTaskResponseModelFromJson(response.body);
   }
+  Future<TaskUpdateModel> taskUpdateController(
+      {required String token,
+        required int taskID,
+        required String title,
+        required String description,
+        required int type,
+        required int repeat,
+        required int priority,
+        int? prospectId,
+        int? leadID,
+        int? assignaTo,
+        required int status}) async {
+    print("working taskid $taskID, type $type, repeat $repeat, lead $leadID , assign to $assignaTo priority $priority ${SharedPreff.to.prefss.get("token")} ++++++");
 
+    List list1 = [];
+    List list2 = [];
+
+    Map<String, dynamic> bodyString = {
+      "TaskID": taskID,
+      "Type": 0,
+      "Title": title,
+      "TaskDesc": description,
+      "Notes": "string",
+      "ProspectId": 01,
+      "LeadID": 01,
+      "SupportID": 0,
+      "StartDate": "2022-10-10T05:40:37.409Z",
+      "StartTime": "string",
+      "DueDate": "2022-10-10T05:40:37.409Z",
+      "DueTime": "string",
+      "ReminderDate": "2022-10-10T05:40:37.409Z",
+      "ReminderDays": 0,
+      "ReminderHour": 0,
+      "ReminderMinutes": 0,
+      "Repeat": 0,
+      "AssignedTo": assignaTo,
+      "Priority": priority ,
+      "StatusId": status ,
+      "FollowUpID": 0,
+      "IsViewed": true,
+      "StatusUpdateDate": "2022-10-10T05:40:37.409Z",
+      "StatusUpdateBy": 0,
+      "TaskShare": {
+        "List": [
+          {
+            "Id": 0,
+            "Name": "string",
+            "SelectedIds": [
+              0
+            ],
+            "SelectedlongIds": [
+              0
+            ]
+          }
+        ],
+        "SelectedIds": [
+          0
+        ],
+        "SelectedlongIds": [
+          0
+        ]
+      },
+      "TaskContact": {
+        "List": [
+          {
+            "Id": 0,
+            "Name": "string",
+            "SelectedIds": [
+              0
+            ],
+            "SelectedlongIds": [
+              0
+            ]
+          }
+        ],
+        "SelectedIds": [
+          0
+        ],
+        "SelectedlongIds": [
+          0
+        ]
+      },
+      "Token": token,
+      "TaskShareList": [
+        0
+      ],
+      "TaskContactList": [
+        0
+      ],
+      "Active": true,
+      "CreatedBy": 0,
+      "CreatedOn": "2022-10-10T05:40:37.409Z",
+      "UpdatedBy": 0,
+      "UpdatedOn": "2022-10-10T05:40:37.409Z",
+      "IsDeleted": true
+    };
+
+    Uri url = Uri.parse("$base_url/UpdateTask");
+    final response = await http.post(
+      url,
+      body: jsonEncode(bodyString),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo ${response.body}");
+    String data = response.body;
+
+    return taskUpdateModelFromJson(response.body);
+  }
 // all task get
   Future<GetAllTaskModel> getAllTaskController() async {
     String convertToken = tokenString.replaceAll("+", "%2B");
