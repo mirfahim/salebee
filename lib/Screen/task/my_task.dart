@@ -41,7 +41,7 @@ class _AssignedToMeState extends State<MyTask> {
                   itemBuilder: (context, index) {
                     var data = snapshot.data!.result![index];
                     return data.priorityName == providersss.filterData ||
-                            providersss.filterData == "All" ||
+                            providersss.filterData == 1 ||
                             providersss.filterData.isEmpty
                         ? ExpandableNotifier(
                             child: Stack(
@@ -187,13 +187,15 @@ class _AssignedToMeState extends State<MyTask> {
                                                       fontSize: 14,
                                                     ),
                                                   )
-                                                : Text(
-                                                    data!.contact!,
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14,
+                                                : Expanded(
+                                                  child: Text(
+                                                      data!.contact!,
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
-                                                  ),
+                                                ),
                                           ],
                                         ),
 

@@ -17,6 +17,11 @@ import 'package:salebee/utils.dart';
 enum timers { all, Follow_up_1, Follow_up_2,Follow_up_3,Follow_up_4 }
 enum time { all, today, last_7,last_15 }
 enum status { all, initiated, pending,Canceled,Done }
+enum priorities {All, High,
+Low,
+Normal,
+Very_High,
+Very_Low }
 
 class Task extends StatefulWidget {
   @override
@@ -27,6 +32,7 @@ class _TaskState extends State<Task> {
   timers _site = timers.all;
   time _time = time.all;
   status _status = status.all;
+   priorities _priority = priorities.High;
   TaskRepository taskRepository = TaskRepository();
   //UserAuthProvider providersss = UserAuthProvider();
   @override
@@ -211,6 +217,11 @@ class _TaskState extends State<Task> {
                           onChanged: (time? value) {
                             setState(() {
                               _time = value!;
+                              int? selection = -10000;
+                              value == time.all ?
+                              selection = -10000 : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterDate(selection);
                             });
                           },
                         ),
@@ -222,11 +233,16 @@ class _TaskState extends State<Task> {
                         ),),
                         leading: Radio(
                           activeColor: tabBarUnSelectedColor,
-                          value: timers.Follow_up_1,
-                          groupValue: _site,
-                          onChanged: (timers? value) {
+                          value: time.today,
+                          groupValue: _time,
+                          onChanged: (time? value) {
                             setState(() {
-                              _site = value!;
+                              _time = value!;
+                             int? selection =0;
+                              value == time.today ?
+                              selection = 0 : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterDate(selection!);
                             });
                           },
                         ),
@@ -243,6 +259,11 @@ class _TaskState extends State<Task> {
                           onChanged: (time? value) {
                             setState(() {
                               _time = value!;
+                              int? selection = -7;
+                              value == time.last_7 ?
+                              selection = -7 : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterDate(selection!);
                             });
                           },
                         ),
@@ -259,13 +280,18 @@ class _TaskState extends State<Task> {
                           onChanged: (time? value) {
                             setState(() {
                               _time = value!;
+                              int? selection = -15;
+                              value == time.last_15 ?
+                              selection = -15 : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterDate(selection!);
                             });
                           },
                         ),
                       ),
 
                       SizedBox(height: 20,),
-                      Text('Status',style: TextStyle(
+                      Text('Priority',style: TextStyle(
                           color: Colors.black,fontWeight: FontWeight.w700, fontSize: 10
                       ),),
                       ListTile(
@@ -275,16 +301,40 @@ class _TaskState extends State<Task> {
                         ),),
                         leading: Radio(
                           activeColor: tabBarUnSelectedColor,
-                          value: status.all,
-                          groupValue: _status,
-                          onChanged: (status? value) {
+                          value: priorities.All,
+                          groupValue: _priority,
+                          onChanged: (priorities? value) {
                             // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                             // providerss.filterTask(value);
                             setState(() {
 
-                              _status = value!;
+                              _priority = value!;
                               String? selection = "";
-                              value == status.all ? selection = "All" : null;
+                              value == priorities.All ? selection = "All" : null;
+                              // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                              providersss.filterTask(selection!);
+
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                        title: const Text('High',style: TextStyle(
+                            fontSize: 12
+                        ),),
+                        leading: Radio(
+                          activeColor: tabBarUnSelectedColor,
+                          value: priorities.High,
+                          groupValue: _priority,
+                          onChanged: (priorities? value) {
+                            // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
+                            // providerss.filterTask(value);
+                            setState(() {
+
+                              _priority = value!;
+                              String? selection = "";
+                              value == priorities.High ? selection = "High" : null;
                               // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                               providersss.filterTask(selection!);
                             });
@@ -293,22 +343,22 @@ class _TaskState extends State<Task> {
                       ),
                       ListTile(
                         visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                        title: const Text('Initiated',style: TextStyle(
+                        title: const Text('Very High',style: TextStyle(
                             fontSize: 12
                         ),),
                         leading: Radio(
                           activeColor: tabBarUnSelectedColor,
-                          value: status.initiated,
-                          groupValue: _status,
-                          onChanged: (status? value) {
+                          value: priorities.Very_High,
+                          groupValue: _priority,
+                          onChanged: (priorities? value) {
                             // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                             // providerss.filterTask(value);
                             setState(() {
 
 
-                              _status = value!;
+                              _priority = value!;
                               String selection = "" ;
-                              value == status.initiated ? selection = "Initiated" : null;
+                              value == priorities.Very_High ? selection = "Very High" : null;
                               // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                               providersss.filterTask(selection);
                             });
@@ -317,21 +367,21 @@ class _TaskState extends State<Task> {
                       ),
                       ListTile(
                         visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                        title: const Text('Pending',style: TextStyle(
+                        title: const Text('Normal',style: TextStyle(
                             fontSize: 12
                         ),),
                         leading: Radio(
                           activeColor: tabBarUnSelectedColor,
-                          value: status.pending,
-                          groupValue: _status,
-                          onChanged: (status? value) {
+                          value: priorities.Normal,
+                          groupValue: _priority,
+                          onChanged: (priorities? value) {
                             // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                             // providerss.filterTask(value);
                             setState(() {
 
-                              _status = value!;
-                              String? selection = "";
-                              value == status.pending ? selection = "Pending" : null;
+                              _priority = value!;
+                              String? selection = "Normal";
+                              value == priorities.Normal ? selection = "Normal" : null;
                               // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                               providersss.filterTask(selection!);
                             });
@@ -340,19 +390,19 @@ class _TaskState extends State<Task> {
                       ),
                       ListTile(
                         visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                        title: const Text('Canceled',style: TextStyle(
+                        title: const Text('Low',style: TextStyle(
                             fontSize: 12
                         ),),
                         leading: Radio(
                           activeColor: tabBarUnSelectedColor,
-                          value: status.Canceled,
-                          groupValue: _status,
-                          onChanged: (status? value) {
+                          value: priorities.Low,
+                          groupValue: _priority,
+                          onChanged: (priorities? value) {
                             setState(() {
 
-                              _status = value!;
+                              _priority = value!;
                               String? selection = "" ;
-                              value == status.Canceled ? selection = "Canceled" : null;
+                              value == priorities.Low ? selection = "Low" : null;
                               // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                               providersss.filterTask(selection!);
                             });
@@ -361,19 +411,19 @@ class _TaskState extends State<Task> {
                       ),
                       ListTile(
                         visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                        title: const Text('Done',style: TextStyle(
+                        title: const Text('Very Low',style: TextStyle(
                             fontSize: 12
                         ),),
                         leading: Radio(
                           activeColor: tabBarUnSelectedColor,
-                          value: status.Done,
-                          groupValue: _status,
-                          onChanged: (status? value) {
+                          value: priorities.Very_Low,
+                          groupValue: _priority,
+                          onChanged: (priorities? value) {
                             setState(() {
 
-                              _status = value!;
+                              _priority = value!;
                               String? selection = "" ;
-                              value == status.Done ? selection = "Done" : null;
+                              value == priorities.Very_Low ? selection = "Very Low" : null;
                               // UserAuthProvider providerss = Provider.of<UserAuthProvider>(context, listen: true);
                               providersss.filterTask(selection!);
                             });

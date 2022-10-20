@@ -8,6 +8,7 @@ import 'package:salebee/Screen/expense/transport.dart';
 import 'package:salebee/Screen/notification/notification.dart';
 import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/Screen/test_screen.dart';
+import 'package:salebee/Service/sharedPref_service.dart';
 
 import '../../Utils/StringsConst.dart';
 import '../../utils.dart';
@@ -53,6 +54,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("sub domain is ${SharedPreff.to.prefss.get("subDomain")} and my url is ${StringsConst.BASEURL}");
     Size size = MediaQuery.of(context).size;
     print(size.height);
     if (size.height < 650) {

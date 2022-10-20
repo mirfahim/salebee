@@ -32,6 +32,7 @@ class TaskRepository {
         int? leadID,
         int? assignaTo,
       required int status}) async {
+    print("token  ${SharedPreff.to.prefss.get("token")} , type $type repeat $repeat priority $priority prospect id $prospectId lead id $leadID, assign to $assignaTo++++++");
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
     List list1 = [];
@@ -46,9 +47,9 @@ class TaskRepository {
       "ProspectId": prospectId ?? 0,
       "LeadID": leadID ?? 0,
       "SupportID": 0,
-      "StartDate": "2022-09-21T10:46:49.198Z",
+      "StartDate": DateTime.now().toString(),
       "StartTime": "string",
-      "DueDate": "2022-09-30T10:46:49.198Z",
+      "DueDate": DateTime.now().toString(),
       "DueTime": "string",
       "ReminderDate": "2022-08-30T10:46:49.198Z",
       "ReminderDays": 0,
@@ -196,7 +197,7 @@ class TaskRepository {
   Future<GetAllTaskModel> getAllTaskController() async {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
-    print("working 1 $finalToken ++++++");
+    print("working 1 $finalToken ++++++ url $base_url");
 
     Uri url = Uri.parse("$base_url/AllTask");
     final response = await http.post(
@@ -220,6 +221,7 @@ class TaskRepository {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    print("my main url is ----------------${StringsConst.MAINURL} ++++++");
 
     Uri url = Uri.parse("$base_url/AllTaskAssignedToMe");
     final response = await http.post(

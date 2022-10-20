@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/login_model.dart';
+import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:salebee/Utils/ApiUrl.dart';
 import 'dart:convert' as convert;
@@ -94,10 +96,12 @@ class ApiService {
   }
 
   makeApiRequest({method, url, Map? body, headers,}) async {
-    print("working started on api request 00");
+    print("working started ${StaticData.subDomain} on api request url is ${StringsConst.BASEURL} shared pref url ${SharedPreff.to.prefss.get("subDomain")}");
+
+    print("my base url is ${StringsConst.BASEURL}");
     print("$method");
     try {
-      print("working started on api request 01");
+      print("working started on api request url is ${StringsConst.BASEURL} shared pref url ${SharedPreff.to.prefss.get("subDomain")}");
       var response;
       Uri apiURL = Uri.parse(StringsConst.BASEURL + url);
      // Uri apiURL = Uri.parse("https://fix-era.com/api/v1/login");

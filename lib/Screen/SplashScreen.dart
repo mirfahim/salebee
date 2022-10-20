@@ -55,7 +55,7 @@ class _SplashState extends State<Splash> {
           builder: (context) => BottomNav(),
         ),
       );
-    } else if (StaticData.subDomain == '' || StaticData.subDomain == null ){
+    } else if (SharedPreff.to.prefss.getString("subDomain") == '' ||SharedPreff.to.prefss.getString("subDomain") == null ){
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => SubDomainPage(),

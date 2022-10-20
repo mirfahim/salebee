@@ -183,13 +183,15 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                            fontSize: 14,
                                          ),
                                        )
-                                           : Text(
+                                           : Expanded(
+                                             child: Text(
                                          data!.contact!,
                                          style: TextStyle(
-                                           color: Colors.grey,
-                                           fontSize: 14,
+                                             color: Colors.grey,
+                                             fontSize: 14,
                                          ),
                                        ),
+                                           ),
                                      ],
                                    ),
 

@@ -1,6 +1,14 @@
 import '../Model/login_model.dart';
 
 class StaticData {
+  static int  assignToID =0;
+  static int  prospectID =0;
+  static int  leadID =0;
+  static int  typeID =0;
+  static int  priorityID =0;
+  static int  employeeIDTask =0;
+  static int  contactPerson =0;
+
   static String? subDomain = "";
   static String? proLink = "";
   static String? name = "";

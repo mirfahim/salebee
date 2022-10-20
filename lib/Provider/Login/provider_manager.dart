@@ -6,7 +6,7 @@ class ProviderManager extends ChangeNotifier {
   bool loading = false;
   bool isBack = false;
   String filterData = "";
-  DateTime today = DateTime.now();
+  int  filterDay = 0;
 
   signIN(String email, String pwd) {
     email = email;
@@ -21,9 +21,9 @@ class ProviderManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  filterDate(DateTime date) {
-    today = date;
-    print("my selected filter is $today");
+  filterDate(int days) {
+    filterDay = days;
+    print("my selected filter is $days");
     notifyListeners();
   }
 }
