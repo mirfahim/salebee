@@ -1,4 +1,4 @@
-package com.example.salebee
+package com.salebee.crm
 
 import io.flutter.embedding.android.FlutterActivity
 
