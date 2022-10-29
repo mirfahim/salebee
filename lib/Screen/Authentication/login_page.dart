@@ -33,6 +33,13 @@ class LoginPageState extends State<LoginPage> {
   LoginResponseModel loginResponseModel = LoginResponseModel();
   bool? checkedValue = false;
   bool circularLoad = false;
+
+  @override
+  void initState() async {
+    // TODO: implement initState
+    //String? token = await FirebaseMessaging.instance.getToken();
+    super.initState();
+  }
   // ApiClient apiClient = ApiClient();
   @override
   Widget build(BuildContext context) {
