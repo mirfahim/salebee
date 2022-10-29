@@ -16,7 +16,7 @@ import 'package:salebee/Widget/button_widget.dart';
 import '../../Provider/Login/provider_manager.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -33,11 +33,11 @@ class LoginPageState extends State<LoginPage> {
   LoginResponseModel loginResponseModel = LoginResponseModel();
   bool? checkedValue = false;
   bool circularLoad = false;
-
+  String? fcmtoken = "";
   @override
   void initState() async {
     // TODO: implement initState
-    //String? token = await FirebaseMessaging.instance.getToken();
+    fcmtoken = await FirebaseMessaging.instance.getToken();
     super.initState();
   }
   // ApiClient apiClient = ApiClient();
