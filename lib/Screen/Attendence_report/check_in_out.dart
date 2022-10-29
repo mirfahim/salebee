@@ -523,7 +523,7 @@ class _CheckInOutState extends State<CheckInOut> {
       print("my location is +++++++++++++++++ before cheked $locationDis");
 
       status.value == true
-          ? attendanceRepository
+          ? locationDis.isNotEmpty ? attendanceRepository
               .checkInController(
                   id: 1,
                   employeeId: StaticData.employeeID!,
@@ -539,7 +539,7 @@ class _CheckInOutState extends State<CheckInOut> {
         print("my resposne check in is ++++++++${e.isSuccess}");
 
 
-      })
+      }) : _showSnack("No location found please try again")
           : attendanceRepository
               .checkOutController(token!, StaticData.employeeID!, formatted,
                   locationDis, ele!.latitude, ele!.longitude, textNoteController.text??"")

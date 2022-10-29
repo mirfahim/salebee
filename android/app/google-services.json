@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "519174659752",
+    "project_id": "salebee-957ca",
+    "storage_bucket": "salebee-957ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519174659752:android:9bd4b3727048c2367bac9d",
+        "android_client_info": {
+          "package_name": "com.salebee.crm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519174659752-bu2ds2i2rut312osdvdt1s8cokoeatan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCTjJU31_y3m4eC93L8OyLXYX3iRQxAPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519174659752-bu2ds2i2rut312osdvdt1s8cokoeatan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

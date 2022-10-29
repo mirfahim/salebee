@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/SplashScreen.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
+
+import '../Utils/StringsConst.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -42,6 +45,8 @@ class _EditProfileState extends State<EditProfile> {
                   SharedPreff.to.prefss.remove("userNAME");
                   SharedPreff.to.prefss.remove("proLink");
                   SharedPreff.to.prefss.remove("subDomain");
+                  //StaticData.subDomain = "";
+                  StringsConst.BASEURL = "";
 
                   Get.to( Splash());
                   //SharedPreff.to.prefss.remove("key");

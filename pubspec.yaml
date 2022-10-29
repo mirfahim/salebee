@@ -60,6 +60,8 @@ dependencies:
   flutter_local_notifications: ^9.6.1
   flutter_native_timezone: ^2.0.0
   expandable: ^5.0.1
+  firebase_core: ^1.24.0
+  firebase_messaging: ^13.1.0
   #url_encoder: ^0.0.3
   ##geocoder: any
 dev_dependencies:

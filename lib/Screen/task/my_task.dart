@@ -41,7 +41,7 @@ class _AssignedToMeState extends State<MyTask> {
                   itemBuilder: (context, index) {
                     var data = snapshot.data!.result![index];
                     return data.priorityName == providersss.filterData ||
-                            providersss.filterData == "All" ||
+                            providersss.filterData == 1 ||
                             providersss.filterData.isEmpty
                         ? ExpandableNotifier(
                             child: Stack(
@@ -60,9 +60,10 @@ class _AssignedToMeState extends State<MyTask> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                           Text("Task Id: 01", style: TextStyle(
+                                           Text("Task Id: ${data!.taskId}", style: TextStyle(
                                              color:primaryColor,
-                                             fontWeight: FontWeight.bold
+                                             fontWeight: FontWeight.bold,
+                                             fontSize: 12
                                            ),),
                                             Text(
                                               DateFormat.yMd()
@@ -186,13 +187,15 @@ class _AssignedToMeState extends State<MyTask> {
                                                       fontSize: 14,
                                                     ),
                                                   )
-                                                : Text(
-                                                    data!.contact!,
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14,
+                                                : Expanded(
+                                                  child: Text(
+                                                      data!.contact!,
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
-                                                  ),
+                                                ),
                                           ],
                                         ),
 

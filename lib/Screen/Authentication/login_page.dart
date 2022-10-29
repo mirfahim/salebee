@@ -43,6 +43,7 @@ class LoginPageState extends State<LoginPage> {
   // ApiClient apiClient = ApiClient();
   @override
   Widget build(BuildContext context) {
+    print("${SharedPreff.to.prefss.getString("subDomain")}");
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

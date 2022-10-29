@@ -26,7 +26,7 @@ class AttendanceRepository {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
     print("working $logTimeIn ++++++ and location is $location emloyee id $employeeId");
-    print("CHECK IN ++++++++++++++++LOGTIME IN IS ++++++ $logTimeIn ");
+    print("CHECK IN $location++++++++++++++++LOGTIME IN IS ++++++ $logTimeIn ");
     String finalToken = token.replaceAll('/', '%2F');
     // {
 

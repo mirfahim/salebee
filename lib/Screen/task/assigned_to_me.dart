@@ -56,9 +56,10 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                      mainAxisAlignment:
                                      MainAxisAlignment.spaceBetween,
                                      children: [
-                                       Text("Task Id: 01", style: TextStyle(
+                                       Text("Task Id: ${data!.taskId}", style: TextStyle(
                                            color:primaryColor,
-                                           fontWeight: FontWeight.bold
+                                           fontWeight: FontWeight.bold,
+                                         fontSize: 12
                                        ),),
                                        Text(
                                          DateFormat.yMd()
@@ -182,13 +183,15 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                            fontSize: 14,
                                          ),
                                        )
-                                           : Text(
+                                           : Expanded(
+                                             child: Text(
                                          data!.contact!,
                                          style: TextStyle(
-                                           color: Colors.grey,
-                                           fontSize: 14,
+                                             color: Colors.grey,
+                                             fontSize: 14,
                                          ),
                                        ),
+                                           ),
                                      ],
                                    ),
 

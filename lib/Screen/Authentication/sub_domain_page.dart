@@ -98,6 +98,8 @@ class LoginPageState extends State<SubDomainPage> {
                             textSubDomainController.text.toString());
                         StaticData.subDomain =
                             textSubDomainController.text.toString();
+                        StringsConst.MAINURL = "https://${StaticData.subDomain}" + ".salebee.net/";
+                        StringsConst.BASEURL = "${StringsConst.MAINURL}" + "api/Salebee/";
                         print("==================${StaticData.subDomain}");
                         loading = false;
                       });
