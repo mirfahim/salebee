@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/SplashScreen.dart';
+import 'package:salebee/Screen/setting/setting_page.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 
 import '../Utils/StringsConst.dart';
@@ -22,23 +23,34 @@ class _EditProfileState extends State<EditProfile> {
         children: [
           Center(
             child: GestureDetector(
-              onTap: (){
-                SharedPreff.to.prefss.remove("token");
-                SharedPreff.to.prefss.remove("loggedIN");
-                SharedPreff.to.prefss.remove("employeeID");
-                SharedPreff.to.prefss.remove("userNAME");
-                SharedPreff.to.prefss.remove("proLink");
-
-                Get.to( Splash());
-                //SharedPreff.to.prefss.remove("key");
-              },
-
-                child: Text("Log Out")),
+                onTap: () {
+                  Get.to(SettingPage());
+                },
+                child: Text("Setting")),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Center(
             child: GestureDetector(
-                onTap: (){
+                onTap: () {
+                  SharedPreff.to.prefss.remove("token");
+                  SharedPreff.to.prefss.remove("loggedIN");
+                  SharedPreff.to.prefss.remove("employeeID");
+                  SharedPreff.to.prefss.remove("userNAME");
+                  SharedPreff.to.prefss.remove("proLink");
+
+                  Get.to(Splash());
+                  //SharedPreff.to.prefss.remove("key");
+                },
+                child: Text("Log Out")),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: GestureDetector(
+                onTap: () {
                   SharedPreff.to.prefss.remove("token");
                   SharedPreff.to.prefss.remove("loggedIN");
                   SharedPreff.to.prefss.remove("employeeID");
@@ -48,10 +60,9 @@ class _EditProfileState extends State<EditProfile> {
                   //StaticData.subDomain = "";
                   StringsConst.BASEURL = "";
 
-                  Get.to( Splash());
+                  Get.to(Splash());
                   //SharedPreff.to.prefss.remove("key");
                 },
-
                 child: Text("Remove SubDomain")),
           ),
         ],

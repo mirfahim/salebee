@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/AddTaskModel.dart';
 import 'package:salebee/Model/checkin_model.dart';
 import 'package:salebee/Model/getAllTaskModel.dart';
+import 'package:salebee/Model/prospect_lead_concern_model.dart';
 
 import '../Helper/api_helper.dart';
 import '../Model/getAllMyTaskModel.dart';
@@ -99,7 +101,8 @@ class TaskRepository {
     List list1 = [];
     List list2 = [];
 
-    Map<String, dynamic> bodyString = {
+    Map<String, dynamic> bodyString =
+    {
       "TaskID": taskID,
       "Type": 0,
       "Title": title,
@@ -239,7 +242,25 @@ class TaskRepository {
 
     return getAssignedTaskModelFromJson(response.body);
   }
+  Future<GetAllMyTaskModel> getMyTaskController() async {
+    String convertToken = tokenString.replaceAll("+", "%2B");
+    String finalToken = convertToken.replaceAll("/", "%2F");
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
+    Uri url = Uri.parse("$base_url/MyTask");
+    final response = await http.post(
+      url,
+      body: jsonEncode({"Token": tokenString}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo GetMYTAsk${response.body}");
+    String data = response.body;
+
+    return getAllMyTaskModelFromJson(response.body);
+  }
   // get all task assigned by me ++++++
   Future<GetAssignedTaskToMeModel> getAssignedTaskByMeController() async {
     String convertToken = tokenString.replaceAll("+", "%2B");
@@ -269,24 +290,35 @@ class TaskRepository {
   }
 
   // get all my task ++++
-  Future<GetAllMyTaskModel> getMyTaskController() async {
+  Future<ProspectLeadandConcernModel> getProspectLeadandConcern(int prospectId) async {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-    Uri url = Uri.parse("$base_url/MyTask");
+    Uri url = Uri.parse("$base_url/LeadandProspectConcernPerson");
     final response = await http.post(
       url,
-      body: jsonEncode({"Token": tokenString}),
+      body: jsonEncode(
+
+            {
+              "Token": tokenString,
+              "ProspectID": prospectId,
+              "LeadID": 0,
+              "TaskID": 0,
+              "EmployeeID": 0,
+              "SupportID": 0,
+              "FollowupID": 0
+
+          }),
       headers: {
         "Content-Type": "application/json",
       },
     );
 
-    print("my resposnse repo GetMYTAsk${response.body}");
+    print("my resposnse repo prrospect lead and concern${response.body}");
     String data = response.body;
 
-    return getAllMyTaskModelFromJson(response.body);
+    return prospectLeadandConcernModelFromJson(response.body);
   }
 
 // all user list for task
@@ -296,26 +328,36 @@ class TaskRepository {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
 
-    print("working 1 $finalToken ++++++");
-
+    print("working 1 $tokenString ++++++");
+//IfJylQXq9j2bT+BxKl9eAB+mgLuVFQLU8Ex21yo+TPzqkMgN55lU/xSnY+YOnzcG3BVgQhSSeq632HPYw3Wfy4dnIz0B8tOIcCdPOwnSYWg=
 //IfJylQXq9j2bT%2BBxKl9eAB%2BmgLuVFQLU8Ex21yo%2BTPzqkMgN55lU%2FxSnY%2BYOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks
 //IfJylQXq9j2bT%2BBxKl9eAB%2BmgLuVFQLU8Ex21yo%2BTPzqkMgN55lU%2FxSnY%2BYOnzcG3BVgQhSSeq5R0gclbnWYFvkqzzkmQdks
-
-    Uri url = Uri.parse(
-        "https://app.salebee.net/api/Salebee/ManageTask");
+// IfJylQXq9j2bT+BxKl9eAB+mgLuVFQLU8Ex21yo+TPzqkMgN55lU/xSnY+YOnzcG3BVgQhSSeq632HPYw3Wfy4dnIz0B8tOIcCdPOwnSYWg=
+// IfJylQXq9j2bT+BxKl9eAB+mgLuVFQLU8Ex21yo+TPzqkMgN55lU/xSnY+YOnzcG3BVgQhSSeq632HPYw3Wfy4dnIz0B8tOIcCdPOwnSYWg=
+    Uri url = Uri.parse("$base_url/ManageTask");
     final response = await http.post(
       url,
-      body: jsonEncode({
-        "Token": tokenString
-      }),
+      body: jsonEncode(
+          {
+            "Token": tokenString,
+            "ProspectID": 0,
+            "LeadID": 0,
+            "TaskID": 0,
+            "EmployeeID": 0,
+            "SupportID": 0,
+            "FollowupID": 0
+          }
+      ),
       headers: {
         "Content-Type": "application/json",
       },
     );
 
     print(
-        "my resposnse repo all list of task user , priority ---------------${response.body}");
+        "my resposnse repo all managetask ---------------${response.body}");
     String data = response.body;
+
+   // StaticData.statusList = data["SelectListTaskStatus"];
 
     return getListForTaskDataModelFromJson(response.body);
   }

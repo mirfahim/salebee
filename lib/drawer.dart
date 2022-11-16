@@ -7,6 +7,8 @@ import 'package:salebee/Screen/leave/leave_front.dart';
 import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/utils.dart';
 
+import 'Screen/setting/setting_page.dart';
+
 Future drawer(BuildContext context){
   Size size = MediaQuery.of(context).size;
   return showModalBottomSheet(
@@ -145,8 +147,40 @@ Future drawer(BuildContext context){
                               ),
                             ),
                           ),
+
                           const SizedBox(
                             height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+
+                              Get.to(  SettingPage());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+
+                                  borderRadius:
+                                  BorderRadius.circular(6)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.money,
+                                      color: primaryColor,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      'Setting',
+                                      style: TextStyle(
+                                          color: primaryColor),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 10,

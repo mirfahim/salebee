@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
 import 'package:salebee/Screen/edit_profile.dart';
 import 'package:salebee/Screen/expense/aproved.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
-import 'package:salebee/Screen/expense/other_expense.dart';
-import 'package:salebee/Screen/expense/transport.dart';
+import 'package:salebee/Screen/expense/expense_create/other_expense.dart';
+import 'package:salebee/Screen/expense/expense_create/transport.dart';
 import 'package:salebee/Screen/notification/notification.dart';
+import 'package:salebee/Screen/setting/setting_page.dart';
 import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/Screen/test_screen.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
@@ -16,6 +18,7 @@ import 'package:get/get.dart';
 
 import '../Attendence_report/attendence_report.dart';
 import '../leave/leave_front.dart';
+import '../notification/notification_1.dart';
 import '../test.dart';
 
 class HomePage extends StatelessWidget {
@@ -98,7 +101,7 @@ class HomePage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.to(EditProfile());
+                        Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -109,7 +112,7 @@ class HomePage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
-                              Icons.edit_outlined,
+                              Icons.notification_important,
                               color: darkBlue,
                             ),
                           ),
@@ -187,9 +190,9 @@ class HomePage extends StatelessWidget {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'Prospect', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                       // circleRow(size,'E', (size.width /12), (size.height /24),),
@@ -205,43 +208,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: darkBlue,
-                        ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(AdsPage());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_forward,
-                            color: darkBlue,
-                          ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+
             ],
           ),
         ),
@@ -285,9 +252,10 @@ class HomePage extends StatelessWidget {
                         )
                       ],
                     ),
+                  
                     GestureDetector(
                       onTap: (){
-                        Get.to(EditProfile());
+                        Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -298,7 +266,7 @@ class HomePage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
-                              Icons.edit_outlined,
+                              Icons.notification_important,
                               color: darkBlue,
                             ),
                           ),
@@ -371,56 +339,56 @@ class HomePage extends StatelessWidget {
                               child: circleRow(size, 'Expenses',
                                   (size.width / 2.5), (size.height / 2)))),
                       Positioned(
-                        top: (size.height / 1.74),
+                        top: (size.height / 1.68),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'Prospect', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: darkBlue,
-                        ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(AdsPage());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_forward,
-                            color: darkBlue,
-                          ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Row(
+              //         children: [
+              //           Icon(
+              //             Icons.arrow_back,
+              //             color: darkBlue,
+              //           ),
+              //           Text(
+              //             'Prev',
+              //             style: TextStyle(color: darkBlue),
+              //           )
+              //         ],
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           Get.to(AdsPage());
+              //         },
+              //         child: Row(
+              //           children: [
+              //             Icon(
+              //               Icons.arrow_forward,
+              //               color: darkBlue,
+              //             ),
+              //             Text(
+              //               'Next',
+              //               style: TextStyle(color: darkBlue),
+              //             )
+              //           ],
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),
@@ -466,7 +434,7 @@ class HomePage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.to(EditProfile());
+                        Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -477,13 +445,34 @@ class HomePage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
-                              Icons.edit_outlined,
+                              Icons.notification_important,
                               color: darkBlue,
                             ),
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(NotificationPage1());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(150)),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.notification_important,
+                              color: darkBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
               ),
@@ -548,56 +537,21 @@ class HomePage extends StatelessWidget {
                               child: circleRow(size, 'Expenses',
                                   (size.width / 2.5), (size.height / 2)))),
                       Positioned(
-                        top: (size.height / 1.80),
+                        top: (size.height / 1.85),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
-                                (size.height / 1.74))),
+                            child: circleRow(size, 'Prospect', (size.width / 12),
+                                (size.height / 1.7))),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: darkBlue,
-                        ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(AdsPage());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_forward,
-                            color: darkBlue,
-                          ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+
+
             ],
           ),
         ),
@@ -646,7 +600,7 @@ class HomePage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.to(EditProfile());
+                        Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -657,7 +611,7 @@ class HomePage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
-                              Icons.edit_outlined,
+                              Icons.notification_important,
                               color: darkBlue,
                             ),
                           ),
@@ -732,52 +686,52 @@ class HomePage extends StatelessWidget {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(NotificationPage());
+                              Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'Propect', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: darkBlue,
-                        ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(AdsPage());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_forward,
-                            color: darkBlue,
-                          ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Row(
+              //         children: [
+              //           Icon(
+              //             Icons.arrow_back,
+              //             color: darkBlue,
+              //           ),
+              //           Text(
+              //             'Prev',
+              //             style: TextStyle(color: darkBlue),
+              //           )
+              //         ],
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           Get.to(AdsPage());
+              //         },
+              //         child: Row(
+              //           children: [
+              //             Icon(
+              //               Icons.arrow_forward,
+              //               color: darkBlue,
+              //             ),
+              //             Text(
+              //               'Next',
+              //               style: TextStyle(color: darkBlue),
+              //             )
+              //           ],
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),
@@ -876,7 +830,7 @@ class HomePage extends StatelessWidget {
                         left: (size.width / 1.75),
                         child: InkWell(
                           onTap: () {
-                            Get.to(OtherExpense());
+                            // Get.to(OtherExpense());
                           },
                           child: circleRow(size, 'Tasks', 240.0, 210.0),
                         ),
@@ -895,52 +849,52 @@ class HomePage extends StatelessWidget {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(AttendenceReport());
+                              Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Notice', (size.width / 12),
+                            child: circleRow(size, 'Propect', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: darkBlue,
-                        ),
-                        Text(
-                          'Prev',
-                          style: TextStyle(color: darkBlue),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(AdsPage());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_forward,
-                            color: darkBlue,
-                          ),
-                          Text(
-                            'Next',
-                            style: TextStyle(color: darkBlue),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Row(
+              //         children: [
+              //           Icon(
+              //             Icons.arrow_back,
+              //             color: darkBlue,
+              //           ),
+              //           Text(
+              //             'Prev',
+              //             style: TextStyle(color: darkBlue),
+              //           )
+              //         ],
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           Get.to(AdsPage());
+              //         },
+              //         child: Row(
+              //           children: [
+              //             Icon(
+              //               Icons.arrow_forward,
+              //               color: darkBlue,
+              //             ),
+              //             Text(
+              //               'Next',
+              //               style: TextStyle(color: darkBlue),
+              //             )
+              //           ],
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

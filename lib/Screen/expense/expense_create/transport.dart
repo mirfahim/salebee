@@ -1,54 +1,61 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Screen/expense/food.dart';
+import 'package:salebee/Screen/expense/expense_create/food.dart';
+import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 
-class TransportPage extends StatelessWidget {
-  TransportPage({Key? key}) : super(key: key);
+class TransportExpenseCreatePage extends StatefulWidget {
+  TransportExpenseCreatePage({Key? key}) : super(key: key);
+
+  @override
+  State<TransportExpenseCreatePage> createState() => _TransportExpenseCreatePageState();
+}
+
+class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage> {
   final selectedDate = DateTime.now().obs;
+  ExpenseRepository expenseRepository = ExpenseRepository();
   final pickedDate = ''.obs;
+  var textExpenseController = TextEditingController();
+  var textDesController = TextEditingController();
+  File? file;
+
+  bool circular = false ;
+
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      file = imageFile ;
+    }
+    return file ;
+  }
+
+  _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      file = imageFile ;
+    }
+    return file ;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Transport',style: TextStyle(
-            color: Colors.black,fontWeight: FontWeight.w600
-        ),),
-        automaticallyImplyLeading: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: (){
-            Get.back();
-          },
-          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
-        ),
-        actions: [
-          InkWell(
-            onTap: (){
-              Get.to(FoodExpense());
-            },
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(150),
-              ),
-              child: Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.person,color: darkBlue,),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -56,6 +63,7 @@ class TransportPage extends StatelessWidget {
             children: [
               ListView(
                 children: [
+                  SizedBox(height: 10,),
                   const Text('Way',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
@@ -97,6 +105,7 @@ class TransportPage extends StatelessWidget {
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: textExpenseController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -335,27 +344,45 @@ class TransportPage extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: primaryColor.withOpacity(.1),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: Colors.grey.withOpacity(.35))
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.camera_alt,color: primaryColor,),
-                                const SizedBox(width: 10,),
-                                const Text('Tap to Upload')
-                              ],
+                        child: GestureDetector(
+                          onTap: (){
+                            _getFromGallery().then((e){
+                              if(e != null){
+                                setState(() {
+
+                                });
+                              }
+
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: primaryColor.withOpacity(.1),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: Colors.grey.withOpacity(.35))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.camera_alt,color: primaryColor,),
+                                  const SizedBox(width: 10,),
+                                  const Text('Tap to Upload')
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10,),
+                      SizedBox(width: 10,),
                       Expanded(
-                        child: Container(),
+                        child: file == null ?
+                        Container()
+                            :Image.file(
+                          file!,
+                          height: 45.0,
+                          width: 45.0,
+                        ),
                       )
                     ],
                   ),
@@ -367,8 +394,56 @@ class TransportPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
-                    onTap: (){
-                      // Get.to(FoodExpense());
+                    onTap: ()async{
+                      var bytes = await file!.readAsBytes();
+                      print("my image file is ${file!.path}");
+                      // Get.to(OtherExpense());
+                      setState(() {
+                        circular = true;
+                      });
+
+                      if (textExpenseController.text.isEmpty) {
+                        final snackBar = SnackBar(
+                          content: const Text('Please fill all the form field'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                          ),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        setState(() {
+                          circular == false;
+                        });
+
+                      } else {
+                        try {
+                          File file = File("");
+                          expenseRepository
+                              .transportExpenseController(bytes)
+                              .then((e) {
+                            print("my response for other expense is ${e["IsSuccess"]}");
+                            if(e["IsSuccess"] == true){
+                              setState(() {
+                                circular = false;
+                              });
+                            }else {
+                              setState(() {
+                                circular = false;
+                              });
+                            }
+                            setState(() {
+                              circular = false;
+                            });
+                          });
+                        } catch (e) {
+                          setState(() {
+                            circular = false;
+                          });
+                        }
+                      }
                     },
                     child: Container(
                       height: 48,
@@ -395,6 +470,7 @@ class TransportPage extends StatelessWidget {
       ),
     );
   }
+
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

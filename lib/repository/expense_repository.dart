@@ -15,19 +15,26 @@ import '../Utils/StringsConst.dart';
 class ExpenseRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
+  String? tokenString = SharedPreff.to.prefss.getString("token");
 
   // Foood ********************************
-  Future<CheckinResponse> foodExpenseController() async {
+  Future foodExpenseController(image) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
     Map<String, dynamic> bodyString = {
       "Id": 0,
-      "MealType": 1,
-      "DishName": "Arabian Sharma",
-      "Expense": 250,
-      "ExpenseDate": "2022-08-29T09:47:04.136Z",
-      "ApprovedBy": 1,
-      "Token": SharedPreff.to.prefss.getString("token"),
+      "MealType": 0,
+      "DishName": "string",
+      "Expense": 0,
+      "ExpenseDate": "2022-11-15T04:09:52.678Z",
+      "ApprovedBy": 0,
+      "Attachment": image,
+      "Active": true,
+      "CreatedBy": 0,
+      "CreatedOn": "2022-11-15T04:09:52.678Z",
+      "UpdatedBy": 0,
+      "UpdatedOn": "2022-11-15T04:09:52.678Z",
+      "Token": tokenString
     };
 
     Uri url = Uri.parse("$base_url/ExpenseClaimFood");
@@ -40,98 +47,70 @@ class ExpenseRepository {
     );
 
     print("my resposnse repo ${response.body}");
-    String data = response.body;
+    var data = jsonDecode(response.body);
 
-    return attendanceResponseModelFromJson(response.body);
+    return data;
   }
 
-  Future postOtherExpense() async{
-    try{
-      final dio = Dio();
-      String url = "$base_url/ExpenseClaimOthers";
-      final response = await dio.post(
-        url,
-        data: jsonEncode({
-          'data': {
-        "Id": "1",
-        "ExpenseName": "Test Expense",
-        "Description": "Test Expense For Salebee CRM Marketing",
-        "Expense": "500.0",
-        "ExpenseDate": "2022-09-05T08:15:50.746Z",
-        "ApprovedBy": "1",
-        "Token":
-        SharedPreff.to.prefss.getString("token")
-        },
-          "Attachment" : null ,
 
-        })
-      );
 
-      if(response.statusCode == 200){
-        print("working others expense+++++++");
-        print(response.data);
-        return response.data;
-      }
-    } catch(e){
-      print(e);
-    }
-  }
+  Future othersExpenseController(final image) async {
 
-  othersExpenseController() async {
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
-
-    var myFile = File('file.txt');
     Map<String, dynamic> bodyString =
-      {
-        "Id": "1",
-        "ExpenseName": "Test Expense",
-        "Description": "Test Expense For Salebee CRM Marketing",
-        "Expense": "500.0",
-        "ExpenseDate": "2022-09-05T08:15:50.746Z",
-        "ApprovedBy": "1",
-        "Token":
-            "elKJVFof4wcxS98Luvq++VWesNLCVPMGvDvr2QljZE9R0gclbnWYFvkqzzkmQdks"
-
-        //"Attachment":  myFile,
-
+    {
+      "Id": 0,
+      "ExpenseName": "string",
+      "Description": "string",
+      "Expense": 0,
+      "ExpenseDate": "2022-11-15T06:05:16.691Z",
+      "ApprovedBy": 0,
+      "Attachment": null,
+      "Active": true,
+      "CreatedBy": 0,
+      "CreatedOn": "2022-11-15T06:05:16.691Z",
+      "UpdatedBy": 0,
+      "UpdatedOn": "2022-11-15T06:05:16.691Z",
+      "Token": tokenString
     };
 
     Uri url = Uri.parse("$base_url/ExpenseClaimOthers");
     final response = await http.post(
       url,
-      body: bodyString,
+      body: jsonEncode(bodyString),
+      headers: {
+        "Content-Type": "application/json",
+      },
     );
 
     print("my resposnse repo other ${response.body}");
-    String data = response.body;
+    var data = jsonDecode(response.body);
     return data;
     // return attendanceResponseModelFromJson(response.body);
   }
 
-  Future transportExpenseController() async {
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+  Future transportExpenseController(image) async {
+
 
     Map<String, dynamic> bodyString = {
-      "trans": {
-        "Id": 1,
-        "VehicleType": 1,
-        "StartLocation": "string",
-        "EndLocation": "string",
-        "StartTime": "2022-08-30T04:51:03.429Z",
-        "EndTime": "2022-08-30T04:51:03.429Z",
-        "Expense": 0,
-        "ExpenseDate": "2022-08-30T04:51:03.429Z",
-        "ApprovedBy": 0,
-        "Active": true,
-        "CreatedBy": 0,
-        "CreatedOn": "2022-08-30T04:51:03.429Z",
-        "UpdatedBy": "0",
-        "UpdatedOn": "2022-08-30T04:51:03.429Z",
-        "Token": SharedPreff.to.prefss.getString("token").toString(),
-      },
+      "Id": 0,
+      "VehicleType": 0,
+      "StartLocation": "string",
+      "EndLocation": "string",
+      "StartTime": "2022-11-15T06:05:16.687Z",
+      "EndTime": "2022-11-15T06:05:16.687Z",
+      "Expense": 0,
+      "ExpenseDate": "2022-11-15T06:05:16.687Z",
+      "ApprovedBy": 0,
+      "Attachment": image,
+      "Active": true,
+      "CreatedBy": 0,
+      "CreatedOn": "2022-11-15T06:05:16.687Z",
+      "UpdatedBy": 0,
+      "UpdatedOn": "2022-11-15T06:05:16.687Z",
+      "Token": tokenString
     };
 
-    Uri url = Uri.parse("$base_url/ExpenseClaimTransport");
+    Uri url = Uri.parse("$base_url/expenseClaimTransport");
     final response = await http.post(
       url,
       body: jsonEncode(bodyString),
@@ -141,53 +120,11 @@ class ExpenseRepository {
     );
 
     print("my resposnse repo ${response.body}");
-    String data = response.body;
+    var data = jsonDecode(response.body);
 
     //return transportExpenseModelFromJson(response.body);
     return data;
   }
 
-  Future<TransportExpenseModel> transportController(file) async {
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
-    var headers = {
-      "Content-Type": "application/json",
-    };
-
-    Map<String, String> bodyString = {
-      "trans": {
-        "Id": 1.toString(),
-        "VehicleType": 1.toString(),
-        "StartLocation": "string",
-        "EndLocation": "string",
-        "StartTime": "2022-08-30T04:51:03.429Z",
-        "EndTime": "2022-08-30T04:51:03.429Z",
-        "Expense": "0",
-        "ExpenseDate": "2022-08-30T04:51:03.429Z",
-        "ApprovedBy": "0",
-        "Active": "true",
-        "CreatedBy": "0",
-        "CreatedOn": "2022-08-30T04:51:03.429Z",
-        "UpdatedBy": "0",
-        "UpdatedOn": "2022-08-30T04:51:03.429Z",
-        "Token": SharedPreff.to.prefss.getString("token").toString(),
-      }.toString()
-    };
-    http.Response? response;
-    http.MultipartRequest request;
-    String urllink = "$base_url/ExpenseClaimTransport";
-    print("working before http *******");
-    request = http.MultipartRequest('POST', Uri.parse(urllink))
-      ..headers.addAll(headers)
-      ..fields.addAll(bodyString)
-      ..files.add(await http.MultipartFile.fromPath("Attachment", file.path,
-          filename: file));
-
-    response = await http.Response.fromStream(await request.send());
-
-    print("my resposnse repo ${response.body}");
-    String data = response.body;
-
-    return transportExpenseModelFromJson(response.body);
-  }
 }

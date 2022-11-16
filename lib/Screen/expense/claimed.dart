@@ -73,6 +73,56 @@ class Claimed extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Container(
+                  height: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: primaryColor)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Image.asset('images/transportation.png',height: 70,),
+                        const SizedBox(width: 10,),
+                        const Text(' Transport',style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18
+                        ),)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Container(
+                  height: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: primaryColor)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Image.asset('images/more.png',height: 70,),
+                        const SizedBox(width: 10,),
+                        const Text(' Others',style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18
+                        ),)
+                      ],
+                    ),
+                  ),
+                ),
               )
             ],
           ),

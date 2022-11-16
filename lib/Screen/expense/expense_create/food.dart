@@ -2,79 +2,74 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Screen/expense/claimed.dart';
 import 'package:salebee/utils.dart';
-import '../../repository/expense_repository.dart';
-import 'transport.dart';
-class OtherExpense extends StatefulWidget {
-   OtherExpense({Key? key}) : super(key: key);
+
+import '../../../repository/expense_repository.dart';
+
+class FoodExpense extends StatefulWidget {
+  FoodExpense({Key? key}) : super(key: key);
 
   @override
-  State<OtherExpense> createState() => _OtherExpenseState();
+  State<FoodExpense> createState() => _FoodExpenseState();
 }
 
-class _OtherExpenseState extends State<OtherExpense> {
+class _FoodExpenseState extends State<FoodExpense> {
   final selectedDate = DateTime.now().obs;
-  //final ImagePicker _picker = ImagePicker();
+
+  final pickedDate = ''.obs;
   ExpenseRepository expenseRepository = ExpenseRepository();
+  File? file;
   var textExpenseController = TextEditingController();
   var textDesController = TextEditingController();
-  final pickedDate = ''.obs;
-
   bool circular = false ;
+
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      file = imageFile ;
+    }
+    return file ;
+  }
+
+  _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      file = imageFile ;
+    }
+    return file ;
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Expense',style: TextStyle(
-            color: Colors.black,fontWeight: FontWeight.w600
-        ),),
-        automaticallyImplyLeading: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: (){
-            Get.back();
-          },
-          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
-        ),
-        actions: [
-          InkWell(
-            onTap: (){
-              Get.to(TransportPage());
-            },
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(150),
-              ),
-              child: Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.person,color: darkBlue,),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Stack(
             children: [
+
               ListView(
                 children: [
-                  Text('Expense Name',style: TextStyle(
-                    fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
                   SizedBox(height: 10,),
+                  const Text('Meal Type',style: TextStyle(
+                      fontSize: 16,fontWeight: FontWeight.w600
+                  ),),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -91,20 +86,22 @@ class _OtherExpenseState extends State<OtherExpense> {
                         prefix: Container(
                           width: 20,
                         ),
-                        hintText: 'Type the Name of Expense',
+                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
+                        hintText: 'Air',
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Description/Remarks',style: TextStyle(
+
+                  const SizedBox(height: 10,),
+                  const Text('Dish Name',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -112,7 +109,6 @@ class _OtherExpenseState extends State<OtherExpense> {
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
-                      maxLines: 7,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -121,19 +117,21 @@ class _OtherExpenseState extends State<OtherExpense> {
                         prefix: Container(
                           width: 20,
                         ),
-                        hintText: 'Type a Short Note',
+                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
+                        hintText: 'Type the dish name',
                         // icon:
+
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Pricing',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Pricing',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -153,16 +151,16 @@ class _OtherExpenseState extends State<OtherExpense> {
                         // icon:
 
                         hintStyle:
-                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Text('Date',style: TextStyle(
+                  const SizedBox(height: 10,),
+                  const Text('Date',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
                       _selectDate(context);
@@ -177,50 +175,70 @@ class _OtherExpenseState extends State<OtherExpense> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: TextStyle(
+                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: const TextStyle(
                                 color: Colors.grey
                             ),)),
                             const SizedBox(width: 10,),
-                            Icon(Icons.calendar_today,size: 14,),
+                            const Icon(Icons.calendar_today,size: 14,),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
-                  Divider(thickness: 1,color: Colors.grey,),
-                  SizedBox(height: 10,),
-                  Text('Photos(Optional)',style: TextStyle(
+
+                  const SizedBox(height: 30,),
+                  const Divider(thickness: 1,color: Colors.grey,),
+                  const SizedBox(height: 10,),
+                  const Text('Photos(Optional)',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
+                        child: GestureDetector(
+                          onTap: (){
+                            _getFromGallery().then((e){
+                              if(e != null){
+                                setState(() {
+
+                                });
+                              }
+
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
                               color: primaryColor.withOpacity(.1),
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: Colors.grey.withOpacity(.35))
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.camera_alt,color: primaryColor,),
-                                SizedBox(width: 10,),
-                                Text('Tap to Upload')
-                              ],
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: Colors.grey.withOpacity(.35))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.camera_alt,color: primaryColor,),
+                                  const SizedBox(width: 10,),
+                                  const Text('Tap to Upload')
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                       SizedBox(width: 10,),
                       Expanded(
-                        child: Container(),
+                        child: file == null ?
+                        Container()
+                            :Image.file(
+                          file!,
+                          height: 45.0,
+                          width: 45.0,
+                        ),
                       )
                     ],
-                  )
+                  ),
+
                 ],
               ),
               Align(
@@ -228,7 +246,9 @@ class _OtherExpenseState extends State<OtherExpense> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () async{
+                      var bytes = await file!.readAsBytes();
+                      print("my image file is ${file!.path}");
                       // Get.to(OtherExpense());
                       setState(() {
                         circular = true;
@@ -254,8 +274,9 @@ class _OtherExpenseState extends State<OtherExpense> {
                         try {
                           File file = File("");
                           expenseRepository
-                              .postOtherExpense()
+                              .foodExpenseController(bytes)
                               .then((e) {
+                            print("my response for other expense is ${e["IsSuccess"]}");
                             if(e["IsSuccess"] == true){
                               setState(() {
                                 circular = false;
@@ -284,10 +305,10 @@ class _OtherExpenseState extends State<OtherExpense> {
                           borderRadius: BorderRadius.circular(6),
                           color: darkBlue
                       ),
-                      child:  Padding(
+                      child: const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: circular == true ? CircularProgressIndicator(): Text('Submit',textAlign:TextAlign.center,style: TextStyle(
+                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
                               color: Colors.white
                           ),),
                         ),
@@ -303,12 +324,12 @@ class _OtherExpenseState extends State<OtherExpense> {
     );
   }
 
-   _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate.value,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101),
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
     );
     if (picked != null && picked != selectedDate.value) {
       selectedDate.value = picked;

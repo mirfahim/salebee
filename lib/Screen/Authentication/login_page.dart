@@ -13,10 +13,12 @@ import 'package:provider/provider.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/Widget/button_widget.dart';
+import 'package:salebee/bottomNav.dart';
 import '../../Provider/Login/provider_manager.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -34,12 +36,20 @@ class LoginPageState extends State<LoginPage> {
   bool? checkedValue = false;
   bool circularLoad = false;
   String? fcmtoken = "";
-  @override
-  void initState() async {
-    // TODO: implement initState
+
+  getFcmToken() async {
     fcmtoken = await FirebaseMessaging.instance.getToken();
+    print("my fcm toekn is =+++++++++ $fcmtoken");
+    return fcmtoken;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getFcmToken();
     super.initState();
   }
+
   // ApiClient apiClient = ApiClient();
   @override
   Widget build(BuildContext context) {
@@ -125,9 +135,9 @@ class LoginPageState extends State<LoginPage> {
                       circularLoad = true;
                     });
 
-                    Provider.of<ProviderManager>(context, listen: false)
-                        .signIN(textUserController.text.toString(),
-                            textPwdController.text.toString());
+                    Provider.of<ProviderManager>(context, listen: false).signIN(
+                        textUserController.text.toString(),
+                        textPwdController.text.toString());
 
                     // res.map((data) =>  LoginResponseModel.fromJson(data)).toList();
 
@@ -157,8 +167,9 @@ class LoginPageState extends State<LoginPage> {
                       setState(() {
                         loginResponseModel = LoginResponseModel.fromJson(value);
                         StaticData.name = value["Result"]["UserFullName"];
-                        StaticData.employeeID =  value["Result"]["EmployeeId"];
-                        StaticData.proLink =  value["Result"]["UserProfileImageLink"];
+                        StaticData.employeeID = value["Result"]["EmployeeId"];
+                        StaticData.proLink =
+                            value["Result"]["UserProfileImageLink"];
                         print(
                             "yo bro ----- ${loginResponseModel.result?.menus?.length.toString()}");
                       });
@@ -168,15 +179,12 @@ class LoginPageState extends State<LoginPage> {
                         });
                         setPref();
                         Timer(Duration(seconds: 3), () {
-                          Get.to(() => CustomBottomBar());
+                          Get.to(() => BottomNav());
                         });
 
                         print("go to homepage ____________");
-
                       }
                     });
-
-
 
                     // print("yo bro ----- ${loginResponseModel.isSuccess}");
 
@@ -238,28 +246,42 @@ class LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  setPref(){
-    SharedPreff.to.prefss.setBool("loggedIN", true);
-    SharedPreff.to.prefss.setString("userNAME",
-        "${loginResponseModel.result?.userFullName}");
-    SharedPreff.to.prefss.setString("token",
-        "${loginResponseModel.result?.userToken}");
-    SharedPreff.to.prefss.setString("proLink",
-        "${loginResponseModel.result?.userProfileImageLink}");
-   SharedPreff.to.prefss.setInt("employeeID",
-       loginResponseModel.result!.employeeId! ) ;
 
+  setPref() {
+    SharedPreff.to.prefss.setBool("loggedIN", true);
+    SharedPreff.to.prefss
+        .setString("userNAME", "${loginResponseModel.result?.userFullName}");
+    SharedPreff.to.prefss
+        .setString("token", "${loginResponseModel.result?.userToken}");
+    SharedPreff.to.prefss.setString(
+        "proLink", "${loginResponseModel.result?.userProfileImageLink}");
+    SharedPreff.to.prefss
+        .setInt("employeeID", loginResponseModel.result!.employeeId!);
   }
 
   Future<dynamic> loginController() async {
-    print("working 1");
+    print(
+        "working 1 fcm token $fcmtoken device id is +++ ${StaticData.deviceID}");
+    // Map<String, dynamic> bodyString = {
+    //   "Email": textUserController.text.toString(),
+    //   "UserName": textUserController.text.toString(),
+    //   "Password": textPwdController.text.toString(),
+    //   "RememberMe": true,
+    //   "Token": "string",
+    //   "FCM_Token": fcmtoken,
+    //   "DeviceId": "String"
+    // };
     Map<String, dynamic> bodyString = {
-      "Email": textUserController.text.toString(),
+      "Email": "string",
       "UserName": textUserController.text.toString(),
       "Password": textPwdController.text.toString(),
       "RememberMe": true,
-      "Token": "string"
+      "Token": "string",
+      "FCM_Token": fcmtoken,
+      "DeviceId": StaticData.deviceID
     };
+
+
     return
         //  apiClient.post(url: "delivery_boy_login", body: bodyString);
         apiService.makeApiRequest(

@@ -11,7 +11,7 @@ String getListForTaskDataModelToJson(GetListForTaskDataModel data) => json.encod
 class GetListForTaskDataModel {
   GetListForTaskDataModel({
     this.message,
-    required this.result,
+     this.result,
     this.isSuccess,
   });
 

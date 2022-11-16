@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/notification/notification_1.dart';
+import 'package:salebee/Screen/setting/setting_page.dart';
 import 'package:salebee/drawer.dart';
 import 'package:salebee/utils.dart';
 import 'package:get/get.dart';
@@ -41,7 +43,9 @@ class _BottomNavState extends State<BottomNav> {
           backgroundColor: Colors.white,
           child: Icon(Icons.menu, color: darkBlue,),
           onPressed: () {
-            drawer(context);
+            Get.to(() => MyChartPage());
+
+            //drawer(context);
           },
         ),
       bottomNavigationBar: BottomAppBar(
@@ -69,12 +73,12 @@ class _BottomNavState extends State<BottomNav> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const NotificationPage1();
+                      currentScreen = SettingPage ();
                       currentTab = 1;
                     });
                   },
                   child: Center(
-                    child: Icon(Icons.notifications,color: currentTab == 1 ? primaryColor : Colors.grey,
+                    child: Icon(Icons.settings,color: currentTab == 1 ? primaryColor : Colors.grey,
                     size: 30,),
                   ),
                 ),

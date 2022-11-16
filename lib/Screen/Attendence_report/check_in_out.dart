@@ -184,7 +184,7 @@ class _CheckInOutState extends State<CheckInOut> {
                               // end.value = 1;
                               //_showMyDialog();
                              if(status.value ==true ){
-                               if(DateTime.now().hour > 10) {
+                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) >= 10) {
                                  _showMyDialog(true,);
                                }else {
                                  attendanceFunction();

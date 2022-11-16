@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:salebee/Screen/expense/other_expense.dart';
+import 'package:salebee/Screen/expense/expense_create/expense_create_front.dart';
+import 'package:salebee/Screen/expense/expense_create/other_expense.dart';
 import 'package:salebee/utils.dart';
 
 List<String> tabs = [
@@ -524,7 +525,7 @@ class Approved extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: InkWell(
               onTap: (){
-                Get.to(OtherExpense());
+                Get.to(ExpenseCreateFront());
               },
               child: Container(
                 height: 48,
