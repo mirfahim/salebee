@@ -15,7 +15,7 @@ class OrganizatonProspect extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Container(
         height: 58 ,
-        color: const Color(0xFFE5E5E5),
+        color: primaryColorLight,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: InkWell(
@@ -44,7 +44,7 @@ class OrganizatonProspect extends StatelessWidget {
       ),
       body: Container(
         height: size.height,
-        color: backgroudColor,
+        color: primaryColorLight,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(

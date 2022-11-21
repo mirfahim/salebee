@@ -5,16 +5,16 @@
 import FlutterMacOS
 import Foundation
 
-import battery_plus_macos
+import battery_plus
 import cloud_firestore
-import device_info_plus_macos
+import device_info_plus
 import firebase_core
 import firebase_messaging
 import flutter_local_notifications
 import flutter_native_timezone
 import flutter_secure_storage_macos
 import geolocator_apple
-import package_info_plus_macos
+import package_info_plus
 import path_provider_macos
 import shared_preferences_macos
 import url_launcher_macos

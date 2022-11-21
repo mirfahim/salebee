@@ -16,6 +16,7 @@ class ProspectFront extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
 
+
           title:  Text('Prospect',style: TextStyle(
               color: appBarHeader,fontSize: 24
           ),),
@@ -25,13 +26,13 @@ class ProspectFront extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
-          backgroundColor: const Color(0xFFE5E5E5),
+          backgroundColor: primaryColorLight,
           elevation: 0,
           centerTitle: true,
 
         ),
         body: Container(
-          color: const Color(0xFFE5E5E5),
+          color: primaryColorLight,
           child: SafeArea(
             child: Column(
               children: [

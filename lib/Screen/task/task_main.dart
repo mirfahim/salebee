@@ -59,10 +59,10 @@ class _TaskState extends State<Task> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: primaryColorLight,
         bottomNavigationBar: Container(
           height: 58 ,
-          color: Color(0xFFE5E5E5),
+          color: primaryColorLight,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: InkWell(
@@ -101,7 +101,7 @@ class _TaskState extends State<Task> {
             },
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
-          backgroundColor: Color(0xFFE5E5E5),
+          backgroundColor: primaryColorLight,
           elevation: 0,
           centerTitle: true,
        //   actions: [
@@ -477,17 +477,23 @@ class _TaskState extends State<Task> {
           future:  taskRepository.getAllListForTaskController(),
           builder: (context, AsyncSnapshot<GetListForTaskDataModel> snapshot) {
 
-            snapshot.data!.result!["SelectListTaskStatus"]!
-                .forEach((element) {
+            if(snapshot.data == null){
+              print("error");
+            } else {
+              snapshot.data!.result!["SelectListTaskStatus"]!
+                  .forEach((element) {
 
-                  print("yo bro ${element.text}");
+                print("yo bro ${element.text}");
 
 
 
-              allStatusList.add(element.text);
-              SharedPreff.to.prefss.setStringList("statusList", allStatusList);
-              print("my status list is ${allStatusList.toString()}");
-            });
+                allStatusList.add(element.text);
+                SharedPreff.to.prefss.setStringList("statusList", allStatusList);
+                print("my status list is ${allStatusList.toString()}");
+              });
+            }
+
+
             if(snapshot.hasError){
               return Center(child: CircularProgressIndicator());
             } if(snapshot.data == null ){
@@ -495,7 +501,7 @@ class _TaskState extends State<Task> {
             } else {
               return SafeArea(
                 child: Container(
-                  color: Color(0xFFE5E5E5),
+                  color: primaryColorLight,
                   child: Column(
                     children: [
                       Padding(

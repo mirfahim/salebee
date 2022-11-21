@@ -112,6 +112,7 @@ class _AddNewTaskState extends State<CreateOrganizationProspect> {
         .replaceAll("-", ".");
     service = LocalNotificationService();
     taskRepository.getAllListForTaskController().then((value) {
+
       newStatus = value.result!["SelectListTaskStatus"]![4].text;
       newLead = value.result!["SelectListLeads"]![0].text;
       newCantactPerson = value.result!["SelectListEmployee"]![0].text;
@@ -131,11 +132,11 @@ class _AddNewTaskState extends State<CreateOrganizationProspect> {
     return Scaffold(
       key: _scaffoldkey,
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Container(
           height: size.height,
-          color: Colors.grey.shade200,
+          color:primaryColorLight,
           child: Stack(
             children: [
               Padding(
@@ -144,16 +145,14 @@ class _AddNewTaskState extends State<CreateOrganizationProspect> {
                 child: FutureBuilder<GetListForTaskDataModel>(
                     future: taskRepository.getAllListForTaskController(),
                     builder: (context, snapshot) {
-                      snapshot.data!.result!["SelectListProspects"]!
-                          .forEach((element) {
-                        allList.add(element.text);
-                      });
-
-                      if (snapshot.hasError) {
-                        return Container(
-                          child: Text("No Data"),
-                        );
-                      } else if (snapshot.data != null) {
+                      if(snapshot.data == null){
+                        print("some error in organisation prospect");
+                      }
+                      else {
+                        snapshot.data!.result!["SelectListProspects"]!
+                            .forEach((element) {
+                          allList.add(element.text);
+                        });
                         print(
                             "my all list is __________________________${snapshot.data!.result!["SelectListProspects"]![0].text}");
                         print(
@@ -168,6 +167,15 @@ class _AddNewTaskState extends State<CreateOrganizationProspect> {
                             .data!.result!["SelectListTaskStatus"]![0].text;
                         var dropdownValueSelectListSelectListPriority = snapshot
                             .data!.result!["SelectListPriority"]![0].text;
+                      }
+
+
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.data != null) {
+
                         return ExpandableNotifier(
                           child: ListView(
                             children: [
@@ -789,7 +797,9 @@ class _AddNewTaskState extends State<CreateOrganizationProspect> {
                           ),
                         );
                       }
-                      return Container();
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }),
               ),
               Padding(

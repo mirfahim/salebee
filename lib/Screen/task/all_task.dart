@@ -6,6 +6,7 @@ import 'package:salebee/Model/getAllMyTaskModel.dart';
 import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Provider/Login/provider_manager.dart';
+import 'package:salebee/Utils/my_colors.dart';
 import 'package:salebee/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -54,6 +55,7 @@ class _AssignedToMeState extends State<AllTask> {
     Size size = MediaQuery.of(context).size;
     String? token = SharedPreff.to.prefss.getString("token");
     return Consumer<ProviderManager>(builder: (context, provider, widget) {
+
       return SingleChildScrollView(
           child: Container(
         height: MediaQuery.of(context).size.height,
@@ -64,20 +66,25 @@ class _AssignedToMeState extends State<AllTask> {
                 initiatedList.clear();
                 doneList.clear();
                 incompleteList.clear();
-            initiatedList.addAll(snapshot.data!.result!
-                .where((element) => element.statusId == 5));
-            print("my ini list i s=++++++++++++${initiatedList.length}");
-            doneList.addAll(snapshot.data!.result!
-                .where((element) => element.statusId == 4));
-            print("my done list i s=++++++++++++${doneList.length}");
-            incompleteList.addAll(snapshot.data!.result!
-                .where((element) => element.statusId == 1));
-            print(
-                "my incomplete list i s=++++++++++++${incompleteList.length}");
+                if(snapshot.data == null){
+                  print("no data found");
+                } else{
+                  initiatedList.addAll(snapshot.data!.result!
+                      .where((element) => element.statusId == 5));
+                  print("my ini list i s=++++++++++++${initiatedList.length}");
+                  doneList.addAll(snapshot.data!.result!
+                      .where((element) => element.statusId == 4));
+                  print("my done list i s=++++++++++++${doneList.length}");
+                  incompleteList.addAll(snapshot.data!.result!
+                      .where((element) => element.statusId == 1));
+                  print(
+                      "my incomplete list i s=++++++++++++${incompleteList.length}");
 
-            totalInitiated = initiatedList.length;
-            totalDone = doneList.length;
-            totalIncomplete = incompleteList.length;
+                  totalInitiated = initiatedList.length;
+                  totalDone = doneList.length;
+                  totalIncomplete = incompleteList.length;
+
+                }
 
             // scoring system
             //    totalInitiated = snapshot.data!.result!.map((ele) => ele.statusId).fold(0, (prev, amount) => prev + amount!);
@@ -176,8 +183,7 @@ class _AssignedToMeState extends State<AllTask> {
                                         statusList[index] = "Partially Done";
                                       }
 
-
-                                      return filterDays >
+                             return filterDays >
                                                       providersss.filterDay &&
                                                   data.priorityName ==
                                                       providersss.filterData ||
@@ -185,7 +191,9 @@ class _AssignedToMeState extends State<AllTask> {
                                               providersss.filterData.isEmpty
 
                                           // data.dueDate.toString().substring(0,10) ==  providersss.today.toString().substring(0,10)
-                                          ? ExpandableNotifier(
+                                          ?
+
+                                      ExpandableNotifier(
                                         child: Stack(
                                           children: [
                                             Card(
@@ -217,7 +225,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                           .spaceBetween,
                                                       children: [
                                                         Text(
-                                                          "Task Id: ${data!.taskId}",
+                                                          "Task Id: ${data.taskId}",
                                                           style: TextStyle(
                                                               color:
                                                               primaryColor,
@@ -228,7 +236,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                         ),
                                                         Text(
                                                           DateFormat.yMd()
-                                                              .format(data!
+                                                              .format(data
                                                               .createdOn!),
                                                           style: TextStyle(
                                                               color:
@@ -240,13 +248,13 @@ class _AssignedToMeState extends State<AllTask> {
                                                       height: 10,
                                                     ),
                                                     Text(
-                                                      '${data!.title!}',
+                                                      '${data.title!}',
                                                       style: TextStyle(
                                                           fontWeight:
                                                           FontWeight.w600),
                                                     ),
                                                     Text(
-                                                      "${data!.prospectName!}",
+                                                      "${data.prospectName!}",
                                                       style: TextStyle(
                                                           fontWeight:
                                                           FontWeight.w600,
@@ -270,27 +278,30 @@ class _AssignedToMeState extends State<AllTask> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                       children: [
-                                                        Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .calendar_today,
-                                                              color:
-                                                              Colors.grey,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
-                                                              DateFormat.yMd()
-                                                                  .format(data!
-                                                                  .dueDate!),
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize: 14),
-                                                            ),
-                                                          ],
+                                                        Card(
+
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .calendar_today,
+                                                                color:
+                                                                Colors.grey,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                DateFormat.yMd()
+                                                                    .format(data
+                                                                    .dueDate!),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize: 14),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                         Text(
                                                           "${data.dueDate!.difference(DateTime.now()).inDays} days",
@@ -304,128 +315,173 @@ class _AssignedToMeState extends State<AllTask> {
                                                     const SizedBox(
                                                       height: 15,
                                                     ),
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.send,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Container(
-                                                          decoration:
-                                                          const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle),
-                                                          child:
-                                                          const CircleAvatar(
-                                                            radius: 12,
-                                                            backgroundImage:
-                                                            AssetImage(
-                                                              'images/person.jpg',
+
+
+                                                    Card(
+                                                      elevation: 5,
+                                                      color: MyColors.lightgreen,
+                                                      child: Container(
+                                                        child: Column(
+                                                          children: [
+                                                           Row(
+                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                             children: [
+
+                                                               Text("Prospect: zyz", style: TextStyle(
+                                                                 color: Colors.black,
+                                                                 fontWeight: FontWeight.bold
+                                                               ),),
+
+                                                               Text("Lead: name rs", style: TextStyle(
+                                                               color: Colors.black,
+                                                                   fontWeight: FontWeight.bold
+                                                               ),)
+                                                             ],
+
                                                             ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          data!.assignedPerson!,
-                                                          style: TextStyle(
-                                                              color:
-                                                              Colors.grey,
-                                                              fontSize: 14),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Container(
-                                                      width:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
-                                                      child: Row(
-                                                        children: [
-                                                          Text(
-                                                            'Contact',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 4,
-                                                          ),
-                                                          data!.contact ==
-                                                              null
-                                                              ? Text(
-                                                            "",
-                                                            style:
-                                                            TextStyle(
-                                                              color: Colors
-                                                                  .grey,
-                                                              fontSize:
-                                                              14,
+                                                            SizedBox(height: 10,),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+
+                                                                Text("Concern Person",
+                                                                style: TextStyle(
+                                                                  color: Colors.lightGreen,
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.bold
+                                                                ),),
+                                                                Container(
+                                                                  color:Colors.blueGrey,
+                                                                  height: 10,
+                                                                  width: 01,
+                                                                ),
+                                                                Text("Designation",
+                                                                  style: TextStyle(
+                                                                      color: Colors.lightGreen,
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.bold
+                                                                  ),),
+                                                                Container(
+                                                                  color:Colors.blueGrey,
+                                                                  height: 10,
+                                                                  width: 01,
+                                                                ),
+                                                                Text("Mobile",
+                                                                  style: TextStyle(
+                                                                      color: Colors.lightGreen,
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.bold
+                                                                  ),),
+
+                                                              ],
+
                                                             ),
-                                                          )
-                                                              : Text(
-                                                            data!
-                                                                .contact!,
-                                                            overflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                            maxLines:
-                                                            2,
-                                                            style:
-                                                            TextStyle(
-                                                              color: Colors
-                                                                  .grey,
-                                                              fontSize:
-                                                              14,
-                                                            ),
-                                                          ),
-                                                        ],
+                                                            Container(
+                                                              height: 70,
+                                                              child: ListView.builder(
+                                                                  itemCount: 2,
+                                                                  itemBuilder: (BuildContext  context, int  index){
+                                                                    return Card(
+                                                                      color: primaryColorLight,
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          data.contact ==
+                                                                              null || data!.contact!.isEmpty
+                                                                              ? Container(
+                                                                            width: 100,
+                                                                                child: Text(
+                                                                            "Mir Fahim Rahman",
+                                                                            style:
+                                                                            TextStyle(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                fontSize:
+                                                                                12,
+                                                                            ),
+                                                                          ),
+                                                                              )
+                                                                              : Text(
+                                                                            data
+                                                                                .contact!,
+                                                                            overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                            maxLines:
+                                                                            2,
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color: Colors
+                                                                                  .grey,
+                                                                              fontSize:
+                                                                              12,
+                                                                            ),
+                                                                          ),
+                                                                          data.contact ==
+                                                                              null || data!.contact!.isEmpty
+                                                                              ? Container(
+                                                                            width : 100,
+                                                                                child: Text(
+                                                                            "Senior Software Engineer",
+                                                                            style:
+                                                                            TextStyle(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                fontSize:
+                                                                                12
+                                                                            ),
+                                                                          ),
+                                                                              )
+                                                                              : Container(
+                                                                            width: 130,
+                                                                                child: Text(
+                                                                            data
+                                                                                  .contact!,
+                                                                            overflow:
+                                                                            TextOverflow
+                                                                                  .ellipsis,
+                                                                            maxLines:
+                                                                            2,
+                                                                            style:
+                                                                            TextStyle(
+                                                                                color: Colors
+                                                                                    .grey,
+                                                                                fontSize:
+                                                                                12,
+                                                                            ),
+                                                                          ),
+                                                                              ),
+                                                                          data.prospectNumber == null
+                                                                              ||  data!.prospectNumber!.isEmpty?
+
+                                                                          Container(
+                                                                            width: 100,
+                                                                            child: Text(
+                                                                              "01782084390",
+                                                                              style: TextStyle(
+                                                                                color: Colors.grey,
+                                                                                fontSize: 12,
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                              :
+                                                                          Text(
+                                                                            data.prospectNumber!,
+                                                                            style: TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'Concern Person no: ',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        data!.prospectNumber == null ?
-                                                        Text(
-                                                          "",
-                                                          style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: 14,
-                                                          ),
-                                                        )
-                                                            :
-                                                         Text(
-                                                          data!.prospectNumber!,
-                                                          style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+
                                                     SizedBox(
                                                       height: 10,
                                                     ),
@@ -553,26 +609,24 @@ class _AssignedToMeState extends State<AllTask> {
                                                                     .taskUpdateController(
                                                                     token:
                                                                     token!,
-                                                                    title: data!
+                                                                    title: data
                                                                         .title!,
-                                                                    taskID: data!
+                                                                    taskID: data
                                                                         .taskId!,
-                                                                    assignaTo: data!
+                                                                    assignaTo: data
                                                                         .assignedTo!,
                                                                     description:
-                                                                    data!
+                                                                    data
                                                                         .taskDesc!,
-                                                                    type: data!.type! ??
+                                                                    type: data.type ??
                                                                         0,
                                                                     repeat:
-                                                                    repeatId ??
-                                                                        0,
+                                                                    repeatId,
                                                                     priority:
-                                                                    data!
+                                                                    data
                                                                         .priority!,
                                                                     status:
-                                                                    stausID ??
-                                                                        0)
+                                                                    stausID )
                                                                     .then(
                                                                         (value) {
                                                                       setState(
@@ -758,87 +812,74 @@ class _AssignedToMeState extends State<AllTask> {
                                                             const SizedBox(
                                                               height: 10,
                                                             ),
-                                                            Container(
-                                                              width:
-                                                              MediaQuery.of(context)
-                                                                  .size
-                                                                  .width,
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    'Assign to',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize: 14,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 4,
-                                                                  ),
-                                                                  data!.assignedPerson ==
-                                                                      null
-                                                                      ? Text(
-                                                                    "",
-                                                                    style:
-                                                                    TextStyle(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      fontSize:
-                                                                      14,
-                                                                    ),
-                                                                  )
-                                                                      : Text(
-                                                                    data!
-                                                                        .assignedPerson!,
-                                                                    overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                    maxLines:
-                                                                    2,
-                                                                    style:
-                                                                    TextStyle(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      fontSize:
-                                                                      14,
+                                                            Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.send,
+                                                                  color: Colors.grey,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Container(
+                                                                  decoration:
+                                                                  const BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle),
+                                                                  child:
+                                                                  const CircleAvatar(
+                                                                    radius: 12,
+                                                                    backgroundImage:
+                                                                    AssetImage(
+                                                                      'images/person.jpg',
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Text(
+                                                                  data.assignedPerson!,
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      Colors.grey,
+                                                                      fontSize: 14),
+                                                                )
+                                                              ],
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Text(
-                                                                  'Created by',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize: 14,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                                Icon(
+                                                                  Icons.airline_seat_recline_normal_sharp,
+                                                                  color: Colors.grey,
                                                                 ),
-                                                                const SizedBox(
+                                                                SizedBox(
                                                                   width: 10,
                                                                 ),
-                                                                data!.createdByName == null ?
-                                                                Text(
-                                                                  "",
-                                                                  style: TextStyle(
-                                                                    color: Colors.grey,
-                                                                    fontSize: 14,
-                                                                  ),
-                                                                )
-                                                                    :
-                                                                Text(data!.createdByName!,
-                                                                  style: TextStyle(
-                                                                    color: Colors.grey,
-                                                                    fontSize: 14,
+                                                                Container(
+                                                                  decoration:
+                                                                  const BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle),
+                                                                  child:
+                                                                  const CircleAvatar(
+                                                                    radius: 12,
+                                                                    backgroundImage:
+                                                                    AssetImage(
+                                                                      'images/suite.png',
+                                                                    ),
                                                                   ),
                                                                 ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Text(
+                                                                  data.createdByName!,
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      Colors.grey,
+                                                                      fontSize: 14),
+                                                                )
                                                               ],
                                                             ),
                                                             const SizedBox(
@@ -913,7 +954,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                                       width:
                                                                       110,
                                                                     ),
-                                                                    data!.priorityName!.isEmpty ?
+                                                                    data.priorityName!.isEmpty ||data.priorityName == null ?
                                                                     Container()
                                                                         :
                                                                     Container(
@@ -931,7 +972,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                                             8),
                                                                         child:
                                                                         Text(
-                                                                          data!
+                                                                          data
                                                                               .priorityName!,
                                                                           style:
                                                                           TextStyle(color: Colors.white, fontSize: 12),

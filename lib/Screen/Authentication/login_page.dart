@@ -179,7 +179,7 @@ class LoginPageState extends State<LoginPage> {
                         });
                         setPref();
                         Timer(Duration(seconds: 3), () {
-                          Get.to(() => BottomNav());
+                          Get.to(() => BottomNav(menuPage: false,));
                         });
 
                         print("go to homepage ____________");

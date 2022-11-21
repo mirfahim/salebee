@@ -138,7 +138,7 @@ class Result {
     createdBy: json["CreatedBy"],
     createdOn: DateTime.parse(json["CreatedOn"]),
     updatedBy: json["UpdatedBy"],
-    updatedOn: DateTime.parse(json["UpdatedOn"]),
+    updatedOn: DateTime.parse(json["CreatedOn"]),
     isDeleted: json["IsDeleted"],
   );
 

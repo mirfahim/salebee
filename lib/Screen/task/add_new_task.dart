@@ -112,12 +112,17 @@ class _AddNewTaskState extends State<AddNewTask> {
         .replaceAll("-", ".");
     service = LocalNotificationService();
     taskRepository.getAllListForTaskController().then((value) {
-      newStatus = value.result!["SelectListTaskStatus"]![4].text;
-      newLead = value.result!["SelectListLeads"]![0].text;
-      newCantactPerson = value.result!["SelectListEmployee"]![0].text;
-      newEmployee = value.result!["SelectListEmployee"]![0].text;
-      newProspect = value.result!["SelectListProspects"]![0].text;
-      newPriority = value.result!["SelectListPriority"]![0].text;
+      if(value.result == null){
+      print("some error++");
+      }else{
+        newStatus = value.result!["SelectListTaskStatus"]![4].text;
+        newLead = value.result!["SelectListLeads"]![0].text;
+        newCantactPerson = value.result!["SelectListEmployee"]![0].text;
+        newEmployee = value.result!["SelectListEmployee"]![0].text;
+        newProspect = value.result!["SelectListProspects"]![0].text;
+        newPriority = value.result!["SelectListPriority"]![0].text;
+      }
+
       //prospectList = value.result!["SelectListProspects"]!;
     });
     service.initialize();
@@ -138,7 +143,7 @@ class _AddNewTaskState extends State<AddNewTask> {
           style: TextStyle(color: appBarHeader, fontSize: 24),
         ),
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: primaryColorLight,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
@@ -154,7 +159,7 @@ class _AddNewTaskState extends State<AddNewTask> {
       body: SafeArea(
         child: Container(
           height: size.height,
-          color: Colors.grey.shade200,
+          color:primaryColorLight,
           child: Stack(
             children: [
               Padding(
@@ -163,841 +168,21 @@ class _AddNewTaskState extends State<AddNewTask> {
                 child: FutureBuilder<GetListForTaskDataModel>(
                     future: taskRepository.getAllListForTaskController(),
                     builder: (context, snapshot) {
-                      snapshot.data!
-                          .result!["SelectListProspects"]!
-                          .forEach((element) {
+                      if(snapshot.data == null){
+                      print("some error");
+                      }else {
+                        snapshot.data!
+                            .result!["SelectListProspects"]!
+                            .forEach((element) {
 
-allList.add(element.text);
-    });
+                          allList.add(element.text);
+                        });
+                      }
+
 
 
                       if (snapshot.hasError) {
-                        return ListView(
-                          children: [
-                            Text(
-                              'Task Title',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.red),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: TextFormField(
-                                controller: textTitleController,
-                                onChanged: (value) {
-                                  // _productController.searchProduct(value);
-                                },
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefix: Container(
-                                    width: 20,
-                                  ),
-                                  hintText: 'Enter a task title',
-                                  // icon:
-
-                                  hintStyle: TextStyle(
-                                      fontSize: 12.0,
-                                      fontFamily: 'Roboto',
-                                      color: tabBarUnSelectedColor),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Description',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: TextFormField(
-                                controller: textDescriptionController,
-                                maxLines: 7,
-                                onChanged: (value) {
-                                  // _productController.searchProduct(value);
-                                },
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefix: Container(
-                                    width: 20,
-                                  ),
-                                  hintText: 'Enter a task description',
-                                  // icon:
-                                  hintStyle: TextStyle(
-                                      fontSize: 12.0,
-                                      fontFamily: 'Roboto',
-                                      color: tabBarUnSelectedColor),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Type',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: borderColor, width: 1),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, right: 8),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    value: typeId == null ? null : type[typeId],
-                                    icon: Icon(Icons.arrow_drop_down_outlined),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.transparent,
-                                    ),
-                                    items: type.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        // dropdownValuePriority = value!;
-                                        typeId = type.indexOf(value!);
-                                        print(
-                                            "selected index of type is ________________ $typeId");
-                                      });
-                                    },
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Priority',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: leadAssignedId == null
-                                      ? null
-                                      : assign_to[leadAssignedId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      leadAssignedId =
-                                          assign_to.indexOf(value!);
-                                    });
-                                  },
-                                  items: assign_to
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Start',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: borderColor, width: 1),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: TextFormField(
-                                      controller: startDateController,
-                                      readOnly: true,
-                                      onTap: () {
-                                        DatePicker.showDateTimePicker(context,
-                                            showTitleActions: true,
-                                            onChanged: (date) {
-                                          print('change $date in time zone ' +
-                                              date.timeZoneOffset.inHours
-                                                  .toString());
-                                        }, onConfirm: (date) {
-                                          String myDate = DateTime(date.year,
-                                                  date.month, date.day)
-                                              .toString();
-                                          String myTime = DateTime(
-                                            date.hour,
-                                            date.minute,
-                                          ).toString();
-
-                                          startDateController.text =
-                                              myDate.substring(0, 10);
-                                          startTimeController.text =
-                                              myTime.substring(2, 7);
-                                          notiDate = date;
-                                          print('confirm $date');
-                                        }, currentTime: DateTime.now());
-                                      },
-                                      onChanged: (value) {},
-                                      // keyboardType: TextInputType.er,
-                                      decoration: InputDecoration(
-                                        prefix: Container(
-                                          width: 20,
-                                        ),
-                                        hintText: 'Start Date',
-                                        suffixIcon: Icon(
-                                          Icons.date_range_sharp,
-                                          color: Color(0xFF7C8DB5),
-                                          size: 14,
-                                        ),
-                                        hintStyle: TextStyle(
-                                            fontSize: 12.0,
-                                            fontFamily: 'Roboto',
-                                            color: tabBarUnSelectedColor),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: borderColor, width: 1),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: TextFormField(
-                                      controller: startTimeController,
-                                      onChanged: (value) {
-                                        // _productController.searchProduct(value);
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.access_time,
-                                          color: Color(0xFF7C8DB5),
-                                          size: 14,
-                                        ),
-                                        prefix: Container(
-                                          width: 20,
-                                        ),
-                                        hintText: 'Enter Time',
-                                        // icon:
-
-                                        hintStyle: TextStyle(
-                                            fontSize: 12.0,
-                                            fontFamily: 'Roboto',
-                                            color: tabBarUnSelectedColor),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Due',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: borderColor, width: 1),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: TextFormField(
-                                      controller: dueDateController,
-                                      readOnly: true,
-                                      onTap: () {
-                                        DatePicker.showDateTimePicker(context,
-                                            showTitleActions: true,
-                                            onChanged: (date) {
-                                          print('change $date in time zone ' +
-                                              date.timeZoneOffset.inHours
-                                                  .toString());
-                                        }, onConfirm: (date) {
-                                          String myDate = DateTime(date.year,
-                                                  date.month, date.day)
-                                              .toString();
-                                          String myTime = DateTime(
-                                            date.hour,
-                                            date.minute,
-                                          ).toString();
-
-                                          dueDateController.text =
-                                              myDate.substring(0, 10);
-                                          dueTimeController.text =
-                                              myTime.substring(2, 7);
-                                          print('confirm $date');
-                                        }, currentTime: DateTime.now());
-                                      },
-                                      onChanged: (value) {
-                                        // _productController.searchProduct(value);
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        prefix: Container(
-                                          width: 20,
-                                        ),
-                                        hintText: 'Due Date',
-                                        suffixIcon: Icon(
-                                          Icons.date_range_rounded,
-                                          color: Color(0xFF7C8DB5),
-                                          size: 14,
-                                        ),
-                                        hintStyle: TextStyle(
-                                            fontSize: 12.0,
-                                            fontFamily: 'Roboto',
-                                            color: tabBarUnSelectedColor),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: borderColor, width: 1),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: TextFormField(
-                                      controller: dueTimeController,
-                                      onChanged: (value) {
-                                        // _productController.searchProduct(value);
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.access_time,
-                                          color: Color(0xFF7C8DB5),
-                                          size: 14,
-                                        ),
-                                        prefix: Container(
-                                          width: 20,
-                                        ),
-                                        hintText: 'Enter Time',
-                                        // icon:
-
-                                        hintStyle: TextStyle(
-                                            fontSize: 12.0,
-                                            fontFamily: 'Roboto',
-                                            color: tabBarUnSelectedColor),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Reminder',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: TextFormField(
-                                readOnly: true,
-                                onTap: () async {
-                                  await service.showScheduleNotification(
-                                      id: 0,
-                                      title: "fahim",
-                                      body: "testing",
-                                      sec: notiDate);
-                                },
-                                onChanged: (value) {
-                                  // _productController.searchProduct(value);
-                                },
-                                // keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefix: Container(
-                                    width: 20,
-                                  ),
-                                  suffixIcon:
-                                      Icon(Icons.arrow_drop_down_outlined),
-                                  hintText: 'No Reminder',
-                                  // icon:
-
-                                  hintStyle: TextStyle(
-                                      fontSize: 12.0,
-                                      fontFamily: 'Roboto',
-                                      color: tabBarUnSelectedColor),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Repeat',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: repeatId == null
-                                      ? null
-                                      : repeat[repeatId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      repeatId = repeat.indexOf(value!);
-                                    });
-                                  },
-                                  items: repeat.map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Prospect',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: prospectId == null
-                                      ? null
-                                      : prospect[prospectId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      prospectId = prospect.indexOf(value!);
-                                    });
-                                  },
-                                  items: prospect.map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Contact Person',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: leadAssignedId == null
-                                      ? null
-                                      : assign_to[leadAssignedId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      leadAssignedId =
-                                          assign_to.indexOf(value!);
-                                    });
-                                  },
-                                  items: assign_to
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Lead',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: leadAssignedId == null
-                                      ? null
-                                      : assign_to[leadAssignedId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      leadAssignedId =
-                                          assign_to.indexOf(value!);
-                                    });
-                                  },
-                                  items: assign_to
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Assign to',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: leadAssignedId == null
-                                      ? null
-                                      : assign_to[leadAssignedId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      leadAssignedId =
-                                          assign_to.indexOf(value!);
-                                    });
-                                  },
-                                  items: assign_to
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Visible to',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: TextFormField(
-                                onChanged: (value) {
-                                  // _productController.searchProduct(value);
-                                },
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefix: Container(
-                                    width: 20,
-                                  ),
-                                  suffixIcon:
-                                      Icon(Icons.arrow_drop_down_outlined),
-                                  hintText: 'Who can see',
-                                  // icon:
-
-                                  hintStyle: TextStyle(
-                                      fontSize: 12.0,
-                                      fontFamily: 'Roboto',
-                                      color: tabBarUnSelectedColor),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Status',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: text),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:
-                                      Border.all(color: borderColor, width: 1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: leadAssignedId == null
-                                      ? null
-                                      : assign_to[leadAssignedId],
-                                  icon: Icon(Icons.arrow_drop_down_outlined),
-                                  elevation: 16,
-                                  style:
-                                      const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.transparent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    setState(() {
-                                      leadAssignedId =
-                                          assign_to.indexOf(value!);
-                                    });
-                                  },
-                                  items: assign_to
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        );
+                        return CircularProgressIndicator();
                       } else if (snapshot.data != null) {
                         print(
                             "my all list is __________________________${snapshot.data!.result!["SelectListProspects"]![0].text}");
@@ -1131,7 +316,7 @@ allList.add(element.text);
 
                                           decoration:
                                           BoxDecoration(
-                                            color: typeIndex == index ? Colors.orangeAccent[100] :primaryColor,
+                                            color: typeIndex == index ? Colors.orangeAccent[100] : primaryColorSecond,
                                             borderRadius: const BorderRadius
                                                 .only(
                                                 topLeft: Radius
@@ -1464,17 +649,23 @@ allList.add(element.text);
                                           padding: const EdgeInsets.only(
                                               left: 8, right: 8),
                                           child:  DropdownButtonHideUnderline(
+
                                             child: DropdownSearch<String>(
+
                                               popupProps: PopupProps.menu(
+                                                fit: FlexFit.loose,
+
                                                 showSearchBox: true,
                                                 showSelectedItems: true,
+
                                                 disabledItemFn: (String s) => s.startsWith('I'),
                                               ),
                                               items: allList,
                                               dropdownDecoratorProps: DropDownDecoratorProps(
                                                 dropdownSearchDecoration: InputDecoration(
 
-                                                  hintText: "country in menu mode",
+
+                                                  hintText: "Employee List",
                                                 ),
                                               ),
                                               onChanged:(String? value) {
@@ -1796,60 +987,60 @@ allList.add(element.text);
                                               }).toList(),
                                             ),
                                           )),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        'Reminder',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            color: text),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: borderColor, width: 1),
-                                            borderRadius:
-                                            const BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        child: TextFormField(
-                                          readOnly: true,
-                                          onTap: () async {
-                                            print(
-                                                "started working local on reminder");
-                                            await service
-                                                .showScheduleNotification(
-                                                id: 0,
-                                                title: "fahim",
-                                                body: "testing",
-                                                sec: notiDate);
-                                          },
-                                          onChanged: (value) {
-                                            // _productController.searchProduct(value);
-                                          },
-                                          // keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            prefix: Container(
-                                              width: 20,
-                                            ),
-                                            suffixIcon: Icon(
-                                                Icons.arrow_drop_down_outlined),
-                                            hintText: 'No Reminder',
-                                            // icon:
-
-                                            hintStyle: TextStyle(
-                                                fontSize: 12.0,
-                                                fontFamily: 'Roboto',
-                                                color: tabBarUnSelectedColor),
-                                            border: InputBorder.none,
-                                          ),
-                                        ),
-                                      ),
+                                      // SizedBox(
+                                      //   height: 10,
+                                      // ),
+                                      // Text(
+                                      //   'Reminder',
+                                      //   style: TextStyle(
+                                      //       fontSize: 12,
+                                      //       fontWeight: FontWeight.w400,
+                                      //       color: text),
+                                      // ),
+                                      // SizedBox(
+                                      //   height: 10,
+                                      // ),
+                                      // Container(
+                                      //   decoration: BoxDecoration(
+                                      //       color: Colors.white,
+                                      //       border: Border.all(
+                                      //           color: borderColor, width: 1),
+                                      //       borderRadius:
+                                      //       const BorderRadius.all(
+                                      //           Radius.circular(10.0))),
+                                      //   child: TextFormField(
+                                      //     readOnly: true,
+                                      //     onTap: () async {
+                                      //       print(
+                                      //           "started working local on reminder");
+                                      //       await service
+                                      //           .showScheduleNotification(
+                                      //           id: 0,
+                                      //           title: "fahim",
+                                      //           body: "testing",
+                                      //           sec: notiDate);
+                                      //     },
+                                      //     onChanged: (value) {
+                                      //       // _productController.searchProduct(value);
+                                      //     },
+                                      //     // keyboardType: TextInputType.text,
+                                      //     decoration: InputDecoration(
+                                      //       prefix: Container(
+                                      //         width: 20,
+                                      //       ),
+                                      //       suffixIcon: Icon(
+                                      //           Icons.arrow_drop_down_outlined),
+                                      //       hintText: 'No Reminder',
+                                      //       // icon:
+                                      //
+                                      //       hintStyle: TextStyle(
+                                      //           fontSize: 12.0,
+                                      //           fontFamily: 'Roboto',
+                                      //           color: tabBarUnSelectedColor),
+                                      //       border: InputBorder.none,
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       SizedBox(
                                         height: 20,
                                       ),
@@ -2025,7 +1216,7 @@ allList.add(element.text);
                           ),
                         );
                       }
-                      return Container();
+                      return Center(child: CircularProgressIndicator());
                     }),
               ),
 

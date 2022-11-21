@@ -19,8 +19,13 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
   final selectedDate = DateTime.now().obs;
   ExpenseRepository expenseRepository = ExpenseRepository();
   final pickedDate = ''.obs;
-  var textExpenseController = TextEditingController();
-  var textDesController = TextEditingController();
+  var wayController = TextEditingController();
+  var vehicleNameController = TextEditingController();
+  var vehicleNumController = TextEditingController();
+  var pricingController = TextEditingController();
+  int wayTypeIndex = 0;
+  int wayType = 0 ;
+  List<String> way = ['Air', 'Bus', 'Train', 'Others'];
   File? file;
 
   bool circular = false ;
@@ -55,7 +60,7 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
+backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -69,29 +74,71 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
                   ),),
                   const SizedBox(height: 10,),
                   Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Air',
-                        // icon:
+                    height: 30,
+                    child: GridView.builder(
+                        gridDelegate:
+                        SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 100,
+                            childAspectRatio: 6 / 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
+                        itemCount: way.length,
+                        itemBuilder: (BuildContext ctx, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                wayTypeIndex = index;
+                                wayType = wayTypeIndex;
+                                //cat = incomeList[index];
+                              });
+                            },
+                            child:  Container(
 
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
+                              decoration:
+                              BoxDecoration(
+                                color: wayTypeIndex == index ? Colors.orangeAccent[100] : primaryColorSecond,
+                                borderRadius: const BorderRadius
+                                    .only(
+                                    topLeft: Radius
+                                        .circular(
+                                        30),
+                                    topRight: Radius
+                                        .circular(
+                                        30),
+                                    bottomLeft: Radius
+                                        .circular(
+                                        30),
+                                    bottomRight: Radius
+                                        .circular(
+                                        30)),
+                              ),
+                              child: Padding(
+                                padding:
+                                const EdgeInsets
+                                    .symmetric(
+                                    horizontal:
+                                    8.0,
+                                    vertical:
+                                    3),
+                                child: Row(
+
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:  [
+
+                                    Text(
+                                      way[index],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+
+                                        fontSize: 12,
+                                        color: wayTypeIndex == index ? Colors.white :Colors.white,),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
                   ),
                   const SizedBox(height: 10,),
                   const Text('Vehical Name',style: TextStyle(
@@ -105,7 +152,7 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
-                      controller: textExpenseController,
+                      controller: wayController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -190,6 +237,7 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
                     },
                     child: Container(
                       decoration: BoxDecoration(
+                        color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.grey)
                       ),
@@ -402,7 +450,7 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
                         circular = true;
                       });
 
-                      if (textExpenseController.text.isEmpty) {
+                      if (wayController.text.isEmpty) {
                         final snackBar = SnackBar(
                           content: const Text('Please fill all the form field'),
                           action: SnackBarAction(
@@ -422,7 +470,12 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
                         try {
                           File file = File("");
                           expenseRepository
-                              .transportExpenseController(bytes)
+                              .transportExpenseController(
+                             image:bytes,    vehicleType: 1,
+                             vehicleName:vehicleNameController.text,
+                             vehicleNo: vehicleNameController.text,    expense: 100,
+                             startDate: selectedDate.toString(),    endDate:selectedDate.toString(),
+                          )
                               .then((e) {
                             print("my response for other expense is ${e["IsSuccess"]}");
                             if(e["IsSuccess"] == true){

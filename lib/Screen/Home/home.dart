@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
+//import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
 import 'package:salebee/Screen/edit_profile.dart';
@@ -11,7 +14,7 @@ import 'package:salebee/Screen/setting/setting_page.dart';
 import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/Screen/test_screen.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
-
+import 'package:new_version_plus/new_version_plus.dart';
 import '../../Utils/StringsConst.dart';
 import '../../utils.dart';
 import 'package:get/get.dart';
@@ -21,8 +24,49 @@ import '../leave/leave_front.dart';
 import '../notification/notification_1.dart';
 import '../test.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  initState(){
+    super.initState();
+
+
+    // You can let the plugin handle fetching the status and showing a dialog,
+    // or you can fetch the status and display your own dialog, or no dialog.
+
+
+
+
+
+  }
+
+
+  advancedStatusCheck() async {
+    final newVersion = NewVersionPlus(
+      //iOSId: 'com.google.Vespa',
+      androidId: 'com.salebee.crm',
+    );
+    var status = await newVersion.getVersionStatus();
+    print("version status ${status!.canUpdate}");
+    if (status.canUpdate == true) {
+
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status,
+        dialogTitle: 'Update Available!',
+        dialogText: 'Upgrade Salebee ${status.localVersion} to Salebee ${status.storeVersion}',
+      );
+    }
+  }
+
+
 
   Widget circleRow(size, option, top, left) {
     return SizedBox(
@@ -57,6 +101,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    advancedStatusCheck();
     print("sub domain is ${SharedPreff.to.prefss.get("subDomain")} and my url is ${StringsConst.BASEURL}");
     Size size = MediaQuery.of(context).size;
     print(size.height);
@@ -213,7 +258,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
       );
-    } else if (size.height < 800) {
+    }
+    else if (size.height < 800) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -252,7 +298,7 @@ class HomePage extends StatelessWidget {
                         )
                       ],
                     ),
-                  
+
                     GestureDetector(
                       onTap: (){
                         Get.to(NotificationPage1());
@@ -393,7 +439,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
       );
-    } else if (size.height < 850) {
+    }
+    else if (size.height < 850) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -452,26 +499,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        Get.to(NotificationPage1());
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(150)),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+
 
                   ],
                 ),
@@ -559,7 +587,8 @@ class HomePage extends StatelessWidget {
 
 
 
-    } else if (size.height < 900) {
+    }
+    else if (size.height < 900) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -688,7 +717,7 @@ class HomePage extends StatelessWidget {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Propect', (size.width / 12),
+                            child: circleRow(size, 'Prospect', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],
@@ -739,7 +768,8 @@ class HomePage extends StatelessWidget {
 
 
 
-    } else if (size.height >= 1200) {
+    }
+    else if (size.height < 1200) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -752,9 +782,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Rayhan Uddin12',
+                      children:  [
+                        StaticData.name != null ?    Text(
+                          StaticData.name!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ) : Text(
+                          "No name",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
@@ -763,23 +799,31 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(
-                          '01502020222',
+                        StaticData.employeeID != null ? Text(
+                          'ID: ${ StaticData.employeeID}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ) :  Text(
+                          'ID: ',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         )
                       ],
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: darkBlue,
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(NotificationPage1());
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(150)),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.notification_important,
+                              color: darkBlue,
+                            ),
                           ),
                         ),
                       ),
@@ -820,17 +864,22 @@ class HomePage extends StatelessWidget {
                             child: circleRow(size, 'Leave', (size.width / 4),
                                 (size.height / 6))),
                       ),
-                      Positioned(
-                          top: (size.height / 6),
-                          left: (size.width / 2.2),
-                          child: circleRow(size, 'Attendance',
-                              (size.width / 2.7), (size.height / 8))),
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(AttendenceReport());
+                        },
+                        child: Positioned(
+                            top: (size.height / 6),
+                            left: (size.width / 2.2),
+                            child: circleRow(size, 'Attendance',
+                                (size.width / 2.7), (size.height / 8))),
+                      ),
                       Positioned(
                         top: (size.height / 2.6),
                         left: (size.width / 1.75),
                         child: InkWell(
                           onTap: () {
-                            // Get.to(OtherExpense());
+                             Get.to(Task());
                           },
                           child: circleRow(size, 'Tasks', 240.0, 210.0),
                         ),
@@ -840,7 +889,7 @@ class HomePage extends StatelessWidget {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(NotificationPage());
+                                Get.to(ExpenseList());
                               },
                               child: circleRow(size, 'Expenses',
                                   (size.width / 2.5), (size.height / 2)))),
@@ -851,7 +900,7 @@ class HomePage extends StatelessWidget {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Propect', (size.width / 12),
+                            child: circleRow(size, 'Prospect', (size.width / 12),
                                 (size.height / 1.74))),
                       ),
                     ],

@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:get/get.dart';
-
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:salebee/Screen/Map/map_screen.dart';
 import '../../Data/static_data.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
@@ -19,16 +20,32 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   String? fcmtoken = "";
-  int screenHeight = 0;
+  double screenHeight = 0;
+  String versionID = "";
+  String buildNumber = "";
   getFcmToken() async {
     fcmtoken = await FirebaseMessaging.instance.getToken();
     print("my fcm token is setting $fcmtoken");
     return fcmtoken;
   }
+  @override
+void initState(){
+  super.initState();
+  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+    String appName = packageInfo.appName;
+    String packageName = packageInfo.packageName;
+    versionID = packageInfo.version;
+    buildNumber = packageInfo.buildNumber;
+  }).then((value) => setState((){
 
+  }));
+
+}
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    double size = MediaQuery.of(context).size.height;
+    print("my screen size is $size");
+
 
     return Scaffold(
       backgroundColor: primaryColorLight,
@@ -150,16 +167,31 @@ class _SettingPageState extends State<SettingPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-      SettingsItem(
-        onTap: () {},
-        icons: CupertinoIcons.resize_v,
-        title: "Screen Size: ${screenHeight.toString()}",
-        titleStyle: TextStyle(
-          color: Colors.grey,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+                SettingsItem(
+                  onTap: () {
+                    Get.to(MapScreen());
 
+
+                  },
+                  icons: CupertinoIcons.map,
+                  title: "Map Screen",
+                  titleStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SettingsItem(
+                  onTap: () {
+
+
+                  },
+                  icons: CupertinoIcons.asterisk_circle,
+                  title: "Version: $versionID + $buildNumber",
+                  titleStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],

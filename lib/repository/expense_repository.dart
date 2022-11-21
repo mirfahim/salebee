@@ -18,7 +18,12 @@ class ExpenseRepository {
   String? tokenString = SharedPreff.to.prefss.getString("token");
 
   // Foood ********************************
-  Future foodExpenseController(image) async {
+  Future foodExpenseController(
+      { image,
+      required int mealType,
+      required String dishName,
+      required int expense,
+      required String date}) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
     Map<String, dynamic> bodyString = {
@@ -28,7 +33,7 @@ class ExpenseRepository {
       "Expense": 0,
       "ExpenseDate": "2022-11-15T04:09:52.678Z",
       "ApprovedBy": 0,
-      "Attachment": image,
+      "Attachment": null,
       "Active": true,
       "CreatedBy": 0,
       "CreatedOn": "2022-11-15T04:09:52.678Z",
@@ -54,7 +59,14 @@ class ExpenseRepository {
 
 
 
-  Future othersExpenseController(final image) async {
+  Future othersExpenseController(
+      {
+     image,
+    required String expenseName,
+    required String discription,
+    required int expense,
+    required String date,
+  }) async {
 
     Map<String, dynamic> bodyString =
     {
@@ -88,7 +100,14 @@ class ExpenseRepository {
     // return attendanceResponseModelFromJson(response.body);
   }
 
-  Future transportExpenseController(image) async {
+  Future transportExpenseController(
+      { image,
+      required int vehicleType,
+      required String vehicleName,
+      required String vehicleNo,
+      required int expense,
+      required String startDate,
+      required String endDate}) async {
 
 
     Map<String, dynamic> bodyString = {

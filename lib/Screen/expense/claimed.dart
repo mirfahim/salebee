@@ -8,38 +8,8 @@ class Claimed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense Claim',style: TextStyle(
-            color: Colors.black,fontWeight: FontWeight.w600
-        ),),
-        automaticallyImplyLeading: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: (){
-            Get.back();
-          },
-          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
-        ),
-        actions: [
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(150),
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.person,color: darkBlue,),
-              ),
-            ),
-          )
-        ],
-      ),
+      backgroundColor: primaryColorLight,
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),

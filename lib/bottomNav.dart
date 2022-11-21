@@ -8,11 +8,14 @@ import 'package:salebee/drawer.dart';
 import 'package:salebee/utils.dart';
 import 'package:get/get.dart';
 import 'Screen/Home/home.dart';
+import 'Screen/MenuPage/manus_page.dart';
 import 'Screen/notification/notification.dart';
 
 
 class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key}) : super(key: key);
+bool menuPage = true;
+BottomNav({required this.menuPage});
+
 
   @override
   _BottomNavState createState() => _BottomNavState();
@@ -43,7 +46,7 @@ class _BottomNavState extends State<BottomNav> {
           backgroundColor: Colors.white,
           child: Icon(Icons.menu, color: darkBlue,),
           onPressed: () {
-            Get.to(() => MyChartPage());
+            Get.to(() =>  MenusScreen());
 
             //drawer(context);
           },

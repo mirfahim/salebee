@@ -63,16 +63,25 @@ class _AssignedToMeState extends State<AssignedToMe> {
                     initiatedList.clear();
                     doneList.clear();
                     incompleteList.clear();
-                    initiatedList.addAll(snapshot.data!.result!.where((element) => element.statusId == 5)) ;
-                    print("my ini list i s=++++++++++++${initiatedList.length}");
-                    doneList.addAll(snapshot.data!.result!.where((element) => element.statusId == 4)) ;
-                    print("my done list i s=++++++++++++${doneList.length}");
-                    incompleteList.addAll(snapshot.data!.result!.where((element) => element.statusId == 1)) ;
-                    print("my incomplete list i s=++++++++++++${incompleteList.length}");
+                    if(snapshot.data == null){
+                      print("no data found");
+                    } else{
+                      initiatedList.addAll(snapshot.data!.result!
+                          .where((element) => element.statusId == 5));
+                      print("my ini list i s=++++++++++++${initiatedList.length}");
+                      doneList.addAll(snapshot.data!.result!
+                          .where((element) => element.statusId == 4));
+                      print("my done list i s=++++++++++++${doneList.length}");
+                      incompleteList.addAll(snapshot.data!.result!
+                          .where((element) => element.statusId == 1));
+                      print(
+                          "my incomplete list i s=++++++++++++${incompleteList.length}");
 
-                    totalInitiated = initiatedList.length;
-                    totalDone = doneList.length;
-                    totalIncomplete = incompleteList.length;
+                      totalInitiated = initiatedList.length;
+                      totalDone = doneList.length;
+                      totalIncomplete = incompleteList.length;
+
+                    }
                 // scoring system
                 //    totalInitiated = snapshot.data!.result!.map((ele) => ele.statusId).fold(0, (prev, amount) => prev + amount!);
 
@@ -340,7 +349,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          'Contact',
+                                                          'Contact:',
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .black,
@@ -352,10 +361,10 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                         SizedBox(
                                                           width: 4,
                                                         ),
-                                                        data!.contact ==
-                                                            null
+                                                        data.contact ==
+                                                            null || data!.contact!.isEmpty
                                                             ? Text(
-                                                          "",
+                                                          "No Data",
                                                           style:
                                                           TextStyle(
                                                             color: Colors
@@ -365,7 +374,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                           ),
                                                         )
                                                             : Text(
-                                                          data!
+                                                          data
                                                               .contact!,
                                                           overflow:
                                                           TextOverflow
@@ -386,7 +395,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        'Concern Person no: ',
+                                                        'Concern Person no:',
                                                         style: TextStyle(
                                                             color: Colors
                                                                 .black,
@@ -398,9 +407,11 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                       const SizedBox(
                                                         width: 10,
                                                       ),
-                                                      data!.prospectNumber == null ?
+                                                      data.prospectNumber == null
+                                                          ||  data!.prospectNumber!.isEmpty?
+
                                                       Text(
-                                                        "",
+                                                        "No Data",
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: 14,
@@ -408,7 +419,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                       )
                                                           :
                                                       Text(
-                                                        data!.prospectNumber!,
+                                                        data.prospectNumber!,
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: 14,

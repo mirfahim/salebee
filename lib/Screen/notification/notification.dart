@@ -17,23 +17,23 @@ class NotificationPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        actions: [
-          Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(150)
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.person,color: darkBlue,),
-              ),
-            ),
-          )
-        ],
+        // actions: [
+        //   Card(
+        //     shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(150)
+        //     ),
+        //     child: Container(
+        //       decoration: const BoxDecoration(
+        //           shape: BoxShape.circle,
+        //           color: Colors.white
+        //       ),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Icon(Icons.person,color: darkBlue,),
+        //       ),
+        //     ),
+        //   )
+        // ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

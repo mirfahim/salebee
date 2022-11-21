@@ -112,13 +112,19 @@ class _AddNewTaskState extends State<CreateContactPersonProspect> {
         .replaceAll("-", ".");
     service = LocalNotificationService();
     taskRepository.getAllListForTaskController().then((value) {
-      newStatus = value.result!["SelectListTaskStatus"]![4].text;
-      newLead = value.result!["SelectListLeads"]![0].text;
-      newCantactPerson = value.result!["SelectListEmployee"]![0].text;
-      newEmployee = value.result!["SelectListEmployee"]![0].text;
-      newProspect = value.result!["SelectListProspects"]![0].text;
-      newPriority = value.result!["SelectListPriority"]![0].text;
-      //prospectList = value.result!["SelectListProspects"]!;
+
+      if(value.result == null ){
+        print("Some error in contact person");
+      } else {
+        newStatus = value.result!["SelectListTaskStatus"]![4].text;
+        newLead = value.result!["SelectListLeads"]![0].text;
+        newCantactPerson = value.result!["SelectListEmployee"]![0].text;
+        newEmployee = value.result!["SelectListEmployee"]![0].text;
+        newProspect = value.result!["SelectListProspects"]![0].text;
+        newPriority = value.result!["SelectListPriority"]![0].text;
+        //prospectList = value.result!["SelectListProspects"]!;
+      }
+
     });
     service.initialize();
     super.initState();
@@ -131,11 +137,11 @@ class _AddNewTaskState extends State<CreateContactPersonProspect> {
     return Scaffold(
       key: _scaffoldkey,
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Container(
           height: size.height,
-          color: Colors.grey.shade200,
+          color: primaryColorLight,
           child: Stack(
             children: [
               Padding(
@@ -144,16 +150,21 @@ class _AddNewTaskState extends State<CreateContactPersonProspect> {
                 child: FutureBuilder<GetListForTaskDataModel>(
                     future: taskRepository.getAllListForTaskController(),
                     builder: (context, snapshot) {
-                      snapshot.data!.result!["SelectListProspects"]!
-                          .forEach((element) {
-                        allList.add(element.text);
-                      });
+
 
                       if (snapshot.hasError) {
-                        return Container(
-                          child: Text("No Data"),
+                        return Center(
+                          child: CircularProgressIndicator(),
                         );
                       } else if (snapshot.data != null) {
+                      if(snapshot.data == null ){
+                        print("no data found contact person");
+                      }
+                      else {
+                        snapshot.data!.result!["SelectListProspects"]!
+                            .forEach((element) {
+                          allList.add(element.text);
+                        });
                         print(
                             "my all list is __________________________${snapshot.data!.result!["SelectListProspects"]![0].text}");
                         print(
@@ -161,13 +172,14 @@ class _AddNewTaskState extends State<CreateContactPersonProspect> {
                         var dropdownValueSelectListEmployee = snapshot
                             .data!.result!["SelectListEmployee"]![0].text;
                         var dropdownValueSelectListLead =
-                            snapshot.data!.result!["SelectListLeads"]!;
+                        snapshot.data!.result!["SelectListLeads"]!;
                         var statusList =
-                            snapshot.data!.result!["SelectListTaskStatus"]!;
+                        snapshot.data!.result!["SelectListTaskStatus"]!;
                         var dropdownValueSelectListSelectListStatus = snapshot
                             .data!.result!["SelectListTaskStatus"]![0].text;
                         var dropdownValueSelectListSelectListPriority = snapshot
                             .data!.result!["SelectListPriority"]![0].text;
+                      }
                         return ExpandableNotifier(
                           child: ListView(
                             children: [
@@ -1002,7 +1014,9 @@ class _AddNewTaskState extends State<CreateContactPersonProspect> {
                           ),
                         );
                       }
-                      return Container();
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }),
               ),
               Padding(

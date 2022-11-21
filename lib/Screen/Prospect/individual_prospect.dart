@@ -16,7 +16,7 @@ class IndividualProspect extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Container(
         height: 58 ,
-        color: const Color(0xFFE5E5E5),
+        color: primaryColorLight,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: InkWell(
@@ -45,108 +45,74 @@ class IndividualProspect extends StatelessWidget {
       ),
       body: Container(
         height: size.height,
-        color: backgroudColor,
+        color: primaryColorLight,
         child: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 10,),
-                InkWell(
-                  onTap: (){
-                    Get.to(const LeaveDetails());
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: const Color(0xFFFFFFFF)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('5 Jul - 7 Jul | 2022',style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: appBarHeader
-                              ),),
-                              const SizedBox(height: 10,),
-                              Row(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Text('3 days |',style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400
-                                  )),
-                                  SizedBox(width: 5,),
-                                  Text('Pending',style: TextStyle(
-                                      color: Color(0xFFEA580C),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600
-                                  ),)
-                                ],
-                              )
-                            ],
-                          ),
-                          IconButton(
-                              onPressed: (){},
-                              icon: const Icon(Icons.arrow_forward_ios_outlined,color: Color(0xFF7C8DB5),))
-                        ],
+            child: Container(
+              height: MediaQuery.of(context).size.height -200,
+              child: ListView.builder(
+                itemCount: 4,
+                  itemBuilder: (BuildContext context , index){
+                  return  InkWell(
+                    onTap: (){
+                      Get.to(const LeaveDetails());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: const Color(0xFFFFFFFF)
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.white
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('20 Mar - 27 Mar | 2022',style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: appBarHeader
-                            ),),
-                            const SizedBox(height: 10,),
                             Row(
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [
-                                Text('3 days |',style: TextStyle(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Pro -01920',style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                    color: Colors.grey
+                                ),),
+                                const SizedBox(height: 10,),
+                                Text('25 Aug 2022',style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400
                                 )),
-                                SizedBox(width: 5,),
-                                Text('Not Granted',style: TextStyle(
-                                    color: Color(0xFFDC2626),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600
-                                ),)
+
+                                  ],
+                                ),
+                            ListTile(
+                              leading: CircleAvatar(
+                                radius: 12,
+                              ),
+                              title:Text('Nexzen Solution',style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                  color: Colors.black
+                              ),),
+                              subtitle: Text('Software Solution | Mirpur DOHS',style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                  color: Colors.grey
+                              ),),
+                              trailing: Icon(
+                              Icons.more_vert,
+                              ),
+                            ),
                               ],
-                            )
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: (){},
-                            icon: const Icon(Icons.arrow_forward_ios_outlined,color: Color(0xFF7C8DB5)))
-                      ],
+                            ),
+
+
+
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
+                  );
+                  }),
+            )
+
           ),
         ),
       ),

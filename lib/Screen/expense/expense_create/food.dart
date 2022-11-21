@@ -18,13 +18,19 @@ class FoodExpense extends StatefulWidget {
 
 class _FoodExpenseState extends State<FoodExpense> {
   final selectedDate = DateTime.now().obs;
-
+  List<String> type = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
   final pickedDate = ''.obs;
   ExpenseRepository expenseRepository = ExpenseRepository();
   File? file;
+  var dishNameController = TextEditingController();
+  var pricingController = TextEditingController();
   var textExpenseController = TextEditingController();
   var textDesController = TextEditingController();
-  bool circular = false ;
+  int mealType = 0;
+  int foodTypeIndex = 0 ;
+
+  bool circular = false;
+  DateTime todayIs =DateTime.now();
 
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
@@ -34,9 +40,9 @@ class _FoodExpenseState extends State<FoodExpense> {
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      file = imageFile ;
+      file = imageFile;
     }
-    return file ;
+    return file;
   }
 
   _getFromCamera() async {
@@ -47,73 +53,122 @@ class _FoodExpenseState extends State<FoodExpense> {
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      file = imageFile ;
+      file = imageFile;
     }
-    return file ;
+    return file;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
+      backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Stack(
             children: [
-
               ListView(
                 children: [
-                  SizedBox(height: 10,),
-                  const Text('Meal Type',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      controller: textExpenseController,
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Air',
-                        // icon:
-
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
+                  const Text(
+                    'Meal Type',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 30,
+                    child: GridView.builder(
+                        gridDelegate:
+                        SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 100,
+                            childAspectRatio: 6 / 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
+                        itemCount: type.length,
+                        itemBuilder: (BuildContext ctx, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                foodTypeIndex = index;
+                                mealType = foodTypeIndex;
+                                //cat = incomeList[index];
+                              });
+                            },
+                            child:  Container(
 
-                  const SizedBox(height: 10,),
-                  const Text('Dish Name',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                              decoration:
+                              BoxDecoration(
+                                color: foodTypeIndex == index ? Colors.orangeAccent[100] : primaryColorSecond,
+                                borderRadius: const BorderRadius
+                                    .only(
+                                    topLeft: Radius
+                                        .circular(
+                                        30),
+                                    topRight: Radius
+                                        .circular(
+                                        30),
+                                    bottomLeft: Radius
+                                        .circular(
+                                        30),
+                                    bottomRight: Radius
+                                        .circular(
+                                        30)),
+                              ),
+                              child: Padding(
+                                padding:
+                                const EdgeInsets
+                                    .symmetric(
+                                    horizontal:
+                                    8.0,
+                                    vertical:
+                                    3),
+                                child: Row(
+
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:  [
+
+                                    Text(
+                                      type[index],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+
+                                        fontSize: 12,
+                                        color:foodTypeIndex == index ? Colors.white :Colors.white,),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Dish Name',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
@@ -121,104 +176,135 @@ class _FoodExpenseState extends State<FoodExpense> {
                         hintText: 'Type the dish name',
                         // icon:
 
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: const TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('Pricing',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Pricing',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.number,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
                         hintText: 'Enter the Amount',
                         // icon:
 
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: const TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('Date',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Date',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       _selectDate(context);
                     },
                     child: Container(
                       decoration: BoxDecoration(
+                        color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey)
-                      ),
+                          border: Border.all(color: Colors.grey)),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: const TextStyle(
-                                color: Colors.grey
-                            ),)),
-                            const SizedBox(width: 10,),
-                            const Icon(Icons.calendar_today,size: 14,),
+                            Obx(() => Text(
+                                  DateFormat.yMMMd().format(selectedDate.value),
+                                  style: const TextStyle(color: Colors.grey),
+                                )),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(
+                              Icons.calendar_today,
+                              size: 14,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 30,),
-                  const Divider(thickness: 1,color: Colors.grey,),
-                  const SizedBox(height: 10,),
-                  const Text('Photos(Optional)',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    color: Colors.grey,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Photos(Optional)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){
-                            _getFromGallery().then((e){
-                              if(e != null){
-                                setState(() {
-
-                                });
+                          onTap: () {
+                            _getFromCamera().then((e) {
+                              if (e != null) {
+                                setState(() {});
                               }
-
                             });
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: primaryColor.withOpacity(.1),
+                                color: primaryColor.withOpacity(.1),
                                 borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: Colors.grey.withOpacity(.35))
-                            ),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(.35))),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Icon(Icons.camera_alt,color: primaryColor,),
-                                  const SizedBox(width: 10,),
+                                  Icon(
+                                    Icons.camera_alt,
+                                    color: primaryColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   const Text('Tap to Upload')
                                 ],
                               ),
@@ -226,19 +312,20 @@ class _FoodExpenseState extends State<FoodExpense> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
-                        child: file == null ?
-                        Container()
-                            :Image.file(
-                          file!,
-                          height: 45.0,
-                          width: 45.0,
-                        ),
+                        child: file == null
+                            ? Container()
+                            : Image.file(
+                                file!,
+                                height: 45.0,
+                                width: 45.0,
+                              ),
                       )
                     ],
                   ),
-
                 ],
               ),
               Align(
@@ -246,15 +333,17 @@ class _FoodExpenseState extends State<FoodExpense> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
-                    onTap: () async{
+                    onTap: () async {
+
                       var bytes = await file!.readAsBytes();
                       print("my image file is ${file!.path}");
                       // Get.to(OtherExpense());
                       setState(() {
                         circular = true;
                       });
-
+                      print("working 01");
                       if (textExpenseController.text.isEmpty) {
+                        print("working 02");
                         final snackBar = SnackBar(
                           content: const Text('Please fill all the form field'),
                           action: SnackBarAction(
@@ -269,19 +358,25 @@ class _FoodExpenseState extends State<FoodExpense> {
                         setState(() {
                           circular == false;
                         });
-
                       } else {
                         try {
-                          File file = File("");
+                          setState(() {
+                            circular == false;
+                          });
                           expenseRepository
-                              .foodExpenseController(bytes)
+                              .foodExpenseController(
+                            image: bytes,   mealType: mealType ,
+                            dishName: dishNameController.text,
+                            expense:100,
+                            date:todayIs.toString(), )
                               .then((e) {
-                            print("my response for other expense is ${e["IsSuccess"]}");
-                            if(e["IsSuccess"] == true){
+                            print(
+                                "my response for other expense is ${e["IsSuccess"]}");
+                            if (e["IsSuccess"] == true) {
                               setState(() {
                                 circular = false;
                               });
-                            }else {
+                            } else {
                               setState(() {
                                 circular = false;
                               });
@@ -296,21 +391,23 @@ class _FoodExpenseState extends State<FoodExpense> {
                           });
                         }
                       }
-
                     },
                     child: Container(
                       height: 48,
                       width: size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: darkBlue
-                      ),
-                      child: const Padding(
+                          color: darkBlue),
+                      child:  Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
-                              color: Colors.white
-                          ),),
+                          child: circular == true
+                          ? CircularProgressIndicator()
+                          :Text(
+                            'Submit',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),

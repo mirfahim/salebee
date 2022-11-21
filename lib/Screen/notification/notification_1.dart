@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:salebee/utils.dart';
 
 class NotificationPage1 extends StatelessWidget {
@@ -7,32 +8,40 @@ class NotificationPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: primaryColorLight,
+       backgroundColor: primaryColorLight,
       appBar: AppBar(
         title: const Text('Notification',style: TextStyle(
             color: Colors.black,fontSize: 22
         ),),
         automaticallyImplyLeading: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: primaryColorLight,
         elevation: 0,
         centerTitle: true,
-        actions: [
-          Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(150)
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.person,color: darkBlue,),
-              ),
-            ),
-          )
-        ],
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+            // Get.to(TestMyApp());
+            // _autoCompleteTextField();
+          },
+          icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+        ),
+        // actions: [
+        //   Card(
+        //     shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(150)
+        //     ),
+        //     child: Container(
+        //       decoration: const BoxDecoration(
+        //           shape: BoxShape.circle,
+        //           color: Colors.white
+        //       ),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Icon(Icons.person,color: darkBlue,),
+        //       ),
+        //     ),
+        //   )
+        // ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -75,7 +84,7 @@ class NotificationPage1 extends StatelessWidget {
                 const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
-                      color: primaryColorLight,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Padding(
@@ -138,7 +147,7 @@ class NotificationPage1 extends StatelessWidget {
                 const SizedBox(height: 10,),
                 Container(
                   decoration: BoxDecoration(
-                      color: primaryColorLight,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Padding(

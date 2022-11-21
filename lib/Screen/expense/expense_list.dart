@@ -13,12 +13,13 @@ class ExpenseList extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: primaryColorLight,
         appBar: AppBar(
           title: const Text('Expense',style: TextStyle(
             color: Colors.black,fontWeight: FontWeight.w600
           ),),
           automaticallyImplyLeading: true,
-          backgroundColor: Colors.transparent,
+          backgroundColor: primaryColorLight,
           elevation: 0,
           centerTitle: true,
           leading: IconButton(

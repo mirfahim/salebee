@@ -19,7 +19,8 @@ import 'package:salebee/repository/add_task_repository.dart';
 import '../Data/static_data.dart';
 import '../Service/sharedPref_service.dart';
 import '../Utils/my_colors.dart';
-import 'package:new_version/new_version.dart';
+import 'package:flutter/material.dart';
+//import 'package:new_version_plus/new_version_plus.dart';
 class Splash extends StatefulWidget {
 
 
@@ -53,42 +54,8 @@ var hiveBox =  Hive.box("manageTask");
     });
 
     print(" my subdomain is ++++${StaticData.subDomain}");
-   
-  //   final newVersion = NewVersion(
-  //     iOSId: 'com.google.Vespa',
-  //     androidId: 'com.salebee.crm',
-  //   );
-  //
-  //   // You can let the plugin handle fetching the status and showing a dialog,
-  //   // or you can fetch the status and display your own dialog, or no dialog.
-  //   const simpleBehavior = true;
-  //
-  //   if (simpleBehavior) {
-  //     basicStatusCheck(newVersion);
-  //   } else {
-  //     advancedStatusCheck(newVersion);
-  //   }
-  // }
-  //
-  // basicStatusCheck(NewVersion newVersion) {
-  //   newVersion.showAlertIfNecessary(context: context);
-  // }
-  //
-  // advancedStatusCheck(NewVersion newVersion) async {
-  //   final status = await newVersion.getVersionStatus();
-  //   if (status != null) {
-  //     debugPrint(status.releaseNotes);
-  //     debugPrint(status.appStoreLink);
-  //     debugPrint(status.localVersion);
-  //     debugPrint(status.storeVersion);
-  //     debugPrint(status.canUpdate.toString());
-  //     newVersion.showUpdateDialog(
-  //       context: context,
-  //       versionStatus: status,
-  //       dialogTitle: 'Custom Title',
-  //       dialogText: 'Custom Text',
-  //     );
-  //   }
+
+
     Timer(Duration(seconds: 4), () {
       saveDataToHive();
 
@@ -118,7 +85,7 @@ var hiveBox =  Hive.box("manageTask");
       var androidDeviceInfo = await deviceInfo.androidInfo;
 
 
-      return androidDeviceInfo.androidId; // unique ID on Android
+      return androidDeviceInfo.brand; // unique ID on Android
     }
   }
 
@@ -131,7 +98,7 @@ var hiveBox =  Hive.box("manageTask");
     if(StaticData.loggedIN == true && StaticData.subDomain != null){
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNav(),
+          builder: (context) => BottomNav(menuPage: false,),
         ),
       );
     } else if (SharedPreff.to.prefss.getString("subDomain") == '' ||SharedPreff.to.prefss.getString("subDomain") == null ){

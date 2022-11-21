@@ -6,7 +6,7 @@
 
 #include "generated_plugin_registrant.h"
 
-#include <battery_plus_windows/battery_plus_windows_plugin.h>
+#include <battery_plus/battery_plus_windows_plugin.h>
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
 #include <geolocator_windows/geolocator_windows.h>
 #include <url_launcher_windows/url_launcher_windows.h>

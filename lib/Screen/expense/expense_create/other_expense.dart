@@ -18,8 +18,9 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
   final selectedDate = DateTime.now().obs;
   //final ImagePicker _picker = ImagePicker();
   ExpenseRepository expenseRepository = ExpenseRepository();
-  var textExpenseController = TextEditingController();
-  var textDesController = TextEditingController();
+  var expenseNameController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var pricingController = TextEditingController();
   final pickedDate = ''.obs;
   File? file;
   bool circular = false ;
@@ -51,7 +52,7 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
+backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -70,7 +71,7 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
-                      controller: textExpenseController,
+                      controller: expenseNameController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -157,6 +158,7 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
+                        color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.grey)
                       ),
@@ -240,7 +242,7 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
                             circular = true;
                           });
 
-                          if (textExpenseController.text.isEmpty) {
+                          if (expenseNameController.text.isEmpty) {
                             final snackBar = SnackBar(
                               content: const Text('Please fill all the form field'),
                               action: SnackBarAction(
@@ -260,7 +262,12 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
                             try {
                               File file = File("");
                               expenseRepository
-                                  .othersExpenseController(bytes)
+                                  .othersExpenseController(
+                                image: bytes,
+                                  expenseName: expenseNameController.text,
+                                  discription: descriptionController.text,
+                                  expense: 100,
+                                  date:selectedDate.toString())
                                   .then((e) {
                                 print("my response for other expense is ${e["IsSuccess"]}");
                                 if(e["IsSuccess"] == true){

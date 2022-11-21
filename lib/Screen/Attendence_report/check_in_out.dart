@@ -49,9 +49,7 @@ class _CheckInOutState extends State<CheckInOut> {
   Timer? _timer;
 
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
-  void _showSnackBar(BuildContext context, String text) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
+
 
   @override
   void initState() {
@@ -100,6 +98,7 @@ class _CheckInOutState extends State<CheckInOut> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryColorLight,
       key: _scaffoldkey,
       body: SingleChildScrollView(
         child: Column(
@@ -274,12 +273,15 @@ class _CheckInOutState extends State<CheckInOut> {
                                 ? Text(
                                     'Check In',
                                     style: TextStyle(
-                                        color: Colors.blueAccent, fontSize: 12),
+                                        color: Colors.blueAccent,
+                                        fontSize: 12, fontWeight: FontWeight.bold),
                                   )
                                 : Text(
                                     'Check In',
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: 12),
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   ),
                           ],
                         ),
@@ -300,12 +302,16 @@ class _CheckInOutState extends State<CheckInOut> {
                                 ? Text(
                                     'Check Out',
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: 12),
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 : Text(
                                     'Check Out',
                                     style: TextStyle(
-                                        color: Colors.blueAccent, fontSize: 12),
+                                        color: Colors.blueAccent,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   ),
                           ],
                         ),
@@ -325,7 +331,8 @@ class _CheckInOutState extends State<CheckInOut> {
                             Text(
                               'Working Hour',
                               // status.value.toString(),
-                              style: TextStyle(color: Colors.grey, fontSize: 12),
+                              style: TextStyle(color: Colors.grey, fontSize: 12,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

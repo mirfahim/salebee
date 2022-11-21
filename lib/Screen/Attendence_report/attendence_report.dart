@@ -22,7 +22,7 @@ class AttendenceReport extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
           ),
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: primaryColorLight,
           centerTitle: true,
           title: const Text('Attendance',style: TextStyle(
             color: Colors.black
@@ -37,55 +37,60 @@ class AttendenceReport extends StatelessWidget {
           children:  [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: [
-                  const Expanded(
-                    flex: 4,
-                    child: TabBar(
-                        indicatorColor: Colors.black,
-                        labelColor: Colors.black,
-                        isScrollable: true,
-                        tabs: [
-                          Tab(
-                            text: 'Check-in-out',
-                          ),
-                          Tab(
-                            text: 'Report',
-                          )
-                        ],
+              child: Container(
+                color: primaryColorLight,
+                child: Row(
+                  children: [
+                     Expanded(
+                      flex: 4,
+                      child: TabBar(
+
+                          indicatorColor: Colors.black,
+                          labelColor: Colors.black,
+                          isScrollable: true,
+                          tabs: [
+                            Tab(
+                              text: 'Check-in-out',
+                            ),
+                            Tab(
+                              text: 'Report',
+                            )
+                          ],
+                      ),
                     ),
-                  ),
-                  // Expanded(
-                  //   child: InkWell(
-                  //     onTap: (){
-                  //       _selectDate(context);
-                  //     },
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(6),
-                  //           border: Border.all(color: primaryColorSecond)
-                  //       ),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 3),
-                  //         child: Row(
-                  //
-                  //           children: [
-                  //             Icon(Icons.calendar_today,color: primaryColorSecond,size: 14,),
-                  //             const SizedBox(width: 10,),
-                  //             Obx(()=>Text('${selectedDate.value.year}',style: TextStyle(
-                  //                 color: primaryColorSecond
-                  //             ),))
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
-                ],
+                    // Expanded(
+                    //   child: InkWell(
+                    //     onTap: (){
+                    //       _selectDate(context);
+                    //     },
+                    //     child: Container(
+                    //       decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(6),
+                    //           border: Border.all(color: primaryColorSecond)
+                    //       ),
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 3),
+                    //         child: Row(
+                    //
+                    //           children: [
+                    //             Icon(Icons.calendar_today,color: primaryColorSecond,size: 14,),
+                    //             const SizedBox(width: 10,),
+                    //             Obx(()=>Text('${selectedDate.value.year}',style: TextStyle(
+                    //                 color: primaryColorSecond
+                    //             ),))
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
+                  ],
+                ),
               ),
             ),
             Expanded(
                child: TabBarView(
+
                    children: [
                      CheckInOut(),
                      Report()
