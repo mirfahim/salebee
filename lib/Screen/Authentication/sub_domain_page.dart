@@ -104,7 +104,14 @@ class LoginPageState extends State<SubDomainPage> {
                         loading = false;
                       });
 
-                      Get.to(() => LoginPage());
+                      Navigator.pushAndRemoveUntil<dynamic>(
+                        context,
+                        MaterialPageRoute<dynamic>(
+
+                          builder: (BuildContext context) => LoginPage(),
+                        ),
+                            (route) => false,//if you want to disable back feature set to false
+                      );
                     } else {
                       final snackBar = SnackBar(
                         content: const Text('Sub-domain did not match'),

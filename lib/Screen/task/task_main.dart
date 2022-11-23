@@ -104,23 +104,23 @@ class _TaskState extends State<Task> {
           backgroundColor: primaryColorLight,
           elevation: 0,
           centerTitle: true,
-       //   actions: [
-            // Builder(
-            //   builder: (context) {
-            //     return InkWell(
-            //       onTap: (){
-            //         Scaffold.of(context).openEndDrawer();
-            //       },
-            //       child: Container(
-            //         child: Padding(
-            //           padding: const EdgeInsets.all(4.0),
-            //           child: Image.asset('images/filter.png'),
-            //         ),
-            //       ),
-            //     );
-            //   }
-            // )
-        //  ],
+         // actions: [
+         //    Builder(
+         //      builder: (context) {
+         //        return InkWell(
+         //          onTap: (){
+         //            Scaffold.of(context).openEndDrawer();
+         //          },
+         //          child: Container(
+         //            child: Padding(
+         //              padding: const EdgeInsets.all(4.0),
+         //              child: Image.asset('images/filter.png'),
+         //            ),
+         //          ),
+         //        );
+         //      }
+         //    )
+         // ],
         ),
         // endDrawer: Drawer(
         //   child: SafeArea(

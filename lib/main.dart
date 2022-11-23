@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProviderManager()),
       ],
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
 
         theme: ThemeData(
 

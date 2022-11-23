@@ -54,6 +54,7 @@ void initState(){
           "Settings",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
+
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,

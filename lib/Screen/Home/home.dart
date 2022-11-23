@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
-
+import 'package:badges/badges.dart';
 //import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
@@ -32,23 +32,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
-  initState(){
+  initState() {
     super.initState();
-
 
     // You can let the plugin handle fetching the status and showing a dialog,
     // or you can fetch the status and display your own dialog, or no dialog.
-
-
-
-
-
   }
 
-
   advancedStatusCheck() async {
+
     final newVersion = NewVersionPlus(
       //iOSId: 'com.google.Vespa',
       androidId: 'com.salebee.crm',
@@ -56,35 +49,50 @@ class _HomePageState extends State<HomePage> {
     var status = await newVersion.getVersionStatus();
     print("version status ${status!.canUpdate}");
     if (status.canUpdate == true) {
-
       newVersion.showUpdateDialog(
         context: context,
         versionStatus: status,
         dialogTitle: 'Update Available!',
-        dialogText: 'Upgrade Salebee ${status.localVersion} to Salebee ${status.storeVersion}',
+        dialogText:
+            'Upgrade Salebee ${status.localVersion} to Salebee ${status.storeVersion}',
       );
     }
   }
 
-
-
-  Widget circleRow(size, option, top, left) {
+  Widget circleRow(size, option, top, left, bool badge) {
     return SizedBox(
       width: 150,
       child: Row(
         children: [
-          Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: primaryColor),
-            // transform: Matrix4.translationValues(x, y, 0.0),
-            child: const Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.ac_unit,
-                color: Colors.white,
+          badge == true
+              ? Badge(
+                  badgeContent: Text("${StaticData.todaysTask}"),
+                  badgeColor: Colors.greenAccent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: primaryColor),
+                    // transform: Matrix4.translationValues(x, y, 0.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.ac_unit,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: primaryColor),
+                // transform: Matrix4.translationValues(x, y, 0.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Icon(
+                    Icons.ac_unit,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
-          ),
           SizedBox(
             width: 5,
           ),
@@ -102,7 +110,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     advancedStatusCheck();
-    print("sub domain is ${SharedPreff.to.prefss.get("subDomain")} and my url is ${StringsConst.BASEURL}");
+    print(
+        "sub domain is ${SharedPreff.to.prefss.get("subDomain")} and my url is ${StringsConst.BASEURL}");
     Size size = MediaQuery.of(context).size;
     print(size.height);
     if (size.height < 650) {
@@ -118,47 +127,57 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      children: [
+                        StaticData.name != null
+                            ? Text(
+                                StaticData.name!,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            : Text(
+                                "No name",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
                         SizedBox(
                           height: 2,
                         ),
-                       StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                         'ID: ',
-                         style: TextStyle(fontSize: 16, color: Colors.grey),
-                       )
+                        StaticData.employeeID != null
+                            ? Text(
+                                'ID: ${StaticData.employeeID}',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
+                            : Text(
+                                'ID: ',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                        child: Badge(
+                          badgeColor: Colors.redAccent,
+                          badgeContent: Text('2'),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.notification_important,
+                                color: darkBlue,
+                              ),
                             ),
                           ),
                         ),
@@ -181,14 +200,18 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child:  StaticData.proLink!.startsWith(".", 0)
+                        child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
-                          radius: 140,
-                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
-                        ) :  CircleAvatar(
-                          radius: 140,
-                          backgroundImage:  NetworkImage(StaticData.proLink!),
-                        ),
+                                radius: 140,
+                                backgroundImage: NetworkImage(
+                                    "${StringsConst.MAINURL}" +
+                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
+                              )
+                            : CircleAvatar(
+                                radius: 140,
+                                backgroundImage:
+                                    NetworkImage(StaticData.proLink!),
+                              ),
                       ),
                       Positioned(
                         top: (size.height / 13),
@@ -197,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(LeaveFront());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
                       ),
 
                       Positioned(
@@ -207,8 +230,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                              child: circleRow(
+                                  size,
+                                  'Attendance',
+                                  (size.width / 2.7),
+                                  (size.height / 8),
+                                  false))),
                       Positioned(
                         top: (size.height / 3.1),
                         left: (size.width / 1.9),
@@ -216,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Get.to(Task());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0, true),
                         ),
                       ),
 
@@ -227,8 +254,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(
+                                  size,
+                                  'Expenses',
+                                  (size.width / 2.5),
+                                  (size.height / 2),
+                                  false))),
 
                       Positioned(
                         top: (size.height / 1.74),
@@ -237,8 +268,12 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Prospect', (size.width / 12),
-                                (size.height / 1.74))),
+                            child: circleRow(
+                                size,
+                                'Prospect',
+                                (size.width / 12),
+                                (size.height / 1.74),
+                                false)),
                       ),
                       // circleRow(size,'E', (size.width /12), (size.height /24),),
                       //
@@ -253,13 +288,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
       );
-    }
-    else if (size.height < 800) {
+    } else if (size.height < 800) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -272,48 +305,57 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      children: [
+                        StaticData.name != null
+                            ? Text(
+                                StaticData.name!,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            : Text(
+                                "No name",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
                         SizedBox(
                           height: 2,
                         ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        )
+                        StaticData.employeeID != null
+                            ? Text(
+                                'ID: ${StaticData.employeeID}',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
+                            : Text(
+                                'ID: ',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
                       ],
                     ),
-
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                        child: Badge(
+                          badgeColor: Colors.redAccent,
+                          badgeContent: Text("${StaticData.todaysTask}"),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.notification_important,
+                                color: darkBlue,
+                              ),
                             ),
                           ),
                         ),
@@ -336,14 +378,18 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child:  StaticData.proLink!.startsWith(".", 0)
+                        child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
-                          radius: 140,
-                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
-                        ) :  CircleAvatar(
-                          radius: 140,
-                          backgroundImage:  NetworkImage(StaticData.proLink!),
-                        ),
+                                radius: 140,
+                                backgroundImage: NetworkImage(
+                                    "${StringsConst.MAINURL}" +
+                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
+                              )
+                            : CircleAvatar(
+                                radius: 140,
+                                backgroundImage:
+                                    NetworkImage(StaticData.proLink!),
+                              ),
                       ),
                       //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg -- working
                       //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg
@@ -354,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(LeaveFront());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
                       ),
                       Positioned(
                           top: (size.height / 6.0),
@@ -363,8 +409,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                              child: circleRow(
+                                  size,
+                                  'Attendance',
+                                  (size.width / 2.7),
+                                  (size.height / 8),
+                                  false))),
                       Positioned(
                         top: (size.height / 3.1),
                         left: (size.width / 1.9),
@@ -372,7 +422,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Get.to(Task());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'Taskss', 240.0, 210.0, true),
                         ),
                       ),
                       Positioned(
@@ -382,8 +432,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(
+                                  size,
+                                  'Expenses',
+                                  (size.width / 2.5),
+                                  (size.height / 2),
+                                  false))),
                       Positioned(
                         top: (size.height / 1.68),
                         left: (size.width / 8),
@@ -391,8 +445,12 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Prospect', (size.width / 12),
-                                (size.height / 1.74))),
+                            child: circleRow(
+                                size,
+                                'Prospect',
+                                (size.width / 12),
+                                (size.height / 1.74),
+                                false)),
                       ),
                     ],
                   ),
@@ -439,8 +497,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-    }
-    else if (size.height < 850) {
+    } else if (size.height < 850) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -453,54 +510,62 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      children: [
+                        StaticData.name != null
+                            ? Text(
+                                StaticData.name!,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            : Text(
+                                "No name",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
                         SizedBox(
                           height: 2,
                         ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        )
+                        StaticData.employeeID != null
+                            ? Text(
+                                'ID: ${StaticData.employeeID}',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
+                            : Text(
+                                'ID: ',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                        child: Badge(
+                          badgeColor: Colors.redAccent,
+                          badgeContent: Text('3'),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.notification_important,
+                                color: darkBlue,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-
-
                   ],
                 ),
               ),
@@ -518,23 +583,27 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child:  StaticData.proLink!.startsWith(".", 0)
+                        child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
-                          radius: 140,
-                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
-                        ) :  CircleAvatar(
-                          radius: 140,
-                          backgroundImage:  NetworkImage(StaticData.proLink!),
-                        ),
+                                radius: 140,
+                                backgroundImage: NetworkImage(
+                                    "${StringsConst.MAINURL}" +
+                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
+                              )
+                            : CircleAvatar(
+                                radius: 140,
+                                backgroundImage:
+                                    NetworkImage(StaticData.proLink!),
+                              ),
                       ),
                       Positioned(
                         top: (size.height / 9.5),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to( LeaveFront());
+                              Get.to(LeaveFront());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
                       ),
                       Positioned(
                           top: (size.height / 5.0),
@@ -543,8 +612,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                              child: circleRow(
+                                  size,
+                                  'Attendance',
+                                  (size.width / 2.7),
+                                  (size.height / 8),
+                                  false))),
                       Positioned(
                         top: (size.height / 2.8),
                         left: (size.width / 1.8),
@@ -552,7 +625,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Get.to(Task());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0, true),
                         ),
                       ),
                       Positioned(
@@ -562,8 +635,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(
+                                  size,
+                                  'Expenses',
+                                  (size.width / 2.5),
+                                  (size.height / 2),
+                                  false))),
                       Positioned(
                         top: (size.height / 1.85),
                         left: (size.width / 8),
@@ -571,24 +648,18 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Prospect', (size.width / 12),
-                                (size.height / 1.7))),
+                            child: circleRow(size, 'Prospect',
+                                (size.width / 12), (size.height / 1.7), false)),
                       ),
                     ],
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
       );
-
-
-
-    }
-    else if (size.height < 900) {
+    } else if (size.height < 900) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -601,47 +672,57 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      children: [
+                        StaticData.name != null
+                            ? Text(
+                                StaticData.name!,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            : Text(
+                                "No name",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
                         SizedBox(
                           height: 2,
                         ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        )
+                        StaticData.employeeID != null
+                            ? Text(
+                                'ID: ${StaticData.employeeID}',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
+                            : Text(
+                                'ID: ',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                        child: Badge(
+                          badgeColor: Colors.redAccent,
+                          badgeContent: Text('3'),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.notification_important,
+                                color: darkBlue,
+                              ),
                             ),
                           ),
                         ),
@@ -664,14 +745,18 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child:  StaticData.proLink!.startsWith(".", 0)
+                        child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
-                          radius: 140,
-                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
-                        ) :  CircleAvatar(
-                          radius: 140,
-                          backgroundImage:  NetworkImage(StaticData.proLink!),
-                        ),
+                                radius: 140,
+                                backgroundImage: NetworkImage(
+                                    "${StringsConst.MAINURL}" +
+                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
+                              )
+                            : CircleAvatar(
+                                radius: 140,
+                                backgroundImage:
+                                    NetworkImage(StaticData.proLink!),
+                              ),
                       ),
                       Positioned(
                         top: (size.height / 9.5),
@@ -680,7 +765,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(LeaveFront());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0)),
+                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
                       ),
                       Positioned(
                           top: (size.height / 5.0),
@@ -689,8 +774,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(AttendenceReport());
                               },
-                              child: circleRow(size, 'Attendance',
-                                  (size.width / 2.7), (size.height / 8)))),
+                              child: circleRow(
+                                  size,
+                                  'Attendance',
+                                  (size.width / 2.7),
+                                  (size.height / 8),
+                                  false))),
                       Positioned(
                         top: (size.height / 2.8),
                         left: (size.width / 1.8),
@@ -698,7 +787,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Get.to(Task());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0, true),
                         ),
                       ),
                       Positioned(
@@ -708,8 +797,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(
+                                  size,
+                                  'Expenses',
+                                  (size.width / 2.5),
+                                  (size.height / 2),
+                                  false))),
                       Positioned(
                         top: (size.height / 1.65),
                         left: (size.width / 8),
@@ -717,8 +810,12 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Prospect', (size.width / 12),
-                                (size.height / 1.74))),
+                            child: circleRow(
+                                size,
+                                'Prospect',
+                                (size.width / 12),
+                                (size.height / 1.74),
+                                false)),
                       ),
                     ],
                   ),
@@ -765,11 +862,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-
-
-
-    }
-    else if (size.height < 1200) {
+    } else if (size.height < 1200) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -782,47 +875,57 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                        StaticData.name != null ?    Text(
-                          StaticData.name!,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ) : Text(
-                          "No name",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
+                      children: [
+                        StaticData.name != null
+                            ? Text(
+                                StaticData.name!,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            : Text(
+                                "No name",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
                         SizedBox(
                           height: 2,
                         ),
-                        StaticData.employeeID != null ? Text(
-                          'ID: ${ StaticData.employeeID}',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ) :  Text(
-                          'ID: ',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        )
+                        StaticData.employeeID != null
+                            ? Text(
+                                'ID: ${StaticData.employeeID}',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
+                            : Text(
+                                'ID: ',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.grey),
+                              )
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.to(NotificationPage1());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                        child: Badge(
+                          badgeColor: Colors.redAccent,
+                          badgeContent: Text('3'),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.notification_important,
+                                color: darkBlue,
+                              ),
                             ),
                           ),
                         ),
@@ -845,14 +948,18 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         transform: Matrix4.translationValues(
                             -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child:  StaticData.proLink!.startsWith(".", 0)
+                        child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
-                          radius: 140,
-                          backgroundImage:NetworkImage("${StringsConst.MAINURL}" + "${StaticData.proLink!.replaceAll("../..", "")}"),
-                        ) :  CircleAvatar(
-                          radius: 140,
-                          backgroundImage:  NetworkImage(StaticData.proLink!),
-                        ),
+                                radius: 140,
+                                backgroundImage: NetworkImage(
+                                    "${StringsConst.MAINURL}" +
+                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
+                              )
+                            : CircleAvatar(
+                                radius: 140,
+                                backgroundImage:
+                                    NetworkImage(StaticData.proLink!),
+                              ),
                       ),
                       Positioned(
                         top: (size.height / 22),
@@ -862,26 +969,26 @@ class _HomePageState extends State<HomePage> {
                               Get.to(LeaveFront());
                             },
                             child: circleRow(size, 'Leave', (size.width / 4),
-                                (size.height / 6))),
+                                (size.height / 6), false)),
                       ),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Get.to(AttendenceReport());
                         },
                         child: Positioned(
                             top: (size.height / 6),
                             left: (size.width / 2.2),
                             child: circleRow(size, 'Attendance',
-                                (size.width / 2.7), (size.height / 8))),
+                                (size.width / 2.7), (size.height / 8), false)),
                       ),
                       Positioned(
                         top: (size.height / 2.6),
                         left: (size.width / 1.75),
                         child: InkWell(
                           onTap: () {
-                             Get.to(Task());
+                            Get.to(Task());
                           },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0),
+                          child: circleRow(size, 'Tasks', 240.0, 210.0, false),
                         ),
                       ),
                       Positioned(
@@ -891,8 +998,12 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Get.to(ExpenseList());
                               },
-                              child: circleRow(size, 'Expenses',
-                                  (size.width / 2.5), (size.height / 2)))),
+                              child: circleRow(
+                                  size,
+                                  'Expenses',
+                                  (size.width / 2.5),
+                                  (size.height / 2),
+                                  false))),
                       Positioned(
                         top: (size.height / 1.45),
                         left: (size.width / 8),
@@ -900,8 +1011,12 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Get.to(ProspectFront());
                             },
-                            child: circleRow(size, 'Prospect', (size.width / 12),
-                                (size.height / 1.74))),
+                            child: circleRow(
+                                size,
+                                'Prospect',
+                                (size.width / 12),
+                                (size.height / 1.74),
+                                false)),
                       ),
                     ],
                   ),

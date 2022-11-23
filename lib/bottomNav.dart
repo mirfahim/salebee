@@ -76,7 +76,7 @@ class _BottomNavState extends State<BottomNav> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = SettingPage ();
+                      currentScreen = SettingPage();
                       currentTab = 1;
                     });
                   },

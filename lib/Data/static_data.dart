@@ -2,6 +2,7 @@ import '../Model/login_model.dart';
 
 class StaticData {
   static int assignToID = 0;
+  static int todaysTask = 0;
   static int prospectID = 0;
   static int leadID = 0;
   static int typeID = 0;

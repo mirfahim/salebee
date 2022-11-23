@@ -179,7 +179,14 @@ class LoginPageState extends State<LoginPage> {
                         });
                         setPref();
                         Timer(Duration(seconds: 3), () {
-                          Get.to(() => BottomNav(menuPage: false,));
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+
+                              builder: (BuildContext context) => BottomNav(menuPage: false),
+                            ),
+                                (route) => false,//if you want to disable back feature set to false
+                          );
                         });
 
                         print("go to homepage ____________");

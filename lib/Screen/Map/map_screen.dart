@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'dart:async';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:salebee/utils.dart';
 
 
 
@@ -42,14 +44,21 @@ class _MyAppState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: primaryColorLight,
         appBar: AppBar(
-          title: Text('The EYE'),
-          backgroundColor: Colors.green[700],
+          title: Text('The EYE', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          backgroundColor: primaryColorLight,
+          leading: IconButton(
+            onPressed: (){
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
+          ),
         ),
         body: Container(
-          height: 400,
+          height: MediaQuery.of(context).size.height,
           width: 400,
-          color: Colors.red,
+          color: primaryColorLight,
           child: GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(target: LatLng(23.7985053,
@@ -67,8 +76,11 @@ class _MyAppState extends State<MapScreen> {
 
 class AppConstant {
   static List<Map<String, dynamic>> list = [
-    {"title": "one", "id": "1", "lat": 23.7985053, "lon": 90.3842538},
-    {"title": "two", "id": "2", "lat": 23.802236, "lon": 90.3700},
-    {"title": "three", "id": "3", "lat": 23.8061939, "lon": 90.3771193},
+    {"title": "Prospect one", "id": "1", "lat": 23.7985053, "lon": 90.3842538},
+    {"title": "Prospect two", "id": "2", "lat": 23.802236, "lon": 90.3700},
+    {"title": "prospect three", "id": "3", "lat": 23.8061939, "lon": 90.3771193},
+    {"title": "prospect four", "id": "4", "lat": 23.807764, "lon": 90.367144},
+    {"title": "prospect five", "id": "5", "lat": 23.809632, "lon": 90.371358},
+
   ];
 }

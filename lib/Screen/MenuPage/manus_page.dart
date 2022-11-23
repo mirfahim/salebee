@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/utils.dart';
 
@@ -20,6 +21,12 @@ class _MenusScreenState extends State<MenusScreen> {
         style: TextStyle(
           color: Colors.black54
         ),),
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
+        ),
       ),
 
       body: Column(

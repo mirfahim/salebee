@@ -200,6 +200,7 @@ class TaskRepository {
   Future<GetAllTaskModel> getAllTaskController() async {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
+    String base_url = "${StringsConst.BASEURL}";
     print("working 1 $finalToken ++++++ url $base_url");
 
     Uri url = Uri.parse("$base_url/AllTask");
@@ -240,7 +241,7 @@ class TaskRepository {
     print("my resposnse repo GetAllTaskAssignedToMe${response.body}");
     String data = response.body;
 
-    return getAssignedTaskModelFromJson(response.body);
+    return getAssignedTaskToMeModelFromJson(response.body);
   }
   Future<GetAllMyTaskModel> getMyTaskController() async {
     String convertToken = tokenString.replaceAll("+", "%2B");
@@ -286,7 +287,7 @@ class TaskRepository {
     print("my resposnse repo GetAllTaskAssignedToMe${response.body}");
     String data = response.body;
 
-    return getAssignedTaskModelFromJson(response.body);
+    return getAssignedTaskToMeModelFromJson(response.body);
   }
 
   // get all my task ++++

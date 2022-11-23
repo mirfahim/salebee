@@ -7,10 +7,12 @@ import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Provider/Login/provider_manager.dart';
 import 'package:salebee/utils.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Model/getAllTaskModel.dart';
 import '../../Service/sharedPref_service.dart';
+import '../../Utils/my_colors.dart';
 import '../../repository/add_task_repository.dart';
 
 class AssignedToMe extends StatefulWidget {
@@ -34,6 +36,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
   List initiatedList = [];
   int totalInitiated = 0;
   int totalDone = 0;
+  bool today = true;
   int totalIncomplete = 0;
   int sendStatusId = 0;
   List<String> allStatusList = [];
@@ -141,8 +144,28 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                 ],
                               ),
                             ),
+                            ToggleSwitch(
+                              minHeight: 30,
+                              initialLabelIndex: today == true ? 0 : 1,
+                              activeBgColor: [Colors.lightBlue],
+                              totalSwitches: 2,
+                              inactiveBgColor: Colors.white,
+                              labels: ['Today', 'All'],
+                              onToggle: (index) {
+                                print('switched to: $index');
+                                if (index == 0) {
+                                  setState(() {
+                                    today = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    today = false;
+                                  });
+                                }
+                              },
+                            ),
                             Container(
-                              height: MediaQuery.of(context).size.height -220,
+                              height: MediaQuery.of(context).size.height -250,
                               child: ListView.builder(
                                   itemCount: snapshot.data!.result!.length,
                                   itemBuilder: (context, index) {
@@ -177,27 +200,29 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                     }if(data.statusId == 13){
                                       statusList[index] = "Need More Time";
                                     }
-                                    return filterDays > providersss.filterDay &&
-                                        data.priorityName ==
-                                            providersss.filterData ||
-                                        providersss.filterData == "All" ||
-                                        providersss.filterData.isEmpty
+                                    return
+                                      // filterDays > providersss.filterDay &&
+                                      //   data.priorityName ==
+                                      //       providersss.filterData ||
+                                      //   providersss.filterData == "All" ||
+                                      //   providersss.filterData.isEmpty
 
-                                    // data.dueDate.toString().substring(0,10) ==  providersss.today.toString().substring(0,10)
-                                        ? ExpandableNotifier(
+                                    data.dueDate.toString().substring(0,10) ==  DateTime.now().toString().substring(0,10)
+
+                                        ?  ExpandableNotifier(
                                       child: Stack(
                                         children: [
                                           Card(
                                             shape: RoundedRectangleBorder(
                                                 side: BorderSide(
                                                   width: 02,
-                                                  color:data.statusId ==
-                                                      5
-                                                      ?  Colors
-                                                      .greenAccent
-                                                      : data.statusId ==
-                                                      11 ?  Colors.red : data.statusId ==
-                                                      1 ? Colors.blue : Colors.orange,
+                                                  color: data.statusId == 5
+                                                      ? Colors.greenAccent
+                                                      : data.statusId == 11
+                                                      ? Colors.red
+                                                      : data.statusId == 1
+                                                      ? Colors.blue
+                                                      : Colors.orange,
                                                 ),
                                                 borderRadius:
                                                 BorderRadius.circular(6)),
@@ -216,7 +241,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                         .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        "Task Id: ${data!.taskId}",
+                                                        "Task Id: ${data.taskId}",
                                                         style: TextStyle(
                                                             color:
                                                             primaryColor,
@@ -227,7 +252,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                       ),
                                                       Text(
                                                         DateFormat.yMd()
-                                                            .format(data!
+                                                            .format(data
                                                             .createdOn!),
                                                         style: TextStyle(
                                                             color:
@@ -239,13 +264,13 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                     height: 10,
                                                   ),
                                                   Text(
-                                                    '${data!.title!}',
+                                                    '${data.title!}',
                                                     style: TextStyle(
                                                         fontWeight:
                                                         FontWeight.w600),
                                                   ),
                                                   Text(
-                                                    'Fix a meeting with ${data!.leadName!}',
+                                                    "${data.prospectName!}",
                                                     style: TextStyle(
                                                         fontWeight:
                                                         FontWeight.w600,
@@ -269,27 +294,30 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                     children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .calendar_today,
-                                                            color:
-                                                            Colors.grey,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(
-                                                            DateFormat.yMd()
-                                                                .format(data!
-                                                                .dueDate!),
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .grey,
-                                                                fontSize: 14),
-                                                          ),
-                                                        ],
+                                                      Card(
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .calendar_today,
+                                                              color:
+                                                              Colors.grey,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              DateFormat.yMd()
+                                                                  .format(data
+                                                                  .dueDate!),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                  14),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                       Text(
                                                         "${data.dueDate!.difference(DateTime.now()).inDays} days",
@@ -303,129 +331,345 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                   const SizedBox(
                                                     height: 15,
                                                   ),
-                                                  Row(
+                                                  data.contactPersonDetails == null
+                                                      ?  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                     children: [
-                                                      Icon(
-                                                        Icons.send,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Container(
-                                                        decoration:
-                                                        const BoxDecoration(
-                                                            shape: BoxShape
-                                                                .circle),
-                                                        child:
-                                                        const CircleAvatar(
-                                                          radius: 12,
-                                                          backgroundImage:
-                                                          AssetImage(
-                                                            'images/person.jpg',
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "Prospect: ",
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                12,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                FontWeight.bold),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        data!.assignedPerson!,
-                                                        style: TextStyle(
-                                                            color:
-                                                            Colors.grey,
-                                                            fontSize: 14),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  Container(
-                                                    width:
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          'Contact:',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        data.contact ==
-                                                            null || data!.contact!.isEmpty
-                                                            ? Text(
-                                                          "No Data",
-                                                          style:
-                                                          TextStyle(
-                                                            color: Colors
-                                                                .grey,
-                                                            fontSize:
-                                                            14,
-                                                          ),
-                                                        )
-                                                            : Text(
-                                                          data
-                                                              .contact!,
-                                                          overflow:
-                                                          TextOverflow
-                                                              .ellipsis,
-                                                          maxLines:
-                                                          2,
-                                                          style:
-                                                          TextStyle(
-                                                            color: Colors
-                                                                .grey,
-                                                            fontSize:
-                                                            14,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Concern Person no:',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .black,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w600),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      data.prospectNumber == null
-                                                          ||  data!.prospectNumber!.isEmpty?
+                                                          Container(
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                                2.5,
+                                                            child:
+                                                            GestureDetector(
+                                                              onTap: (){
 
-                                                      Text(
-                                                        "No Data",
-                                                        style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 14,
-                                                        ),
-                                                      )
-                                                          :
-                                                      Text(
-                                                        data.prospectNumber!,
-                                                        style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 14,
-                                                        ),
+
+                                                              },
+                                                              child: Text(
+                                                                "${data.prospectName}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                    12,
+                                                                    color:
+                                                                    Colors.lightBlue,
+                                                                    fontWeight: FontWeight.normal),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      data.leadName == null || data.leadName =="" ?
+                                                      Container():
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "Lead:",
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                12,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                FontWeight.bold),
+                                                          ),
+                                                          Container(
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                                4.1,
+                                                            child: data.leadName ==
+                                                                null
+                                                                ? Text(
+                                                              "No Data",
+                                                              style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.normal),
+                                                            )
+                                                                : Text(
+                                                              "${data.leadName}",
+                                                              style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.normal),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
+                                                  )
+
+                                                      :  Card(
+                                                    elevation: 5,
+                                                    color: data.contactPersonDetails == null
+                                                        ? Colors.white
+                                                        :MyColors.lightgreen,
+                                                    child: Container(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Prospect:",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                        12,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                        FontWeight.bold),
+                                                                  ),
+                                                                  Container(
+                                                                    width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                        2.5,
+                                                                    child:
+                                                                    Text(
+                                                                      "${data.prospectName}",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                          12,
+                                                                          color:
+                                                                          Colors.black54,
+                                                                          fontWeight: FontWeight.normal),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Lead:",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                        12,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                        FontWeight.bold),
+                                                                  ),
+                                                                  Container(
+                                                                    width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                        4.1,
+                                                                    child: data.leadName ==
+                                                                        null
+                                                                        ? Text(
+                                                                      "No Data",
+                                                                      style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.normal),
+                                                                    )
+                                                                        : Text(
+                                                                      "${data.leadName}",
+                                                                      style: TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.normal),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          data.contactPersonDetails == null
+                                                              ? Container()
+                                                              :    Container(
+                                                              child: Column(
+                                                                children: [
+
+                                                                  Container(
+                                                                    height: 20,
+                                                                    color:
+                                                                    primaryColor,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                      children: [
+                                                                        Container(
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                              4,
+                                                                          child: Text(
+                                                                            "Contact person",
+                                                                            style: TextStyle(
+                                                                                color: Colors
+                                                                                    .white,
+                                                                                fontSize:
+                                                                                14,
+                                                                                fontWeight:
+                                                                                FontWeight.bold),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                              4,
+                                                                          child: Text(
+                                                                            "Designation",
+                                                                            style: TextStyle(
+                                                                                color: Colors
+                                                                                    .white,
+                                                                                fontSize:
+                                                                                14,
+                                                                                fontWeight:
+                                                                                FontWeight.bold),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                              4,
+                                                                          child: Text(
+                                                                            "Mobile",
+                                                                            style: TextStyle(
+                                                                                color: Colors
+                                                                                    .white,
+                                                                                fontSize:
+                                                                                14,
+                                                                                fontWeight:
+                                                                                FontWeight.bold),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+
+                                                                ],
+                                                              )
+                                                          ),
+
+
+                                                          Container(
+                                                            height: 80,
+                                                            child: ListView.builder(
+                                                                itemCount: data.contactPersonDetails!.length,
+                                                                itemBuilder: (BuildContext  context, int  index){
+                                                                  return Container(
+                                                                    height: 40,
+                                                                    color:
+                                                                    Colors.white,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                      children: [
+                                                                        data.contactPersonDetails ==
+                                                                            null
+                                                                            ? Container(
+                                                                          width:
+                                                                          MediaQuery.of(context).size.width / 4,
+                                                                          child:
+                                                                          Text(
+                                                                            "No Data",
+                                                                            style:
+                                                                            TextStyle(color: Colors.grey, fontSize: 12),
+                                                                          ),
+                                                                        )
+                                                                            : Container(
+                                                                          width:
+                                                                          MediaQuery.of(context).size.width / 4,
+                                                                          child:
+                                                                          Text(
+                                                                            data.contactPersonDetails!.first.contactpersonName!,
+                                                                            overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                            maxLines:
+                                                                            2,
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        data.contactPersonDetails ==
+                                                                            null
+                                                                            ? Container(
+                                                                          width:
+                                                                          MediaQuery.of(context).size.width / 3.5,
+                                                                          child:
+                                                                          Text(
+                                                                            "No Data",
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                            : Container(
+                                                                          color:
+                                                                          Colors.white,
+                                                                          width:
+                                                                          MediaQuery.of(context).size.width / 3.5,
+                                                                          child:
+                                                                          Text(
+                                                                            data.contactPersonDetails!.first.contactpersonDesignation!,
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        data.contactPersonDetails ==
+                                                                            null
+                                                                            ? Container(
+                                                                          width:
+                                                                          MediaQuery.of(context).size.width / 4,
+                                                                          child:
+                                                                          Text(
+                                                                            "No Data",
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                            : Container(
+                                                                          width:
+                                                                          MediaQuery.of(context).size.width / 4,
+                                                                          child:
+                                                                          Text(
+                                                                            data.contactPersonDetails!.first.contactpersonMobile!,
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  );
+                                                                }),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
                                                   SizedBox(
                                                     height: 10,
@@ -529,59 +773,67 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                             onChanged:
                                                                 (String?
                                                             value) {
-
-
                                                               statusList[
                                                               index] =
                                                               value!;
                                                               print(
                                                                   "updated selected ststus is $value");
-                                                              if(value == "Done"){
+                                                              if (value ==
+                                                                  "Done") {
                                                                 stausID = 4;
-                                                              }if(value == "Incomplete"){
+                                                              }
+                                                              if (value ==
+                                                                  "Incomplete") {
                                                                 stausID = 1;
-                                                              }if(value == "All"){
+                                                              }
+                                                              if (value ==
+                                                                  "All") {
                                                                 stausID = 0;
-                                                              }if(value == "Cancelled"){
+                                                              }
+                                                              if (value ==
+                                                                  "Cancelled") {
                                                                 stausID = 11;
-                                                              }if(value == "Need More Time"){
+                                                              }
+                                                              if (value ==
+                                                                  "Need More Time") {
                                                                 stausID = 13;
-                                                              }if(value == "Partially Done"){
+                                                              }
+                                                              if (value ==
+                                                                  "Partially Done") {
                                                                 stausID = 3;
-                                                              }if(value == "Initiated"){
+                                                              }
+                                                              if (value ==
+                                                                  "Initiated") {
                                                                 stausID = 5;
                                                               }
+
                                                               taskRepository
                                                                   .taskUpdateController(
                                                                   token:
                                                                   token!,
-                                                                  title: data!
+                                                                  title: data
                                                                       .title!,
-                                                                  taskID: data!
+                                                                  taskID: data
                                                                       .taskId!,
-                                                                  assignaTo: data!
+                                                                  assignaTo:
+                                                                  data
                                                                       .assignedTo!,
                                                                   description:
-                                                                  data!
+                                                                  data
                                                                       .taskDesc!,
-                                                                  type: data!.type! ??
+                                                                  type: data.type ??
                                                                       0,
                                                                   repeat:
-                                                                  repeatId ??
-                                                                      0,
+                                                                  repeatId,
                                                                   priority:
-                                                                  data!
+                                                                  data
                                                                       .priority!,
                                                                   status:
-                                                                  stausID ??
-                                                                      0)
+                                                                  stausID)
                                                                   .then(
                                                                       (value) {
-
                                                                     setState(
-                                                                            () {
-
-                                                                            });
+                                                                            () {});
                                                                   });
                                                             },
                                                           ),
@@ -623,7 +875,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                             splashColor:
                                                             Colors.blue,
                                                             onTap: () {
-                                                              _textMe();
+                                                              _textMe(455);
                                                             },
                                                             child: Card(
                                                               shape: RoundedRectangleBorder(
@@ -659,7 +911,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                             Colors.blue,
                                                             onTap: () {
                                                               launchPhoneDialer(
-                                                                  "01700000000");
+                                                                 "2424");
                                                             },
                                                             child: Card(
                                                               shape: RoundedRectangleBorder(
@@ -694,7 +946,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                             splashColor:
                                                             Colors.blue,
                                                             onTap: () {
-                                                              _launchWhatsapp();
+                                                              _launchWhatsapp( 356.toString());
                                                             },
                                                             child: Card(
                                                               shape: RoundedRectangleBorder(
@@ -763,234 +1015,79 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                           const SizedBox(
                                                             height: 10,
                                                           ),
-                                                          // Row(
-                                                          //   children: [
-                                                          //     Icon(
-                                                          //       Icons.share,
-                                                          //       color: Colors
-                                                          //           .grey,
-                                                          //     ),
-                                                          //     SizedBox(
-                                                          //       width: 5,
-                                                          //     ),
-                                                          //     Container(
-                                                          //       decoration:
-                                                          //       const BoxDecoration(
-                                                          //           shape:
-                                                          //           BoxShape.circle),
-                                                          //       child:
-                                                          //       const CircleAvatar(
-                                                          //         radius: 12,
-                                                          //         backgroundImage:
-                                                          //         AssetImage(
-                                                          //           'images/person.jpg',
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //     Container(
-                                                          //       transform: Matrix4
-                                                          //           .translationValues(
-                                                          //           -10,
-                                                          //           0,
-                                                          //           0.0),
-                                                          //       decoration:
-                                                          //       const BoxDecoration(
-                                                          //           shape:
-                                                          //           BoxShape.circle),
-                                                          //       child:
-                                                          //       const CircleAvatar(
-                                                          //         radius: 12,
-                                                          //         backgroundImage:
-                                                          //         AssetImage(
-                                                          //           'images/person.jpg',
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //     Container(
-                                                          //       transform: Matrix4
-                                                          //           .translationValues(
-                                                          //           -20,
-                                                          //           0,
-                                                          //           0.0),
-                                                          //       decoration:
-                                                          //       const BoxDecoration(
-                                                          //           shape:
-                                                          //           BoxShape.circle),
-                                                          //       child:
-                                                          //       const CircleAvatar(
-                                                          //         radius: 12,
-                                                          //         backgroundImage:
-                                                          //         AssetImage(
-                                                          //           'images/person.jpg',
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //     const Text(
-                                                          //       '+12',
-                                                          //       style: TextStyle(
-                                                          //           color: Colors
-                                                          //               .grey,
-                                                          //           fontSize:
-                                                          //           14),
-                                                          //     ),
-                                                          //     SizedBox(
-                                                          //       width: 15,
-                                                          //     ),
-                                                          //     Icon(
-                                                          //       Icons
-                                                          //           .remove_red_eye,
-                                                          //       color: Colors
-                                                          //           .grey,
-                                                          //     ),
-                                                          //     SizedBox(
-                                                          //       width: 10,
-                                                          //     ),
-                                                          //     Container(
-                                                          //       decoration:
-                                                          //       const BoxDecoration(
-                                                          //           shape:
-                                                          //           BoxShape.circle),
-                                                          //       child:
-                                                          //       const CircleAvatar(
-                                                          //         radius: 12,
-                                                          //         backgroundImage:
-                                                          //         AssetImage(
-                                                          //           'images/person.jpg',
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //     Container(
-                                                          //       transform: Matrix4
-                                                          //           .translationValues(
-                                                          //           -10,
-                                                          //           0,
-                                                          //           0.0),
-                                                          //       decoration:
-                                                          //       const BoxDecoration(
-                                                          //           shape:
-                                                          //           BoxShape.circle),
-                                                          //       child:
-                                                          //       const CircleAvatar(
-                                                          //         radius: 12,
-                                                          //         backgroundImage:
-                                                          //         AssetImage(
-                                                          //           'images/person.jpg',
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //     Container(
-                                                          //       transform: Matrix4
-                                                          //           .translationValues(
-                                                          //           -20,
-                                                          //           0,
-                                                          //           0.0),
-                                                          //       decoration:
-                                                          //       const BoxDecoration(
-                                                          //           shape:
-                                                          //           BoxShape.circle),
-                                                          //       child:
-                                                          //       const CircleAvatar(
-                                                          //         radius: 12,
-                                                          //         backgroundImage:
-                                                          //         AssetImage(
-                                                          //           'images/person.jpg',
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //     const Text(
-                                                          //       '+22',
-                                                          //       style: TextStyle(
-                                                          //           color: Colors
-                                                          //               .grey,
-                                                          //           fontSize:
-                                                          //           14),
-                                                          //     ),
-                                                          //   ],
-                                                          // ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Container(
-                                                            width:
-                                                            MediaQuery.of(context)
-                                                                .size
-                                                                .width,
-                                                            child: Row(
-                                                              children: [
-                                                                Text(
-                                                                  'Assign to',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize: 14,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.send,
+                                                                color: Colors
+                                                                    .grey,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Container(
+                                                                decoration:
+                                                                const BoxDecoration(
+                                                                    shape:
+                                                                    BoxShape.circle),
+                                                                child:
+                                                                const CircleAvatar(
+                                                                  radius: 12,
+                                                                  backgroundImage:
+                                                                  AssetImage(
+                                                                    'images/person.jpg',
+                                                                  ),
                                                                 ),
-                                                                SizedBox(
-                                                                  width: 4,
-                                                                ),
-                                                                data!.assignedPerson ==
-                                                                    null
-                                                                    ? Text(
-                                                                  "",
-                                                                  style:
-                                                                  TextStyle(
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                data.assignedPerson!.toString(),
+                                                                style: TextStyle(
                                                                     color: Colors
                                                                         .grey,
                                                                     fontSize:
-                                                                    14,
-                                                                  ),
-                                                                )
-                                                                    : Text(
-                                                                  data!
-                                                                      .assignedPerson!,
-                                                                  overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                                  maxLines:
-                                                                  2,
-                                                                  style:
-                                                                  TextStyle(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    fontSize:
-                                                                    14,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                    14),
+                                                              )
+                                                            ],
                                                           ),
                                                           Row(
                                                             children: [
-                                                              Text(
-                                                                'Created by',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
+                                                              Icon(
+                                                                Icons
+                                                                    .airline_seat_recline_normal_sharp,
+                                                                color: Colors
+                                                                    .grey,
                                                               ),
-                                                              const SizedBox(
+                                                              SizedBox(
                                                                 width: 10,
                                                               ),
-                                                              data!.createdByName == null ?
-                                                              Text(
-                                                                "",
-                                                                style: TextStyle(
-                                                                  color: Colors.grey,
-                                                                  fontSize: 14,
-                                                                ),
-                                                              )
-                                                                  :
-                                                              Text(data!.createdByName!,
-                                                                style: TextStyle(
-                                                                  color: Colors.grey,
-                                                                  fontSize: 14,
+                                                              Container(
+                                                                decoration:
+                                                                const BoxDecoration(
+                                                                    shape:
+                                                                    BoxShape.circle),
+                                                                child:
+                                                                const CircleAvatar(
+                                                                  radius: 12,
+                                                                  backgroundImage:
+                                                                  AssetImage(
+                                                                    'images/suite.png',
+                                                                  ),
                                                                 ),
                                                               ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                data.createdByName!.toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize:
+                                                                    14),
+                                                              )
                                                             ],
                                                           ),
                                                           const SizedBox(
@@ -1065,28 +1162,19 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                     width:
                                                                     110,
                                                                   ),
-                                                                  data!.priorityName!.isEmpty ?
-                                                                  Container()
-                                                                      :
-                                                                  Container(
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(
-                                                                            6),
-                                                                        color:
-                                                                        Colors.redAccent),
+
+                                                                      data.priorityName ==
+                                                                          null
+                                                                      ? Container()
+                                                                      : Container(
+                                                                    decoration:
+                                                                    BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.redAccent),
                                                                     child:
                                                                     Padding(
-                                                                      padding: EdgeInsets.symmetric(
-                                                                          horizontal:
-                                                                          12.0,
-                                                                          vertical:
-                                                                          8),
-                                                                      child:
-                                                                      Text(
-                                                                        data!
-                                                                            .priorityName!,
-                                                                        style:
-                                                                        TextStyle(color: Colors.white),
+                                                                      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                                                                      child: Text(
+                                                                        data.priorityName!.toString(),
+                                                                        style: TextStyle(color: Colors.white, fontSize: 12),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -1119,10 +1207,10 @@ class _AssignedToMeState extends State<AssignedToMe> {
     });
   }
 
-  _launchWhatsapp() async {
-    var whatsapp = "+91XXXXXXXXXX";
+  _launchWhatsapp(String num) async {
+    var whatsapp = "+88${num}";
     var whatsappAndroid =
-    Uri.parse("whatsapp://send?phone=$whatsapp&text=hello");
+    Uri.parse("whatsapp://send?phone=$whatsapp&text=hello Sir");
     if (await canLaunchUrl(whatsappAndroid)) {
       await launchUrl(whatsappAndroid);
     } else {
@@ -1144,14 +1232,14 @@ class _AssignedToMeState extends State<AssignedToMe> {
     }
   }
 
-  _textMe() async {
+  _textMe(num) async {
     // Android
-    const uri = 'sms:+39 348 060 888?body=hello%20there';
+    var uri = 'sms:+88${num.toString()}?body= Hellow Sir';
     if (await canLaunch(uri)) {
       await launch(uri);
     } else {
       // iOS
-      const uri = 'sms:0039-222-060-888?body=hello%20there';
+      const uri = 'sms:+8801782084390?body=hello%20there';
       if (await canLaunch(uri)) {
         await launch(uri);
       } else {

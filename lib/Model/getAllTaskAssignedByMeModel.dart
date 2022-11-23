@@ -57,6 +57,10 @@ class Result {
     this.leadName,
     this.doneOrder,
     this.contact,
+    this.contactPersonName,
+    this.contactpersonMobile,
+    this.contactpersonEmail,
+    this.contactpersonDesignation,
     this.taskShares,
     this.canDelete,
     this.overDueOrder,
@@ -68,6 +72,7 @@ class Result {
   DateTime? createdOn;
   int? createdBy;
   String? title;
+  String? leadName;
   int? assignedTo;
   String? assignedPerson;
   String? taskDesc;
@@ -78,13 +83,17 @@ class Result {
   String? allStatus;
   String? priorityName;
   int? priority;
+  String? contactPersonName;
+  String? contactpersonDesignation;
+  String? contactpersonMobile;
+  String? contactpersonEmail;
   String? prospectName;
   int? prospectId;
   bool? prospectStatus;
   bool? isIndividual;
   String? prospectNumber;
   DateTime? statusUpdateDate;
-  String? leadName;
+
   int? doneOrder;
   String? contact;
   String? taskShares;
@@ -111,6 +120,11 @@ class Result {
     prospectName: json["ProspectName"],
     prospectId: json["ProspectId"],
     prospectStatus: json["ProspectStatus"],
+    contactpersonDesignation: json["ContactpersonDesignation"],
+    contactpersonEmail: json["ContactpersonEmail"],
+
+    contactpersonMobile: json["ContactpersonMobile"],
+    contactPersonName: json["ContactpersonName"],
     isIndividual: json["IsIndividual"],
     prospectNumber: json["ProspectNumber"],
     statusUpdateDate: json["StatusUpdateDate"] == null ? null : DateTime.parse(json["StatusUpdateDate"]),
@@ -142,6 +156,10 @@ class Result {
     "ProspectName": prospectName,
     "ProspectId": prospectId,
     "ProspectStatus": prospectStatus,
+    "ContactpersonName": contactPersonName,
+    "ContactpersonDesignation": contactpersonDesignation,
+    "ContactpersonMobile": contactpersonMobile,
+    "ContactpersonEmail": contactpersonEmail,
     "IsIndividual": isIndividual,
     "ProspectNumber": prospectNumber,
     "StatusUpdateDate": statusUpdateDate == null ? null : statusUpdateDate!.toIso8601String(),

@@ -20,10 +20,9 @@ import '../Data/static_data.dart';
 import '../Service/sharedPref_service.dart';
 import '../Utils/my_colors.dart';
 import 'package:flutter/material.dart';
+
 //import 'package:new_version_plus/new_version_plus.dart';
 class Splash extends StatefulWidget {
-
-
   @override
   _SplashState createState() => _SplashState();
 }
@@ -32,82 +31,95 @@ class _SplashState extends State<Splash> {
   //late LocationData locationData;
   //
   //DbHelper dbHelper = DbHelper();
-TaskRepository taskRepository = TaskRepository();
-var hiveBox =  Hive.box("manageTask");
+  TaskRepository taskRepository = TaskRepository();
+  var hiveBox = Hive.box("manageTask");
+  List<dynamic> todaysTaskList = [];
   @override
   void initState() {
     super.initState();
-
-
 
     getDeviceID();
     StaticData.subDomain = SharedPreff.to.prefss.getString("subDomain");
     StaticData.loggedIN = SharedPreff.to.prefss.getBool("loggedIN");
     StaticData.name = SharedPreff.to.prefss.getString("userNAME") ?? "";
-    StaticData.proLink = SharedPreff.to.prefss.getString("proLink") ;
-    StaticData.token = SharedPreff.to.prefss.getString("token") ;
+    StaticData.proLink = SharedPreff.to.prefss.getString("proLink");
+    StaticData.token = SharedPreff.to.prefss.getString("token");
     StaticData.employeeID = SharedPreff.to.prefss.getInt("employeeID") ?? 0;
     setState(() {
       StaticData.subDomain = SharedPreff.to.prefss.getString("subDomain");
-      StringsConst.MAINURL = "https://${StaticData.subDomain}" + ".salebee.net/";
-    StringsConst.BASEURL = "${StringsConst.MAINURL}" + "api/Salebee/";
+      StringsConst.MAINURL =
+          "https://${StaticData.subDomain}" + ".salebee.net/";
+      StringsConst.BASEURL = "${StringsConst.MAINURL}" + "api/Salebee/";
     });
 
-    print(" my subdomain is ++++${StaticData.subDomain}");
+    print(
+        " my subdomain is ++++${StaticData.subDomain} api url is ${StringsConst.BASEURL}");
 
-
+    getAllTask();
     Timer(Duration(seconds: 4), () {
       saveDataToHive();
 
       domainCheck();
-     // local();
+      // local();
 
       print(" my image link is ${SharedPreff.to.prefss.getString("proLink")}");
     });
-
   }
- saveDataToHive(){
+
+  getAllTask() {
+    taskRepository.getAllTaskController().then((ele) {
+      todaysTaskList.addAll(ele.result!
+          .where((element) => element.dueDate!.day == DateTime.now().day));
+      print("my todays task list is ${todaysTaskList.length}");
+      StaticData.todaysTask = todaysTaskList.length;
+    });
+  }
+
+  saveDataToHive() {
     print("hive started working");
     taskRepository.getAllListForTaskController().then((value) {
       hiveBox.put("manageTask", value);
       print("hive started working 11");
       print("my hive data is ${hiveBox.get("manageTask")}");
     });
- }
+  }
 
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) { // import 'dart:io'
+    if (Platform.isIOS) {
+      // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
 
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else if(Platform.isAndroid) {
+    } else if (Platform.isAndroid) {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-
 
       return androidDeviceInfo.brand; // unique ID on Android
     }
   }
 
-  getDeviceID()async{
+  getDeviceID() async {
     StaticData.deviceID = await _getId();
     print("my device id is ${StaticData.deviceID}");
-}
-  domainCheck()  {
-    print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain }");
-    if(StaticData.loggedIN == true && StaticData.subDomain != null){
+  }
+
+  domainCheck() {
+    print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
+    if (StaticData.loggedIN == true && StaticData.subDomain != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNav(menuPage: false,),
+          builder: (context) => BottomNav(
+            menuPage: false,
+          ),
         ),
       );
-    } else if (SharedPreff.to.prefss.getString("subDomain") == '' ||SharedPreff.to.prefss.getString("subDomain") == null ){
+    } else if (SharedPreff.to.prefss.getString("subDomain") == '' ||
+        SharedPreff.to.prefss.getString("subDomain") == null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => SubDomainPage(),
         ),
       );
-
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -115,29 +127,25 @@ var hiveBox =  Hive.box("manageTask");
         ),
       );
     }
-  // local() async {
-  //   //Location location = new Location();
-  //
-  // //  locationData = await location.getLocation();
-  //   print("MY LOCATION from splash__________$locationData");
-  //   print(locationData.latitude);
-  //   print(locationData.longitude);
-  //   StaticData.myLocationLat = locationData.latitude;
-  //   StaticData.myLocationLon = locationData.longitude;
-  //   print("MY----user----location-----${StaticData.myLocationLat}");
-  //   return locationData;
-  //
-  // }
-
-
-
+    // local() async {
+    //   //Location location = new Location();
+    //
+    // //  locationData = await location.getLocation();
+    //   print("MY LOCATION from splash__________$locationData");
+    //   print(locationData.latitude);
+    //   print(locationData.longitude);
+    //   StaticData.myLocationLat = locationData.latitude;
+    //   StaticData.myLocationLon = locationData.longitude;
+    //   print("MY----user----location-----${StaticData.myLocationLat}");
+    //   return locationData;
+    //
+    // }
   }
 
   //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         toolbarHeight: 0.0,
       ),

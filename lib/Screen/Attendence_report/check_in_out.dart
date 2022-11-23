@@ -8,6 +8,8 @@ import 'package:salebee/Utils/Alerts.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 import '../../Helper/location_helper.dart';
 import '../../Utils/my_colors.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 //import 'package:geocoder/geocoder.dart';
@@ -116,10 +118,15 @@ class _CheckInOutState extends State<CheckInOut> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        DateFormat('hh:mm').format(DateTime.now()),
-                        style: const TextStyle(
-                            fontSize: 60, fontWeight: FontWeight.w300),
+                      GestureDetector(
+                        onTap: (){
+                          getTime();
+                        },
+                        child: Text(
+                          DateFormat('hh:mm').format(DateTime.now()),
+                          style: const TextStyle(
+                              fontSize: 60, fontWeight: FontWeight.w300),
+                        ),
                       ),
                       const SizedBox(
                         width: 5,
@@ -176,9 +183,9 @@ class _CheckInOutState extends State<CheckInOut> {
                         ),
                         Center(
                           child: GestureDetector(
-                            // onTap: () {
-                            //   end.value = 1;
-                            // },
+                            onTap: () {
+
+                            },
                             onLongPress: () async {
                               // end.value = 1;
                               //_showMyDialog();
@@ -503,7 +510,20 @@ class _CheckInOutState extends State<CheckInOut> {
     ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
         .showSnackBar(_snackBarContent);
   }
-
+  Future getTime()async{
+    print("working get time");
+    try{
+      var res = await http.get(Uri.parse('http://worldtimeapi.org/api/timezone/Asia/Dhaka'));
+      if (res.statusCode == 200){
+        var data = jsonDecode(res.body);
+        print(jsonDecode(res.body).toString());
+        print("my api time is ${data["datetime"]} date time . now ${DateTime.now()}");
+        return DateTime.parse(data["datetime"].toString().substring(0,26));
+      }
+    }catch(e){
+      return DateTime.now();
+    }
+   }
   attendanceFunction() async {
     end.value = 1;
     print("working chekout ${SharedPreff.to.prefss.getString("token")}");
@@ -513,53 +533,57 @@ class _CheckInOutState extends State<CheckInOut> {
     geolocatorService.determinePosition().then((ele) {
       getAddressFromLatLong(ele!);
       print("my position is ${ele!.latitude}");
+      getTime().then((eTime) {
+       print("my datetime is +++++ $eTime");
+        final DateTime now = eTime;
+        final tomorrow = DateTime(now.year, now.month, now.day + 1);
+        final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
+        final String formatted = formatter.format(now);
+        print("my date is $formatted");
+        var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
+        var inputDate = inputFormat.parse(formatted); // <-- dd/MM 24H format
+
+        var outputFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
+        var outputDate = outputFormat.format(inputDate);
+        print(outputDate);
+        print("my location is +++++++++++++++++ before cheked $locationDis");
+
+        status.value == true
+            ? locationDis.isNotEmpty ? attendanceRepository
+            .checkInController(
+            id: 1,
+            employeeId: StaticData.employeeID!,
+            logTimeIn: formatted,
+            lat: ele!.latitude,
+            lon: ele!.longitude,
+            battery: percentage,
+            location: locationDis,
+            note: textNoteController.text,
+            token: token!)
+            .then((e) {
+          checkInMethod(e);
+          print("my resposne check in is ++++++++${e.isSuccess}");
+
+
+        }) : _showSnack("No location found please try again")
+            : attendanceRepository
+            .checkOutController(token!, StaticData.employeeID!, formatted,
+            locationDis, ele!.latitude, ele!.longitude, textNoteController.text??"")
+            .then((e) {
+          String time = DateFormat('hh:mm').format(DateTime.now()).toString();
+          String convertNowTime = time.replaceAll(":", ".");
+          print("HOUR MIN TIME NOW ######################### $convertNowTime");
+          double timeNow = double.parse(convertNowTime);
+          print("HOUR MIN TIME NOW ######################### $timeNow");
+
+          checkOutMethod(e);
+        });
+      });
+      });
       // DateTime now = DateTime.now();
       // Timestamp myTimeStamp = Timestamp.fromDate(now);
       // String time = myTimeStamp.toString();
-      final DateTime now = DateTime.now();
-      final tomorrow = DateTime(now.year, now.month, now.day + 1);
-      final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
-      final String formatted = formatter.format(now);
-      print("my date is $formatted");
-      var inputFormat = DateFormat('yyyy/MM/dd HH:mm');
-      var inputDate = inputFormat.parse(formatted); // <-- dd/MM 24H format
 
-      var outputFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
-      var outputDate = outputFormat.format(inputDate);
-      print(outputDate);
-      print("my location is +++++++++++++++++ before cheked $locationDis");
-
-      status.value == true
-          ? locationDis.isNotEmpty ? attendanceRepository
-              .checkInController(
-                  id: 1,
-                  employeeId: StaticData.employeeID!,
-                  logTimeIn: formatted,
-                  lat: ele!.latitude,
-                  lon: ele!.longitude,
-                  battery: percentage,
-                  location: locationDis,
-      note: textNoteController.text,
-      token: token!)
-              .then((e) {
-        checkInMethod(e);
-        print("my resposne check in is ++++++++${e.isSuccess}");
-
-
-      }) : _showSnack("No location found please try again")
-          : attendanceRepository
-              .checkOutController(token!, StaticData.employeeID!, formatted,
-                  locationDis, ele!.latitude, ele!.longitude, textNoteController.text??"")
-              .then((e) {
-                String time = DateFormat('hh:mm').format(DateTime.now()).toString();
-                String convertNowTime = time.replaceAll(":", ".");
-                print("HOUR MIN TIME NOW ######################### $convertNowTime");
-               double timeNow = double.parse(convertNowTime);
-               print("HOUR MIN TIME NOW ######################### $timeNow");
-
-                checkOutMethod(e);
-            });
-    });
     // GetAddressFromLatLong();
 
     // Navigator.of(context).pop();
