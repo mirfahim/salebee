@@ -48,7 +48,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text("Dashboard")),
                     ],
                   ),
@@ -60,7 +66,13 @@ class _MenusScreenState extends State<MenusScreen> {
 
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/eye.png',
+                        ),
+                      ),
                       Center(child: const Text('The Eye')),
                     ],
                   ),
@@ -71,7 +83,17 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      Container(
+                      height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(  'images/Icons/listview.png',)
+
+                          ),
+                        ),
+
+                      ),
                       Center(child: const Text('Prospect List')),
                     ],
                   ),
@@ -82,7 +104,17 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(  'images/Icons/listview.png',)
+
+                          ),
+                        ),
+
+                      ),
                       Center(child: const Text('Employee List')),
                     ],
                   ),
@@ -93,7 +125,17 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(  'images/Icons/salary_expense.png',)
+
+                          ),
+                        ),
+
+                      ),
                       Center(child: const Text('Employee List')),
                     ],
                   ),
@@ -104,7 +146,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Setting')),
                     ],
                   ),
@@ -115,7 +163,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -126,7 +180,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -137,7 +197,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -148,7 +214,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -159,7 +231,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -170,7 +248,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -181,7 +265,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -192,7 +282,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),
@@ -203,7 +299,13 @@ class _MenusScreenState extends State<MenusScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundImage:
+                        AssetImage(
+                          'images/dash.png',
+                        ),
+                      ),
                       Center(child: const Text('Monthly Report')),
                     ],
                   ),

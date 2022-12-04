@@ -41,9 +41,11 @@ class _SplashState extends State<Splash> {
     getDeviceID();
     StaticData.subDomain = SharedPreff.to.prefss.getString("subDomain");
     StaticData.loggedIN = SharedPreff.to.prefss.getBool("loggedIN");
+    StaticData.attendanceMenu = SharedPreff.to.prefss.getBool("attendanceMenu");
     StaticData.name = SharedPreff.to.prefss.getString("userNAME") ?? "";
     StaticData.proLink = SharedPreff.to.prefss.getString("proLink");
     StaticData.token = SharedPreff.to.prefss.getString("token");
+    StaticData.designation =SharedPreff.to.prefss.getString("designation") ?? "";
     StaticData.employeeID = SharedPreff.to.prefss.getInt("employeeID") ?? 0;
     setState(() {
       StaticData.subDomain = SharedPreff.to.prefss.getString("subDomain");
@@ -55,7 +57,7 @@ class _SplashState extends State<Splash> {
     print(
         " my subdomain is ++++${StaticData.subDomain} api url is ${StringsConst.BASEURL}");
 
-    getAllTask();
+getAllTask();
     Timer(Duration(seconds: 4), () {
       saveDataToHive();
 
@@ -67,9 +69,10 @@ class _SplashState extends State<Splash> {
   }
 
   getAllTask() {
-    taskRepository.getAllTaskController().then((ele) {
+    todaysTaskList.clear();
+    taskRepository.getAssignedToMeTaskController().then((ele) {
       todaysTaskList.addAll(ele.result!
-          .where((element) => element.dueDate!.day == DateTime.now().day));
+          .where((element) => element.dueDate!.toString().substring(0,10) == DateTime.now().toString().substring(0,10)));
       print("my todays task list is ${todaysTaskList.length}");
       StaticData.todaysTask = todaysTaskList.length;
     });

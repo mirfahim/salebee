@@ -60,7 +60,7 @@ class _CheckInOutState extends State<CheckInOut> {
       getAddressFromLatLong(ele!);
     });
 
-    attendanceRepository.getAttendanceController(StaticData.employeeID!).then((value) {
+    attendanceRepository.getAttendanceController(DateTime.now()).then((value) {
 
       String apiDate = value.result!.first!.logTimeIn! ;
       print(" my get report model is ${apiDate.substring(0, 10)}");
@@ -190,13 +190,13 @@ class _CheckInOutState extends State<CheckInOut> {
                               // end.value = 1;
                               //_showMyDialog();
                              if(status.value ==true ){
-                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) >= 10) {
+                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) > 10) {
                                  _showMyDialog(true,);
                                }else {
                                  attendanceFunction();
                                }
                              }else {
-                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) <= 17) {
+                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) < 18) {
                                  _showMyDialog(false,);
                                }else {
                                  attendanceFunction();
@@ -559,6 +559,7 @@ class _CheckInOutState extends State<CheckInOut> {
             battery: percentage,
             location: locationDis,
             note: textNoteController.text,
+            onTime: int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) >= 10 ? 0: 1 ,
             token: token!)
             .then((e) {
           checkInMethod(e);

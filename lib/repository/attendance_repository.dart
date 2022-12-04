@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Model/attendance/getAllEmployeeAttendance.dart';
 import 'package:salebee/Model/checkin_model.dart';
+import 'package:salebee/Model/employee/employee_list_model.dart';
 
 import '../Helper/api_helper.dart';
 import '../Model/get_attendance_model.dart';
@@ -16,6 +19,7 @@ class AttendanceRepository {
   Future<CheckinResponse> checkInController(
       {required int id,
         required String token,
+        required int onTime,
       required int employeeId,
       required String logTimeIn,
       required double lat,
@@ -149,13 +153,124 @@ class AttendanceRepository {
         response.body); //we will fetch the overview from this request
   }
 
-  Future<GetAttendanceDataModel> getAttendanceController(int emp) async {
+  Future<GetAttendanceDataModel> getAttendanceController(DateTime date) async {
     String tokenString = SharedPreff.to.prefss.get("token").toString();
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 $finalToken ++++++");
 
-    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?EmployeeId=$emp");
+    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?EmployeeId=${StaticData.employeeID}");
+    final response = await http.post(
+      url,
+      body: jsonEncode(
+          {
+            "Token": tokenString,
+            "ProspectID": 0,
+            "LeadID": 0,
+            "TaskID": 0,
+            "EmployeeID": 0,
+            "SupportID": 0,
+            "FollowupID": 0,
+            "FromDate": "2022-11-29T05:54:29.320Z",
+            "ToDate": date.toString()
+          }
+      ),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo get attendance${response.body}");
+    String data = response.body;
+
+    return getAttendanceDataModelFromJson(response.body);
+  }
+  Future<GetAllEmployeeAttendance> getAllEmployeeAttendanceController(int emp, DateTime date) async {
+    String tokenString = SharedPreff.to.prefss.get("token").toString();
+
+
+
+    try{
+      Uri url = Uri.parse("$base_url/LoadAttendanceDataList");
+      final response = await http.post(
+        url,
+        body: jsonEncode(
+            {
+              "Token": tokenString,
+              "ProspectID": 0,
+              "LeadID": 0,
+              "TaskID": 0,
+              "EmployeeID": 0,
+              "SupportID": 0,
+              "FollowupID": 0,
+              "FromDate": "2022-11-29T05:54:29.333Z",
+              "ToDate": date.toString()
+            }
+        ),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+
+      print("my resposnse repo get attendance${response.body}");
+      String data = response.body;
+
+      return getAllEmployeeAttendanceFromJson(response.body);
+    }catch(e){
+      print("my all attendance error is ${e.toString()}");
+    }
+    Uri url = Uri.parse("$base_url/LoadAttendanceDataList?EmployeeId=$emp");
+    final response = await http.post(
+      url,
+      body: jsonEncode(
+          {
+            "Token": tokenString,
+            "ProspectID": 0,
+            "LeadID": 0,
+            "TaskID": 0,
+            "EmployeeID": 0,
+            "SupportID": 0,
+            "FollowupID": 0,
+            "FromDate": "2022-11-29T05:54:29.333Z",
+            "ToDate": date.toString()
+          }
+      )
+      ,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo get attendance${response.body}");
+    String data = response.body;
+
+    return getAllEmployeeAttendanceFromJson(response.body);
+  }
+  Future<AllEmployeeListModel> getAllEmployeeList() async {
+    String tokenString = SharedPreff.to.prefss.get("token").toString();
+    String convertToken = tokenString.replaceAll("+", "%2B");
+    String finalToken = convertToken.replaceAll("/", "%2F");
+    print("working 1 $finalToken ++++++");
+    try{
+      Uri url = Uri.parse("$base_url/AllActiveEmployeeForApp");
+      final response = await http.post(
+        url,
+        body: jsonEncode({
+          "Token": tokenString
+        },),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+
+      print("my resposnse repo get attendance${response.body}");
+      String data = response.body;
+
+      return AllEmployeeListModelFromJson(response.body);
+    }catch(e){
+      print("my all attendance error is ${e.toString()}");
+    }
+    Uri url = Uri.parse("$base_url/AllActiveEmployeeForApp");
     final response = await http.post(
       url,
       body: jsonEncode({
@@ -169,6 +284,6 @@ class AttendanceRepository {
     print("my resposnse repo get attendance${response.body}");
     String data = response.body;
 
-    return getAttendanceDataModelFromJson(response.body);
+    return AllEmployeeListModelFromJson(response.body);
   }
 }

@@ -15,6 +15,8 @@ import 'package:salebee/Screen/task/task_main.dart';
 import 'package:salebee/Screen/test_screen.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:new_version_plus/new_version_plus.dart';
+import 'package:salebee/repository/add_task_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Utils/StringsConst.dart';
 import '../../utils.dart';
 import 'package:get/get.dart';
@@ -32,6 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   initState() {
     super.initState();
@@ -47,9 +50,10 @@ class _HomePageState extends State<HomePage> {
       androidId: 'com.salebee.crm',
     );
     var status = await newVersion.getVersionStatus();
-    print("version status ${status!.canUpdate}");
+    print("version status ${status!.appStoreLink}");
     if (status.canUpdate == true) {
       newVersion.showUpdateDialog(
+        launchMode: LaunchMode.externalApplication,
         context: context,
         versionStatus: status,
         dialogTitle: 'Update Available!',

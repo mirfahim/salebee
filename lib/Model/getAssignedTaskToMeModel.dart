@@ -70,14 +70,14 @@ class Result {
   int? createdBy;
   String? title;
   int? assignedTo;
-  AssignedPerson? assignedPerson;
+  String? assignedPerson;
   String? taskDesc;
   int? statusId;
   DateTime? dueDate;
   int? type;
   TaskType? taskType;
   String? allStatus;
-  PriorityName? priorityName;
+  String? priorityName;
   int? priority;
   String? prospectName;
   int? prospectId;
@@ -93,7 +93,7 @@ class Result {
   bool? canDelete;
   int? overDueOrder;
   IsProspectActive? isProspectActive;
-  CreatedByName? createdByName;
+  String? createdByName;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     taskId: json["TaskID"],
@@ -101,14 +101,14 @@ class Result {
     createdBy: json["CreatedBy"],
     title: json["Title"],
     assignedTo: json["AssignedTo"],
-    assignedPerson: assignedPersonValues.map[json["AssignedPerson"]],
+    assignedPerson: json["AssignedPerson"],
     taskDesc: json["TaskDesc"],
     statusId: json["StatusId"],
     dueDate: DateTime.parse(json["DueDate"]),
     type: json["Type"],
     taskType: taskTypeValues.map[json["TaskType"]],
     allStatus: json["AllStatus"],
-    priorityName: priorityNameValues.map[json["PriorityName"]],
+    priorityName: json["PriorityName"],
     priority: json["Priority"],
     prospectName: json["ProspectName"],
     prospectId: json["ProspectId"],
@@ -124,7 +124,7 @@ class Result {
     canDelete: json["CanDelete"],
     overDueOrder: json["OverDueOrder"],
     isProspectActive: isProspectActiveValues.map[json["IsProspectActive"]],
-    createdByName: createdByNameValues.map[json["CreatedByName"]],
+    createdByName: json["CreatedByName"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -133,14 +133,14 @@ class Result {
     "CreatedBy": createdBy,
     "Title": title,
     "AssignedTo": assignedTo,
-    "AssignedPerson": assignedPersonValues.reverse[assignedPerson],
+    "AssignedPerson": assignedPerson,
     "TaskDesc": taskDesc,
     "StatusId": statusId,
     "DueDate": dueDate!.toIso8601String(),
     "Type": type,
     "TaskType": taskTypeValues.reverse[taskType],
     "AllStatus": allStatus,
-    "PriorityName": priorityNameValues.reverse[priorityName],
+    "PriorityName": priorityName,
     "Priority": priority,
     "ProspectName": prospectName,
     "ProspectId": prospectId,
@@ -156,7 +156,7 @@ class Result {
     "CanDelete": canDelete,
     "OverDueOrder": overDueOrder,
     "IsProspectActive": isProspectActiveValues.reverse[isProspectActive],
-    "CreatedByName": createdByNameValues.reverse[createdByName],
+    "CreatedByName": createdByName,
   };
 }
 

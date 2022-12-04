@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Screen/expense/expense_create/food.dart';
+import 'package:salebee/Screen/expense/expense_list_claimed/transport_claimed/transport_expense_list.dart';
 import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 
@@ -12,23 +13,27 @@ class TransportExpenseCreatePage extends StatefulWidget {
   TransportExpenseCreatePage({Key? key}) : super(key: key);
 
   @override
-  State<TransportExpenseCreatePage> createState() => _TransportExpenseCreatePageState();
+  State<TransportExpenseCreatePage> createState() =>
+      _TransportExpenseCreatePageState();
 }
 
-class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage> {
+class _TransportExpenseCreatePageState
+    extends State<TransportExpenseCreatePage> {
   final selectedDate = DateTime.now().obs;
   ExpenseRepository expenseRepository = ExpenseRepository();
   final pickedDate = ''.obs;
   var wayController = TextEditingController();
   var vehicleNameController = TextEditingController();
   var vehicleNumController = TextEditingController();
+  var startLocationController = TextEditingController();
+  var endLocationController = TextEditingController();
   var pricingController = TextEditingController();
   int wayTypeIndex = 0;
-  int wayType = 0 ;
-  List<String> way = ['Air', 'Bus', 'Train', 'Others'];
+  int wayType = 0;
+  List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
   File? file;
-
-  bool circular = false ;
+  var bytes;
+  bool circular = false;
 
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
@@ -38,9 +43,9 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      file = imageFile ;
+      file = imageFile;
     }
-    return file ;
+    return file;
   }
 
   _getFromCamera() async {
@@ -51,16 +56,16 @@ class _TransportExpenseCreatePageState extends State<TransportExpenseCreatePage>
     );
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      file = imageFile ;
+      file = imageFile;
     }
-    return file ;
+    return file;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-backgroundColor: primaryColorLight,
+      backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -68,17 +73,22 @@ backgroundColor: primaryColorLight,
             children: [
               ListView(
                 children: [
-                  SizedBox(height: 10,),
-                  const Text('Way',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Way',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
-                    height: 30,
+                    height: 70,
                     child: GridView.builder(
-                        gridDelegate:
-                        SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 100,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 80,
                             childAspectRatio: 6 / 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10),
@@ -92,46 +102,36 @@ backgroundColor: primaryColorLight,
                                 //cat = incomeList[index];
                               });
                             },
-                            child:  Container(
-
-                              decoration:
-                              BoxDecoration(
-                                color: wayTypeIndex == index ? Colors.orangeAccent[100] : primaryColorSecond,
-                                borderRadius: const BorderRadius
-                                    .only(
-                                    topLeft: Radius
-                                        .circular(
-                                        30),
-                                    topRight: Radius
-                                        .circular(
-                                        30),
-                                    bottomLeft: Radius
-                                        .circular(
-                                        30),
-                                    bottomRight: Radius
-                                        .circular(
-                                        30)),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: wayTypeIndex == index
+                                    ? Colors.orangeAccent[100]
+                                    : primaryColorSecond,
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30),
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30)),
                               ),
                               child: Padding(
-                                padding:
-                                const EdgeInsets
-                                    .symmetric(
-                                    horizontal:
-                                    8.0,
-                                    vertical:
-                                    3),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 3),
                                 child: Row(
-
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children:  [
-
-                                    Text(
-                                      way[index],
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-
-                                        fontSize: 12,
-                                        color: wayTypeIndex == index ? Colors.white :Colors.white,),
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          way[index],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: wayTypeIndex == index
+                                                ? Colors.white
+                                                : Colors.white,
+                                          ),
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -140,281 +140,475 @@ backgroundColor: primaryColorLight,
                           );
                         }),
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('Vehical Name',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Start Location',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+
+                            Row(
+                              children: [
+                                Container(
+                                  width: 140,
+                                  height: 50,
+
+
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border:
+                                      Border.all(color: Colors.grey, width: 1.5),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: Container(
+
+                                    child: TextFormField(
+                                      onChanged: (value) {
+                                        // _productController.searchProduct(value);
+                                      },
+                                      controller: startLocationController,
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        prefix: Container(
+                                          width: 20,
+                                        ),
+                                        hintText: 'Location',
+                                        suffixIcon:
+                                        const Icon(Icons.location_on_outlined),
+                                        hintStyle: const TextStyle(
+                                            fontSize: 14.0,
+                                            fontFamily: 'Roboto',
+                                            color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'End Location',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+
+                            Row(
+                              children: [
+                                Container(
+                                  width: 140,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border:
+                                      Border.all(color: Colors.grey, width: 1.5),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: TextFormField(
+                                    onChanged: (value) {
+                                      // _productController.searchProduct(value);
+                                    },
+                                    controller: endLocationController,
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                      prefix: Container(
+                                        width: 20,
+                                      ),
+                                      hintText: 'Location',
+                                      suffixIcon:
+                                      const Icon(Icons.location_on_outlined),
+                                      hintStyle: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontFamily: 'Roboto',
+                                          color: Colors.grey),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+
+                                // Expanded(
+                                //   child: Container(
+                                //     decoration: BoxDecoration(
+                                //         color: Colors.white,
+                                //         border:
+                                //             Border.all(color: Colors.grey, width: 1.5),
+                                //         borderRadius: const BorderRadius.all(
+                                //             Radius.circular(10.0))),
+                                //     child: TextFormField(
+                                //       onChanged: (value) {
+                                //         // _productController.searchProduct(value);
+                                //       },
+                                //       keyboardType: TextInputType.number,
+                                //       decoration: InputDecoration(
+                                //         suffixIcon: const Icon(Icons.access_time),
+                                //         prefix: Container(
+                                //           width: 20,
+                                //         ),
+                                //         hintText: 'Enter Time',
+                                //         // icon:
+                                //
+                                //         hintStyle: const TextStyle(
+                                //             fontSize: 14.0,
+                                //             fontFamily: 'Roboto',
+                                //             color: Colors.grey),
+                                //         border: InputBorder.none,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Person',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 50,
+                                    width: 140,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border:
+                                        Border.all(color: Colors.grey, width: 1.5),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    child: TextFormField(
+                                      onChanged: (value) {
+                                        // _productController.searchProduct(value);
+                                      },
+                                      controller: startLocationController,
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        prefix: Container(
+                                          width: 20,
+                                        ),
+                                        hintText: 'Number of person',
+
+                                        hintStyle: const TextStyle(
+                                            fontSize: 14.0,
+                                            fontFamily: 'Roboto',
+                                            color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Cost',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+
+                            Row(
+                              children: [
+                                Container(
+                                  width: 140,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border:
+                                      Border.all(color: Colors.grey, width: 1.5),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: TextFormField(
+                                    onChanged: (value) {
+                                      // _productController.searchProduct(value);
+                                    },
+                                    controller: endLocationController,
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                      prefix: Container(
+                                        width: 20,
+                                      ),
+                                      hintText: 'Type amount',
+
+                                      hintStyle: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontFamily: 'Roboto',
+                                          color: Colors.grey),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+
+                                // Expanded(
+                                //   child: Container(
+                                //     decoration: BoxDecoration(
+                                //         color: Colors.white,
+                                //         border:
+                                //             Border.all(color: Colors.grey, width: 1.5),
+                                //         borderRadius: const BorderRadius.all(
+                                //             Radius.circular(10.0))),
+                                //     child: TextFormField(
+                                //       onChanged: (value) {
+                                //         // _productController.searchProduct(value);
+                                //       },
+                                //       keyboardType: TextInputType.number,
+                                //       decoration: InputDecoration(
+                                //         suffixIcon: const Icon(Icons.access_time),
+                                //         prefix: Container(
+                                //           width: 20,
+                                //         ),
+                                //         hintText: 'Enter Time',
+                                //         // icon:
+                                //
+                                //         hintStyle: const TextStyle(
+                                //             fontSize: 14.0,
+                                //             fontFamily: 'Roboto',
+                                //             color: Colors.grey),
+                                //         border: InputBorder.none,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Description (If Required)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      maxLines: 3,
                       controller: wayController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
                       keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
+                      decoration: InputDecoration(
                         prefix: Container(
                           width: 20,
                         ),
-                        hintText: 'Type athe vehical name',
-                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  const Text('Vehical Number(Optional)',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration:   InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        hintText: 'Enter the vehicle Number',
+                        hintText: 'Type Details',
 
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        hintStyle: const TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('Pricing',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border:
-                        Border.all(color: Colors.grey, width: 1.5),
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        // _productController.searchProduct(value);
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration:   InputDecoration(
-                        prefix: Container(
-                          width: 20,
-                        ),
-                        hintText: 'Enter the Amount',
-                        // icon:
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Related With (Prospect/Client)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
 
-                        hintStyle:
-                        const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  const Text('Date',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: (){
-                      _selectDate(context);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey)
-                      ),
+                  Container(
+                    height: 50,
+                      decoration:  BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey, width: 1.5),
+                      borderRadius:
+                      const BorderRadius.all(Radius.circular(10.0))),
                       child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Obx(()=>Text(DateFormat.yMMMd().format(selectedDate.value),style: const TextStyle(
-                                color: Colors.grey
-                            ),)),
-                            const SizedBox(width: 10,),
-                            const Icon(Icons.calendar_today,size: 14,),
-                          ],
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 8),
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value:
+                              wayTypeIndex == null ? null : way[wayTypeIndex],
+                          icon:
+                              Icon(Icons.arrow_drop_down_outlined),
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.transparent,
+                          ),
+                          items: way.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              // dropdownValuePriority = value!;
+                              // typeId = type.indexOf(value!);
+                              // print(
+                              //     "selected index of type is ________________ $typeId");
+                            });
+                          },
                         ),
-                      ),
+                      )),
+
+
+ SizedBox(
+   height: 10,
+ ),
+                  Container(
+                    width: 150,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Date',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+
+                        InkWell(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: Container(
+                            height: 50  ,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Obx(() => Text(
+                                    DateFormat.yMMMd().format(selectedDate.value),
+                                    style: const TextStyle(color: Colors.grey),
+                                  )),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const Icon(
+                                    Icons.calendar_today,
+                                    size: 14,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20,),
-                  const Text('Start',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Location',
-                              suffixIcon: const Icon(Icons.location_on_outlined),
 
-                              hintStyle:
-                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10,),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              suffixIcon: const Icon(Icons.access_time),
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Enter Time',
-                              // icon:
 
-                              hintStyle:
-                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 20,
                   ),
-                  const SizedBox(height: 20,),
-                  const Text('Due',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Location',
-                              suffixIcon: const Icon(Icons.location_on_outlined),
 
-                              hintStyle:
-                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10,),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border:
-                              Border.all(color: Colors.grey, width: 1.5),
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              // _productController.searchProduct(value);
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration:   InputDecoration(
-                              suffixIcon: const Icon(Icons.access_time),
-                              prefix: Container(
-                                width: 20,
-                              ),
-                              hintText: 'Enter Time',
-                              // icon:
 
-                              hintStyle:
-                              const TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+
+
+
+                  const Divider(
+                    thickness: 1,
+                    color: Colors.grey,
                   ),
-                  const SizedBox(height: 30,),
-                  const Divider(thickness: 1,color: Colors.grey,),
-                  const SizedBox(height: 10,),
-                  const Text('Photos(Optional)',style: TextStyle(
-                      fontSize: 16,fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Photos(Optional)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){
-                            _getFromGallery().then((e){
-                              if(e != null){
-                                setState(() {
-
-                                });
+                          onTap: () {
+                            _getFromGallery().then((e) {
+                              if (e != null) {
+                                setState(() {});
                               }
-
                             });
                           },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: primaryColor.withOpacity(.1),
                                 borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: Colors.grey.withOpacity(.35))
-                            ),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(.35))),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Icon(Icons.camera_alt,color: primaryColor,),
-                                  const SizedBox(width: 10,),
+                                  Icon(
+                                    Icons.camera_alt,
+                                    color: primaryColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   const Text('Tap to Upload')
                                 ],
                               ),
@@ -422,19 +616,23 @@ backgroundColor: primaryColorLight,
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
-                        child: file == null ?
-                        Container()
-                            :Image.file(
-                          file!,
-                          height: 45.0,
-                          width: 45.0,
-                        ),
+                        child: file == null
+                            ? Container()
+                            : Image.file(
+                                file!,
+                                height: 45.0,
+                                width: 45.0,
+                              ),
                       )
                     ],
                   ),
-                  const SizedBox(height: 100,),
+                  const SizedBox(
+                    height: 100,
+                  ),
                 ],
               ),
               Align(
@@ -442,10 +640,16 @@ backgroundColor: primaryColorLight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
-                    onTap: ()async{
-                      var bytes = await file!.readAsBytes();
-                      print("my image file is ${file!.path}");
-                      // Get.to(OtherExpense());
+                    onTap: () async {
+                      if(file == null){
+                         bytes = null ;
+                      } else {
+                         bytes = await file!.readAsBytes();
+                      }
+
+
+                   //   print("my image file is ${file!.path}");
+                      //Get.to(OtherExpense());
                       setState(() {
                         circular = true;
                       });
@@ -465,24 +669,46 @@ backgroundColor: primaryColorLight,
                         setState(() {
                           circular == false;
                         });
-
                       } else {
                         try {
                           File file = File("");
                           expenseRepository
                               .transportExpenseController(
-                             image:bytes,    vehicleType: 1,
-                             vehicleName:vehicleNameController.text,
-                             vehicleNo: vehicleNameController.text,    expense: 100,
-                             startDate: selectedDate.toString(),    endDate:selectedDate.toString(),
+                            image: bytes  ,
+                            vehicleType: wayType,
+                            vehicleName: vehicleNameController.text,
+                            vehicleNo: vehicleNameController.text,
+                            expense: int.parse(pricingController.text),
+                            startDate: selectedDate.toString(),
+                            endDate: selectedDate.toString(),
+                            startLocation: startLocationController.text,
+                            endLocation: endLocationController.text
                           )
                               .then((e) {
-                            print("my response for other expense is ${e["IsSuccess"]}");
-                            if(e["IsSuccess"] == true){
+                            print(
+                                "my response for other expense is ${e["IsSuccess"]}");
+                            if (e["IsSuccess"] == true) {
+
                               setState(() {
                                 circular = false;
                               });
-                            }else {
+                              final snackBar = SnackBar(
+                                content: const Text('Transport Expense Successfully added'),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () {
+                                    // Some code to undo the change.
+                                  },
+                                ),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => TransportClaimedList(),
+                                ),
+                              );
+
+                            } else {
                               setState(() {
                                 circular = false;
                               });
@@ -503,14 +729,17 @@ backgroundColor: primaryColorLight,
                       width: size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: darkBlue
-                      ),
-                      child: const Padding(
+                          color: darkBlue),
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text('Submit',textAlign:TextAlign.center,style: TextStyle(
-                              color: Colors.white
-                          ),),
+                          child: circular == true
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  'Submit',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white),
+                                ),
                         ),
                       ),
                     ),

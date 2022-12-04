@@ -58,10 +58,10 @@ class ExpenseCreateFront extends StatelessWidget {
                           isScrollable: true,
                           tabs: const [
                             Tab(
-                              text: 'Food Expense',
+                              text: 'Transport Expense',
                             ),
                             Tab(
-                              text: 'Transport Expense',
+                              text: 'Food Expense',
                             ),
                             Tab(
                               text: 'Other Expense',
@@ -79,11 +79,11 @@ class ExpenseCreateFront extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: FoodExpense(),
+                          child: TransportExpenseCreatePage(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TransportExpenseCreatePage(),
+                          child: FoodExpense(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),

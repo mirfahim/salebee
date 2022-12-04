@@ -225,6 +225,7 @@ class TaskRepository {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    String base_url = "${StringsConst.BASEURL}";
     print("my main url is ----------------${StringsConst.MAINURL} ++++++");
 
     Uri url = Uri.parse("$base_url/AllTaskAssignedToMe");

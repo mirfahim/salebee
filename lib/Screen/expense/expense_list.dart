@@ -15,9 +15,14 @@ class ExpenseList extends StatelessWidget {
       child: Scaffold(
         backgroundColor: primaryColorLight,
         appBar: AppBar(
-          title: const Text('Expense',style: TextStyle(
-            color: Colors.black,fontWeight: FontWeight.w600
-          ),),
+          title:  Column(
+            children: [
+              Text('Expense',style: TextStyle(
+                color: Colors.black,fontWeight: FontWeight.w600
+              ),),
+              Text(DateTime.now().year.toString())
+            ],
+          ),
           automaticallyImplyLeading: true,
           backgroundColor: primaryColorLight,
           elevation: 0,
@@ -62,10 +67,10 @@ class ExpenseList extends StatelessWidget {
                         isScrollable: true,
                         tabs: const [
                           Tab(
-                            text: 'Approved',
+                            text: 'Claimed',
                           ),
                           Tab(
-                            text: 'Claimed',
+                            text: 'Approved',
                           ),
                           Tab(
                             text: 'Pending',
@@ -82,11 +87,11 @@ class ExpenseList extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Approved(),
+                        child: Claimed(),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Claimed(),
+                        child: Approved(),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),

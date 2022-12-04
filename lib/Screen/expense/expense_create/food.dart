@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Screen/expense/claimed.dart';
+import 'package:salebee/Screen/expense/expense_list_claimed/food_claimed/food_expense_list.dart';
 import 'package:salebee/utils.dart';
 
 import '../../../repository/expense_repository.dart';
@@ -28,7 +29,7 @@ class _FoodExpenseState extends State<FoodExpense> {
   var textDesController = TextEditingController();
   int mealType = 0;
   int foodTypeIndex = 0 ;
-
+   var bytes;
   bool circular = false;
   DateTime todayIs =DateTime.now();
 
@@ -147,16 +148,16 @@ class _FoodExpenseState extends State<FoodExpense> {
                           );
                         }),
                   ),
+
+
                   const SizedBox(
                     height: 10,
                   ),
                   const Text(
-                    'Dish Name',
+                    'Person',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -172,8 +173,8 @@ class _FoodExpenseState extends State<FoodExpense> {
                         prefix: Container(
                           width: 20,
                         ),
-                        suffixIcon: const Icon(Icons.arrow_drop_down_outlined),
-                        hintText: 'Type the dish name',
+
+                        hintText: 'Number of Person',
                         // icon:
 
                         hintStyle: const TextStyle(
@@ -188,7 +189,7 @@ class _FoodExpenseState extends State<FoodExpense> {
                     height: 10,
                   ),
                   const Text(
-                    'Pricing',
+                    'Fooding Expense',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(
@@ -224,6 +225,43 @@ class _FoodExpenseState extends State<FoodExpense> {
                     height: 10,
                   ),
                   const Text(
+                    'Description (If Required)',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0))),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        // _productController.searchProduct(value);
+                      },
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        prefix: Container(
+                          width: 20,
+                        ),
+
+                        hintText: 'Type the dish name',
+                        // icon:
+
+                        hintStyle: const TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.grey),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
                     'Date',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
@@ -235,6 +273,7 @@ class _FoodExpenseState extends State<FoodExpense> {
                       _selectDate(context);
                     },
                     child: Container(
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -334,9 +373,13 @@ class _FoodExpenseState extends State<FoodExpense> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: () async {
+                      if(file == null){
+                        bytes = null ;
+                      } else {
+                        bytes = await file!.readAsBytes();
+                      }
 
-                      var bytes = await file!.readAsBytes();
-                      print("my image file is ${file!.path}");
+
                       // Get.to(OtherExpense());
                       setState(() {
                         circular = true;
@@ -376,6 +419,21 @@ class _FoodExpenseState extends State<FoodExpense> {
                               setState(() {
                                 circular = false;
                               });
+                              final snackBar = SnackBar(
+                                content: const Text('Food Expense Successfully added'),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () {
+                                    // Some code to undo the change.
+                                  },
+                                ),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => FoodClaimedList(),
+                                ),
+                              );
                             } else {
                               setState(() {
                                 circular = false;

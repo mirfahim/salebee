@@ -126,7 +126,7 @@ class _ReportState extends State<Report> {
   @override
   void initState() {
     attendanceRepository
-        .getAttendanceController(StaticData.employeeID!)
+        .getAttendanceController(DateTime(2022,  monthSelection,))
         .then((value) {
       listData = value.result!;
      // _tabController = new TabController(vsync: this, length: tabs.length);
@@ -225,7 +225,7 @@ class _ReportState extends State<Report> {
           Obx(() => summaryOpen.value == true
               ? FutureBuilder<GetAttendanceDataModel>(
                   future: attendanceRepository
-                      .getAttendanceController(StaticData.employeeID!),
+                      .getAttendanceController(DateTime(2022,  monthSelection)),
                   builder: (
                     BuildContext context,
                     AsyncSnapshot<GetAttendanceDataModel> snapshot,
@@ -388,7 +388,7 @@ class _ReportState extends State<Report> {
                     Expanded(
                       child: FutureBuilder<GetAttendanceDataModel>(
                           future: attendanceRepository
-                              .getAttendanceController(StaticData.employeeID!),
+                              .getAttendanceController(DateTime(2022,  monthSelection,)),
                           builder: (BuildContext context,
                               AsyncSnapshot<GetAttendanceDataModel> snapshot) {
                             if (snapshot.hasData) {
@@ -583,7 +583,7 @@ class _ReportState extends State<Report> {
                             }
                             return Container(
                               child: Center(
-                                child: Text("No Data Found"),
+                                child:CircularProgressIndicator(),
                               ),
                             );
                           }),

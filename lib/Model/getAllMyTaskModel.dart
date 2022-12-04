@@ -8,6 +8,9 @@ GetAllMyTaskModel getAllMyTaskModelFromJson(String str) => GetAllMyTaskModel.fro
 
 String getAllMyTaskModelModelToJson(GetAllMyTaskModel data) => json.encode(data.toJson());
 
+
+
+
 class GetAllMyTaskModel {
   GetAllMyTaskModel({
     this.message,
@@ -57,10 +60,7 @@ class Result {
     this.leadName,
     this.doneOrder,
     this.contact,
-    this.contactPersonName,
-    this.contactpersonMobile,
-    this.contactpersonEmail,
-    this.contactpersonDesignation,
+    this.contactPersonDetails,
     this.taskShares,
     this.canDelete,
     this.overDueOrder,
@@ -72,34 +72,30 @@ class Result {
   DateTime? createdOn;
   int? createdBy;
   String? title;
-  String? leadName;
   int? assignedTo;
   String? assignedPerson;
   String? taskDesc;
   int? statusId;
   DateTime? dueDate;
   int? type;
-  String? taskType;
+  TaskType? taskType;
   String? allStatus;
   String? priorityName;
   int? priority;
-  String? contactPersonName;
-  String? contactpersonDesignation;
-  String? contactpersonMobile;
-  String? contactpersonEmail;
   String? prospectName;
   int? prospectId;
   bool? prospectStatus;
   bool? isIndividual;
   String? prospectNumber;
   DateTime? statusUpdateDate;
-
+  String? leadName;
   int? doneOrder;
   String? contact;
+  List<ContactPersonDetail>? contactPersonDetails;
   String? taskShares;
   bool? canDelete;
   int? overDueOrder;
-  String? isProspectActive;
+  IsProspectActive? isProspectActive;
   String? createdByName;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -113,28 +109,24 @@ class Result {
     statusId: json["StatusId"],
     dueDate: DateTime.parse(json["DueDate"]),
     type: json["Type"],
-    taskType: json["TaskType"],
+    taskType: taskTypeValues.map[json["TaskType"]],
     allStatus: json["AllStatus"],
-    priorityName: json["PriorityName"],
+    priorityName:json["PriorityName"],
     priority: json["Priority"],
     prospectName: json["ProspectName"],
     prospectId: json["ProspectId"],
     prospectStatus: json["ProspectStatus"],
-    contactpersonDesignation: json["ContactpersonDesignation"],
-    contactpersonEmail: json["ContactpersonEmail"],
-
-    contactpersonMobile: json["ContactpersonMobile"],
-    contactPersonName: json["ContactpersonName"],
     isIndividual: json["IsIndividual"],
     prospectNumber: json["ProspectNumber"],
     statusUpdateDate: json["StatusUpdateDate"] == null ? null : DateTime.parse(json["StatusUpdateDate"]),
     leadName: json["LeadName"],
     doneOrder: json["DoneOrder"],
     contact: json["Contact"],
+    contactPersonDetails: json["ContactPersonDetails"] == null ? null : List<ContactPersonDetail>.from(json["ContactPersonDetails"].map((x) => ContactPersonDetail.fromJson(x))),
     taskShares: json["TaskShares"],
     canDelete: json["CanDelete"],
     overDueOrder: json["OverDueOrder"],
-    isProspectActive: json["IsProspectActive"],
+    isProspectActive: isProspectActiveValues.map[json["IsProspectActive"]],
     createdByName: json["CreatedByName"],
   );
 
@@ -144,32 +136,111 @@ class Result {
     "CreatedBy": createdBy,
     "Title": title,
     "AssignedTo": assignedTo,
-    "AssignedPerson": assignedPerson,
+    "AssignedPerson":assignedPerson,
     "TaskDesc": taskDesc,
     "StatusId": statusId,
     "DueDate": dueDate!.toIso8601String(),
     "Type": type,
-    "TaskType": taskType,
+    "TaskType": taskTypeValues.reverse[taskType],
     "AllStatus": allStatus,
     "PriorityName": priorityName,
     "Priority": priority,
     "ProspectName": prospectName,
     "ProspectId": prospectId,
     "ProspectStatus": prospectStatus,
-    "ContactpersonName": contactPersonName,
-    "ContactpersonDesignation": contactpersonDesignation,
-    "ContactpersonMobile": contactpersonMobile,
-    "ContactpersonEmail": contactpersonEmail,
     "IsIndividual": isIndividual,
     "ProspectNumber": prospectNumber,
     "StatusUpdateDate": statusUpdateDate == null ? null : statusUpdateDate!.toIso8601String(),
     "LeadName": leadName,
     "DoneOrder": doneOrder,
     "Contact": contact,
+    "ContactPersonDetails": contactPersonDetails == null ? null : List<dynamic>.from(contactPersonDetails!.map((x) => x.toJson())),
     "TaskShares": taskShares,
     "CanDelete": canDelete,
     "OverDueOrder": overDueOrder,
-    "IsProspectActive": isProspectActive,
+    "IsProspectActive": isProspectActiveValues.reverse[isProspectActive],
     "CreatedByName": createdByName,
   };
 }
+
+enum AssignedPerson { MUHAMMAD_HASIBUR_RAHMAN }
+
+final assignedPersonValues = EnumValues({
+  "Muhammad Hasibur Rahman": AssignedPerson.MUHAMMAD_HASIBUR_RAHMAN
+});
+
+class ContactPersonDetail {
+  ContactPersonDetail({
+    this.contactpersonName,
+    this.contactpersonDesignation,
+    this.contactpersonMobile,
+    this.contactpersonEmail,
+  });
+
+  String? contactpersonName;
+  String? contactpersonDesignation;
+  String? contactpersonMobile;
+  String? contactpersonEmail;
+
+  factory ContactPersonDetail.fromJson(Map<String, dynamic> json) => ContactPersonDetail(
+    contactpersonName: json["ContactpersonName"],
+    contactpersonDesignation: json["ContactpersonDesignation"],
+    contactpersonMobile: json["ContactpersonMobile"],
+    contactpersonEmail: json["ContactpersonEmail"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "ContactpersonName": contactpersonName,
+    "ContactpersonDesignation": contactpersonDesignation,
+    "ContactpersonMobile": contactpersonMobile,
+    "ContactpersonEmail": contactpersonEmail,
+  };
+}
+
+enum CreatedByName { IRTISHAM_RAHMAN_OISHY, TASNIM_FERDOUSI, MD_RAYHAN_UDDEN, MOHAMMAD_KAMAL_HOSSAIN, SUPER_ADMIN, OLIULLAH_ASHRAFI }
+
+final createdByNameValues = EnumValues({
+  "Irtisham Rahman Oishy": CreatedByName.IRTISHAM_RAHMAN_OISHY,
+  "Md. Rayhan Udden": CreatedByName.MD_RAYHAN_UDDEN,
+  "Mohammad Kamal Hossain": CreatedByName.MOHAMMAD_KAMAL_HOSSAIN,
+  "Oliullah Ashrafi": CreatedByName.OLIULLAH_ASHRAFI,
+  "Super admin": CreatedByName.SUPER_ADMIN,
+  "Tasnim Ferdousi": CreatedByName.TASNIM_FERDOUSI
+});
+
+enum IsProspectActive { T }
+
+final isProspectActiveValues = EnumValues({
+  "T": IsProspectActive.T
+});
+
+enum PriorityName { VERY_HIGH, NORMAL }
+
+final priorityNameValues = EnumValues({
+  "Normal": PriorityName.NORMAL,
+  "Very High": PriorityName.VERY_HIGH
+});
+
+enum TaskType { CALL, MAIL, VISIT, ONLINE_MEETING }
+
+final taskTypeValues = EnumValues({
+  "Call": TaskType.CALL,
+  "Mail": TaskType.MAIL,
+  "Online Meeting": TaskType.ONLINE_MEETING,
+  "Visit": TaskType.VISIT
+});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String>? reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap!;
+  }
+}
+

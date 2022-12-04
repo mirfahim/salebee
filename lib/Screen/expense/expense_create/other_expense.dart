@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Screen/expense/expense_list_claimed/other_claimed/others_expense_list.dart';
 import 'package:salebee/utils.dart';
 import '../../../repository/expense_repository.dart';
 import 'transport.dart';
@@ -23,6 +24,7 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
   var pricingController = TextEditingController();
   final pickedDate = ''.obs;
   File? file;
+  var bytes;
   bool circular = false ;
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
@@ -101,7 +103,7 @@ backgroundColor: primaryColorLight,
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
-                      maxLines: 7,
+                      maxLines: 3,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -119,7 +121,36 @@ backgroundColor: primaryColorLight,
                     ),
                   ),
                   SizedBox(height: 10,),
-                  Text('Pricing',style: TextStyle(
+                  Text('Person',style: TextStyle(
+                      fontSize: 16,fontWeight: FontWeight.w600
+                  ),),
+                  SizedBox(height: 10,),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border:
+                        Border.all(color: Colors.grey, width: 1.5),
+                        borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                    child: TextFormField(
+                      onChanged: (value) {
+                        // _productController.searchProduct(value);
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration:   InputDecoration(
+                        prefix: Container(
+                          width: 20,
+                        ),
+                        hintText: 'Number of person',
+                        // icon:
+
+                        hintStyle:
+                        TextStyle(fontSize: 14.0, fontFamily: 'Roboto',color: Colors.grey),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Text('Expense',style: TextStyle(
                       fontSize: 16,fontWeight: FontWeight.w600
                   ),),
                   SizedBox(height: 10,),
@@ -157,6 +188,7 @@ backgroundColor: primaryColorLight,
                       _selectDate(context);
                     },
                     child: Container(
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -235,8 +267,12 @@ backgroundColor: primaryColorLight,
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: InkWell(
                         onTap: () async{
-                          var bytes = await file!.readAsBytes();
-                          print("my image file is ${file!.path}");
+                          if(file == null){
+                            bytes = null ;
+                          } else {
+                            bytes = await file!.readAsBytes();
+                          }
+
                           // Get.to(OtherExpense());
                           setState(() {
                             circular = true;
@@ -274,6 +310,21 @@ backgroundColor: primaryColorLight,
                                   setState(() {
                                     circular = false;
                                   });
+                                  final snackBar = SnackBar(
+                                    content: const Text('Other Expense Successfully added'),
+                                    action: SnackBarAction(
+                                      label: 'Undo',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => OtherClaimedList(),
+                                    ),
+                                  );
                                 }else {
                                   setState(() {
                                     circular = false;

@@ -3,6 +3,8 @@ import '../Model/login_model.dart';
 class StaticData {
   static int assignToID = 0;
   static int todaysTask = 0;
+  static int department = 0;
+  static String designation = "";
   static int prospectID = 0;
   static int leadID = 0;
   static int typeID = 0;
@@ -17,6 +19,7 @@ class StaticData {
   static String? token = "";
   static int? employeeID = 0;
   static bool? loggedIN;
+  static bool? attendanceMenu;
   static double myLocationLat = 0.0;
   static double myLocationLon = 0.0;
   static LoginResponseModel loginData = LoginResponseModel();

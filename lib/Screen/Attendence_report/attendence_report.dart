@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Screen/Attendence_report/all_report.dart';
 import 'package:salebee/Screen/Attendence_report/report.dart';
 
 import '../../utils.dart';
@@ -11,7 +13,7 @@ class AttendenceReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: StaticData.attendanceMenu == true ? 3 : 2,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
@@ -54,6 +56,10 @@ class AttendenceReport extends StatelessWidget {
                             ),
                             Tab(
                               text: 'Report',
+                            ),
+
+                            Tab(
+                              text: 'All',
                             )
                           ],
                       ),
@@ -93,7 +99,8 @@ class AttendenceReport extends StatelessWidget {
 
                    children: [
                      CheckInOut(),
-                     Report()
+                     Report(),
+                     AllReport(),
                    ]),
              ),
           ],

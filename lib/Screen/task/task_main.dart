@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Provider/Login/provider_manager.dart';
@@ -495,9 +496,19 @@ class _TaskState extends State<Task> {
 
 
             if(snapshot.hasError){
-              return Center(child: CircularProgressIndicator());
+              return   Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                    color: Colors.orange,
+
+                    size: 100,
+                  ));
             } if(snapshot.data == null ){
-              return Center(child: CircularProgressIndicator());
+              return   Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                    color: Colors.orange,
+
+                    size: 100,
+                  ));
             } else {
               return SafeArea(
                 child: Container(

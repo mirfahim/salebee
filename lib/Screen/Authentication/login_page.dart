@@ -14,6 +14,7 @@ import 'package:salebee/Utils/Alerts.dart';
 import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/Widget/button_widget.dart';
 import 'package:salebee/bottomNav.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import '../../Provider/Login/provider_manager.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
@@ -36,7 +37,8 @@ class LoginPageState extends State<LoginPage> {
   bool? checkedValue = false;
   bool circularLoad = false;
   String? fcmtoken = "";
-
+  List<dynamic> todaysTaskList = [];
+  TaskRepository taskRepository = TaskRepository();
   getFcmToken() async {
     fcmtoken = await FirebaseMessaging.instance.getToken();
     print("my fcm toekn is =+++++++++ $fcmtoken");
@@ -49,7 +51,15 @@ class LoginPageState extends State<LoginPage> {
     getFcmToken();
     super.initState();
   }
-
+  getAllTask() {
+    todaysTaskList.clear();
+    taskRepository.getAssignedToMeTaskController().then((ele) {
+      todaysTaskList.addAll(ele.result!
+          .where((element) => element.dueDate!.day == DateTime.now().day));
+      print("my todays task list is ${todaysTaskList.length}");
+      StaticData.todaysTask = todaysTaskList.length;
+    });
+  }
   // ApiClient apiClient = ApiClient();
   @override
   Widget build(BuildContext context) {
@@ -131,6 +141,7 @@ class LoginPageState extends State<LoginPage> {
               Center(
                 child: GestureDetector(
                   onTap: () async {
+
                     setState(() {
                       circularLoad = true;
                     });
@@ -167,17 +178,23 @@ class LoginPageState extends State<LoginPage> {
                       setState(() {
                         loginResponseModel = LoginResponseModel.fromJson(value);
                         StaticData.name = value["Result"]["UserFullName"];
+                        //StaticData.department = value["Result"]["UserFullName"];
                         StaticData.employeeID = value["Result"]["EmployeeId"];
+                        StaticData.designation = value["Result"]["Designation"];
                         StaticData.proLink =
                             value["Result"]["UserProfileImageLink"];
                         print(
                             "yo bro ----- ${loginResponseModel.result?.menus?.length.toString()}");
                       });
+
                       if (loginResponseModel.isSuccess == true) {
+
                         setState(() {
                           circularLoad = false;
                         });
                         setPref();
+
+
                         Timer(Duration(seconds: 3), () {
                           Navigator.pushAndRemoveUntil<dynamic>(
                             context,
@@ -255,13 +272,23 @@ class LoginPageState extends State<LoginPage> {
   }
 
   setPref() {
+    loginResponseModel.result!.menus!.forEach((element) {
+      if(element.label == "Attendance"){
+        SharedPreff.to.prefss
+            .setBool("attendanceMenu", true);
+      }
+    });
+    StaticData.attendanceMenu = SharedPreff.to.prefss.getBool("attendanceMenu");
     SharedPreff.to.prefss.setBool("loggedIN", true);
     SharedPreff.to.prefss
         .setString("userNAME", "${loginResponseModel.result?.userFullName}");
+
     SharedPreff.to.prefss
         .setString("token", "${loginResponseModel.result?.userToken}");
     SharedPreff.to.prefss.setString(
         "proLink", "${loginResponseModel.result?.userProfileImageLink}");
+    SharedPreff.to.prefss.setString(
+        "designation", "${loginResponseModel.result?.designation}");
     SharedPreff.to.prefss
         .setInt("employeeID", loginResponseModel.result!.employeeId!);
   }

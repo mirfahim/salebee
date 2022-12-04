@@ -7,17 +7,17 @@ import 'package:get/get.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-
-
 import 'package:salebee/Screen/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:salebee/utils.dart';
 import 'Provider/Login/provider_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Screen/Authentication/login_page.dart';
 import 'Screen/task/notification_service.dart';
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
@@ -27,15 +27,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
 // initialize hive
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   // open a box
- await Hive.openBox("manageTask");
-
+  await Hive.openBox("manageTask");
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Firebase.initializeApp();
@@ -61,15 +59,14 @@ void main() async {
   });
   await SharedPreff.to.initial();
   final AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('app_icon');
+      AndroidInitializationSettings('app_icon');
   await LocalNotificationService().initialize();
 
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +76,26 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-
         theme: ThemeData(
+            scaffoldBackgroundColor: primaryColorLight,
+            bottomAppBarTheme: BottomAppBarTheme(
+              color: primaryColorLight
+            ),
+            bottomAppBarColor: primaryColorLight,
 
-          //primarySwatch: Colors.blue,
-        ),
-        home:  Splash(),
+            appBarTheme: AppBarTheme(
+                backgroundColor: primaryColorLight,
+                titleTextStyle: TextStyle(color: Colors.black),
+                iconTheme: IconThemeData(color: Colors.black)),
+            textTheme: TextTheme(
+              headline1: TextStyle(color: Colors.black),
+              headline2: TextStyle(color: Colors.black),
+              bodyText2: TextStyle(color: Colors.black),
+              subtitle1: TextStyle(color: Colors.black),
+
+              //primarySwatch: Colors.blue,
+            )),
+        home: Splash(),
       ),
     );
   }
