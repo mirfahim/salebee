@@ -22,24 +22,84 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
       build: (context) {
         return Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                Column(
-                  children: [
-                    // Text("Attention to: ${invoice.result}"),
-                    // Text(invoice.address!),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    mainAxisAlignment: pw.MainAxisAlignment.end,
+                    children: [
+                      Spacer(),
+                      PaddedText("${DateFormat.yMd().format(DateTime.now())}"),
+                    ]),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Nexzen Solution Ltd",
+                        style: TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 16),
+                      ),
+                    ],
+                  ),
                 ),
-                // SizedBox(
-                //   height: 150,
-                //   width: 150,
-                //   child: Image(imageLogo),
-                // )
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "House: 545, 2nd floor, Suite A2, Road 8, Mirpur DOHS",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: pw.FontWeight.normal),
+                      ),
+                    ],
+                  ),
+                ),
               ],
+              crossAxisAlignment: CrossAxisAlignment.start,
             ),
-            Container(height: 50),
+            pw.SizedBox(height: 10),
+            Container(
+                height: 60,
+                width: 150,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1.0,
+                    ),
+                    shape: BoxShape.rectangle),
+                child: Column(
+                    mainAxisAlignment: pw.MainAxisAlignment.center,
+                    crossAxisAlignment: pw.CrossAxisAlignment.center,
+                    children: [
+                      Text("Expense Sheet",
+                          style: pw.TextStyle(
+                              fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                      Text("(Transport)",
+                          style: pw.TextStyle(
+                              fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                    ])),
+            SizedBox(height: 10),
+            Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  Spacer(),
+                  PaddedText("${DateFormat.yMMM().format(DateTime.now())}"),
+                ]),
+            Row(children: [
+              Container(
+                  child: Column(
+                      mainAxisAlignment: pw.MainAxisAlignment.start,
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          StaticData.name!,
+                        ),
+                        Text(StaticData.designation),
+                      ])),
+              Spacer(),
+            ]),
+            pw.SizedBox(height: 20),
             Table(
               border: TableBorder.all(color: PdfColors.black),
               children: [

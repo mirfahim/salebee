@@ -183,7 +183,8 @@ class _AddNewTaskState extends State<AddNewTask> {
 
                       if (snapshot.hasError) {
                         return CircularProgressIndicator();
-                      } else if (snapshot.data != null) {
+                      }
+                      else if (snapshot.data != null) {
                         print(
                             "my all list is __________________________${snapshot.data!.result!["SelectListProspects"]![0].text}");
                         print(

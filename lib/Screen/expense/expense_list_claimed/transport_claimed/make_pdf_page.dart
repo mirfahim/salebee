@@ -20,112 +20,89 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
   // final imageLogo = MemoryImage((await rootBundle.load('assets/technical_logo.png')).buffer.asUint8List());
   pdf.addPage(
     Page(
-
       build: (context) {
         return Column(
+          mainAxisAlignment: pw.MainAxisAlignment.center,
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-
-                Column(
-                  children: [
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Nexzen Solution Ltd",
-                            style: TextStyle(
-                                fontWeight: pw.FontWeight.bold, fontSize: 16),
-                          ),
-
-                        ],
+                Row(
+                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    mainAxisAlignment: pw.MainAxisAlignment.end,
+                    children: [
+                      Spacer(),
+                      PaddedText("${DateFormat.yMd().format(DateTime.now())}"),
+                    ]),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Nexzen Solution Ltd",
+                        style: TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 16),
                       ),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-        "House: 545, 2nd floor, Suite A2, Road 8, Mirpur DOHS",
-
-        style: TextStyle(
-                                fontSize: 14, fontWeight: pw.FontWeight.normal),
-                          ),
-
-                        ],
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "House: 545, 2nd floor, Suite A2, Road 8, Mirpur DOHS",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: pw.FontWeight.normal),
                       ),
-                    ),
-
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                    ],
+                  ),
                 ),
-                pw.Spacer(),
-                Expanded(
-                  child: PaddedText(
-                      "${DateFormat.yMMM().format(DateTime.now())}"),
-                  flex: 2,
-                ),
-
-                // SizedBox(
-                //   height: 150,
-                //   width: 150,
-                //   child: Image(imageLogo),
-                // )
               ],
+              crossAxisAlignment: CrossAxisAlignment.start,
             ),
+            pw.SizedBox(height: 10),
             Container(
-
-                height: 50,
-              child: Center(
-                child: Text("Expense Sheet (Transport)",
-                style: pw.TextStyle(
-                  fontSize: 16,
-                 fontWeight: pw.FontWeight.bold
-                ))
-              )
-            ),
-            Table(
-              border: TableBorder.all(color: PdfColors.black),
-              children: [
-                // TableRow(
-                //   children: [
-                //     PaddedText('Department'),
-                //     PaddedText(
-                //       StaticData.employeeID.toString(),
-                //     )
-                //   ],
-                // ),
-                // TableRow(
-                //   children: [
-                //     PaddedText('Employee ID'),
-                //     PaddedText(
-                //       StaticData.employeeID.toString(),
-                //     )
-                //   ],
-                // ),
-                TableRow(
-                  children: [
-                    PaddedText(
-                      'Account Name',
+                height: 60,
+                width: 150,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1.0,
                     ),
-                    PaddedText(
+                    shape: BoxShape.rectangle),
+                child: Column(
+                    mainAxisAlignment: pw.MainAxisAlignment.center,
+                    crossAxisAlignment: pw.CrossAxisAlignment.center,
+                    children: [
+                      Text("Expense Sheet",
+                          style: pw.TextStyle(
+                              fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                      Text("(Transport)",
+                          style: pw.TextStyle(
+                              fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                    ])),
+            SizedBox(height: 10),
+            Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  Spacer(),
+                  PaddedText("${DateFormat.yMMM().format(DateTime.now())}"),
+                ]),
+            Row(children: [
+              Container(
+                  child: Column(
+                      mainAxisAlignment: pw.MainAxisAlignment.start,
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                    Text(
                       StaticData.name!,
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    PaddedText(
-                      'Designation',
                     ),
-                    PaddedText(
-                        StaticData.designation)
-                  ],
-                )
-              ],
-            ),
+                    Text(StaticData.designation),
+                  ])),
+              Spacer(),
+            ]),
+            pw.SizedBox(height: 20),
             Table(
               border: TableBorder.all(color: PdfColors.black),
               children: [
@@ -178,9 +155,7 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                     children: [
                       Expanded(
                         child: PaddedText(
-                            "${ DateFormat('EEEE').format(e.createdOn!).toString().substring(0,3) + ","} ${e.createdOn
-                                .toString()
-                                .substring(8, 10)}"),
+                            "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
                         flex: 1,
                       ),
                       e.vehicleType == 0
@@ -188,33 +163,35 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                               child: PaddedText("Bus"),
                               flex: 1,
                             )
-                          : e.vehicleType == 1 ?
+                          : e.vehicleType == 1
+                              ? Expanded(
+                                  child: PaddedText("Bus"),
+                                  flex: 1,
+                                )
+                              : e.vehicleType == 2
+                                  ? Expanded(
+                                      child: PaddedText("Bus"),
+                                      flex: 1,
+                                    )
+                                  : e.vehicleType == 3
+                                      ? Expanded(
+                                          child: PaddedText("Bus"),
+                                          flex: 1,
+                                        )
+                                      : e.vehicleType == 4
+                                          ? Expanded(
+                                              child: PaddedText("Bus"),
+                                              flex: 1,
+                                            )
+                                          : Expanded(
+                                              child: PaddedText("Bus"),
+                                              flex: 1,
+                                            ),
                       Expanded(
-                        child: PaddedText("Bus"),
-                        flex: 1,
-                      ) :
-                      e.vehicleType == 2 ?
-                      Expanded(
-                        child: PaddedText("Bus"),
-                        flex: 1,
-                      ) :e.vehicleType == 3 ?
-                      Expanded(
-                        child: PaddedText("Bus"),
-                        flex: 1,
-                      ) :
-                      e.vehicleType == 4 ?
-                      Expanded(
-                        child: PaddedText("Bus"),
-                        flex: 1,
-                      ): Expanded(
-                              child: PaddedText("Bus"),
-                              flex: 1,
-                            ),
-                      Expanded(
-                        child: PaddedText("${e.startLocation!.toString()} - ${e.endLocation!.toString()}"),
+                        child: PaddedText(
+                            "${e.startLocation!.toString()} - ${e.endLocation!.toString()}"),
                         flex: 2,
                       ),
-
                       Expanded(
                         child: PaddedText("${e.expense!.toString()}"),
                         flex: 1,
@@ -237,30 +214,29 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                 )
               ],
             ),
-            Padding(
-              child: Text(
-                "THANK YOU FOR YOUR CUSTOM!",
-                style: Theme.of(context).header2,
-              ),
-              padding: EdgeInsets.all(20),
-            ),
-            Text(
-                "Please forward the below slip to your accounts payable department."),
-            Divider(
-              height: 1,
-              borderStyle: BorderStyle.dashed,
-            ),
-            Container(height: 50),
-            Padding(
-              padding: EdgeInsets.all(30),
-              child: Text(
-                'SaleBee CRM',
-                style: Theme.of(context).header3.copyWith(
-                      fontStyle: FontStyle.italic,
+            SizedBox(height: 40),
+            Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(children: [
+                    Container(height: 3, width: 60),
+                    Text("Received Signature & Date"),
+                    pw.SizedBox(width: 10),
+                  ]),
+                  Column(children: [
+                    Container(
+                      height: 5,
+                      width: 60,
                     ),
-                textAlign: TextAlign.center,
-              ),
-            )
+                    Text("Accounts Checked"),
+                    pw.SizedBox(width: 10),
+                  ]),
+                  Column(children: [
+                    Container(height: 5, width: 60),
+                    Text("Approved by"),
+                    pw.SizedBox(width: 10),
+                  ]),
+                ])
           ],
         );
       },

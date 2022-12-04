@@ -4,6 +4,7 @@ import 'package:salebee/Screen/expense/expense_create/expense_create_front.dart'
 import 'package:salebee/Screen/expense/expense_list_claimed/food_claimed/food_expense_list.dart';
 import 'package:salebee/Screen/expense/expense_list_claimed/other_claimed/others_expense_list.dart';
 import 'package:salebee/Utils/my_colors.dart';
+import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 import 'dart:io';
 
@@ -25,8 +26,25 @@ List<String> tabs = [
   'November',
   'December'
 ];
-class Claimed extends StatelessWidget {
+class Claimed extends StatefulWidget {
   const Claimed({Key? key}) : super(key: key);
+
+  @override
+  State<Claimed> createState() => _ClaimedState();
+}
+
+class _ClaimedState extends State<Claimed> {
+
+  ExpenseRepository expenseRepository = ExpenseRepository();
+  @override
+  void initState(){
+   expenseRepository.getTransportExpense().then((value) {
+     value.result!.forEach((element) {
+
+     });
+   });
+    super.initState();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -423,6 +441,7 @@ class Claimed extends StatelessWidget {
       ),
     );
   }
+
   Future<void> pdfDownload() async {
     final pdf = pw.Document();
 

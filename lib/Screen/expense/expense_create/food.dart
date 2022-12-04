@@ -202,6 +202,7 @@ class _FoodExpenseState extends State<FoodExpense> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: pricingController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -385,7 +386,7 @@ class _FoodExpenseState extends State<FoodExpense> {
                         circular = true;
                       });
                       print("working 01");
-                      if (textExpenseController.text.isEmpty) {
+                      if (pricingController.text == null) {
                         print("working 02");
                         final snackBar = SnackBar(
                           content: const Text('Please fill all the form field'),
@@ -410,7 +411,7 @@ class _FoodExpenseState extends State<FoodExpense> {
                               .foodExpenseController(
                             image: bytes,   mealType: mealType ,
                             dishName: dishNameController.text,
-                            expense:100,
+                            expense: int.parse(pricingController.text),
                             date:todayIs.toString(), )
                               .then((e) {
                             print(

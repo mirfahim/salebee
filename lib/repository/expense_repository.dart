@@ -31,10 +31,10 @@ class ExpenseRepository {
 
     Map<String, dynamic> bodyString = {
       "Id": 0,
-      "MealType": 0,
+      "MealType": mealType,
       "DishName": "string",
-      "Expense": 0,
-      "ExpenseDate": "2022-11-15T04:09:52.678Z",
+      "Expense": expense,
+      "ExpenseDate": date,
       "ApprovedBy": 0,
       "Attachment": null,
       "Active": true,
@@ -74,9 +74,9 @@ class ExpenseRepository {
     Map<String, dynamic> bodyString =
     {
       "Id": 0,
-      "ExpenseName": "string",
-      "Description": "string",
-      "Expense": 0,
+      "ExpenseName": expenseName,
+      "Description": discription,
+      "Expense": expense,
       "ExpenseDate": "2022-11-15T06:05:16.691Z",
       "ApprovedBy": 0,
       "Attachment": null,
@@ -106,6 +106,7 @@ class ExpenseRepository {
   Future transportExpenseController(
       { required image,
       required int vehicleType,
+        description,
       required String vehicleName,
       required String vehicleNo,
       required int expense,
@@ -312,7 +313,7 @@ class ExpenseRepository {
 
       return getTransportExpenseModelFromJson(response.body);
     }catch(e){
-      print("my get transport list errr is ${e.toString()}");
+      print("my get other list errr is ${e.toString()}");
     }
 
     return getTransportExpenseModelFromJson(response.body);

@@ -67,18 +67,18 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
-    expenseName: json["ExpenseName"],
-    description: json["Description"],
-    expense: json["Expense"],
-    expenseDate: DateTime.parse(json["ExpenseDate"]),
-    approvedBy: json["ApprovedBy"],
-    attachment: json["Attachment"],
+    expenseName: json["ExpenseName"] ?? "",
+    description: json["Description"] ?? "",
+    expense: json["Expense"] ?? 0,
+    expenseDate: DateTime.parse(json["ExpenseDate"]) ,
+    approvedBy: json["ApprovedBy"] ?? "",
+    attachment: json["Attachment"] ?? "",
     active: json["Active"],
-    createdBy: json["CreatedBy"],
-    createdOn: DateTime.parse(json["CreatedOn"]),
-    updatedBy: json["UpdatedBy"],
-    updatedOn: DateTime.parse(json["UpdatedOn"]),
-    token: json["Token"],
+    createdBy: json["CreatedBy"] ?? "",
+    createdOn: DateTime.parse(json["CreatedOn"]) ,
+    updatedBy: json["UpdatedBy"] == null ? null :  json["UpdatedBy"] ,
+    updatedOn: json["UpdatedOn"] == null ? null : DateTime.parse(json["UpdatedOn"]),
+    token: json["Token"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {

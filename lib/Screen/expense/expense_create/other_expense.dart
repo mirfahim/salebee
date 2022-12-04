@@ -161,6 +161,7 @@ backgroundColor: primaryColorLight,
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: pricingController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -302,7 +303,7 @@ backgroundColor: primaryColorLight,
                                 image: bytes,
                                   expenseName: expenseNameController.text,
                                   discription: descriptionController.text,
-                                  expense: 100,
+                                  expense: int.parse(pricingController.text),
                                   date:selectedDate.toString())
                                   .then((e) {
                                 print("my response for other expense is ${e["IsSuccess"]}");

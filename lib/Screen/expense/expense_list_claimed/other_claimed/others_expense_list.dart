@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
 import 'package:salebee/Model/expense/get_other_expense_model.dart';
@@ -157,7 +158,65 @@ class _ApprovedState extends State<OtherClaimedList> {
                                                     child: IntrinsicHeight(
                                                       child: Row(
                                                         children: [
-                                                          Expanded(child: Image.asset('images/transportation.png',height: 30,)),
+                                                          Container(
+                                                              height: 40,
+                                                              decoration: BoxDecoration(
+                                                                  color: primaryColorSecond.withOpacity(
+                                                                      .3),
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      6)),
+                                                              width: 70,
+                                                              child:
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                    4.0),
+                                                                child:
+                                                                Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment.center,
+                                                                      children: [
+                                                                        Text(
+                                                                          DateFormat('EEEE').format(data.createdOn!).toString().substring(0, 3) + ",",
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 5,
+                                                                        ),
+                                                                        //"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                        Center(
+                                                                          child: Text(
+                                                                            " " + data.createdOn.toString().substring(8, 10),
+                                                                            textAlign: TextAlign.center,
+                                                                            style: TextStyle(fontSize: 12),
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          DateFormat('MMM').format(data.createdOn!).toString().substring(0, 3),
+                                                                          style: TextStyle(fontSize: 12),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Card(
+                                                                      child:
+                                                                      Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                        children: [
+                                                                          Text(
+                                                                            DateFormat.jm().format(data.createdOn!),
+                                                                            style: TextStyle(fontSize: 8),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )),
                                                           const VerticalDivider(
                                                             thickness: 1,
                                                             color: Colors.grey,
@@ -171,11 +230,9 @@ class _ApprovedState extends State<OtherClaimedList> {
                                                                 Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
-                                                                   // Text(vehicleName),
-                                                                    const SizedBox(height: 5,),
-                                                                    Text(data.createdOn.toString().substring(0,10),style: TextStyle(
-                                                                        color: Colors.grey.withOpacity(.7)
-                                                                    ),),
+                                                                    Text(data.expenseName!),
+
+
                                                                     const SizedBox(height: 5,),
                                                                     Row(
                                                                       children: [
@@ -187,10 +244,13 @@ class _ApprovedState extends State<OtherClaimedList> {
                                                                             color: Colors.grey.withOpacity(.7)
                                                                         ),)
                                                                       ],
-                                                                    )
+                                                                    ),
+                                                                    Text('',style: TextStyle(
+                                                                        color: Colors.grey.withOpacity(.7)
+                                                                    ),)
                                                                   ],
                                                                 ),
-                                                                const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+
                                                               ],
                                                             ),
                                                           ),

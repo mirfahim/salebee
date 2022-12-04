@@ -36,6 +36,7 @@ class _ApprovedState extends State<TransportClaimedList> {
   String vehicleName = "";
   double totalBalance = 0.0;
   int selectMonth = int.parse(DateTime.now().toString().substring(5,7));
+  List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
 
   @override
   Widget build(BuildContext context) {
@@ -141,13 +142,19 @@ class _ApprovedState extends State<TransportClaimedList> {
                                           itemBuilder: (BuildContext context, index){
                                          var data =  snapshot.data!.result![index];
                                          if(data.vehicleType == 0){
-                                           vehicleName = "Air";
+                                           vehicleName = way[0];
                                          }if(data.vehicleType == 1){
-                                           vehicleName = "Bus";
+                                           vehicleName = way[1];
                                          }if(data.vehicleType == 2){
-                                           vehicleName = "Train";
+                                           vehicleName = way[2];
                                          }if(data.vehicleType == 3){
-                                           vehicleName = "Others";
+                                           vehicleName =way[3];
+                                         }if(data.vehicleType == 4){
+                                           vehicleName =way[4];
+                                         }if(data.vehicleType == 5){
+                                           vehicleName =way[5];
+                                         }if(data.vehicleType == 6){
+                                           vehicleName =way[6];
                                          }
 
 

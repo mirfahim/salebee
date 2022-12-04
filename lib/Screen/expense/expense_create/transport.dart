@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Screen/expense/expense_create/food.dart';
 import 'package:salebee/Screen/expense/expense_list_claimed/transport_claimed/transport_expense_list.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 
@@ -22,14 +26,19 @@ class _TransportExpenseCreatePageState
   final selectedDate = DateTime.now().obs;
   ExpenseRepository expenseRepository = ExpenseRepository();
   final pickedDate = ''.obs;
-  var wayController = TextEditingController();
+  List<String> allList = [];
+  var wayDescriptionController = TextEditingController();
   var vehicleNameController = TextEditingController();
   var vehicleNumController = TextEditingController();
   var startLocationController = TextEditingController();
+  var personController = TextEditingController();
+  var costController = TextEditingController();
   var endLocationController = TextEditingController();
   var pricingController = TextEditingController();
   int wayTypeIndex = 0;
+  String? newProspect = "Select";
   int wayType = 0;
+  TaskRepository taskRepository = TaskRepository();
   List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
   File? file;
   var bytes;
@@ -59,6 +68,25 @@ class _TransportExpenseCreatePageState
       file = imageFile;
     }
     return file;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    taskRepository.getAllListForTaskController().then((value) {
+      if(value.result == null){
+        print("some error++");
+      }else{
+
+
+        newProspect = value.result!["SelectListProspects"]![0].text;
+
+      }
+
+      //prospectList = value.result!["SelectListProspects"]!;
+    });
+
+    super.initState();
   }
 
   @override
@@ -201,6 +229,7 @@ class _TransportExpenseCreatePageState
                           ],
                         ),
                       ),
+
                       Container(
                         width: 150,
                         child: Column(
@@ -299,34 +328,32 @@ class _TransportExpenseCreatePageState
 
                             Row(
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 50,
-                                    width: 140,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border:
-                                        Border.all(color: Colors.grey, width: 1.5),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                    child: TextFormField(
-                                      onChanged: (value) {
-                                        // _productController.searchProduct(value);
-                                      },
-                                      controller: startLocationController,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        prefix: Container(
-                                          width: 20,
-                                        ),
-                                        hintText: 'Number of person',
-
-                                        hintStyle: const TextStyle(
-                                            fontSize: 14.0,
-                                            fontFamily: 'Roboto',
-                                            color: Colors.grey),
-                                        border: InputBorder.none,
+                                Container(
+                                  height: 50,
+                                  width: 140,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border:
+                                      Border.all(color: Colors.grey, width: 1.5),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: TextFormField(
+                                    onChanged: (value) {
+                                      // _productController.searchProduct(value);
+                                    },
+                                    controller: personController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      prefix: Container(
+                                        width: 20,
                                       ),
+                                      hintText: 'Number of person',
+
+                                      hintStyle: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontFamily: 'Roboto',
+                                          color: Colors.grey),
+                                      border: InputBorder.none,
                                     ),
                                   ),
                                 ),
@@ -362,8 +389,8 @@ class _TransportExpenseCreatePageState
                                     onChanged: (value) {
                                       // _productController.searchProduct(value);
                                     },
-                                    controller: endLocationController,
-                                    keyboardType: TextInputType.text,
+                                    controller: pricingController,
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       prefix: Container(
                                         width: 20,
@@ -437,7 +464,7 @@ class _TransportExpenseCreatePageState
                             const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
                       maxLines: 3,
-                      controller: wayController,
+                      controller: wayDescriptionController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -467,46 +494,84 @@ class _TransportExpenseCreatePageState
                     height: 10,
                   ),
 
-                  Container(
-                    height: 50,
-                      decoration:  BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 1.5),
-                      borderRadius:
-                      const BorderRadius.all(Radius.circular(10.0))),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8),
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value:
-                              wayTypeIndex == null ? null : way[wayTypeIndex],
-                          icon:
-                              Icon(Icons.arrow_drop_down_outlined),
-                          elevation: 16,
-                          style: const TextStyle(
-                              color: Colors.deepPurple),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.transparent,
-                          ),
-                          items: way.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            // This is called when the user selects an item.
-                            setState(() {
-                              // dropdownValuePriority = value!;
-                              // typeId = type.indexOf(value!);
-                              // print(
-                              //     "selected index of type is ________________ $typeId");
-                            });
-                          },
-                        ),
-                      )),
+                  FutureBuilder<GetListForTaskDataModel>(
+
+                    future: taskRepository.getAllListForTaskController(),
+                    builder: (context, snapshot) {
+                      if(snapshot.data == null ){
+                        return Container();
+                      } else {
+                        snapshot.data!
+                            .result!["SelectListProspects"]!
+                            .forEach((element) {
+
+                          allList.add(element.text);
+                        });
+                      } if(snapshot.hasError) {
+                        return Container();
+                      } else if(snapshot.data != null){
+                        return     Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: borderColor, width: 1),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10.0))),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8),
+                              child:  DropdownButtonHideUnderline(
+
+                                child: DropdownSearch<String>(
+
+                                  popupProps: PopupProps.menu(
+                                    fit: FlexFit.loose,
+
+                                    showSearchBox: true,
+                                    showSelectedItems: true,
+
+                                    disabledItemFn: (String s) => s.startsWith('I'),
+                                  ),
+                                  items: allList,
+                                  dropdownDecoratorProps: DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+
+
+                                      hintText: "Employee List",
+                                    ),
+                                  ),
+                                  onChanged:(String? value) {
+                                    // This is called when the user selects an item.
+                                    print('taxGroup $value');
+
+                                    setState(() {
+                                      newProspect = value;
+                                      snapshot.data!
+                                          .result!["SelectListProspects"]!
+                                          .forEach((element) {
+                                        // print("${element.text}"+"$newLead");
+                                        if (element.text == newProspect) {
+                                          StaticData.prospectID =
+                                              int.parse(element.value);
+                                          print(
+                                              "my assign id is ${StaticData.prospectID}");
+                                        } else {
+                                          // _showSnack("Task Assign to ${StaticData.assignToID}");
+                                          // print("no match in assign to");
+                                        }
+                                      });
+                                    });
+
+
+                                  },
+                                  selectedItem: allList[0],
+                                ),
+                              ),
+                            ));
+                      } return Center(child: CircularProgressIndicator());
+
+                    }
+                  ),
 
 
  SizedBox(
@@ -654,9 +719,9 @@ class _TransportExpenseCreatePageState
                         circular = true;
                       });
 
-                      if (wayController.text.isEmpty) {
+                      if (startLocationController.text.isEmpty) {
                         final snackBar = SnackBar(
-                          content: const Text('Please fill all the form field'),
+                          content: const Text('Please fill start and end location field'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {
@@ -676,13 +741,14 @@ class _TransportExpenseCreatePageState
                               .transportExpenseController(
                             image: bytes  ,
                             vehicleType: wayType,
-                            vehicleName: vehicleNameController.text,
-                            vehicleNo: vehicleNameController.text,
+                            vehicleName: "vehicleNameController.text",
+                            vehicleNo: "vehicleNameController.text",
                             expense: int.parse(pricingController.text),
                             startDate: selectedDate.toString(),
                             endDate: selectedDate.toString(),
                             startLocation: startLocationController.text,
-                            endLocation: endLocationController.text
+                            endLocation: endLocationController.text,
+                            description: wayDescriptionController.text,
                           )
                               .then((e) {
                             print(

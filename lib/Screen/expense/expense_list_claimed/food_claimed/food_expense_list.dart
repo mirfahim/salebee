@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
 import 'package:salebee/Model/expense/get_expense_food_model.dart';
@@ -23,6 +24,7 @@ List<String> tabs = [
   'November',
   'December'
 ];
+
 class FoodClaimedList extends StatefulWidget {
   const FoodClaimedList({Key? key}) : super(key: key);
 
@@ -32,22 +34,25 @@ class FoodClaimedList extends StatefulWidget {
 
 class _ApprovedState extends State<FoodClaimedList> {
   ExpenseRepository expenseRepository = ExpenseRepository();
+  List<String> type = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
+
   String vehicleName = "";
   double totalBalance = 0.0;
-  int selectMonth = int.parse(DateTime.now().toString().substring(5,7));
+  int selectMonth = int.parse(DateTime.now().toString().substring(5, 7));
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
-
         backgroundColor: primaryColorLight,
         appBar: AppBar(
           backgroundColor: primaryColorLight,
-          title: Text("Food Expense Claimed", style: TextStyle(
-            color: Colors.black,
-          ),),
+          title: Text(
+            "Food Expense Claimed",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
         ),
         body: Stack(
           children: [
@@ -55,10 +60,9 @@ class _ApprovedState extends State<FoodClaimedList> {
               padding: const EdgeInsets.only(bottom: 60),
               child: Column(
                 children: [
-
                   Expanded(
                     child: DefaultTabController(
-                      initialIndex: selectMonth -1,
+                      initialIndex: selectMonth - 1,
                       length: 12,
                       child: Column(
                         children: [
@@ -69,43 +73,45 @@ class _ApprovedState extends State<FoodClaimedList> {
                             isScrollable: true,
                             indicatorColor: Colors.black,
                             labelColor: Colors.black,
-                            onTap: (i){
-                              setState((){
-                                selectMonth = i+1;
+                            onTap: (i) {
+                              setState(() {
+                                selectMonth = i + 1;
                               });
                             },
                             tabs: tabs
                                 .map((tab) => Tab(
-                              icon: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(tab),
-                              ),
-                            ))
+                                      icon: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(tab),
+                                      ),
+                                    ))
                                 .toList(),
                           ),
                           FutureBuilder<GetFoodExpenseModel>(
-                            future: expenseRepository.getFoodExpense(), // async work
-                            builder: (BuildContext context, AsyncSnapshot<GetFoodExpenseModel> snapshot) {
-
-
-                              if(snapshot.data == null){
+                            future: expenseRepository
+                                .getFoodExpense(), // async work
+                            builder: (BuildContext context,
+                                AsyncSnapshot<GetFoodExpenseModel> snapshot) {
+                              if (snapshot.data == null) {
                                 print("snapshot no data found");
-                              } else  {
-
-
-                                totalBalance =  snapshot.data!.result!.fold<double>(0, (previousValue, element) => previousValue + element.expense!);
+                              } else {
+                                totalBalance = snapshot.data!.result!
+                                    .fold<double>(
+                                        0,
+                                        (previousValue, element) =>
+                                            previousValue + element.expense!);
                                 print("total amount is  $totalBalance");
-
                               }
 
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:
                                   return Center(
-                                      child: LoadingAnimationWidget.twistingDots(
-                                        leftDotColor: const Color(0xFF8686E3),
-                                        rightDotColor: const Color(0xFFEA3799),
-                                        size: 100,
-                                      ));
+                                      child:
+                                          LoadingAnimationWidget.twistingDots(
+                                    leftDotColor: const Color(0xFF8686E3),
+                                    rightDotColor: const Color(0xFFEA3799),
+                                    size: 100,
+                                  ));
                                 default:
                                   if (snapshot.hasError)
                                     return Center(child: Text('No Data Found'));
@@ -114,143 +120,259 @@ class _ApprovedState extends State<FoodClaimedList> {
                                       child: CircularProgressIndicator(),
                                     );
                                   } else {
-                                    return  Column(
+                                    return Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                                          child: Row(children: [
-                                            const Text('Total Expense: ',style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 20
-                                            ),),
-                                            Text(totalBalance.toString(),style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 20
-                                            ),),
-                                            Text(' BDT',style: TextStyle(
-                                                color: Colors.grey.withOpacity(.5),
-                                                fontSize: 20
-                                            ),)
-                                          ],),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0, vertical: 10),
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                'Total Expense: ',
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 20),
+                                              ),
+                                              Text(
+                                                totalBalance.toString(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 20),
+                                              ),
+                                              Text(
+                                                ' BDT',
+                                                style: TextStyle(
+                                                    color: Colors.grey
+                                                        .withOpacity(.5),
+                                                    fontSize: 20),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         Container(
-                                          height: MediaQuery.of(context).size.height -300,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height -
+                                              300,
                                           child: ListView.builder(
-                                              itemCount: snapshot.data!.result!.length,
-                                              itemBuilder: (BuildContext context, index){
-                                                var data =  snapshot.data!.result![index];
-                                                if(data.mealType == 0){
-                                                  vehicleName = "Air";
-                                                }if(data.mealType == 1){
-                                                  vehicleName = "Bus";
-                                                }if(data.mealType == 2){
-                                                  vehicleName = "Train";
-                                                }if(data.mealType == 3){
-                                                  vehicleName = "Others";
+                                              itemCount:
+                                                  snapshot.data!.result!.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      index) {
+                                                var data = snapshot
+                                                    .data!.result![index];
+                                                if (data.mealType == 0) {
+                                                  vehicleName = type[0];
+                                                }
+                                                if (data.mealType == 1) {
+                                                  vehicleName = type[1];
+                                                }
+                                                if (data.mealType == 2) {
+                                                  vehicleName = type[2];
+                                                }
+                                                if (data.mealType == 3) {
+                                                  vehicleName = type[3];
+                                                }
+                                                if (data.mealType == 4) {
+                                                  vehicleName = type[4];
                                                 }
 
-
-
-
-                                                return selectMonth == int.parse(data.createdOn.toString().substring(5,7))
-                                                    ?
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      border: Border.all(color: Colors.grey.withOpacity(.5)),
-                                                      color:blue.withOpacity(.1)
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: IntrinsicHeight(
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(child: Image.asset('images/transportation.png',height: 30,)),
-                                                          const VerticalDivider(
-                                                            thickness: 1,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          const SizedBox(width: 10,),
-                                                          Expanded(
-                                                            flex: 5,
+                                                return selectMonth ==
+                                                        int.parse(data.createdOn
+                                                            .toString()
+                                                            .substring(5, 7))
+                                                    ? Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        .5)),
+                                                            color: blue
+                                                                .withOpacity(
+                                                                    .1)),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child:
+                                                              IntrinsicHeight(
                                                             child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
-                                                                Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    Text(vehicleName),
-                                                                    const SizedBox(height: 5,),
-                                                                    Text(data.createdOn.toString().substring(0,10),style: TextStyle(
-                                                                        color: Colors.grey.withOpacity(.7)
-                                                                    ),),
-                                                                    const SizedBox(height: 5,),
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(data.expense.toString(),style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            fontWeight: FontWeight.w600
-                                                                        ),),
-                                                                        Text(' BDT',style: TextStyle(
-                                                                            color: Colors.grey.withOpacity(.7)
-                                                                        ),)
-                                                                      ],
-                                                                    )
-                                                                  ],
+                                                                Container(
+                                                                    height: 40,
+                                                                    decoration: BoxDecoration(
+                                                                        color: primaryColorSecond.withOpacity(
+                                                                            .3),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                6)),
+                                                                    width: 70,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          vertical:
+                                                                              4.0),
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text(
+                                                                                DateFormat('EEEE').format(data.createdOn!).toString().substring(0, 3) + ",",
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 5,
+                                                                              ),
+                                                                              //"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                              Center(
+                                                                                child: Text(
+                                                                                  " " + data.createdOn.toString().substring(8, 10),
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: TextStyle(fontSize: 12),
+                                                                                ),
+                                                                              ),
+                                                                              Text(
+                                                                                DateFormat('MMM').format(data.createdOn!).toString().substring(0, 3),
+                                                                                style: TextStyle(fontSize: 12),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Card(
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Text(
+                                                                                  DateFormat.jm().format(data.createdOn!),
+                                                                                  style: TextStyle(fontSize: 8),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    )),
+                                                                const VerticalDivider(
+                                                                  thickness: 1,
+                                                                  color: Colors
+                                                                      .grey,
                                                                 ),
-                                                                const Icon(Icons.arrow_forward_ios_outlined,size: 14,)
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Expanded(
+                                                                  flex: 5,
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Row(
+                                                                            children: [
+                                                                              Text(vehicleName + ": "),
+                                                                              Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    data.expense.toString(),
+                                                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    ' BDT',
+                                                                                    style: TextStyle(color: Colors.grey.withOpacity(.7)),
+                                                                                  )
+                                                                                ],
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                          Row(
+                                                                            children: [
+                                                                              Text(
+                                                                                "Person no: ",
+                                                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                                                                              ),
+                                                                              Text(
+                                                                                '1',
+                                                                                style: TextStyle(color: Colors.grey.withOpacity(.7)),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                          Container(
+                                                                            width:
+                                                                                220,
+                                                                            child:
+                                                                                Expanded(
+                                                                              child: Text("Food description for all type , how many people", overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.grey.withOpacity(.7))),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                           ),
-
-                                                        ],),
-                                                    ),
-                                                  ),
-                                                )
+                                                        ),
+                                                      )
                                                     : Container();
                                               }),
                                         ),
                                         GestureDetector(
-                                            onTap: (){
+                                            onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                  builder: (builder) => PdfPreviewPage(invoice: snapshot.data! ),
+                                                  builder: (builder) =>
+                                                      PdfPreviewPage(
+                                                          invoice:
+                                                              snapshot.data!),
                                                 ),
                                               );
                                             },
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-
                                                 Container(
                                                   height: 50,
                                                   width: 50,
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(
-                                                          image: AssetImage(  'images/Icons/utility_expense.png',)
-                                                      )
-                                                  ),
+                                                          image: AssetImage(
+                                                    'images/Icons/utility_expense.png',
+                                                  ))),
                                                 ),
-                                                Text("View PDF", style: TextStyle(
-                                                    color: Colors.black54
-                                                ),),
+                                                Text(
+                                                  "View PDF",
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                ),
                                               ],
-                                            )
-                                        ),
+                                            )),
                                       ],
                                     );
                                   }
                               }
-
                             },
                           ),
-
-
                         ],
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -259,7 +381,7 @@ class _ApprovedState extends State<FoodClaimedList> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Get.to(ExpenseCreateFront());
                   },
                   child: Container(
@@ -267,14 +389,15 @@ class _ApprovedState extends State<FoodClaimedList> {
                     width: size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        color: darkBlue
-                    ),
+                        color: darkBlue),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text('Add New Expense',textAlign:TextAlign.center,style: TextStyle(
-                            color: Colors.white
-                        ),),
+                        child: Text(
+                          'Add New Expense',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -282,7 +405,6 @@ class _ApprovedState extends State<FoodClaimedList> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }
