@@ -748,7 +748,7 @@ bool today = true;
                                                                 vertical:
                                                                 3),
                                                             child: Row(
-                                                              children: const [
+                                                              children:  [
                                                                 Icon(
                                                                   Icons.map,
                                                                   color: Colors
@@ -758,7 +758,7 @@ bool today = true;
                                                                   width: 5,
                                                                 ),
                                                                 Text(
-                                                                  'Visit',
+                                                                  data!.taskType!,
                                                                   style: TextStyle(
                                                                       color: Colors
                                                                           .white),
@@ -1772,7 +1772,7 @@ bool today = true;
                                                                 vertical:
                                                                 3),
                                                             child: Row(
-                                                              children: const [
+                                                              children:  [
                                                                 Icon(
                                                                   Icons.map,
                                                                   color: Colors
@@ -1782,7 +1782,7 @@ bool today = true;
                                                                   width: 5,
                                                                 ),
                                                                 Text(
-                                                                  'Visit',
+                                                                  data!.taskType!,
                                                                   style: TextStyle(
                                                                       color: Colors
                                                                           .white),

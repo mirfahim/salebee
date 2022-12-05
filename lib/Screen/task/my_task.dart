@@ -763,7 +763,7 @@ class _AssignedToMeState extends State<MyTask> {
                                                             vertical:
                                                             3),
                                                         child: Row(
-                                                          children: const [
+                                                          children:  [
                                                             Icon(
                                                               Icons.map,
                                                               color: Colors
@@ -773,7 +773,7 @@ class _AssignedToMeState extends State<MyTask> {
                                                               width: 5,
                                                             ),
                                                             Text(
-                                                              'Visit',
+                                                              data.taskType!,
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .white),
@@ -1814,7 +1814,7 @@ class _AssignedToMeState extends State<MyTask> {
                                                             vertical:
                                                             3),
                                                         child: Row(
-                                                          children: const [
+                                                          children:  [
                                                             Icon(
                                                               Icons.map,
                                                               color: Colors
@@ -1824,7 +1824,7 @@ class _AssignedToMeState extends State<MyTask> {
                                                               width: 5,
                                                             ),
                                                             Text(
-                                                              'Visit',
+                                                              data!.taskType!,
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .white),

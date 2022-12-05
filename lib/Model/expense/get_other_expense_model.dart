@@ -57,27 +57,27 @@ class Result {
   double? expense;
   DateTime? expenseDate;
   int? approvedBy;
-  dynamic attachment;
+  String? attachment;
   bool? active;
   int? createdBy;
   DateTime? createdOn;
   int? updatedBy;
   DateTime? updatedOn;
-  dynamic token;
+  String? token;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
     expenseName: json["ExpenseName"] ?? "",
     description: json["Description"] ?? "",
     expense: json["Expense"] ?? 0,
-    expenseDate: DateTime.parse(json["ExpenseDate"]) ,
+    expenseDate: DateTime.parse(json["ExpenseDate"]) ?? DateTime.parse(json["CreatedOn"]),
     approvedBy: json["ApprovedBy"] ?? "",
     attachment: json["Attachment"] ?? "",
     active: json["Active"],
     createdBy: json["CreatedBy"] ?? "",
     createdOn: DateTime.parse(json["CreatedOn"]) ,
-    updatedBy: json["UpdatedBy"] == null ? null :  json["UpdatedBy"] ,
-    updatedOn: json["UpdatedOn"] == null ? null : DateTime.parse(json["UpdatedOn"]),
+    updatedBy: json["UpdatedBy"] ?? DateTime.parse(json["CreatedOn"]) ,
+    updatedOn: json["UpdatedOn"] == null ? DateTime.parse(json["CreatedOn"]) : DateTime.parse(json["UpdatedOn"]),
     token: json["Token"] ?? "",
   );
 

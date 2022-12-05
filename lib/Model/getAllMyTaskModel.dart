@@ -78,7 +78,7 @@ class Result {
   int? statusId;
   DateTime? dueDate;
   int? type;
-  TaskType? taskType;
+  String? taskType;
   String? allStatus;
   String? priorityName;
   int? priority;
@@ -109,7 +109,7 @@ class Result {
     statusId: json["StatusId"],
     dueDate: DateTime.parse(json["DueDate"]),
     type: json["Type"],
-    taskType: taskTypeValues.map[json["TaskType"]],
+    taskType: json["TaskType"],
     allStatus: json["AllStatus"],
     priorityName:json["PriorityName"],
     priority: json["Priority"],
@@ -141,7 +141,7 @@ class Result {
     "StatusId": statusId,
     "DueDate": dueDate!.toIso8601String(),
     "Type": type,
-    "TaskType": taskTypeValues.reverse[taskType],
+    "TaskType": taskType,
     "AllStatus": allStatus,
     "PriorityName": priorityName,
     "Priority": priority,

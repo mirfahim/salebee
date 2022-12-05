@@ -3,7 +3,10 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
+import 'package:salebee/Model/expense/get_expense_food_model.dart';
 import 'package:salebee/Model/expense/get_other_expense_model.dart';
+import 'package:salebee/Service/sharedPref_service.dart';
+import 'package:salebee/utils.dart';
 
 import 'package:universal_html/html.dart' as html;
 import 'dart:typed_data';
@@ -21,6 +24,8 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
     Page(
       build: (context) {
         return Column(
+          mainAxisAlignment: pw.MainAxisAlignment.center,
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
           children: [
             Column(
               children: [
@@ -74,7 +79,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
                       Text("Expense Sheet",
                           style: pw.TextStyle(
                               fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                      Text("(Transport)",
+                      Text("(Other)",
                           style: pw.TextStyle(
                               fontSize: 16, fontWeight: pw.FontWeight.bold)),
                     ])),
@@ -107,6 +112,14 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
                   children: [
                     Padding(
                       child: Text(
+                        'Date',
+                        style: Theme.of(context).header4,
+                        textAlign: TextAlign.center,
+                      ),
+                      padding: EdgeInsets.all(20),
+                    ),
+                    Padding(
+                      child: Text(
                         'Type',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
@@ -115,15 +128,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
                     ),
                     Padding(
                       child: Text(
-                        'Location',
-                        style: Theme.of(context).header4,
-                        textAlign: TextAlign.center,
-                      ),
-                      padding: EdgeInsets.all(20),
-                    ),
-                    Padding(
-                      child: Text(
-                        'Date',
+                        'Purposes/ Description',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
                       ),
@@ -137,113 +142,98 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
                       ),
                       padding: EdgeInsets.all(20),
                     ),
-
+                    Padding(
+                      child: Text(
+                        'Status',
+                        style: Theme.of(context).header5,
+                        textAlign: TextAlign.center,
+                      ),
+                      padding: EdgeInsets.all(20),
+                    ),
                   ],
                 ),
-
                 ...invoice.result!.map(
                       (e) => TableRow(
-                    children: [
-                    Expanded(
-                        child: PaddedText("Bus"),
+                     children: [
+                      Expanded(
+                        child: PaddedText(
+                          "",),
+                        //    "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
                         flex: 1,
                       ),
                       Expanded(
-                        child: PaddedText("${e.expenseName!.toString()}"),
-                        flex: 2,
+                        child: PaddedText("Breakfast"),
+                        flex: 1,
                       ),
 
                       Expanded(
-                        child: PaddedText("${DateFormat.yMd()
-                            .format(e
-                            .createdOn!)}"),
+                        child: PaddedText(
+                            "Description"),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: PaddedText(
+                          ""),
+                          //  "${e.expense!.toString()}"),
                         flex: 1,
                       ),
                       Expanded(
-                        child: PaddedText("${e.expense!.toString()}"),
+                        child: PaddedText("Approved"),
                         flex: 1,
                       ),
                     ],
                   ),
                 ),
-
                 TableRow(
                   children: [
                     PaddedText('TOTAL', align: TextAlign.right),
+                    PaddedText(''),
+                    PaddedText(''),
                     PaddedText(
-                        ''),
-                    PaddedText(
-                        ''),
-                    PaddedText(
-                        '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
+                      ""),
+                       // '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
                   ],
                 )
               ],
             ),
-            Padding(
-              child: Text(
-                "THANK YOU FOR YOUR CUSTOM!",
-                style: Theme.of(context).header2,
-              ),
-              padding: EdgeInsets.all(20),
-            ),
-            Text(
-                "Please forward the below slip to your accounts payable department."),
-            Divider(
-              height: 1,
-              borderStyle: BorderStyle.dashed,
-            ),
-            Container(height: 50),
-            Table(
-              border: TableBorder.all(color: PdfColors.black),
-              children: [
-                TableRow(
-                  children: [
-                    PaddedText('Department'),
-                    PaddedText(
-                      StaticData.employeeID.toString(),
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    PaddedText('Employee ID'),
-                    PaddedText(
-                      StaticData.employeeID.toString(),
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    PaddedText(
-                      'Account Name',
+            SizedBox(height: 40),
+            Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(children: [
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
                     ),
-                    PaddedText(
-                      StaticData.name!,
-                    )
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    PaddedText(
-                      'Total Amount to be Paid',
+                    Text("Received Signature & Date"),
+                    pw.SizedBox(width: 10),
+                  ]),
+                  Column(children: [
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
                     ),
-                    PaddedText(
-                        '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
-                  ],
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(30),
-              child: Text(
-                'SaleBee CRM',
-                style: Theme.of(context).header3.copyWith(
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            )
+                    Text("Accounts Checked"),
+                    pw.SizedBox(width: 10),
+                  ]),
+                  Column(children: [
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
+                    ),
+                    Text("Approved by"),
+                    pw.SizedBox(width: 10),
+                  ]),
+                ])
           ],
         );
       },

@@ -12,6 +12,14 @@ class StaticData {
   static int employeeIDTask = 0;
   static int contactPerson = 0;
   static List statusList = [];
+  static List taskType = [
+    "call",
+
+    "mail",
+    "visit",
+    "online meeting"
+
+  ];
   static String? subDomain = "";
   static String? deviceID = "";
   static String? proLink = "";

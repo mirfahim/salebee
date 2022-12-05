@@ -674,7 +674,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                         vertical:
                                                                             3),
                                                                     child: Row(
-                                                                      children: const [
+                                                                      children:  [
                                                                         Icon(
                                                                           Icons
                                                                               .map,
@@ -686,7 +686,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                               5,
                                                                         ),
                                                                         Text(
-                                                                          'Visit',
+                                                                          data!.taskType!,
                                                                           style:
                                                                               TextStyle(color: Colors.white),
                                                                         )
@@ -1587,7 +1587,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                     vertical:
                                                                         3),
                                                                 child: Row(
-                                                                  children: const [
+                                                                  children:  [
                                                                     Icon(
                                                                       Icons.map,
                                                                       color: Colors
@@ -1597,7 +1597,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                       width: 5,
                                                                     ),
                                                                     Text(
-                                                                      'Visit',
+                                                                      data!.taskType!,
                                                                       style: TextStyle(
                                                                           color:
                                                                               Colors.white),

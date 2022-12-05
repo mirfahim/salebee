@@ -53,32 +53,32 @@ class Result {
 
   int? id;
   int? mealType;
-  String? dishName;
+  var dishName;
   double? expense;
   DateTime? expenseDate;
   int? approvedBy;
-  dynamic attachment;
+  var attachment;
   bool? active;
   int? createdBy;
   DateTime? createdOn;
   int? updatedBy;
   DateTime? updatedOn;
-  dynamic token;
+  var token;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
     mealType: json["MealType"],
-    dishName: json["DishName"],
+    dishName: json["DishName"] ?? "no data",
     expense: json["Expense"],
     expenseDate: DateTime.parse(json["ExpenseDate"]),
     approvedBy: json["ApprovedBy"],
-    attachment: json["Attachment"],
+    attachment: json["Attachment"] == null ? "bg" : json["Attachment"],
     active: json["Active"],
     createdBy: json["CreatedBy"],
     createdOn: DateTime.parse(json["CreatedOn"]),
     updatedBy: json["UpdatedBy"],
     updatedOn: DateTime.parse(json["UpdatedOn"]),
-    token: json["Token"],
+    token: json["Token"] == null ? "null" : json["Token"] ,
   );
 
   Map<String, dynamic> toJson() => {

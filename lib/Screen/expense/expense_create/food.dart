@@ -26,6 +26,7 @@ class _FoodExpenseState extends State<FoodExpense> {
   var dishNameController = TextEditingController();
   var pricingController = TextEditingController();
   var textExpenseController = TextEditingController();
+  var personController = TextEditingController();
   var textDesController = TextEditingController();
   int mealType = 0;
   int foodTypeIndex = 0 ;
@@ -165,10 +166,11 @@ class _FoodExpenseState extends State<FoodExpense> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: personController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         prefix: Container(
                           width: 20,

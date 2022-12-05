@@ -137,7 +137,14 @@ void initState(){
                     SharedPreff.to.prefss.remove("userNAME");
                     SharedPreff.to.prefss.remove("proLink");
 
-                    Get.to(Splash());
+                    Navigator.pushAndRemoveUntil<dynamic>(
+                      context,
+                      MaterialPageRoute<dynamic>(
+
+                        builder: (BuildContext context) => Splash(),
+                      ),
+                          (route) => false,//if you want to disable back feature set to false
+                    );
                     //SharedPreff.to.prefss.remove("key");
                   },
                   icons: Icons.exit_to_app_rounded,
@@ -154,7 +161,14 @@ void initState(){
                     //StaticData.subDomain = "";
                     StringsConst.BASEURL = "";
 
-                    Get.to(Splash());
+                    Navigator.pushAndRemoveUntil<dynamic>(
+                      context,
+                      MaterialPageRoute<dynamic>(
+
+                        builder: (BuildContext context) => Splash(),
+                      ),
+                          (route) => false,//if you want to disable back feature set to false
+                    );
                   },
                   icons: CupertinoIcons.repeat,
                   title: "Change Sub-Domain",

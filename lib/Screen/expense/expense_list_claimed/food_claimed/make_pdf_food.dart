@@ -2,8 +2,10 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
 import 'package:salebee/Model/expense/get_expense_food_model.dart';
-
+import 'package:salebee/Service/sharedPref_service.dart';
+import 'package:salebee/utils.dart';
 
 import 'package:universal_html/html.dart' as html;
 import 'dart:typed_data';
@@ -21,6 +23,8 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
     Page(
       build: (context) {
         return Column(
+          mainAxisAlignment: pw.MainAxisAlignment.center,
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
           children: [
             Column(
               children: [
@@ -100,7 +104,6 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
               Spacer(),
             ]),
             pw.SizedBox(height: 20),
-            Container(height: 20),
             Table(
               border: TableBorder.all(color: PdfColors.black),
               children: [
@@ -116,7 +119,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
                     ),
                     Padding(
                       child: Text(
-                        'Meal Type ',
+                        'Type',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
                       ),
@@ -124,7 +127,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
                     ),
                     Padding(
                       child: Text(
-                        'Purpose/Description',
+                        'Purposes/ Description',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
                       ),
@@ -132,7 +135,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
                     ),
                     Padding(
                       child: Text(
-                        'Amount',
+                        'Cost',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
                       ),
@@ -141,15 +144,13 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
                     Padding(
                       child: Text(
                         'Status',
-                        style: Theme.of(context).header4,
+                        style: Theme.of(context).header5,
                         textAlign: TextAlign.center,
                       ),
                       padding: EdgeInsets.all(20),
                     ),
-
                   ],
                 ),
-
                 ...invoice.result!.map(
                       (e) => TableRow(
                     children: [
@@ -158,77 +159,100 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
                             "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
                         flex: 1,
                       ),
-
-
-                      Expanded(
-                        child: PaddedText(
-                            "Breakfast"),
+                      e.mealType == 0
+                          ? Expanded(
+                        child: PaddedText("Breakfast"),
+                        flex: 1,
+                      )
+                          : e.mealType == 1
+                          ? Expanded(
+                        child: PaddedText("Lunch"),
+                        flex: 1,
+                      )
+                          : e.mealType == 2
+                          ? Expanded(
+                        child: PaddedText("Dinner"),
+                        flex: 1,
+                      )
+                          : e.mealType == 3
+                          ? Expanded(
+                        child: PaddedText("Snack"),
+                        flex: 1,
+                      )
+                          : e.mealType == 4
+                          ? Expanded(
+                        child: PaddedText("Bus"),
+                        flex: 1,
+                      )
+                          : Expanded(
+                        child: PaddedText("Bus"),
                         flex: 1,
                       ),
                       Expanded(
                         child: PaddedText(
-                            "Descriptionof food expense"),
-                        flex: 1,
+                            "Descrition"),
+                        flex: 2,
                       ),
                       Expanded(
                         child: PaddedText("${e.expense!.toString()}"),
                         flex: 1,
                       ),
                       Expanded(
-                        child: PaddedText(
-                            "Approved"),
+                        child: PaddedText("Approved"),
                         flex: 1,
                       ),
                     ],
                   ),
                 ),
-
                 TableRow(
                   children: [
                     PaddedText('TOTAL', align: TextAlign.right),
-                    PaddedText(
-                        ''),
-                    PaddedText(
-                        ''),
+                    PaddedText(''),
+                    PaddedText(''),
                     PaddedText(
                         '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
                   ],
-                ),
-
+                )
               ],
             ),
-
-            pw.SizedBox(height: 40)
-,
+            SizedBox(height: 40),
             Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   Column(children: [
-                    Divider(
-                      height: 1,
-                      borderStyle: BorderStyle.dashed,
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
                     ),
                     Text("Received Signature & Date"),
-
+                    pw.SizedBox(width: 10),
                   ]),
                   Column(children: [
-                    Divider(
-                      height: 1,
-                      borderStyle: BorderStyle.dashed,
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
                     ),
                     Text("Accounts Checked"),
-
+                    pw.SizedBox(width: 10),
                   ]),
                   Column(children: [
-                    Divider(
-                      height: 1,
-                      borderStyle: BorderStyle.dashed,
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
                     ),
                     Text("Approved by"),
-
+                    pw.SizedBox(width: 10),
                   ]),
                 ])
-
           ],
         );
       },

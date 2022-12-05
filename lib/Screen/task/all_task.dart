@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/getAllMyTaskModel.dart';
 import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/Model/getListForTaskModel.dart';
@@ -29,6 +30,7 @@ class _AssignedToMeState extends State<AllTask> {
   int stausID = 1;
   int selectedTap = 0;
   int repeatId = 0;
+  String taskTypeS = "";
   List<GetListForTaskDataModel> manageTaskList = [];
 
   List<String> statusList = [];
@@ -42,6 +44,7 @@ class _AssignedToMeState extends State<AllTask> {
   List<String> allStatusList = [];
   GetListForTaskDataModel manageModel = GetListForTaskDataModel();
   bool today = true;
+
   getStatus(int id) {}
   @override
   void initState() {
@@ -68,7 +71,9 @@ class _AssignedToMeState extends State<AllTask> {
             incompleteList.clear();
             if (snapshot.data == null) {
               print("no data found");
-            } else {
+            }
+
+            else {
               initiatedList.addAll(snapshot.data!.result!
                   .where((element) => element.statusId == 5));
               print("my ini list i s=++++++++++++${initiatedList.length}");
@@ -183,6 +188,8 @@ class _AssignedToMeState extends State<AllTask> {
                                 var filterDays = data.dueDate!
                                     .difference(DateTime.now())
                                     .inDays;
+
+
                                 print(
                                     "my filter days is difference is $filterDays ${provider.filterDay}");
 
@@ -644,6 +651,8 @@ class _AssignedToMeState extends State<AllTask> {
                                                           child: ListView.builder(
                                                               itemCount: data.contactPersonDetails!.length,
                                                               itemBuilder: (BuildContext  context, int  index){
+
+
                                                                 return Container(
                                                                   height: 40,
                                                                   color:
@@ -782,7 +791,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                             vertical:
                                                             3),
                                                         child: Row(
-                                                          children: const [
+                                                          children:  [
                                                             Icon(
                                                               Icons.map,
                                                               color: Colors
@@ -791,8 +800,15 @@ class _AssignedToMeState extends State<AllTask> {
                                                             SizedBox(
                                                               width: 5,
                                                             ),
+                                                            data.taskType == null ?
                                                             Text(
-                                                              'Visit',
+                                                              "All",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            )
+                                                            : Text(
+                                                              data!.taskType!,
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .white),
@@ -1833,7 +1849,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                             vertical:
                                                             3),
                                                         child: Row(
-                                                          children: const [
+                                                          children:  [
                                                             Icon(
                                                               Icons.map,
                                                               color: Colors
@@ -1842,8 +1858,15 @@ class _AssignedToMeState extends State<AllTask> {
                                                             SizedBox(
                                                               width: 5,
                                                             ),
+                                                            data.taskType == null ?
                                                             Text(
-                                                              'Visit',
+                                                              "All",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            )
+                                                            : Text(
+                                                              data!.taskType!,
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .white),

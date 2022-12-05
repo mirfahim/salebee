@@ -266,7 +266,7 @@ class _ApprovedState extends State<OtherClaimedList> {
                                             onTap: (){
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                  builder: (builder) => PdfPreviewPage(invoice: snapshot.data! ),
+                                                  builder: (builder) => PdfPreviewPage(invoice: snapshot.data ),
                                                 ),
                                               );
                                             },

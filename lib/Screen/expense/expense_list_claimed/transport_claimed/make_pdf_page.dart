@@ -16,6 +16,7 @@ import 'package:flutter/services.dart' show rootBundle;
 
 Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
   final pdf = pw.Document();
+  List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
 
   // final imageLogo = MemoryImage((await rootBundle.load('assets/technical_logo.png')).buffer.asUint8List());
   pdf.addPage(
@@ -97,6 +98,7 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                       children: [
                     Text(
                       StaticData.name!,
+                      style: Theme.of(context).header4,
                     ),
                     Text(StaticData.designation),
                   ])),
@@ -126,7 +128,7 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                     ),
                     Padding(
                       child: Text(
-                        'Location',
+                        'Purposes/ Description',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
                       ),
@@ -160,31 +162,31 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                       ),
                       e.vehicleType == 0
                           ? Expanded(
-                              child: PaddedText("Bus"),
+                              child: PaddedText(way[0]),
                               flex: 1,
                             )
                           : e.vehicleType == 1
                               ? Expanded(
-                                  child: PaddedText("Bus"),
+                                  child: PaddedText(way[1]),
                                   flex: 1,
                                 )
                               : e.vehicleType == 2
                                   ? Expanded(
-                                      child: PaddedText("Bus"),
+                                      child: PaddedText(way[2]),
                                       flex: 1,
                                     )
                                   : e.vehicleType == 3
                                       ? Expanded(
-                                          child: PaddedText("Bus"),
+                                          child: PaddedText(way[3]),
                                           flex: 1,
                                         )
                                       : e.vehicleType == 4
                                           ? Expanded(
-                                              child: PaddedText("Bus"),
+                                              child: PaddedText(way[4]),
                                               flex: 1,
                                             )
                                           : Expanded(
-                                              child: PaddedText("Bus"),
+                                              child: PaddedText(way[5]),
                                               flex: 1,
                                             ),
                       Expanded(
@@ -219,20 +221,36 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   Column(children: [
-                    Container(height: 3, width: 60),
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
+                    ),
+
                     Text("Received Signature & Date"),
                     pw.SizedBox(width: 10),
                   ]),
                   Column(children: [
                     Container(
-                      height: 5,
-                      width: 60,
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
                     ),
                     Text("Accounts Checked"),
                     pw.SizedBox(width: 10),
                   ]),
                   Column(children: [
-                    Container(height: 5, width: 60),
+                    Container(
+                      width: 100,
+                      child:  Divider(
+
+                          thickness: 1
+                      ),
+                    ),
                     Text("Approved by"),
                     pw.SizedBox(width: 10),
                   ]),

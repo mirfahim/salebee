@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/MenuPage/employee_list/employee_list.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/utils.dart';
 
@@ -98,25 +99,30 @@ class _MenusScreenState extends State<MenusScreen> {
                     ],
                   ),
                 ),
-                Card(
-                  elevation: 10,
-                  color: Colors.teal[100],
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(  'images/Icons/listview.png',)
+                GestureDetector(
+                  onTap: (){
+                    Get.to(EmployeeList());
+                  },
+                  child: Card(
+                    elevation: 10,
+                    color: Colors.teal[100],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(  'images/Icons/listview.png',)
 
+                            ),
                           ),
-                        ),
 
-                      ),
-                      Center(child: const Text('Employee List')),
-                    ],
+                        ),
+                        Center(child: const Text('Employee List')),
+                      ],
+                    ),
                   ),
                 ),
                 Card(
