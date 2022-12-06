@@ -14,10 +14,28 @@ class EmployeeList extends StatefulWidget {
 
 class _EmployeeListState extends State<EmployeeList> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
-  TextEditingController searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
   bool department = true;
   List<Result> searchEmployeeList = [];
   bool searchStart = false;
+  String searchString = "";
+  List result = [];
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  _onSearchChanged() {
+    print(_searchController.text);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,40 +46,69 @@ class _EmployeeListState extends State<EmployeeList> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
-            ToggleSwitch(
-              minHeight: 30,
-              initialLabelIndex: department == true ? 0 : 1,
-              activeBgColor: [Colors.lightBlue],
-              totalSwitches: 5,
-              inactiveBgColor: Colors.white,
-              labels: ['Executive', "srfs", "dfssd", "dfs", 'All'],
-              onToggle: (index) {
-                print('switched to: $index');
-                if (index == 0) {
-                  setState(() {
-                    department = true;
-                  });
-                }
-                if (index == 1) {
-                  setState(() {
-                    department = true;
-                  });
-                }
-                if (index == 2) {
-                  setState(() {
-                    department = true;
-                  });
-                }
-                if (index == 3) {
-                  setState(() {
-                    department = true;
-                  });
-                } else if (index == 4) {
-                  setState(() {
-                    department = false;
-                  });
-                }
-              },
+            // ToggleSwitch(
+            //   minHeight: 30,
+            //   initialLabelIndex: department == true ? 0 : 1,
+            //   activeBgColor: [Colors.lightBlue],
+            //   totalSwitches: 5,
+            //   inactiveBgColor: Colors.white,
+            //   labels: ['Executive', "srfs", "dfssd", "dfs", 'All'],
+            //   onToggle: (index) {
+            //     print('switched to: $index');
+            //     if (index == 0) {
+            //       setState(() {
+            //         department = true;
+            //       });
+            //     }
+            //     if (index == 1) {
+            //       setState(() {
+            //         department = true;
+            //       });
+            //     }
+            //     if (index == 2) {
+            //       setState(() {
+            //         department = true;
+            //       });
+            //     }
+            //     if (index == 3) {
+            //       setState(() {
+            //         department = true;
+            //       });
+            //     } else if (index == 4) {
+            //       setState(() {
+            //         department = false;
+            //       });
+            //     }
+            //   },
+            // ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 40,
+                child: TextField(
+                  onChanged: (e) {
+
+                    setState(() {
+                      searchString = e;
+                    });
+
+                  },
+                  onTap: () {
+                    searchStart = false;
+                  },
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                      labelText: "Search",
+                      hintText: "Search",
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(25.0)))),
+                ),
+              ),
             ),
             SizedBox(
               height: 10,
@@ -70,9 +117,12 @@ class _EmployeeListState extends State<EmployeeList> {
               future: attendanceRepository.getAllEmployeeList(),
               builder: (BuildContext context,
                   AsyncSnapshot<AllEmployeeListModel> snapshot) {
+
                 if (snapshot.data == null) {
                   print("no data found");
-                } else {}
+                } else {
+                   result = _search(snapshot.data!.result);
+                }
 
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
@@ -89,43 +139,16 @@ class _EmployeeListState extends State<EmployeeList> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 40,
-                                child: TextField(
-                                  onChanged: (e) {
-                                    // snapshot.data!.result!.forEach((element) {
-                                    //   if(element.employeeName == searchController.text){
-                                    //     searchEmployeeList.add(element);
-                                    //   }
-                                    // });
-                                  },
-                                  onTap: () {
-                                    searchStart = false;
-                                  },
-                                  controller: searchController,
-                                  decoration: InputDecoration(
-                                      labelText: "Search",
-                                      hintText: "Search",
-                                      prefixIcon: Icon(Icons.search),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(25.0)))),
-                                ),
-                              ),
-                            ),
+
                             Container(
                               height: MediaQuery.of(context).size.height - 200,
                               child: ListView.builder(
-                                  itemCount: searchStart == true
-                                      ? searchEmployeeList.length
-                                      : snapshot.data!.result!.length,
+                                  itemCount: result.length,
                                   itemBuilder: (BuildContext context, index) {
-                                    var data = snapshot.data!.result![index];
+                                    var data = result![index];
                                     return GestureDetector(
                                       onTap: () {
-                                        showDialog(
+                                             showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
                                               _buildPopupDialog(
@@ -276,7 +299,15 @@ class _EmployeeListState extends State<EmployeeList> {
       ],
     );
   }
+  List<Result> _search(List<Result>? employee) {
+    if(searchString.isNotEmpty == true) {
+      //search logic what you want
+      return employee?.where((element) => element.employeeName!.toLowerCase().contains(searchString))
+          .toList() ?? <Result>[];
+    }
 
+    return employee ?? <Result>[];
+  }
   Future<void> launchPhoneDialer(String contactNumber) async {
     final Uri _phoneUri = Uri(scheme: "tel", path: contactNumber);
     try {

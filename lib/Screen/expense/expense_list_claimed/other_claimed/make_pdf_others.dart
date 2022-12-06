@@ -136,6 +136,15 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
                     ),
                     Padding(
                       child: Text(
+                        'Person',
+                        style: Theme.of(context).header4,
+                        textAlign: TextAlign.center,
+                      ),
+                      padding: EdgeInsets.all(20),
+                    ),
+
+                    Padding(
+                      child: Text(
                         'Cost',
                         style: Theme.of(context).header4,
                         textAlign: TextAlign.center,
@@ -171,6 +180,12 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice) async {
                             "Description"),
                         flex: 2,
                       ),
+                       Expanded(
+                         child: PaddedText(
+                             ""),
+                         //  "${e.expense!.toString()}"),
+                         flex: 1,
+                       ),
                       Expanded(
                         child: PaddedText(
                           ""),

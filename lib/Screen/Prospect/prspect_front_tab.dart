@@ -77,7 +77,7 @@ class ProspectFront extends StatelessWidget {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: OrganizatonProspect(),
+                          child: OrganizationProspect(),
                         )
                       ]),
                 ),
