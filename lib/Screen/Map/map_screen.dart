@@ -45,16 +45,7 @@ class _MyAppState extends State<MapScreen> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: primaryColorLight,
-        appBar: AppBar(
-          title: Text('The EYE', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-          backgroundColor: primaryColorLight,
-          leading: IconButton(
-            onPressed: (){
-              Get.back();
-            },
-            icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
-          ),
-        ),
+
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: 400,

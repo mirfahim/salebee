@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Screen/MenuPage/employee_list/employee_list.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/eye_fron.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/the_eye.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/utils.dart';
 
@@ -60,22 +62,27 @@ class _MenusScreenState extends State<MenusScreen> {
                     ],
                   ),
                 ),
-                Card(
-                  elevation: 10,
-                  color: Colors.teal[100],
-                  child: Column(
+                GestureDetector(
+                  onTap: (){
+                    Get.to(TheEyeFront());
+                  },
+                  child: Card(
+                    elevation: 10,
+                    color: Colors.teal[100],
+                    child: Column(
 
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundImage:
-                        AssetImage(
-                          'images/eye.png',
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 12,
+                          backgroundImage:
+                          AssetImage(
+                            'images/eye.png',
+                          ),
                         ),
-                      ),
-                      Center(child: const Text('The Eye')),
-                    ],
+                        Center(child: const Text('The Eye')),
+                      ],
+                    ),
                   ),
                 ),
                 Card(

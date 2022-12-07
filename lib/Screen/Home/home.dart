@@ -296,7 +296,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-    } else if (size.height < 800) {
+    }
+    else if (size.height < 800) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -501,7 +502,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-    } else if (size.height < 850) {
+    }
+    else if (size.height < 850) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -517,7 +519,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         StaticData.name != null
                             ? Text(
-                                StaticData.name!,
+                                StaticData.name! ,
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
@@ -663,7 +665,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-    } else if (size.height < 900) {
+    }
+    else if (size.height < 900) {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -740,7 +743,7 @@ class _HomePageState extends State<HomePage> {
                   child: Stack(
                     children: [
                       Container(
-                        height: size.height / 1.3,
+                        height: size.height / 1.4,
                         transform: Matrix4.translationValues(
                             -(size.width / 2.5), 0.0, 0.0),
                         decoration: const BoxDecoration(
@@ -763,7 +766,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                       ),
                       Positioned(
-                        top: (size.height / 9.5),
+                        top: (size.height / 11),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
@@ -773,7 +776,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Positioned(
                           top: (size.height / 5.0),
-                          left: (size.width / 2.3),
+                          left: (size.width / 2.2),
                           child: InkWell(
                               onTap: () {
                                 Get.to(AttendenceReport());
@@ -795,8 +798,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Positioned(
-                          top: (size.height / 1.9),
-                          left: (size.width / 2.34),
+                          top: (size.height / 2),
+                          left: (size.width / 2.5),
                           child: InkWell(
                               onTap: () {
                                 Get.to(ExpenseList());
@@ -808,7 +811,7 @@ class _HomePageState extends State<HomePage> {
                                   (size.height / 2),
                                   false))),
                       Positioned(
-                        top: (size.height / 1.65),
+                        top: (size.height / 1.75),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
