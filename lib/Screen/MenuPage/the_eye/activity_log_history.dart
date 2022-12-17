@@ -4,46 +4,41 @@ import 'package:salebee/Screen/Map/map_screen.dart';
 
 import '../../../utils.dart';
 
-class AllVisitTrackPage extends StatefulWidget {
- String? employeeName;
- AllVisitTrackPage(this.employeeName);
+class ActivityLogHistory extends StatefulWidget {
+
 
   @override
-  State<AllVisitTrackPage> createState() => _AllVisitTrackPageState();
+  State<ActivityLogHistory> createState() => _AllVisitTrackPageState();
 }
 
-class _AllVisitTrackPageState extends State<AllVisitTrackPage> {
-  List<TrackModel> trackingList = [
-    TrackModel("Mirpur,DOHS, road 7", DateTime.now(), "33%"),
-    TrackModel("Dhanmondi,kolabon, road 27", DateTime.now(), "34%"),
-    TrackModel("Banani,K block, road 5", DateTime.now(), "65%"),
-    TrackModel("Gulshan,DOHS, road 7", DateTime.now(), "53%"),
-    TrackModel("Rampura,DOHS, road 7", DateTime.now(), "24%"),
-    TrackModel("Banasree,DOHS, road 7", DateTime.now(), "76%"),
-    TrackModel("AftabNagar,DOHS, road 7", DateTime.now(), "89%"),
-    TrackModel("Malibag,DOHS, road 7", DateTime.now(), "34%"),
-    TrackModel("Badda,DOHS, road 7", DateTime.now(), "78%"),
-    TrackModel("Hatirjheel,lake road, road 7", DateTime.now(), "29%"),
-    TrackModel("Shahbag,4rastar mor, road 7", DateTime.now(), "93%"),
+class _AllVisitTrackPageState extends State<ActivityLogHistory> {
+  List<FollowUpModel> trackingList = [
+    FollowUpModel("Mirpur,DOHS, road 7", DateTime.now(), "33%"),
+    FollowUpModel("Dhanmondi,kolabon, road 27", DateTime.now(), "34%"),
+    FollowUpModel("Banani,K block, road 5", DateTime.now(), "65%"),
+    FollowUpModel("Gulshan,DOHS, road 7", DateTime.now(), "53%"),
+    FollowUpModel("Rampura,DOHS, road 7", DateTime.now(), "24%"),
+    FollowUpModel("Banasree,DOHS, road 7", DateTime.now(), "76%"),
+    FollowUpModel("AftabNagar,DOHS, road 7", DateTime.now(), "89%"),
+    FollowUpModel("Malibag,DOHS, road 7", DateTime.now(), "34%"),
+    FollowUpModel("Badda,DOHS, road 7", DateTime.now(), "78%"),
+    FollowUpModel("Hatirjheel,lake road, road 7", DateTime.now(), "29%"),
+    FollowUpModel("Shahbag,4rastar mor, road 7", DateTime.now(), "93%"),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.employeeName}"),
+        title: Text("History of activity"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+
+            SizedBox(height: 10,),
             Container(
-              height: MediaQuery.of(context).size.height * .3,
-              width: MediaQuery.of(context).size.width,
-              child: MapScreen(),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              height: MediaQuery.of(context).size.height -400,
+              height: MediaQuery.of(context).size.height -200,
               child: ListView.separated(
                 itemCount: trackingList.length,
                 itemBuilder: (BuildContext context, index) {
@@ -52,26 +47,9 @@ class _AllVisitTrackPageState extends State<AllVisitTrackPage> {
 
                     child: Row(
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 20,
-                              width: 5,
-                              color: Colors.lightBlue,
-                            ),
-                            CircleAvatar(
-                              radius: 5,
 
-                            ),
-                            Container(
-                              height: 20,
-                              width: 5,
-                              color: Colors.lightBlue,
-                            ),
-                          ],
-                        ),
                         SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Container(
                             height: 45,
@@ -112,7 +90,7 @@ class _AllVisitTrackPageState extends State<AllVisitTrackPage> {
                                           textAlign:
                                           TextAlign.center,
                                           style: TextStyle(
-                                              fontSize: 10,
+                                            fontSize: 10,
 
                                           ),
 
@@ -183,9 +161,9 @@ class _AllVisitTrackPageState extends State<AllVisitTrackPage> {
   }
 }
 
-class TrackModel {
+class FollowUpModel {
   String? location;
   DateTime? date;
   String? battery;
-  TrackModel(this.location, this.date, this.battery);
+  FollowUpModel(this.location, this.date, this.battery);
 }

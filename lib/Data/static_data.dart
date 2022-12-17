@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import '../Model/login_model.dart';
 
 class StaticData {
@@ -12,12 +14,15 @@ class StaticData {
   static int employeeIDTask = 0;
   static int contactPerson = 0;
   static List statusList = [];
+  static Uint8List? customMarker;
+  static List<String> branchList = ["All", 'Branch 1', 'Branch 2', 'Branch 3', 'Branch 4',];
   static List taskType = [
     "call",
 
     "mail",
     "visit",
-    "online meeting"
+    "Meeting",
+    "All"
 
   ];
   static String? subDomain = "";

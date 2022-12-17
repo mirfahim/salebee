@@ -32,7 +32,55 @@ class _AssignedToMeState extends State<AllTask> {
   int repeatId = 0;
   String taskTypeS = "";
   List<GetListForTaskDataModel> manageTaskList = [];
-
+  int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
+  int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
+  List<String> tabs = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  List<int> dayTab = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ];
   List<String> statusList = [];
   List initiatedList = [];
   List doneList = [];
@@ -158,28 +206,70 @@ class _AssignedToMeState extends State<AllTask> {
                           ),
                         ),
                         // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
-                        ToggleSwitch(
-                          minHeight: 30,
-                          initialLabelIndex: today == true ? 0 : 1,
-                          activeBgColor: [Colors.lightBlue],
-                          totalSwitches: 2,
-                          inactiveBgColor: Colors.white,
-                          labels: ['Today', 'All'],
-                          onToggle: (index) {
-                            print('switched to: $index');
-                            if (index == 0) {
-                              setState(() {
-                                today = true;
-                              });
-                            } else {
-                              setState(() {
-                                today = false;
-                              });
-                            }
-                          },
+                        DefaultTabController(
+                          initialIndex: monthSelection - 1,
+                          length: 12,
+                          child: Container(
+                            height: 30,
+                            child: TabBar(
+                              indicator: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: primaryColorSecond.withOpacity(.5)),
+                              isScrollable: true,
+                              indicatorColor: Colors.orangeAccent,
+                              labelColor: Colors.black54,
+                              onTap: (index) {
+                                setState(() {
+                                  monthSelection = index + 1;
+                                });
+                              },
+                              tabs: tabs
+                                  .map((tab) => Tab(
+                                icon: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: Text(tab),
+                                ),
+                              ))
+                                  .toList(),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                          child: DefaultTabController(
+                            initialIndex: daySelection - 1,
+                            length: 31,
+                            child: Column(
+                              children: [
+                                TabBar(
+                                  isScrollable: true,
+                                  indicatorColor: Colors.black38,
+                                  labelColor: Colors.black,
+                                  onTap: (index) {
+                                    setState(() {
+                                      daySelection = index + 1;
+                                    });
+                                  },
+                                  tabs: dayTab
+                                      .map((tab) => Tab(
+                                    icon: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        tab.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ))
+                                      .toList(),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height - 250,
+                          height: MediaQuery.of(context).size.height - 300,
                           child: ListView.builder(
                               itemCount: snapshot.data!.result!.length,
                               itemBuilder: (context, index) {
@@ -235,7 +325,18 @@ class _AssignedToMeState extends State<AllTask> {
 
                                   today == true
                                       ?
-                                  data.dueDate!.toString().substring(0,10) ==  DateTime.now().toString().substring(0,10)
+                                  monthSelection ==
+                                      int.parse(data
+                                          .dueDate
+                                          .toString()
+                                          .substring(
+                                          5, 7)) &&
+                                      daySelection ==
+                                          int.parse(data
+                                              .dueDate
+                                              .toString()
+                                              .substring(
+                                              8, 10))
 
                                       ?  ExpandableNotifier(
                                     child: Stack(
@@ -332,7 +433,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                       .spaceBetween,
                                                   children: [
                                                     Container(
-                                                        height: 50,
+                                                        height: 52,
                                                         decoration: BoxDecoration(
                                                             color: primaryColorSecond.withOpacity(.3),
                                                             borderRadius:
@@ -1403,7 +1504,7 @@ class _AssignedToMeState extends State<AllTask> {
                                                       .spaceBetween,
                                                   children: [
                                                     Container(
-                                                        height: 50,
+                                                        height: 52,
                                                         decoration: BoxDecoration(
                                                             color: primaryColorSecond.withOpacity(.3),
                                                             borderRadius:

@@ -52,45 +52,50 @@ class _CheckInOutState extends State<CheckInOut> {
 
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
-
   @override
   void initState() {
     // TODO: implement initState
-    geolocatorService.determinePosition().then((ele){
+    geolocatorService.determinePosition().then((ele) {
       getAddressFromLatLong(ele!);
     });
 
-    attendanceRepository.getAttendanceController(DateTime.now()).then((value) {
-
-      String apiDate = value.result!.first!.logTimeIn! ;
+    attendanceRepository
+        .getAttendanceController(DateTime.now(), StaticData.employeeID)
+        .then((value) {
+      String apiDate = value.result!.first!.logTimeIn!;
       print(" my get report model is ${apiDate.substring(0, 10)}");
-      print(" my get report today is ${DateTime.now().toIso8601String().substring(0, 10)}");
+      print(
+          " my get report today is ${DateTime.now().toIso8601String().substring(0, 10)}");
 
-     if (apiDate.substring(0, 10) == DateTime.now().toIso8601String().substring(0, 10)){
-       print("working in if");
-       if(value.result!.first!.logTimeOut != null){
-         duration(value.result!.first!.logTimeIn, value.result!.first!.logTimeOut);
-       }
+      if (apiDate.substring(0, 10) ==
+          DateTime.now().toIso8601String().substring(0, 10)) {
+        print("working in if");
+        if (value.result!.first!.logTimeOut != null) {
+          duration(
+              value.result!.first!.logTimeIn, value.result!.first!.logTimeOut);
+        }
 
-       setState((){
-         checkInTime = DateFormat.jm().format(DateTime.parse(apiDate));
-         if(value.result!.first!.logTimeOut != null){
-           checkOutTime = DateFormat.jm().format(DateTime.parse(value.result!.first!.logTimeOut));
-         }
+        setState(() {
+          checkInTime = DateFormat.jm().format(DateTime.parse(apiDate));
+          if (value.result!.first!.logTimeOut != null) {
+            checkOutTime = DateFormat.jm()
+                .format(DateTime.parse(value.result!.first!.logTimeOut));
+          }
 
-         print("check in time initState $checkInTime");
-         if(checkInTime.isNotEmpty){
-           setState(() {
-             status.value = false;
-           });
-
-         }
-       });
-
-      }else{
-       print("data for not today it's an api ${value.result!.first!.logTimeIn}");
-       print("data for  today it's an  error ${DateTime.now().toIso8601String()}");
-     };
+          print("check in time initState $checkInTime");
+          if (checkInTime.isNotEmpty) {
+            setState(() {
+              status.value = false;
+            });
+          }
+        });
+      } else {
+        print(
+            "data for not today it's an api ${value.result!.first!.logTimeIn}");
+        print(
+            "data for  today it's an  error ${DateTime.now().toIso8601String()}");
+      }
+      ;
     });
     //status.value = SharedPreff.to.prefss.getBool("checkedIn")!;
     super.initState();
@@ -119,7 +124,7 @@ class _CheckInOutState extends State<CheckInOut> {
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           getTime();
                         },
                         child: Text(
@@ -174,7 +179,8 @@ class _CheckInOutState extends State<CheckInOut> {
                             height: 200,
                             width: 200,
                             child: CircularProgressIndicator(
-                              color: end.value == 1 ? Colors.blue : Colors.amber,
+                              color:
+                                  end.value == 1 ? Colors.blue : Colors.amber,
                               value: circularProgressIndicatorValue.value,
                               backgroundColor: Colors.grey,
                               strokeWidth: 5,
@@ -183,28 +189,33 @@ class _CheckInOutState extends State<CheckInOut> {
                         ),
                         Center(
                           child: GestureDetector(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             onLongPress: () async {
                               // end.value = 1;
                               //_showMyDialog();
-                             if(status.value ==true ){
-                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) > 10) {
-                                 _showMyDialog(true,);
-                               }else {
-                                 attendanceFunction();
-                               }
-                             }else {
-                               if(int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) < 18) {
-                                 _showMyDialog(false,);
-                               }else {
-                                 attendanceFunction();
-                               }
-                             }
-
-
-
+                              if (status.value == true) {
+                                if (int.parse(DateFormat('HH:mm:ss')
+                                        .format(DateTime.now())
+                                        .substring(0, 2)) >
+                                    10) {
+                                  _showMyDialog(
+                                    true,
+                                  );
+                                } else {
+                                  attendanceFunction();
+                                }
+                              } else {
+                                if (int.parse(DateFormat('HH:mm:ss')
+                                        .format(DateTime.now())
+                                        .substring(0, 2)) <
+                                    18) {
+                                  _showMyDialog(
+                                    false,
+                                  );
+                                } else {
+                                  attendanceFunction();
+                                }
+                              }
                             },
                             onLongPressCancel: () {
                               end.value = 0;
@@ -242,7 +253,15 @@ class _CheckInOutState extends State<CheckInOut> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
+                  locationDis == "" ?
+                      Container(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(
+
+                        ),
+                      )
+                 : Text(
                     locationDis,
                     maxLines: 2,
                     style: TextStyle(fontSize: 8),
@@ -281,7 +300,8 @@ class _CheckInOutState extends State<CheckInOut> {
                                     'Check In',
                                     style: TextStyle(
                                         color: Colors.blueAccent,
-                                        fontSize: 12, fontWeight: FontWeight.bold),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 : Text(
                                     'Check In',
@@ -338,7 +358,9 @@ class _CheckInOutState extends State<CheckInOut> {
                             Text(
                               'Working Hour',
                               // status.value.toString(),
-                              style: TextStyle(color: Colors.grey, fontSize: 12,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -432,7 +454,9 @@ class _CheckInOutState extends State<CheckInOut> {
     percentage = level;
   }
 
-  Future<void> _showMyDialog(bool checkStatus,) async {
+  Future<void> _showMyDialog(
+    bool checkStatus,
+  ) async {
     getBatteryPerentage();
     return showDialog<void>(
       context: context,
@@ -443,8 +467,9 @@ class _CheckInOutState extends State<CheckInOut> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-               checkStatus == true ?  Text('Please enter your reason of late ?')
-                : Text('Please enter your reason of early leave ?'),
+                checkStatus == true
+                    ? Text('Please enter your reason of late ?')
+                    : Text('Please enter your reason of early leave ?'),
                 SizedBox(
                   height: 10,
                 ),
@@ -453,7 +478,6 @@ class _CheckInOutState extends State<CheckInOut> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Enter Note',
-
                       hintText: 'Reason'),
                 ),
               ],
@@ -510,20 +534,24 @@ class _CheckInOutState extends State<CheckInOut> {
     ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
         .showSnackBar(_snackBarContent);
   }
-  Future getTime()async{
+
+  Future getTime() async {
     print("working get time");
-    try{
-      var res = await http.get(Uri.parse('http://worldtimeapi.org/api/timezone/Asia/Dhaka'));
-      if (res.statusCode == 200){
+    try {
+      var res = await http
+          .get(Uri.parse('http://worldtimeapi.org/api/timezone/Asia/Dhaka'));
+      if (res.statusCode == 200) {
         var data = jsonDecode(res.body);
         print(jsonDecode(res.body).toString());
-        print("my api time is ${data["datetime"]} date time . now ${DateTime.now()}");
-        return DateTime.parse(data["datetime"].toString().substring(0,26));
+        print(
+            "my api time is ${data["datetime"]} date time . now ${DateTime.now()}");
+        return DateTime.parse(data["datetime"].toString().substring(0, 26));
       }
-    }catch(e){
+    } catch (e) {
       return DateTime.now();
     }
-   }
+  }
+
   attendanceFunction() async {
     end.value = 1;
     print("working chekout ${SharedPreff.to.prefss.getString("token")}");
@@ -534,7 +562,7 @@ class _CheckInOutState extends State<CheckInOut> {
       getAddressFromLatLong(ele!);
       print("my position is ${ele!.latitude}");
       getTime().then((eTime) {
-       print("my datetime is +++++ $eTime");
+        print("my datetime is +++++ $eTime");
         final DateTime now = eTime;
         final tomorrow = DateTime(now.year, now.month, now.day + 1);
         final DateFormat formatter = DateFormat('yyyy/MM/dd HH:mm');
@@ -549,48 +577,61 @@ class _CheckInOutState extends State<CheckInOut> {
         print("my location is +++++++++++++++++ before cheked $locationDis");
 
         status.value == true
-            ? locationDis.isNotEmpty ? attendanceRepository
-            .checkInController(
-            id: 1,
-            employeeId: StaticData.employeeID!,
-            logTimeIn: formatted,
-            lat: ele!.latitude,
-            lon: ele!.longitude,
-            battery: percentage,
-            location: locationDis,
-            note: textNoteController.text,
-            onTime: int.parse(DateFormat('HH:mm:ss').format(DateTime.now()).substring(0,2)) >= 10 ? 0: 1 ,
-            token: token!)
-            .then((e) {
-          checkInMethod(e);
-          print("my resposne check in is ++++++++${e.isSuccess}");
-
-
-        }) : _showSnack("No location found please try again")
+            ? locationDis.isNotEmpty
+                ? attendanceRepository
+                    .checkInController(
+                        id: 1,
+                        employeeId: StaticData.employeeID!,
+                        logTimeIn: formatted,
+                        lat: ele!.latitude,
+                        lon: ele!.longitude,
+                        battery: percentage,
+                        location: locationDis,
+                        note: textNoteController.text,
+                        onTime: int.parse(DateFormat('HH:mm:ss')
+                                    .format(DateTime.now())
+                                    .substring(0, 2)) >=
+                                10
+                            ? 0
+                            : 1,
+                        token: token!)
+                    .then((e) {
+                    checkInMethod(e);
+                    print("my resposne check in is ++++++++${e.isSuccess}");
+                  })
+                : _showSnack("No location found please try again")
             : attendanceRepository
-            .checkOutController(token!, StaticData.employeeID!, formatted,
-            locationDis, ele!.latitude, ele!.longitude, textNoteController.text??"")
-            .then((e) {
-          String time = DateFormat('hh:mm').format(DateTime.now()).toString();
-          String convertNowTime = time.replaceAll(":", ".");
-          print("HOUR MIN TIME NOW ######################### $convertNowTime");
-          double timeNow = double.parse(convertNowTime);
-          print("HOUR MIN TIME NOW ######################### $timeNow");
+                .checkOutController(
+                    token!,
+                    StaticData.employeeID!,
+                    formatted,
+                    locationDis,
+                    ele!.latitude,
+                    ele!.longitude,
+                    textNoteController.text ?? "")
+                .then((e) {
+                String time =
+                    DateFormat('hh:mm').format(DateTime.now()).toString();
+                String convertNowTime = time.replaceAll(":", ".");
+                print(
+                    "HOUR MIN TIME NOW ######################### $convertNowTime");
+                double timeNow = double.parse(convertNowTime);
+                print("HOUR MIN TIME NOW ######################### $timeNow");
 
-          checkOutMethod(e);
-        });
+                checkOutMethod(e);
+              });
       });
-      });
-      // DateTime now = DateTime.now();
-      // Timestamp myTimeStamp = Timestamp.fromDate(now);
-      // String time = myTimeStamp.toString();
+    });
+    // DateTime now = DateTime.now();
+    // Timestamp myTimeStamp = Timestamp.fromDate(now);
+    // String time = myTimeStamp.toString();
 
     // GetAddressFromLatLong();
 
     // Navigator.of(context).pop();
   }
 
-  checkOutMethod(e){
+  checkOutMethod(e) {
     duration(e.result!.logTimeIn, e.result!.logTimeOut);
     String str = e.result!.logTimeOut;
 
@@ -603,8 +644,8 @@ class _CheckInOutState extends State<CheckInOut> {
     //  print(str.substring(11, endIndex)); // Cars
 
     setState(() {
-      checkOutTime =  DateFormat.jm().format(DateTime.parse(str));
-     // checkOutTime = str.substring(11, 16);
+      checkOutTime = DateFormat.jm().format(DateTime.parse(str));
+      // checkOutTime = str.substring(11, 16);
 
       checkInTime = DateFormat.jm().format(DateTime.parse(strlogIn));
 
@@ -625,41 +666,38 @@ class _CheckInOutState extends State<CheckInOut> {
     }
   }
 
-  checkInMethod(e){
-    if(e.isSuccess == true){
-    print(
-        "my respons ei s  ________________________${e.isSuccess}");
-    String? str = e.result!.logTimeIn!;
+  checkInMethod(e) {
+    if (e.isSuccess == true) {
+      print("my respons ei s  ________________________${e.isSuccess}");
+      String? str = e.result!.logTimeIn!;
 
-    checkInTime = str!.substring(11, 16);
-    SharedPreff.to.prefss.setBool("checkedIn", false);
+      checkInTime = str!.substring(11, 16);
+      SharedPreff.to.prefss.setBool("checkedIn", false);
 
-    print("my check in time is $checkInTime"); // Cars
-    const snackBar = SnackBar(
-      content: Text('You have checked in!'),
-    );
+      print("my check in time is $checkInTime"); // Cars
+      const snackBar = SnackBar(
+        content: Text('You have checked in!'),
+      );
 
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    setState(() {
-      checkInTime = str.substring(11, 16);
-      print("my check IN time is +++ IF++++++$checkInTime");
-      // checkInTime = strlogIn.substring(11, 16);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      setState(() {
+        checkInTime = str.substring(11, 16);
+        print("my check IN time is +++ IF++++++$checkInTime");
+        // checkInTime = strlogIn.substring(11, 16);
 
+        status.value = false;
+        print(
+            "+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
+      });
+    } else if (e.isSuccess == false) {
       status.value = false;
+      end.value = 0;
+      _showSnack(e.message!);
       print(
           "+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
-    });
-
-
-  } else if (e.isSuccess == false) {
-    status.value = false;
-    end.value = 0;
-    _showSnack(e.message!);
-    print(
-    "+++++++++++++++CHECKED IN FUNCTION STATUS VALUE IS  +++++++++${status.value}");
-    setState(() {});
+      setState(() {});
     }
   }
 // _getLocation() async

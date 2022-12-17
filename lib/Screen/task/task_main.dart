@@ -535,10 +535,10 @@ class _TaskState extends State<Task> {
                                 ),
                                 tabs: const [
                                   Tab(
-                                    text: 'Assigned to me',
+                                    text: 'My Task',
                                   ),
                                   Tab(
-                                    text: 'My Task',
+                                    text: 'Assigned to me',
                                   ),
                                   Tab(
                                     text: 'Assigned by me',
@@ -558,11 +558,11 @@ class _TaskState extends State<Task> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                child: AssignedToMe(),
+                                child: MyTask(),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                child: MyTask(),
+                                child: AssignedToMe(),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.0),

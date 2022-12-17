@@ -1,21 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
+import 'package:salebee/Screen/Attendence_report/individual_report/individual_report_details.dart';
 import 'package:salebee/Utils/StringsConst.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 import 'package:salebee/utils.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EmployeeList extends StatefulWidget {
-  const EmployeeList({Key? key}) : super(key: key);
+class IndividualReport extends StatefulWidget {
+  const IndividualReport({Key? key}) : super(key: key);
 
   @override
-  State<EmployeeList> createState() => _EmployeeListState();
+  State<IndividualReport> createState() => _EmployeeListState();
 }
 
-class _EmployeeListState extends State<EmployeeList> {
+class _EmployeeListState extends State<IndividualReport> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   TextEditingController _searchController = TextEditingController();
   bool department = true;
@@ -23,6 +25,7 @@ class _EmployeeListState extends State<EmployeeList> {
   bool searchStart = false;
   String searchString = "";
   List result = [];
+
   int branchTypeIndex = 0;
   int branchType = 0;
   @override
@@ -41,12 +44,10 @@ class _EmployeeListState extends State<EmployeeList> {
   _onSearchChanged() {
     print(_searchController.text);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Employee List"),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -151,11 +152,9 @@ class _EmployeeListState extends State<EmployeeList> {
                 height: 40,
                 child: TextField(
                   onChanged: (e) {
-
                     setState(() {
                       searchString = e;
                     });
-
                   },
                   onTap: () {
                     searchStart = false;
@@ -166,8 +165,8 @@ class _EmployeeListState extends State<EmployeeList> {
                       hintText: "Search",
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(25.0)))),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0)))),
                 ),
               ),
             ),
@@ -178,11 +177,10 @@ class _EmployeeListState extends State<EmployeeList> {
               future: attendanceRepository.getAllEmployeeList(),
               builder: (BuildContext context,
                   AsyncSnapshot<AllEmployeeListModel> snapshot) {
-
                 if (snapshot.data == null) {
                   print("no data found");
                 } else {
-                   result = _search(snapshot.data!.result);
+                  result = _search(snapshot.data!.result);
                 }
 
                 switch (snapshot.connectionState) {
@@ -209,20 +207,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                     var data = result![index];
                                     return GestureDetector(
                                       onTap: () {
-                                             showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              _buildPopupDialog(
-                                                 context,
-                                                  data.employeeId,
-                                                  data.nationalId ?? "No data",
-                                             data!.bloodGroup.toString() ?? "No data",
-                                                   data.presentAddress ?? "No data",
-                                                data.departmentObj!.departmentName ?? "No data",
-                                                 data.
-                                                emergencyContactPhone ?? "0000000000000",
-                                                data.emailAddresses?? "No data", ),
-                                        );
+                                        Get.to(IndividualReportDetails(name: data.employeeName!, employeeID: data.employeeId,));
                                       },
                                       child: Card(
                                         shape: RoundedRectangleBorder(
@@ -250,30 +235,34 @@ class _EmployeeListState extends State<EmployeeList> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      data.departmentObj == null ?
-                                                      Text("No data")
-                                                      : Text(data.departmentObj!
-                                                          .departmentName!),
-                                                      data.designationObj == null ?
-                                                      Text("No data")
-                                                      :Text(data.designationObj!
-                                                          .designationName!),
+                                                      data.departmentObj == null
+                                                          ? Text("No data")
+                                                          : Text(data
+                                                                  .departmentObj!
+                                                                  .departmentName! +
+                                                              ", Branch Name"),
+                                                      data.designationObj ==
+                                                              null
+                                                          ? Text("No data")
+                                                          : Text(data
+                                                              .designationObj!
+                                                              .designationName!),
                                                     ],
                                                   ),
-                                                  // trailing: Container(
-                                                  //   width: 100,
-                                                  //   child: Row(
-                                                  //     crossAxisAlignment:
-                                                  //         CrossAxisAlignment
-                                                  //             .end,
-                                                  //     mainAxisAlignment:
-                                                  //         MainAxisAlignment.end,
-                                                  //     children: [
-                                                  //       Icon(Icons.call),
-                                                  //       Icon(Icons.mail),
-                                                  //     ],
-                                                  //   ),
-                                                  // ),
+                                                  trailing: Container(
+                                                    width: 30,
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Icon(Icons.call),
+
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               )
                                             ],
@@ -296,79 +285,19 @@ class _EmployeeListState extends State<EmployeeList> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context,  @required int? id,  String? nationalID,  String? bloddgrp, String? presentAddress,  String? branch,  String? phoneNo,  String? email) {
-    return new AlertDialog(
-      title: const Text('Employee Details'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-        Row(
-          children: [
-            Text("Employee id: "),
-            Text(id.toString()),
-          ],
-        ),
-          Row(
-            children: [
-              Text("NID: "),
-              Text(nationalID.toString()),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Blood: "),
-              Text(bloddgrp.toString()),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Present Address: "),
-              Text(presentAddress!..toString()),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Phone: "),
-              phoneNo == ""? Text("No data"):
-              Text(phoneNo!.toString()),
-              SizedBox(width: 20,),
-
-              InkWell(
-                onTap: (){
-                  launchPhoneDialer(phoneNo!);
-                },
-                  child: Icon(Icons.call)),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Email: "),
-              Text(email!.toString()),
-            ],
-          ),
-          Row(
-            children: [
-              Text("Branch name: "),
-              Text(branch.toString()),
-            ],
-          ),
-        ],
-      ),
-      actions: <Widget>[
-
-      ],
-    );
-  }
   List<Result> _search(List<Result>? employee) {
-    if(searchString.isNotEmpty == true) {
+    if (searchString.isNotEmpty == true) {
       //search logic what you want
-      return employee?.where((element) => element.employeeName!.toLowerCase().contains(searchString))
-          .toList() ?? <Result>[];
+      return employee
+              ?.where((element) =>
+                  element.employeeName!.toLowerCase().contains(searchString))
+              .toList() ??
+          <Result>[];
     }
 
     return employee ?? <Result>[];
   }
+
   Future<void> launchPhoneDialer(String contactNumber) async {
     final Uri _phoneUri = Uri(scheme: "tel", path: contactNumber);
     try {

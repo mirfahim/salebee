@@ -1,20 +1,60 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/all_visit_list_location.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/the_eye.dart';
+import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/all_visit_list_location.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/follow_up_activity.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/map_view.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/markrting_activity.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/visit/person_visit_log_tab.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/live_tracking_screen.dart';
 import 'package:salebee/Screen/Prospect/individual_prospect.dart';
 import 'package:salebee/Screen/Prospect/organization_prospect.dart';
 import 'package:salebee/utils.dart';
 import 'package:salebee/Screen/leave/granted.dart';
 import 'package:salebee/Screen/leave/applied.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:ui' as ui;
 
-class TheEyeFront extends StatelessWidget {
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:salebee/utils.dart';
+
+class TheEyeFront extends StatefulWidget {
   const TheEyeFront({Key? key}) : super(key: key);
 
   @override
+  State<TheEyeFront> createState() => _TheEyeFrontState();
+}
+
+class _TheEyeFrontState extends State<TheEyeFront> {
+  Iterable markers = [];
+
+  Future<Uint8List> getBytesFromAsset({String? path,int? width})async {
+    ByteData data = await rootBundle.load(path!);
+    ui.Codec codec = await ui.instantiateImageCodec(
+        data.buffer.asUint8List(),
+        targetWidth: width
+    );
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(
+        format: ui.ImageByteFormat.png))!
+        .buffer.asUint8List();
+  }
+  getImage() async {
+    StaticData.customMarker = await getBytesFromAsset(
+        path:'images/marker.png', //paste the custom image path
+        width: 50 // size of custom image as marker
+    );
+    return StaticData.customMarker;
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+    getImage();
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
 
@@ -43,7 +83,7 @@ class TheEyeFront extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        flex: 4,
+                        flex: 12,
                         child: TabBar(
                           indicatorColor: darkBlue,
                           labelColor: darkBlue,
@@ -68,11 +108,16 @@ class TheEyeFront extends StatelessWidget {
                             Tab(
                               text: 'Follow Up Activity',
                             ),
+                            Tab(
+                              text: 'Marketing Activity',
+                            ),
 
                           ],
                         ),
                       ),
-                      Expanded(child: Container())
+                      Expanded(child: Container(
+
+                      ))
                     ],
                   ),
                 ),
@@ -81,19 +126,23 @@ class TheEyeFront extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TheEyeScreen(),
+                          child: LiveTrackingScreen(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TheEyeScreen(),
+                          child: VisitLog(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TheEyeScreen(),
+                          child: EyeMapView(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TheEyeScreen(),
+                          child: FollowUpActivity(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: MarketingActivity(),
                         ),
                       ]),
                 ),

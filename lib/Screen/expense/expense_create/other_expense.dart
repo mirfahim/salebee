@@ -22,6 +22,7 @@ class _OtherExpenseState extends State<OtherExpenseCreate> {
   var expenseNameController = TextEditingController();
   var descriptionController = TextEditingController();
   var pricingController = TextEditingController();
+  var personController = TextEditingController();
   final pickedDate = ''.obs;
   File? file;
   var bytes;
@@ -103,6 +104,7 @@ backgroundColor: primaryColorLight,
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: descriptionController,
                       maxLines: 3,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
@@ -132,6 +134,7 @@ backgroundColor: primaryColorLight,
                         Border.all(color: Colors.grey, width: 1.5),
                         borderRadius: const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: personController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -301,6 +304,7 @@ backgroundColor: primaryColorLight,
                               expenseRepository
                                   .othersExpenseController(
                                 image: bytes,
+                                  person: int.parse(personController.text),
                                   expenseName: expenseNameController.text,
                                   discription: descriptionController.text,
                                   expense: int.parse(pricingController.text),

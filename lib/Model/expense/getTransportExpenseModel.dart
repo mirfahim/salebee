@@ -52,6 +52,9 @@ class Result {
     this.updatedBy,
     this.updatedOn,
     this.token,
+    this.description,
+    this.person,
+    this.prospectID
   });
 
   int? id;
@@ -70,6 +73,9 @@ class Result {
   int? updatedBy;
   DateTime? updatedOn;
   String? token;
+  int? person;
+  String? description;
+  int? prospectID;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
@@ -88,6 +94,9 @@ class Result {
     updatedBy: json["UpdatedBy"],
     updatedOn: DateTime.parse(json["UpdatedOn"]),
     token: json["Token"] == null ? null : json["Token"] ,
+    prospectID: json["ProspectId"] == null ? 0 : json["ProspectId"],
+    description: json["Description"] == null ? "No data" : json["Description"],
+    person: json["Person"] == null ? 1 : json["Person"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -107,5 +116,8 @@ class Result {
     "UpdatedBy": updatedBy,
     "UpdatedOn": updatedOn!.toIso8601String(),
     "Token": token!,
+    "ProspectId": prospectID,
+    "Description": description,
+    "Person": person
   };
 }

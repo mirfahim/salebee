@@ -241,6 +241,7 @@ class _FoodExpenseState extends State<FoodExpense> {
                         borderRadius:
                         const BorderRadius.all(Radius.circular(10.0))),
                     child: TextFormField(
+                      controller: textDesController,
                       onChanged: (value) {
                         // _productController.searchProduct(value);
                       },
@@ -411,6 +412,8 @@ class _FoodExpenseState extends State<FoodExpense> {
                           });
                           expenseRepository
                               .foodExpenseController(
+                            person: int.parse(personController.text),
+                            description: textDesController.text,
                             image: bytes,   mealType: mealType ,
                             dishName: dishNameController.text,
                             expense: int.parse(pricingController.text),

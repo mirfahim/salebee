@@ -5,23 +5,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
 import 'package:salebee/Screen/Map/map_screen.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/all_visit_list_location.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/all_visit_list_location.dart';
+import 'package:salebee/Utils/StringsConst.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../utils.dart';
+import '../../../../utils.dart';
 
-class TheEyeScreen extends StatefulWidget {
-  const TheEyeScreen({Key? key}) : super(key: key);
+class LiveTrackingScreen extends StatefulWidget {
+  const LiveTrackingScreen({Key? key}) : super(key: key);
 
   @override
-  State<TheEyeScreen> createState() => _EmployeeListState();
+  State<LiveTrackingScreen> createState() => _EmployeeListState();
 }
 
-class _EmployeeListState extends State<TheEyeScreen> {
+class _EmployeeListState extends State<LiveTrackingScreen> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   TextEditingController _searchController = TextEditingController();
   bool department = true;
@@ -31,6 +33,8 @@ class _EmployeeListState extends State<TheEyeScreen> {
   Completer<GoogleMapController> _controller = Completer();
   List result = [];
   Iterable markers = [];
+  int branchTypeIndex = 0;
+  int branchType = 0;
 
   Iterable _markers = Iterable.generate(AppConstant.list.length, (index) {
     return Marker(
@@ -69,6 +73,62 @@ class _EmployeeListState extends State<TheEyeScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
+            Container(
+              height: 40,
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 80,
+                      childAspectRatio: 6 / 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
+                  itemCount: StaticData.branchList.length,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          branchTypeIndex = index;
+                          branchType = branchTypeIndex;
+                          //cat = incomeList[index];
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: branchTypeIndex == index
+                              ? Colors.orangeAccent[100]
+                              : primaryColorSecond,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    StaticData.branchList[index],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: branchTypeIndex == index
+                                          ? Colors.white
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+            ),
             // ToggleSwitch(
             //   minHeight: 30,
             //   initialLabelIndex: department == true ? 0 : 1,
@@ -105,7 +165,7 @@ class _EmployeeListState extends State<TheEyeScreen> {
             //   },
             // ),
             SizedBox(
-              height: 10,
+              height: 05,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -134,7 +194,7 @@ class _EmployeeListState extends State<TheEyeScreen> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 05,
             ),
             FutureBuilder<AllEmployeeListModel>(
               future: attendanceRepository.getAllEmployeeList(),
@@ -164,7 +224,7 @@ class _EmployeeListState extends State<TheEyeScreen> {
                           children: [
 
                             Container(
-                              height: MediaQuery.of(context).size.height - 200,
+                              height: MediaQuery.of(context).size.height - 250,
                               child: ListView.builder(
                                   itemCount: result.length,
                                   itemBuilder: (BuildContext context, index) {
@@ -201,11 +261,10 @@ class _EmployeeListState extends State<TheEyeScreen> {
                                                     Expanded(
                                                       child: ListTile(
                                                         leading: CircleAvatar(
-                                                          radius: 30,
-                                                          backgroundImage: AssetImage(
-                                                            'images/person.jpg',
-                                                          ),
-                                                        ),
+                                              radius: 30,
+                                              backgroundImage: NetworkImage(
+                                                StringsConst.MAINURL + data.profilePicturePath,
+                                              ),),
                                                         title:
                                                         Text(data.employeeName!),
                                                         subtitle: Column(

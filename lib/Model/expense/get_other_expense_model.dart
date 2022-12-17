@@ -49,6 +49,10 @@ class Result {
     this.updatedBy,
     this.updatedOn,
     this.token,
+
+    this.person,
+    this.prospectID
+
   });
 
   int? id;
@@ -57,28 +61,34 @@ class Result {
   double? expense;
   DateTime? expenseDate;
   int? approvedBy;
-  String? attachment;
+  var attachment;
   bool? active;
   int? createdBy;
   DateTime? createdOn;
   int? updatedBy;
   DateTime? updatedOn;
   String? token;
+  int? person;
+
+  int? prospectID;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
     expenseName: json["ExpenseName"] ?? "",
     description: json["Description"] ?? "",
-    expense: json["Expense"] ?? 0,
+    expense: json["Expense"] ?? 0.0,
     expenseDate: DateTime.parse(json["ExpenseDate"]) ?? DateTime.parse(json["CreatedOn"]),
     approvedBy: json["ApprovedBy"] ?? "",
-    attachment: json["Attachment"] ?? "",
+    attachment: json["Attachment"] == null ? null : json["Attachment"],
     active: json["Active"],
     createdBy: json["CreatedBy"] ?? "",
     createdOn: DateTime.parse(json["CreatedOn"]) ,
     updatedBy: json["UpdatedBy"] ?? DateTime.parse(json["CreatedOn"]) ,
     updatedOn: json["UpdatedOn"] == null ? DateTime.parse(json["CreatedOn"]) : DateTime.parse(json["UpdatedOn"]),
     token: json["Token"] ?? "",
+    prospectID: json["ProspectId"] == null ? 0 : json["ProspectId"],
+
+    person: json["Person"] == null ? 1 : json["Person"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -95,5 +105,8 @@ class Result {
     "UpdatedBy": updatedBy,
     "UpdatedOn": updatedOn!.toIso8601String(),
     "Token": token,
+    "ProspectId": prospectID,
+
+    "Person": person
   };
 }

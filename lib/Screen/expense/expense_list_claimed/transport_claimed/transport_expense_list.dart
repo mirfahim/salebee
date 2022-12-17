@@ -174,7 +174,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                   child: Row(
                                                     children: [
                                                       Container(
-                                                          height: 40,
+                                                          height: 42,
                                                           decoration: BoxDecoration(
                                                               color: primaryColorSecond.withOpacity(.3),
                                                               borderRadius:
@@ -192,7 +192,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                                       .center,
                                                                   children: [
                                                                     Text(
-                                                                      DateFormat('EEEE').format(data.createdOn!).toString().substring(0,3) + ",",
+                                                                      DateFormat('EEEE').format(data.startTime!).toString().substring(0,3) + ",",
 
                                                                       textAlign: TextAlign.center,
                                                                       style: TextStyle(
@@ -206,7 +206,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                                     //"LogTimeIn":"2022-09-13T08:36:40.32"
                                                                     Center(
                                                                       child: Text(
-                                                                        " "+data.createdOn
+                                                                        " "+data.startTime
                                                                             .toString()
                                                                             .substring(8, 10),
                                                                         textAlign:
@@ -218,7 +218,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                                       ),
                                                                     ),
                                                                     Text(
-                                                                        DateFormat('MMM').format(data.createdOn!).toString().substring(0,3),
+                                                                        DateFormat('MMM').format(data.startTime!),
                                                                       style: TextStyle(fontSize: 12) ,),
 
 
@@ -230,7 +230,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                                     children: [
 
                                                                       Text(
-                                                                        DateFormat.jm().format(data.createdOn!),
+                                                                        DateFormat.jm().format(data.startTime!),
                                                                       style: TextStyle(
                                                                         fontSize: 8
                                                                       ),),
@@ -324,20 +324,20 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                                 ),
                                                                 const SizedBox(height: 5,),
 
-                                                                Container(
-                                                                  width: MediaQuery.of(context).size.width -200,
-                                                                  child: Row(
-                                                                    mainAxisAlignment:  MainAxisAlignment.start,
-                                                                    children: [
-                                                                      Text('Prospect: ',style: TextStyle(
-                                                                          color: Colors.black.withOpacity(.7)
-                                                                      ),),
-                                                                      Text('tset prospect name',style: TextStyle(
-                                                                          color: Colors.grey.withOpacity(.7)
-                                                                      ),),
-                                                                    ],
-                                                                  ),
-                                                                ),
+                                                                // Container(
+                                                                //   width: MediaQuery.of(context).size.width -200,
+                                                                //   child: Row(
+                                                                //     mainAxisAlignment:  MainAxisAlignment.start,
+                                                                //     children: [
+                                                                //       Text('Prospect: ',style: TextStyle(
+                                                                //           color: Colors.black.withOpacity(.7)
+                                                                //       ),),
+                                                                //       Text('tset prospect name',style: TextStyle(
+                                                                //           color: Colors.grey.withOpacity(.7)
+                                                                //       ),),
+                                                                //     ],
+                                                                //   ),
+                                                                // ),
                                                                 Container(
                                                                   width: MediaQuery.of(context).size.width -200,
                                                                   child: Row(
@@ -347,7 +347,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                                                           color: Colors.black.withOpacity(.7)
                                                                       ),),
                                                                       Expanded(
-                                                                        child: Text('All my details of transport',
+                                                                        child: Text(data.description!,
                                                                           overflow: TextOverflow.ellipsis,
                                                                           style: TextStyle(
                                                                             color: Colors.grey.withOpacity(.7)
@@ -420,7 +420,7 @@ class _ApprovedState extends State<TransportClaimedList> {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: InkWell(
               onTap: (){
-                Get.to(ExpenseCreateFront());
+                Get.to(ExpenseCreateFront(page: "transport",));
               },
               child: Container(
                 height: 48,

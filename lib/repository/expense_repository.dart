@@ -26,6 +26,8 @@ class ExpenseRepository {
       required int mealType,
       required String dishName,
       required int expense,
+        required int person,
+        required String description,
       required String date}) async {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
@@ -36,6 +38,10 @@ class ExpenseRepository {
       "Expense": expense,
       "ExpenseDate": date,
       "ApprovedBy": 0,
+      "ProspectId": 0,
+      "Description": description,
+      "Person": person,
+
       "Attachment": null,
       "Active": true,
       "CreatedBy": 0,
@@ -69,6 +75,7 @@ class ExpenseRepository {
     required String discription,
     required int expense,
     required String date,
+        required int person,
   }) async {
 
     Map<String, dynamic> bodyString =
@@ -79,7 +86,9 @@ class ExpenseRepository {
       "Expense": expense,
       "ExpenseDate": "2022-11-15T06:05:16.691Z",
       "ApprovedBy": 0,
-      "Attachment": null,
+      "Attachment": image,
+      "Person": person,
+      "ProspectId": 0,
       "Active": true,
       "CreatedBy": 0,
       "CreatedOn": "2022-11-15T06:05:16.691Z",
@@ -106,8 +115,10 @@ class ExpenseRepository {
   Future transportExpenseController(
       { required image,
       required int vehicleType,
-        description,
+        required String  description,
       required String vehicleName,
+        required int person,
+        required int prospectId,
       required String vehicleNo,
       required int expense,
       required String startDate,
@@ -127,8 +138,12 @@ class ExpenseRepository {
       "ExpenseDate": "2022-11-15T06:05:16.687Z",
       "ApprovedBy": 0,
       "Attachment": image,
+      "Person": person,
+      "ProspectId": prospectId,
       "Active": true,
       "CreatedBy": 0,
+      "Description": description,
+
       "CreatedOn": DateTime.now().toString(),
       "UpdatedBy": 0,
       "UpdatedOn": "2022-11-15T06:05:16.687Z",

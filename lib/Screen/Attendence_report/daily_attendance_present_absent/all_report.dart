@@ -5,14 +5,15 @@ import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:salebee/Model/attendance/getAllEmployeeAttendance.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
+import 'package:salebee/Utils/StringsConst.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../Data/static_data.dart';
-import '../../Model/get_attendance_model.dart';
-import '../../repository/attendance_repository.dart';
-import '../../utils.dart';
-import 'check_in_out.dart';
+import '../../../Data/static_data.dart';
+import '../../../Model/get_attendance_model.dart';
+import '../../../repository/attendance_repository.dart';
+import '../../../utils.dart';
+import '../check_in_out.dart';
 
 ///import 'package:my_app/globals.dart' as globals;
 
@@ -98,26 +99,41 @@ class _ReportState extends State<AllReport> {
     absentList.clear();
     presentID.clear();
     employeeID.clear();
+   // getting attendance of a employee bty date and adding emp name and id in presentID list
+    // So I have a list where I have data of a employee present of a day.
+    try {
+      try {
+        attendanceRepository
+            .getAllEmployeeAttendanceController(StaticData.employeeID!, DateTime(2022,  monthSelection,   daySelection,))
+            .then((value) {
+          value.result!.forEach((element) {
+            presentID.add(AbsentModel(name: element.employeeName!, id: element.employeeId!));
+          });
+          // getting all employee list
+          // making a list of employeeID where I have data of all employee
+          // So now I have two list of presentID and employeeID where I have to compare for getting a absent list.
+          attendanceRepository.getAllEmployeeList().then((value) {
+            value.result!.forEach((element) {
+              employeeID.add(AbsentModel(name: element.employeeName!, id: element.employeeId!,
+                designation: element.designationObj!.designationName!,
+                num: element.phoneNumbers,
+              imagePath:  element.profilePicturePath));
+            });
+            // _tabController = new TabController(vsync: this, length: tabs.length);
+          }).then((value) {
+            print("my total employee list is ${employeeID.length} and my total present employee today os ${presentID.length}");
 
-    attendanceRepository
-        .getAllEmployeeAttendanceController(StaticData.employeeID!, DateTime(2022,  monthSelection,   daySelection,))
-        .then((value) {
-      value.result!.forEach((element) {
-        presentID.add(AbsentModel(name: element.employeeName!, id: element.employeeId!));
-      });
-      attendanceRepository.getAllEmployeeList().then((value) {
-        value.result!.forEach((element) {
-          employeeID.add(AbsentModel(name: element.employeeName!, id: element.employeeId!, designation: element.designationObj!.designationName!, num: element.phoneNumbers));
+            absentList =  employeeID.where((item) => !presentID.contains(item)).toList();
+          });
+
+
         });
-        // _tabController = new TabController(vsync: this, length: tabs.length);
-      }).then((value) {
-        print("my total employee list is ${employeeID.length} and my total present employee today os ${presentID.length}");
-
-        absentList =  employeeID.where((item) => !presentID.contains(item)).toList();
-      });
-
-
-    });
+      } catch (e, s) {
+        print(s);
+      }
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   @override
@@ -136,26 +152,29 @@ class _ReportState extends State<AllReport> {
                 length: 12,
                 child: Column(
                   children: [
-                    TabBar(
-                      indicator: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: primaryColorSecond.withOpacity(.5)),
-                      isScrollable: true,
-                      indicatorColor: Colors.orangeAccent,
-                      labelColor: Colors.black54,
-                      onTap: (index) {
-                        setState(() {
-                          monthSelection = index + 1;
-                        });
-                      },
-                      tabs: tabs
-                          .map((tab) => Tab(
-                                icon: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(tab),
-                                ),
-                              ))
-                          .toList(),
+                    Container(
+                      height: 35,
+                      child: TabBar(
+                        indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: primaryColorSecond.withOpacity(.5)),
+                        isScrollable: true,
+                        indicatorColor: Colors.orangeAccent,
+                        labelColor: Colors.black54,
+                        onTap: (index) {
+                          setState(() {
+                            monthSelection = index + 1;
+                          });
+                        },
+                        tabs: tabs
+                            .map((tab) => Tab(
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(tab),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
@@ -586,7 +605,8 @@ class _ReportState extends State<AllReport> {
                                                                     .spaceBetween,
                                                             children: [
                                                               Container(
-                                                                  height: 50,
+                                                                  height: 100,
+                                                                  width: 100,
                                                                   decoration: BoxDecoration(
                                                                       color: Colors
                                                                           .redAccent
@@ -595,7 +615,7 @@ class _ReportState extends State<AllReport> {
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               6)),
-                                                                  width: 100,
+
                                                                   child:
                                                                       Padding(
                                                                     padding: const EdgeInsets
@@ -608,15 +628,21 @@ class _ReportState extends State<AllReport> {
                                                                           MainAxisAlignment
                                                                               .center,
                                                                       children: [
+                                                                        CircleAvatar(
+                                                                          radius: 30,
+                                                                          backgroundImage: NetworkImage(
+                                                                            StringsConst.MAINURL + data.imagePath!,
+                                                                          ),),
                                                                         Text(
                                                                           data!.name.toString(),
                                                                           textAlign:
-                                                                              TextAlign.center,
+                                                                          TextAlign.center,
                                                                           style: TextStyle(
                                                                               fontSize: 12,
                                                                               fontWeight: FontWeight.bold,
                                                                               color: Colors.black),
                                                                         ),
+
                                                                       ],
                                                                     ),
                                                                   )),
@@ -757,8 +783,10 @@ class AbsentModel extends Equatable {
   int id ;
   String? designation;
   String? num;
+  DateTime? date;
+  String? imagePath;
 
-  AbsentModel({required this.name, required this.id,  this.designation, this.num});
+  AbsentModel({required this.name, required this.id,  this.designation, this.num, this.date, this.imagePath});
   @override
   List<Object> get props => [name, id];
 }

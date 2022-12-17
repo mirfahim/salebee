@@ -9,12 +9,19 @@ import 'package:salebee/utils.dart';
 import 'package:salebee/Screen/leave/granted.dart';
 import 'package:salebee/Screen/leave/applied.dart';
 
-class ExpenseCreateFront extends StatelessWidget {
-  const ExpenseCreateFront({Key? key}) : super(key: key);
+class ExpenseCreateFront extends StatefulWidget {
+  String? page;
+  ExpenseCreateFront({this.page});
 
+  @override
+  State<ExpenseCreateFront> createState() => _ExpenseCreateFrontState();
+}
+
+class _ExpenseCreateFrontState extends State<ExpenseCreateFront> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: widget.page == "transport" ? 0 : widget.page == "food" ? 1 : 2,
       length: 3,
       child: Scaffold(
         backgroundColor: primaryColorLight,
@@ -46,6 +53,7 @@ class ExpenseCreateFront extends StatelessWidget {
                       Expanded(
                         flex: 4,
                         child: TabBar(
+
                           indicatorColor: darkBlue,
                           labelColor: darkBlue,
                           unselectedLabelColor: tabBarUnSelectedColor,

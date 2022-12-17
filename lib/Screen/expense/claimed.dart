@@ -414,7 +414,7 @@ class _ClaimedState extends State<Claimed> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: () {
-                      Get.to(ExpenseCreateFront());
+                      Get.to(ExpenseCreateFront(page: "transport",));
                     },
                     child: Container(
                       height: 48,

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Model/prospect/get_prospect_model.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect_front.dart';
 import 'package:salebee/Screen/leave/leave_details.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/prospect_repository.dart';
+import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
 
 import '../../Service/sharedPref_service.dart';
@@ -25,7 +27,9 @@ class IndividualProspect extends StatefulWidget {
 
 class _IndividualProspectState extends State<IndividualProspect> {
   String searchString = "";
+  GeolocatorService geolocatorService = GeolocatorService();
   bool loader = false;
+  VisitRepository visitRepository = VisitRepository();
   List result = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   TaskRepository taskRepository = TaskRepository();
@@ -685,6 +689,7 @@ class _IndividualProspectState extends State<IndividualProspect> {
                     leadID: 0,
                     assignaTo: 0) .then((value) {
                   if (value.isSuccess == true) {
+                    addVisit(prospectName);
                     _showSnack(value.message!);
 
                     setState(() {
@@ -708,6 +713,20 @@ class _IndividualProspectState extends State<IndividualProspect> {
       },
     );
   }
+  addVisit(String? prospect){
+
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    geolocatorService.determinePosition().then((ele) {
+      print("my position is ${ele!.latitude}");
+
+      visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
+        latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30"
+        );
+
+
+    });
+  }
+
   void _showSnack(String msg) {
     final _snackBarContent = SnackBar(content: Text(msg));
     ScaffoldMessenger.of(_scaffoldkey.currentState!.context)

@@ -159,14 +159,14 @@ class _ApprovedState extends State<OtherClaimedList> {
                                                       child: Row(
                                                         children: [
                                                           Container(
-                                                              height: 40,
+                                                              height: 43,
                                                               decoration: BoxDecoration(
                                                                   color: primaryColorSecond.withOpacity(
                                                                       .3),
                                                                   borderRadius:
                                                                   BorderRadius.circular(
                                                                       6)),
-                                                              width: 70,
+
                                                               child:
                                                               Padding(
                                                                 padding: const EdgeInsets
@@ -183,22 +183,22 @@ class _ApprovedState extends State<OtherClaimedList> {
                                                                         Text(
                                                                           DateFormat('EEEE').format(data.createdOn!).toString().substring(0, 3) + ",",
                                                                           textAlign: TextAlign.center,
-                                                                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                                                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
                                                                         ),
                                                                         SizedBox(
-                                                                          height: 5,
+                                                                          height: 3,
                                                                         ),
                                                                         //"LogTimeIn":"2022-09-13T08:36:40.32"
                                                                         Center(
                                                                           child: Text(
                                                                             " " + data.createdOn.toString().substring(8, 10),
                                                                             textAlign: TextAlign.center,
-                                                                            style: TextStyle(fontSize: 12),
+                                                                            style: TextStyle(fontSize: 11),
                                                                           ),
                                                                         ),
                                                                         Text(
                                                                           DateFormat('MMM').format(data.createdOn!).toString().substring(0, 3),
-                                                                          style: TextStyle(fontSize: 12),
+                                                                          style: TextStyle(fontSize: 11),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -231,6 +231,18 @@ class _ApprovedState extends State<OtherClaimedList> {
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
                                                                     Text(data.expenseName!),
+                                                                    Text(data.description!),
+                                                                    Row(
+                                                                      children: [
+                                                                        Text("Person: ",style: TextStyle(
+                                                                            fontSize: 16,
+                                                                            fontWeight: FontWeight.w600
+                                                                        ),),
+                                                                        Text(data.person!.toString(),style: TextStyle(
+                                                                            color: Colors.grey.withOpacity(.7)
+                                                                        ),)
+                                                                      ],
+                                                                    ),
 
 
                                                                     const SizedBox(height: 5,),
@@ -312,7 +324,7 @@ class _ApprovedState extends State<OtherClaimedList> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: InkWell(
                   onTap: (){
-                    Get.to(ExpenseCreateFront());
+                    Get.to(ExpenseCreateFront(page: "other",));
                   },
                   child: Container(
                     height: 48,

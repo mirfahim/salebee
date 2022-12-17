@@ -39,7 +39,16 @@ class _TransportExpenseCreatePageState
   String? newProspect = "Select";
   int wayType = 0;
   TaskRepository taskRepository = TaskRepository();
-  List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
+  List<String> way = [
+    'Rikshaw',
+    'Bus',
+    'Bike',
+    'Car',
+    'CNG,',
+    'Train',
+    'Air',
+    'Others'
+  ];
   File? file;
   var bytes;
   bool circular = false;
@@ -69,18 +78,16 @@ class _TransportExpenseCreatePageState
     }
     return file;
   }
+
   @override
   void initState() {
     // TODO: implement initState
 
     taskRepository.getAllListForTaskController().then((value) {
-      if(value.result == null){
+      if (value.result == null) {
         print("some error++");
-      }else{
-
-
+      } else {
         newProspect = value.result!["SelectListProspects"]![0].text;
-
       }
 
       //prospectList = value.result!["SelectListProspects"]!;
@@ -101,7 +108,6 @@ class _TransportExpenseCreatePageState
             children: [
               ListView(
                 children: [
-
                   SizedBox(
                     height: 10,
                   ),
@@ -182,24 +188,21 @@ class _TransportExpenseCreatePageState
                           children: [
                             Text(
                               'Start Location',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-
                             Row(
                               children: [
                                 Container(
                                   width: 140,
                                   height: 50,
-
-
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1.5),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1.5),
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0))),
                                   child: Container(
-
                                     child: TextFormField(
                                       onChanged: (value) {
                                         // _productController.searchProduct(value);
@@ -211,8 +214,8 @@ class _TransportExpenseCreatePageState
                                           width: 20,
                                         ),
                                         hintText: 'Location',
-                                        suffixIcon:
-                                        const Icon(Icons.location_on_outlined),
+                                        suffixIcon: const Icon(
+                                            Icons.location_on_outlined),
                                         hintStyle: const TextStyle(
                                             fontSize: 14.0,
                                             fontFamily: 'Roboto',
@@ -222,14 +225,11 @@ class _TransportExpenseCreatePageState
                                     ),
                                   ),
                                 ),
-
-
                               ],
                             ),
                           ],
                         ),
                       ),
-
                       Container(
                         width: 150,
                         child: Column(
@@ -237,17 +237,17 @@ class _TransportExpenseCreatePageState
                           children: [
                             const Text(
                               'End Location',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-
                             Row(
                               children: [
                                 Container(
                                   width: 140,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1.5),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1.5),
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0))),
                                   child: TextFormField(
@@ -261,8 +261,8 @@ class _TransportExpenseCreatePageState
                                         width: 20,
                                       ),
                                       hintText: 'Location',
-                                      suffixIcon:
-                                      const Icon(Icons.location_on_outlined),
+                                      suffixIcon: const Icon(
+                                          Icons.location_on_outlined),
                                       hintStyle: const TextStyle(
                                           fontSize: 14.0,
                                           fontFamily: 'Roboto',
@@ -323,9 +323,9 @@ class _TransportExpenseCreatePageState
                           children: [
                             Text(
                               'Person',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-
                             Row(
                               children: [
                                 Container(
@@ -333,8 +333,8 @@ class _TransportExpenseCreatePageState
                                   width: 140,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1.5),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1.5),
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0))),
                                   child: TextFormField(
@@ -348,7 +348,6 @@ class _TransportExpenseCreatePageState
                                         width: 20,
                                       ),
                                       hintText: 'Number of person',
-
                                       hintStyle: const TextStyle(
                                           fontSize: 14.0,
                                           fontFamily: 'Roboto',
@@ -357,8 +356,6 @@ class _TransportExpenseCreatePageState
                                     ),
                                   ),
                                 ),
-
-
                               ],
                             ),
                           ],
@@ -371,9 +368,9 @@ class _TransportExpenseCreatePageState
                           children: [
                             const Text(
                               'Cost',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-
                             Row(
                               children: [
                                 Container(
@@ -381,8 +378,8 @@ class _TransportExpenseCreatePageState
                                   height: 50,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1.5),
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1.5),
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0))),
                                   child: TextFormField(
@@ -396,7 +393,6 @@ class _TransportExpenseCreatePageState
                                         width: 20,
                                       ),
                                       hintText: 'Type amount',
-
                                       hintStyle: const TextStyle(
                                           fontSize: 14.0,
                                           fontFamily: 'Roboto',
@@ -443,8 +439,6 @@ class _TransportExpenseCreatePageState
                       )
                     ],
                   ),
-
-
                   const SizedBox(
                     height: 10,
                   ),
@@ -455,7 +449,6 @@ class _TransportExpenseCreatePageState
                   const SizedBox(
                     height: 10,
                   ),
-
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -474,7 +467,6 @@ class _TransportExpenseCreatePageState
                           width: 20,
                         ),
                         hintText: 'Type Details',
-
                         hintStyle: const TextStyle(
                             fontSize: 14.0,
                             fontFamily: 'Roboto',
@@ -493,90 +485,78 @@ class _TransportExpenseCreatePageState
                   const SizedBox(
                     height: 10,
                   ),
-
                   FutureBuilder<GetListForTaskDataModel>(
-
-                    future: taskRepository.getAllListForTaskController(),
-                    builder: (context, snapshot) {
-                      if(snapshot.data == null ){
-                        return Container();
-                      } else {
-                        snapshot.data!
-                            .result!["SelectListProspects"]!
-                            .forEach((element) {
-
-                          allList.add(element.text);
-                        });
-                      } if(snapshot.hasError) {
-                        return Container();
-                      } else if(snapshot.data != null){
-                        return     Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: borderColor, width: 1),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0))),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8, right: 8),
-                              child:  DropdownButtonHideUnderline(
-
-                                child: DropdownSearch<String>(
-
-                                  popupProps: PopupProps.menu(
-                                    fit: FlexFit.loose,
-
-                                    showSearchBox: true,
-                                    showSelectedItems: true,
-
-                                    disabledItemFn: (String s) => s.startsWith('I'),
-                                  ),
-                                  items: allList,
-                                  dropdownDecoratorProps: DropDownDecoratorProps(
-                                    dropdownSearchDecoration: InputDecoration(
-
-
-                                      hintText: "Employee List",
+                      future: taskRepository.getAllListForTaskController(),
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
+                          return Container();
+                        } else {
+                          snapshot.data!.result!["SelectListProspects"]!
+                              .forEach((element) {
+                            allList.add(element.text);
+                          });
+                        }
+                        if (snapshot.hasError) {
+                          return Container();
+                        } else if (snapshot.data != null) {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: borderColor, width: 1),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10.0))),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 8),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownSearch<String>(
+                                    popupProps: PopupProps.menu(
+                                      fit: FlexFit.loose,
+                                      showSearchBox: true,
+                                      showSelectedItems: true,
+                                      disabledItemFn: (String s) =>
+                                          s.startsWith('I'),
                                     ),
-                                  ),
-                                  onChanged:(String? value) {
-                                    // This is called when the user selects an item.
-                                    print('taxGroup $value');
+                                    items: allList,
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                        hintText: "Employee List",
+                                      ),
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      print('taxGroup $value');
 
-                                    setState(() {
-                                      newProspect = value;
-                                      snapshot.data!
-                                          .result!["SelectListProspects"]!
-                                          .forEach((element) {
-                                        // print("${element.text}"+"$newLead");
-                                        if (element.text == newProspect) {
-                                          StaticData.prospectID =
-                                              int.parse(element.value);
-                                          print(
-                                              "my assign id is ${StaticData.prospectID}");
-                                        } else {
-                                          // _showSnack("Task Assign to ${StaticData.assignToID}");
-                                          // print("no match in assign to");
-                                        }
+                                      setState(() {
+                                        newProspect = value;
+                                        snapshot.data!
+                                            .result!["SelectListProspects"]!
+                                            .forEach((element) {
+                                          // print("${element.text}"+"$newLead");
+                                          if (element.text == newProspect) {
+                                            StaticData.prospectID =
+                                                int.parse(element.value);
+                                            print(
+                                                "my assign id is ${StaticData.prospectID}");
+                                          } else {
+                                            // _showSnack("Task Assign to ${StaticData.assignToID}");
+                                            // print("no match in assign to");
+                                          }
+                                        });
                                       });
-                                    });
-
-
-                                  },
-                                  selectedItem: allList[0],
+                                    },
+                                    selectedItem: allList[0],
+                                  ),
                                 ),
-                              ),
-                            ));
-                      } return Center(child: CircularProgressIndicator());
-
-                    }
+                              ));
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      }),
+                  SizedBox(
+                    height: 10,
                   ),
-
-
- SizedBox(
-   height: 10,
- ),
                   Container(
                     width: 150,
                     child: Column(
@@ -585,15 +565,15 @@ class _TransportExpenseCreatePageState
                       children: [
                         const Text(
                           'Date',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
                         ),
-
                         InkWell(
                           onTap: () {
                             _selectDate(context);
                           },
                           child: Container(
-                            height: 50  ,
+                            height: 50,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
@@ -601,12 +581,15 @@ class _TransportExpenseCreatePageState
                             child: Padding(
                               padding: const EdgeInsets.all(12),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Obx(() => Text(
-                                    DateFormat.yMMMd().format(selectedDate.value),
-                                    style: const TextStyle(color: Colors.grey),
-                                  )),
+                                        DateFormat.yMMMd()
+                                            .format(selectedDate.value),
+                                        style:
+                                            const TextStyle(color: Colors.grey),
+                                      )),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -622,16 +605,9 @@ class _TransportExpenseCreatePageState
                       ],
                     ),
                   ),
-
-
                   const SizedBox(
                     height: 20,
                   ),
-
-
-
-
-
                   const Divider(
                     thickness: 1,
                     color: Colors.grey,
@@ -706,14 +682,13 @@ class _TransportExpenseCreatePageState
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
                     onTap: () async {
-                      if(file == null){
-                         bytes = null ;
+                      if (file == null) {
+                        bytes = null;
                       } else {
-                         bytes = await file!.readAsBytes();
+                        bytes = await file!.readAsBytes();
                       }
 
-
-                   //   print("my image file is ${file!.path}");
+                      //   print("my image file is ${file!.path}");
                       //Get.to(OtherExpense());
                       setState(() {
                         circular = true;
@@ -721,7 +696,8 @@ class _TransportExpenseCreatePageState
 
                       if (startLocationController.text.isEmpty) {
                         final snackBar = SnackBar(
-                          content: const Text('Please fill start and end location field'),
+                          content: const Text(
+                              'Please fill start and end location field'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {
@@ -739,7 +715,9 @@ class _TransportExpenseCreatePageState
                           File file = File("");
                           expenseRepository
                               .transportExpenseController(
-                            image: bytes  ,
+                            image: bytes,
+                            person: int.parse(personController.text),
+                            prospectId: StaticData.prospectID,
                             vehicleType: wayType,
                             vehicleName: "vehicleNameController.text",
                             vehicleNo: "vehicleNameController.text",
@@ -754,12 +732,12 @@ class _TransportExpenseCreatePageState
                             print(
                                 "my response for other expense is ${e["IsSuccess"]}");
                             if (e["IsSuccess"] == true) {
-
                               setState(() {
                                 circular = false;
                               });
                               final snackBar = SnackBar(
-                                content: const Text('Transport Expense Successfully added'),
+                                content: const Text(
+                                    'Transport Expense Successfully added'),
                                 action: SnackBarAction(
                                   label: 'Undo',
                                   onPressed: () {
@@ -767,13 +745,13 @@ class _TransportExpenseCreatePageState
                                   },
                                 ),
                               );
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => TransportClaimedList(),
                                 ),
                               );
-
                             } else {
                               setState(() {
                                 circular = false;

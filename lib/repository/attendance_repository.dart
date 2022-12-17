@@ -153,13 +153,13 @@ class AttendanceRepository {
         response.body); //we will fetch the overview from this request
   }
 
-  Future<GetAttendanceDataModel> getAttendanceController(DateTime date) async {
+  Future<GetAttendanceDataModel> getAttendanceController(DateTime date, employeeID) async {
     String tokenString = SharedPreff.to.prefss.get("token").toString();
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 $finalToken ++++++");
 
-    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?EmployeeId=${StaticData.employeeID}");
+    Uri url = Uri.parse("$base_url/GetEmployeeAttendance?EmployeeId=$employeeID");
     final response = await http.post(
       url,
       body: jsonEncode(

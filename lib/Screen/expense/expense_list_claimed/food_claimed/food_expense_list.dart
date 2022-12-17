@@ -229,7 +229,7 @@ class _ApprovedState extends State<FoodClaimedList> {
                                                                               Text(
                                                                                 DateFormat('EEEE').format(data.createdOn!).toString().substring(0, 3) + ",",
                                                                                 textAlign: TextAlign.center,
-                                                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
                                                                               ),
                                                                               SizedBox(
                                                                                 height: 5,
@@ -239,12 +239,12 @@ class _ApprovedState extends State<FoodClaimedList> {
                                                                                 child: Text(
                                                                                   " " + data.createdOn.toString().substring(8, 10),
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: TextStyle(fontSize: 12),
+                                                                                  style: TextStyle(fontSize: 11),
                                                                                 ),
                                                                               ),
                                                                               Text(
                                                                                 DateFormat('MMM').format(data.createdOn!).toString().substring(0, 3),
-                                                                                style: TextStyle(fontSize: 12),
+                                                                                style: TextStyle(fontSize: 11),
                                                                               ),
                                                                             ],
                                                                           ),
@@ -255,7 +255,7 @@ class _ApprovedState extends State<FoodClaimedList> {
                                                                               children: [
                                                                                 Text(
                                                                                   DateFormat.jm().format(data.createdOn!),
-                                                                                  style: TextStyle(fontSize: 8),
+                                                                                  style: TextStyle(fontSize: 7),
                                                                                 ),
                                                                               ],
                                                                             ),
@@ -306,7 +306,7 @@ class _ApprovedState extends State<FoodClaimedList> {
                                                                                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                                                                               ),
                                                                               Text(
-                                                                                '1',
+                                                                                '${data.person}',
                                                                                 style: TextStyle(color: Colors.grey.withOpacity(.7)),
                                                                               )
                                                                             ],
@@ -316,7 +316,7 @@ class _ApprovedState extends State<FoodClaimedList> {
                                                                                 220,
                                                                             child:
                                                                                 Expanded(
-                                                                              child: Text("Food description for all type , how many people", overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.grey.withOpacity(.7))),
+                                                                              child: Text("${data.description} ,", overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.grey.withOpacity(.7))),
                                                                             ),
                                                                           )
                                                                         ],
@@ -382,7 +382,7 @@ class _ApprovedState extends State<FoodClaimedList> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: InkWell(
                   onTap: () {
-                    Get.to(ExpenseCreateFront());
+                    Get.to(ExpenseCreateFront(page: "food",));
                   },
                   child: Container(
                     height: 48,

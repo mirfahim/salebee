@@ -30,17 +30,9 @@ class _MyHomePageState extends State<MyChartPage> {
     ];
     return Scaffold(
 
-        appBar: AppBar(
-          backgroundColor: primaryColorLight,
-          title: const Text('Dashboard',style: TextStyle(color: Colors.black54),),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black54),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
+
         backgroundColor: primaryColorLight,
-        body: Column(
+        body: ListView(
             children: [
           Center(
               child: Container(
