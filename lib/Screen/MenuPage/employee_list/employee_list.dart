@@ -19,7 +19,7 @@ class _EmployeeListState extends State<EmployeeList> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   TextEditingController _searchController = TextEditingController();
   bool department = true;
-  List<Result> searchEmployeeList = [];
+  List<Results> searchEmployeeList = [];
   bool searchStart = false;
   String searchString = "";
   List result = [];
@@ -182,7 +182,7 @@ class _EmployeeListState extends State<EmployeeList> {
                 if (snapshot.data == null) {
                   print("no data found");
                 } else {
-                   result = _search(snapshot.data!.result);
+                   result = _search(snapshot.data!.results);
                 }
 
                 switch (snapshot.connectionState) {
@@ -360,14 +360,14 @@ class _EmployeeListState extends State<EmployeeList> {
       ],
     );
   }
-  List<Result> _search(List<Result>? employee) {
+  List<Results> _search(List<Results>? employee) {
     if(searchString.isNotEmpty == true) {
       //search logic what you want
       return employee?.where((element) => element.employeeName!.toLowerCase().contains(searchString))
-          .toList() ?? <Result>[];
+          .toList() ?? <Results>[];
     }
 
-    return employee ?? <Result>[];
+    return employee ?? <Results>[];
   }
   Future<void> launchPhoneDialer(String contactNumber) async {
     final Uri _phoneUri = Uri(scheme: "tel", path: contactNumber);

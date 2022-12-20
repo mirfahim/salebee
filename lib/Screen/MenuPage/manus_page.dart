@@ -4,6 +4,7 @@ import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/MenuPage/employee_list/employee_list.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/eye_front.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/live_tracking_screen.dart';
+import 'package:salebee/Screen/MenuPage/web_view_test.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/utils.dart';
 
@@ -51,7 +52,7 @@ class _MenusScreenState extends State<MenusScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Get.to(MyChartPage());
+                      Get.to(WebViewClass());
                     },
                     child: Card(
                       elevation: 10,

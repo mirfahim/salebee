@@ -16,7 +16,7 @@ class _EmployeeListState extends State<EmployeeList> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   TextEditingController searchController = TextEditingController();
   bool department = true;
-  List<Result> searchEmployeeList = [];
+  List<Results> searchEmployeeList = [];
   bool searchStart = false;
   @override
   Widget build(BuildContext context) {

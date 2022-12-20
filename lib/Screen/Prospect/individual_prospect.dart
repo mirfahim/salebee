@@ -689,7 +689,7 @@ class _IndividualProspectState extends State<IndividualProspect> {
                     leadID: 0,
                     assignaTo: 0) .then((value) {
                   if (value.isSuccess == true) {
-                    addVisit(prospectName);
+                    addVisit(prospectName, prospectID);
                     _showSnack(value.message!);
 
                     setState(() {
@@ -713,14 +713,14 @@ class _IndividualProspectState extends State<IndividualProspect> {
       },
     );
   }
-  addVisit(String? prospect){
+  addVisit(String? prospect, int? prospectID){
 
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
     geolocatorService.determinePosition().then((ele) {
       print("my position is ${ele!.latitude}");
 
       visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
-        latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30"
+        latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!
         );
 
 

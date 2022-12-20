@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Screen/Map/map_screen.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
 
 import '../../../utils.dart';
 

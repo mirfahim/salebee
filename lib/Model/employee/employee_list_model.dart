@@ -11,29 +11,29 @@ String AllEmployeeListModelToJson(AllEmployeeListModel data) => json.encode(data
 class AllEmployeeListModel {
   AllEmployeeListModel({
     this.message,
-    this.result,
-    this.isSuccess,
+    this.results,
+    this.isSuccess,s
   });
 
   String? message;
-  List<Result>? result;
+  List<Results>? results;
   bool? isSuccess;
 
   factory AllEmployeeListModel.fromJson(Map<String, dynamic> json) => AllEmployeeListModel(
     message: json["Message"],
-    result: List<Result>.from(json["Result"].map((x) => Result.fromJson(x))),
+    results: List<Results>.from(json["Result"].map((x) => Results.fromJson(x))),
     isSuccess: json["IsSuccess"],
   );
 
   Map<String, dynamic> toJson() => {
     "Message": message,
-    "Result": List<dynamic>.from(result!.map((x) => x.toJson())),
+    "Result": List<dynamic>.from(results!.map((x) => x.toJson())),
     "IsSuccess": isSuccess,
   };
 }
 
-class Result {
-  Result({
+class Results {
+  Results({
     this.employeeDocuments,
     this.employeeId,
     this.employeeName,
@@ -163,7 +163,7 @@ class Result {
   dynamic employeeAttachment;
   bool? canDelete;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory Results.fromJson(Map<String, dynamic> json) => Results(
     employeeDocuments: List<EmployeeDocument>.from(json["EmployeeDocuments"].map((x) => EmployeeDocument.fromJson(x))),
     employeeId: json["EmployeeId"],
     employeeName: json["EmployeeName"],

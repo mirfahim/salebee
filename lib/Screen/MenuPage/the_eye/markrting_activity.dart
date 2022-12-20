@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/Charts/funnel_chart.dart';
-import 'package:salebee/Screen/Map/map_screen.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/activity_log_history.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 
@@ -222,7 +222,7 @@ class _AllVisitTrackPageState extends State<MarketingActivity> {
                                 setState(() {
                                   newEmployee = value!;
                                   snapshot.data!
-                                      .result!
+                                      .results!
                                       .forEach((element) {
                                     print("${element.employeeName}" +
                                         "$newEmployee");
@@ -233,7 +233,7 @@ class _AllVisitTrackPageState extends State<MarketingActivity> {
                                 });
                               },
                               items: snapshot
-                                  .data!.result!
+                                  .data!.results!
                                   .map((value) {
                                 return DropdownMenuItem<String>(
                                   value: value.employeeName.toString(),

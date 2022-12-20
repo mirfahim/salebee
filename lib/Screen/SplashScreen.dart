@@ -34,6 +34,7 @@ class _SplashState extends State<Splash> {
   TaskRepository taskRepository = TaskRepository();
   var hiveBox = Hive.box("manageTask");
   List<dynamic> todaysTaskList = [];
+
   @override
   void initState() {
     super.initState();

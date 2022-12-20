@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
-import 'package:salebee/Screen/Map/map_screen.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/all_visit_list_location.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/live_tracking_location_by_emp.dart';
 import 'package:salebee/Utils/StringsConst.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -27,7 +27,7 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   TextEditingController _searchController = TextEditingController();
   bool department = true;
-  List<Result> searchEmployeeList = [];
+  List<Results> searchEmployeeList = [];
   bool searchStart = false;
   String searchString = "";
   Completer<GoogleMapController> _controller = Completer();
@@ -36,22 +36,11 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
   int branchTypeIndex = 0;
   int branchType = 0;
 
-  Iterable _markers = Iterable.generate(AppConstant.list.length, (index) {
-    return Marker(
-        markerId: MarkerId(AppConstant.list[index]['id']),
-        position: LatLng(
-          AppConstant.list[index]['lat'],
-          AppConstant.list[index]['lon'],
-        ),
-        infoWindow: InfoWindow(title: AppConstant.list[index]["title"])
-    );
-  });
+
   @override
   void initState() {
     super.initState();
-    setState(() {
-      markers = _markers;
-    });
+
     _searchController.addListener(_onSearchChanged);
   }
 
@@ -204,7 +193,7 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
                 if (snapshot.data == null) {
                   print("no data found");
                 } else {
-                  result = _search(snapshot.data!.result);
+                  result = _search(snapshot.data!.results);
                 }
 
                 switch (snapshot.connectionState) {
@@ -286,7 +275,7 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
                                                         ),
                                                         trailing: GestureDetector(
                                                           onTap: (){
-                                                            Get.to(AllVisitTrackPage(data.employeeName!));
+                                                            Get.to(AllVisitTrackPage(data.employeeName!, data.employeeId));
                                                           },
                                                           child: Container(
                                                             width: 100,
@@ -612,14 +601,14 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
       ],
     );
   }
-  List<Result> _search(List<Result>? employee) {
+  List<Results> _search(List<Results>? employee) {
     if(searchString.isNotEmpty == true) {
       //search logic what you want
       return employee?.where((element) => element.employeeName!.toLowerCase().contains(searchString))
-          .toList() ?? <Result>[];
+          .toList() ?? <Results>[];
     }
 
-    return employee ?? <Result>[];
+    return employee ?? <Results>[];
   }
   Future<void> launchPhoneDialer(String contactNumber) async {
     final Uri _phoneUri = Uri(scheme: "tel", path: contactNumber);

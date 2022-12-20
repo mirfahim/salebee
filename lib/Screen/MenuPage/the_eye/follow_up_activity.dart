@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Data/static_data.dart';
-import 'package:salebee/Screen/Map/map_screen.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/activity_log_history.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 
@@ -255,7 +255,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
 // This is called when the user selects an item.
                                 setState(() {
                                   newEmployee = value!;
-                                  snapshot.data!.result!.forEach((element) {
+                                  snapshot.data!.results!.forEach((element) {
                                     print("${element.employeeName}" +
                                         "$newEmployee");
                                   });
@@ -263,7 +263,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
 //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
                                 });
                               },
-                              items: snapshot.data!.result!.map((value) {
+                              items: snapshot.data!.results!.map((value) {
                                 return DropdownMenuItem<String>(
                                   value: value.employeeName.toString(),
                                   child: Text(value.employeeName.toString()),

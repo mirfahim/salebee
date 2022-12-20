@@ -113,7 +113,7 @@ class _ReportState extends State<AllReport> {
           // making a list of employeeID where I have data of all employee
           // So now I have two list of presentID and employeeID where I have to compare for getting a absent list.
           attendanceRepository.getAllEmployeeList().then((value) {
-            value.result!.forEach((element) {
+            value.results!.forEach((element) {
               employeeID.add(AbsentModel(name: element.employeeName!, id: element.employeeId!,
                 designation: element.designationObj!.designationName!,
                 num: element.phoneNumbers,

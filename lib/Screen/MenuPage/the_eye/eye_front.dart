@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/all_visit_list_location.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/live_tracking_location_by_emp.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/follow_up_activity.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/map_view.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/markrting_activity.dart';
@@ -134,7 +134,7 @@ class _TheEyeFrontState extends State<TheEyeFront> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: EyeMapView(),
+                          child: EyeMapScreeen(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),

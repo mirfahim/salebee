@@ -18,7 +18,6 @@ class StaticData {
   static List<String> branchList = ["All", 'Branch 1', 'Branch 2', 'Branch 3', 'Branch 4',];
   static List taskType = [
     "call",
-
     "mail",
     "visit",
     "Meeting",
