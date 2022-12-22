@@ -451,7 +451,15 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                                                   .bold,
                                                             ),
                                                           ),
-
+                                                          Text(
+                                                            "prospect address",
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              color:
+                                                              Colors
+                                                                  .black54,
+                                                            ),
+                                                          ),
 
                                                           Row(
                                                             children: [
@@ -482,6 +490,37 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                                               ),
                                                             ],
                                                           ),
+                                                          Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Visted address: ",
+                                                                  style: TextStyle(
+                                                                      fontSize: 9,
+                                                                      color:
+                                                                      Colors
+                                                                          .black,
+                                                                      fontWeight: FontWeight
+                                                                          .bold
+                                                                  ),
+                                                                ),
+
+                                                                Container(
+                                                                  height: 30,
+                                                                  width: MediaQuery.of(context).size.width -250,
+                                                                  child: Expanded(
+                                                                    child: Text(
+                                                                      visitData.locationDescription!,
+                                                                      style: TextStyle(
+                                                                        fontSize: 10,
+                                                                        color:
+                                                                        Colors
+                                                                            .black54,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
 
                                                         ],
                                                       ),
@@ -490,13 +529,25 @@ class _AllVisitTrackPageState extends State<VisitLog> {
 
                                                     GestureDetector(
                                                       onTap: () {
-                                                        Get.to(VisitMapScreen(
+                                                        geolocatorService.determinePosition().then((ele) {
+                                                          getAddressFromLatLng(
+                                                              ele!.latitude!,
+                                                              ele.longitude)
+                                                              .then((v) {
+                                                            print(
+                                                                "my location from google api $v");
+
+                                                            locationDis = v;
+                                                          });
+                                                        }).then((value) =>  Get.to(VisitMapScreen(
+                                                          location: locationDis,
                                                           lat: visitData
                                                               .latitude,
                                                           lon: visitData
                                                               .longitude,
                                                           time: visitData
-                                                              .locationTime,));
+                                                              .locationTime,)));
+
                                                       },
                                                       child: Icon(
                                                           Icons.map

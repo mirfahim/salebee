@@ -5,6 +5,7 @@
 import FlutterMacOS
 import Foundation
 
+import bangla_utilities
 import battery_plus
 import cloud_firestore
 import device_info_plus
@@ -22,6 +23,7 @@ import sqflite
 import url_launcher_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  BanglaUtilitiesPlugin.register(with: registry.registrar(forPlugin: "BanglaUtilitiesPlugin"))
   BatteryPlusMacosPlugin.register(with: registry.registrar(forPlugin: "BatteryPlusMacosPlugin"))
   FLTFirebaseFirestorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseFirestorePlugin"))
   DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))

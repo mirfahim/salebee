@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,11 +14,13 @@ import 'package:salebee/Screen/task/task_followUp.dart';
 import 'package:salebee/utils.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:http/http.dart' as http;
+import '../../Helper/location_helper.dart';
 import '../../Model/getAllTaskModel.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/my_colors.dart';
 import '../../repository/add_task_repository.dart';
+import '../../repository/visit_repository.dart';
 
 class AssignedToMe extends StatefulWidget {
   const AssignedToMe({Key? key}) : super(key: key);
@@ -29,7 +33,11 @@ class _AssignedToMeState extends State<AssignedToMe> {
   TaskRepository taskRepository = TaskRepository();
   String statusName = "";
   int stausID = 1;
+  GeolocatorService geolocatorService = GeolocatorService();
+  bool loader = false;
+  VisitRepository visitRepository = VisitRepository();
   int selectedTap = 0;
+  String locationDis = "";
   int repeatId = 0;
   List<GetListForTaskDataModel> manageTaskList = [];
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
@@ -883,7 +891,9 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                           stausID =
                                                                               5;
                                                                         }
-
+                                                                        if(data!.taskType! == "Visit"){
+                                                                          addVisit(data.prospectName!, data.prospectId!);
+                                                                        }
                                                                         taskRepository
                                                                             .taskUpdateController(
                                                                                 token: token!,
@@ -2186,7 +2196,21 @@ class _AssignedToMeState extends State<AssignedToMe> {
       ));
     });
   }
+  addVisit(String? prospect, int? prospectID){
 
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    geolocatorService.determinePosition().then((ele) {
+      print("my position is ${ele!.latitude}");
+      getAddressFromLatLng(ele.latitude!, ele.longitude!).then((e){
+        visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
+            latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!, location: e
+        );
+      });
+
+
+
+    });
+  }
   _launchWhatsapp(String num) async {
     var whatsapp = "+88${num}";
     var whatsappAndroid =
@@ -2201,7 +2225,25 @@ class _AssignedToMeState extends State<AssignedToMe> {
       );
     }
   }
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
 
+
+  }
   Future<void> launchPhoneDialer(String contactNumber) async {
     final Uri _phoneUri = Uri(scheme: "tel", path: contactNumber);
     try {

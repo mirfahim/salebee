@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/map_view.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/map_for_all/map_view.dart';
 import 'package:salebee/utils.dart';
 
 import '../../../../Data/static_data.dart';
@@ -17,8 +17,9 @@ class VisitMapScreen extends StatefulWidget {
   double? lat;
   double? lon;
   String? prospectName;
+  String? location;
   DateTime? time;
-  VisitMapScreen({this.lat, this.lon, this.prospectName, this.time});
+  VisitMapScreen({this.lat, this.lon, this.prospectName, this.time, this.location});
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -41,7 +42,7 @@ class _MyAppState extends State<VisitMapScreen> {
 
   @override
   void initState() {
-    markerlatLen.add(LocationModel("pro1 ", 1, LatLng(widget.lat!, widget.lon!), widget.time));
+    markerlatLen.add(LocationModel(widget.location, 1, LatLng(widget.lat!, widget.lon!), widget.time));
 
 
 

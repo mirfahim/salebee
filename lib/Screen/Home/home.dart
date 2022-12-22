@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 //import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
 import 'package:salebee/Screen/edit_profile.dart';
 import 'package:salebee/Screen/expense/aproved.dart';
@@ -16,11 +21,12 @@ import 'package:salebee/Screen/test_screen.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/repository/add_task_repository.dart';
+import 'package:salebee/repository/visit_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Utils/StringsConst.dart';
 import '../../utils.dart';
 import 'package:get/get.dart';
-
+import 'package:http/http.dart' as http;
 import '../Attendence_report/attendence_report.dart';
 import '../leave/leave_front.dart';
 import '../notification/notification_1.dart';
@@ -34,11 +40,55 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  GeolocatorService geolocatorService = GeolocatorService();
+  VisitRepository visitRepository = VisitRepository();
+  String locationDis = "";
+  var battery = Battery();
+  getBattery()async{
+    var bat = await  battery.batteryLevel;
+    return bat;
+  }
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
 
+
+  }
   @override
   initState() {
     super.initState();
+    geolocatorService.determinePosition().then((ele) {
+      getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
+        print("my location from google api $v");
 
+        locationDis = v;
+
+      });
+      getBattery().then((v){
+        const oneSec = Duration(minutes:5);
+        print("my timer strated $v lat ${ele!.latitude!}");
+// Import package
+
+
+// Instantiate it
+
+
+        Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(location: locationDis, latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
+      });
+    });
     // You can let the plugin handle fetching the status and showing a dialog,
     // or you can fetch the status and display your own dialog, or no dialog.
   }

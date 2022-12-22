@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,6 +12,7 @@ import 'package:battery_plus/battery_plus.dart';
 import '../../../../Model/TrackingModel/tracing_model.dart';
 import '../../../../Model/visit/visit_list.dart';
 import '../../../../utils.dart';
+import 'package:http/http.dart' as http;
 
 class AllVisitTrackPage extends StatefulWidget {
  String? employeeName;
@@ -24,6 +26,7 @@ class AllVisitTrackPage extends StatefulWidget {
 class _AllVisitTrackPageState extends State<AllVisitTrackPage> {
   GeolocatorService geolocatorService = GeolocatorService();
 VisitRepository visitRepository = VisitRepository();
+String locationDis = "";
   List<TrackModel> trackingList = [
     TrackModel("Mirpur,DOHS, road 7", DateTime.now(), "33%"),
     TrackModel("Dhanmondi,kolabon, road 27", DateTime.now(), "34%"),
@@ -44,7 +47,25 @@ VisitRepository visitRepository = VisitRepository();
     return bat;
   }
 
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
 
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,19 +91,7 @@ VisitRepository visitRepository = VisitRepository();
                   if (snap.data == null) {
                     print("no data found");
                   } else {
-                    geolocatorService.determinePosition().then((ele) {
-                      getBattery().then((v){
-                        const oneSec = Duration(minutes:5);
-                        print("my timer strated $v lat ${ele!.latitude!}");
-// Import package
 
-
-// Instantiate it
-
-
-                        Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
-                      });
-                    });
 
                   }
                   switch (snap.connectionState) {
@@ -107,7 +116,7 @@ VisitRepository visitRepository = VisitRepository();
                         return Column(
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height * .3,
+                              height: MediaQuery.of(context).size.height * .5,
                               width: MediaQuery.of(context).size.width,
                               child: MapScreen(latLnList: latln, trackingList: trackingModel,),
                             ),
@@ -117,7 +126,7 @@ VisitRepository visitRepository = VisitRepository();
                                   .of(context)
                                   .size
                                   .height -
-                                  420,
+                  MediaQuery.of(context).size.height * .65,
                               child: ListView.separated(
                                 itemCount: snap.data!.result!.length,
                                 itemBuilder:
@@ -304,19 +313,25 @@ VisitRepository visitRepository = VisitRepository();
                                                             .bold,
                                                       ),
                                                     )
-                                                        : Text(
+                                                        : Container(
+                                                      height: 30,
+                                                          child: Text(
                                                       visitData
-                                                          .location!,
+                                                            .location!,
+                                                maxLines: 2,
                                                       style:
                                                       TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors
-                                                            .black54,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .bold,
+                                                        overflow: TextOverflow.ellipsis,
+
+                                                          fontSize: 9,
+                                                          color: Colors
+                                                              .black54,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .bold,
                                                       ),
                                                     ),
+                                                        ),
 
 
                                                     Row(

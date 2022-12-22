@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  bangla_utilities
   flutter_secure_storage_linux
   printing
   url_launcher_linux

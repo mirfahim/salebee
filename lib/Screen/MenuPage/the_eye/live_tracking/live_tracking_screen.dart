@@ -546,33 +546,77 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
         children: <Widget>[
           Row(
             children: [
-              Text("Employee id: "),
-              Text(id.toString()),
+              Text("Employee id: ",
+
+        style: TextStyle(
+        fontSize: 10,
+          fontWeight: FontWeight.bold,
+      ),
+              ),
+              Text(id.toString(),
+
+                style: TextStyle(
+                fontSize: 10,
+              ),),
             ],
           ),
           Row(
             children: [
-              Text("NID: "),
-              Text(nationalID.toString()),
+              Text("NID: ",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),),
+              Text(nationalID.toString(),
+                style: TextStyle(
+                  fontSize: 10,
+                ),),
             ],
           ),
           Row(
             children: [
-              Text("Blood: "),
-              Text(bloddgrp.toString()),
+              Text("Blood: ",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),),
+              Text(bloddgrp.toString(),
+                style: TextStyle(
+                  fontSize: 10,
+                ),),
             ],
           ),
           Row(
             children: [
-              Text("Present Address: "),
-              Text(presentAddress!..toString()),
+              Text("Present Address: ",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),),
+              Expanded(
+                flex: 1,
+                  child: Text(presentAddress!..toString(),
+                  style: TextStyle(
+                    fontSize: 10,
+                  ),),
+              ),
             ],
           ),
           Row(
             children: [
-              Text("Phone: "),
-              phoneNo == ""? Text("No data"):
-              Text(phoneNo!.toString()),
+              Text("Phone: ",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),),
+              phoneNo == ""? Text("No data",
+                style: TextStyle(
+                  fontSize: 10,
+                ),):
+              Text(phoneNo!.toString(),
+                style: TextStyle(
+                  fontSize: 10,
+                ),),
               SizedBox(width: 20,),
 
               InkWell(
@@ -584,14 +628,28 @@ class _EmployeeListState extends State<LiveTrackingScreen> {
           ),
           Row(
             children: [
-              Text("Email: "),
-              Text(email!.toString()),
+              Text("Email: ",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),),
+              Text(email!.toString(),
+                style: TextStyle(
+                  fontSize: 10,
+                ),),
             ],
           ),
           Row(
             children: [
-              Text("Branch name: "),
-              Text(branch.toString()),
+              Text("Branch name: ",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),),
+              Text(branch.toString(),
+                style: TextStyle(
+                  fontSize: 10,
+                ),),
             ],
           ),
         ],

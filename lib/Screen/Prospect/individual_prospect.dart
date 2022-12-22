@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,13 +9,15 @@ import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Model/prospect/get_prospect_model.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect_front.dart';
+import 'package:salebee/Screen/Prospect/prospect_details.dart';
 import 'package:salebee/Screen/leave/leave_details.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/prospect_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
-
+import 'package:http/http.dart' as http;
 import '../../Service/sharedPref_service.dart';
+import '../../repository/attendance_repository.dart';
 
 
 
@@ -27,9 +31,11 @@ class IndividualProspect extends StatefulWidget {
 
 class _IndividualProspectState extends State<IndividualProspect> {
   String searchString = "";
+  AttendanceRepository attendanceRepository = AttendanceRepository();
+  VisitRepository visitRepository = VisitRepository();
   GeolocatorService geolocatorService = GeolocatorService();
   bool loader = false;
-  VisitRepository visitRepository = VisitRepository();
+  String locationDis = "";
   List result = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   TaskRepository taskRepository = TaskRepository();
@@ -151,313 +157,341 @@ class _IndividualProspectState extends State<IndividualProspect> {
                           } else {
                             return Container(
                               height: MediaQuery.of(context).size.height -200,
-                              child: ListView.separated(
+                              child: ListView.builder(
 
                                 itemCount: result!.length,
                                 itemBuilder: (BuildContext context , index){
                                   var data = result![index];
 
-                                  if(data.isIndividual == false){
+                                  if(data.isIndividual == true){
                                     return  ExpandableNotifier(
                                       child: InkWell(
                                         onTap: (){
-                                          Get.to(const LeaveDetails());
+                                          Get.to(const ProspectDetails());
                                         },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(6),
-                                              color: const Color(0xFFFFFFFF)
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Text('Pro -${data.id}',style: TextStyle(
+                                        child: Card(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(6),
+                                                color: const Color(0xFFFFFFFF)
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text('Pro -${data.id}',style: TextStyle(
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 12,
+                                                          color: Colors.grey
+                                                      ),),
+                                                      const SizedBox(height: 10,),
+                                                      Text('25 Aug 2022',style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w400
+                                                      )),
+
+                                                    ],
+                                                  ),
+                                                  ListTile(
+                                                    trailing: Text("Since 83 days",
+                                                      style: TextStyle(
+                                                          fontWeight: FontWeight.normal,
+                                                          fontSize: 12,
+                                                          color: Colors.black54
+                                                      ),),
+
+                                                    title:Text(data.name!,style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 12,
+                                                        color: Colors.black
+                                                    ),),
+                                                    subtitle: data.contactPersonName == null ?
+                                                    Text("No data",style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 12,
+                                                        color: Colors.grey
+                                                    ),) : Text(data.contactPersonName!,style: TextStyle(
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 12,
                                                         color: Colors.grey
                                                     ),),
-                                                    const SizedBox(height: 10,),
-                                                    Text('25 Aug 2022',style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w400
-                                                    )),
 
-                                                  ],
-                                                ),
-                                                ListTile(
-                                                  trailing: Text("Since 83 days",
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.normal,
-                                                        fontSize: 12,
-                                                        color: Colors.black54
-                                                    ),),
-
-                                                  title:Text(data.name!,style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 12,
-                                                      color: Colors.black
-                                                  ),),
-                                                  subtitle: data.contactPersonName == null ?
-                                                  Text("No data",style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 12,
-                                                      color: Colors.grey
-                                                  ),) : Text(data.contactPersonName!,style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 12,
-                                                      color: Colors.grey
-                                                  ),),
-
-                                                ),
+                                                  ),
 
 
-                                                ScrollOnExpand(
-                                                  scrollOnExpand: true,
-                                                  scrollOnCollapse: false,
-                                                  child: ExpandablePanel(
-                                                    theme:
-                                                    const ExpandableThemeData(
-                                                      headerAlignment:
-                                                      ExpandablePanelHeaderAlignment
-                                                          .center,
-                                                      tapBodyToCollapse:
-                                                      true,
-                                                    ),
-                                                    header: Row(
-                                                      children: [
-                                                        const Text(
-                                                          'Pick Any',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        InkWell(
-                                                          splashColor:
-                                                          Colors.blue,
-                                                          onTap: () {
-                                                            // _textMe(455);
-                                                          },
-                                                          child: Card(
+                                                  ScrollOnExpand(
+                                                    scrollOnExpand: true,
+                                                    scrollOnCollapse: false,
+                                                    child: ExpandablePanel(
+                                                      theme:
+                                                      const ExpandableThemeData(
+                                                        headerAlignment:
+                                                        ExpandablePanelHeaderAlignment
+                                                            .center,
+                                                        tapBodyToCollapse:
+                                                        true,
+                                                      ),
+                                                      header: Row(
+                                                        children: [
+                                                          const Text(
+                                                            'Pick Any',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor:
+                                                            Colors.blue,
+                                                            onTap: () {
+                                                              // _textMe(455);
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      100)),
+                                                              child:
+                                                              Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape:
+                                                                    BoxShape.circle),
+                                                                child:
+                                                                Padding(
+                                                                  padding:
+                                                                  const EdgeInsets.all(
+                                                                      8.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .chat,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor:
+                                                            Colors.blue,
+                                                            onTap: () {
+                                                              // launchPhoneDialer(
+                                                              //     "2424");
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      100)),
+                                                              child:
+                                                              Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape:
+                                                                    BoxShape.circle),
+                                                                child:
+                                                                Padding(
+                                                                  padding:
+                                                                  const EdgeInsets.all(
+                                                                      8.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .call,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor:
+                                                            Colors.blue,
+                                                            onTap: () {
+                                                              //    _launchWhatsapp( 356.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      100)),
+                                                              child:
+                                                              Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape:
+                                                                    BoxShape.circle),
+                                                                child:
+                                                                Padding(
+                                                                  padding:
+                                                                  const EdgeInsets.all(
+                                                                      8.0),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .messenger,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Card(
                                                             shape: RoundedRectangleBorder(
                                                                 borderRadius:
-                                                                BorderRadius.circular(
+                                                                BorderRadius
+                                                                    .circular(
                                                                     100)),
-                                                            child:
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                  shape:
-                                                                  BoxShape.circle),
-                                                              child:
-                                                              Padding(
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                              child: Padding(
                                                                 padding:
-                                                                const EdgeInsets.all(
+                                                                const EdgeInsets
+                                                                    .all(
                                                                     8.0),
                                                                 child: Icon(
                                                                   Icons
-                                                                      .chat,
+                                                                      .more_horiz,
                                                                   color:
                                                                   primaryColor,
                                                                 ),
                                                               ),
                                                             ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      collapsed:
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      expanded: Column(
+                                                        children: [
+                                                          const SizedBox(
+                                                            height: 20,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        InkWell(
-                                                          splashColor:
-                                                          Colors.blue,
-                                                          onTap: () {
-                                                            // launchPhoneDialer(
-                                                            //     "2424");
-                                                          },
-                                                          child: Card(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                BorderRadius.circular(
-                                                                    100)),
-                                                            child:
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                  shape:
-                                                                  BoxShape.circle),
-                                                              child:
-                                                              Padding(
-                                                                padding:
-                                                                const EdgeInsets.all(
-                                                                    8.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .call,
-                                                                  color:
-                                                                  primaryColor,
-                                                                ),
-                                                              ),
-                                                            ),
+                                                          const SizedBox(
+                                                            height: 10,
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        InkWell(
-                                                          splashColor:
-                                                          Colors.blue,
-                                                          onTap: () {
-                                                            //    _launchWhatsapp( 356.toString());
-                                                          },
-                                                          child: Card(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                BorderRadius.circular(
-                                                                    100)),
-                                                            child:
-                                                            Container(
-                                                              decoration:
-                                                              BoxDecoration(
-                                                                  shape:
-                                                                  BoxShape.circle),
-                                                              child:
-                                                              Padding(
-                                                                padding:
-                                                                const EdgeInsets.all(
-                                                                    8.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .messenger,
-                                                                  color:
-                                                                  primaryColor,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Card(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  100)),
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle),
-                                                            child: Padding(
-                                                              padding:
-                                                              const EdgeInsets
-                                                                  .all(
-                                                                  8.0),
-                                                              child: Icon(
+
+                                                          Row(
+                                                            children: [
+                                                              Icon(
                                                                 Icons
-                                                                    .more_horiz,
-                                                                color:
-                                                                primaryColor,
+                                                                    .airline_seat_recline_normal_sharp,
+                                                                color: Colors
+                                                                    .grey,
                                                               ),
-                                                            ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Container(
+                                                                decoration:
+                                                                const BoxDecoration(
+                                                                    shape:
+                                                                    BoxShape.circle),
+                                                                child:
+                                                                const CircleAvatar(
+                                                                  radius: 12,
+                                                                  backgroundImage:
+                                                                  AssetImage(
+                                                                    'images/suite.png',
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+
+                                                              Text(
+                                                                "No Data",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize:
+                                                                    14),
+                                                              )
+
+                                                            ],
                                                           ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    collapsed:
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    expanded: Column(
-                                                      children: [
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Action',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                        14,
+                                                                        fontWeight:
+                                                                        FontWeight.w600),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  GestureDetector(
+                                                                    onTap: (){
+                                                                      _showMyDialog(data.name!, data.id!);
+                                                                    },
 
-                                                        Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .airline_seat_recline_normal_sharp,
-                                                              color: Colors
-                                                                  .grey,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Container(
-                                                              decoration:
-                                                              const BoxDecoration(
-                                                                  shape:
-                                                                  BoxShape.circle),
-                                                              child:
-                                                              const CircleAvatar(
-                                                                radius: 12,
-                                                                backgroundImage:
-                                                                AssetImage(
-                                                                  'images/suite.png',
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-
-                                                            Text(
-                                                              "No Data",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize:
-                                                                  14),
-                                                            )
-
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                const Text(
-                                                                  'Action',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                      14,
-                                                                      fontWeight:
-                                                                      FontWeight.w600),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                GestureDetector(
-                                                                  onTap: (){
-                                                                    _showMyDialog(data.name!, data.id!);
-                                                                  },
-
-                                                                  child: Card(
+                                                                    child: Card(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(100)),
+                                                                      child:
+                                                                      Container(
+                                                                        decoration:
+                                                                        BoxDecoration(shape: BoxShape.circle),
+                                                                        child:
+                                                                        Padding(
+                                                                          padding:
+                                                                          const EdgeInsets.all(8.0),
+                                                                          child:
+                                                                          Text(
+                                                                            "Visit",
+                                                                            style: TextStyle(
+                                                                              color: primaryColor,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Card(
                                                                     shape: RoundedRectangleBorder(
                                                                         borderRadius:
                                                                         BorderRadius.circular(100)),
@@ -470,142 +504,116 @@ class _IndividualProspectState extends State<IndividualProspect> {
                                                                         padding:
                                                                         const EdgeInsets.all(8.0),
                                                                         child:
-                                                                        Text(
-                                                                          "Visit",
-                                                                          style: TextStyle(
-                                                                            color: primaryColor,
-                                                                            fontWeight: FontWeight.bold,
+                                                                        Icon(
+                                                                          Icons.edit,
+                                                                          color:
+                                                                          primaryColor,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+
+
+                                                                  Card(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(100)),
+                                                                    child:
+                                                                    Container(
+                                                                      decoration:
+                                                                      BoxDecoration(shape: BoxShape.circle),
+                                                                      child:
+                                                                      Padding(
+                                                                        padding:
+                                                                        const EdgeInsets.all(8.0),
+                                                                        child:
+                                                                        Icon(
+                                                                          Icons.delete,
+                                                                          color:
+                                                                          Colors.red,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                    50,
+                                                                  ),
+
+
+                                                                  Container()
+
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Container(
+                                                            height: 30,
+                                                            child: ListView.separated(
+
+                                                              scrollDirection: Axis.horizontal,
+                                                              itemCount: stageList.length,
+                                                              itemBuilder: (BuildContext context , index){
+
+
+                                                                return  Card(
+                                                                  elevation: 5,
+                                                                  child: Container(
+                                                                    width: MediaQuery.of(context).size.width * .11,
+                                                                    child: Column(
+                                                                      children: [
+
+                                                                        InkWell(
+                                                                          onTap: (){
+
+                                                                          },
+
+                                                                          child: CircleAvatar(
+                                                                            radius: 4,
+                                                                            backgroundColor: stageList[index].id! <= 3 ? stageList[index].color : Colors.grey,
+
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Card(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(100)),
-                                                                  child:
-                                                                  Container(
-                                                                    decoration:
-                                                                    BoxDecoration(shape: BoxShape.circle),
-                                                                    child:
-                                                                    Padding(
-                                                                      padding:
-                                                                      const EdgeInsets.all(8.0),
-                                                                      child:
-                                                                      Icon(
-                                                                        Icons.edit,
-                                                                        color:
-                                                                        primaryColor,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
+                                                                        SizedBox(height: 5,),
+                                                                        Expanded(
 
+                                                                          child: Text(stageList[index].stageName!,
 
-                                                                Card(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(100)),
-                                                                  child:
-                                                                  Container(
-                                                                    decoration:
-                                                                    BoxDecoration(shape: BoxShape.circle),
-                                                                    child:
-                                                                    Padding(
-                                                                      padding:
-                                                                      const EdgeInsets.all(8.0),
-                                                                      child:
-                                                                      Icon(
-                                                                        Icons.delete,
-                                                                        color:
-                                                                        Colors.red,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width:
-                                                                  50,
-                                                                ),
-
-
-                                                                Container()
-
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Container(
-                                                          height: 30,
-                                                          child: ListView.separated(
-
-                                                            scrollDirection: Axis.horizontal,
-                                                            itemCount: stageList.length,
-                                                            itemBuilder: (BuildContext context , index){
-
-
-                                                              return  Card(
-                                                                elevation: 5,
-                                                                child: Container(
-                                                                  width: MediaQuery.of(context).size.width * .11,
-                                                                  child: Column(
-                                                                    children: [
-
-                                                                      InkWell(
-                                                                        onTap: (){
-
-                                                                        },
-
-                                                                        child: CircleAvatar(
-                                                                          radius: 4,
-                                                                          backgroundColor: stageList[index].id! <= 3 ? stageList[index].color : Colors.grey,
-
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(height: 5,),
-                                                                      Expanded(
-
-                                                                        child: Text(stageList[index].stageName!,
-
-                                                                          style: TextStyle(
-                                                                              color: Colors.grey,
-                                                                              fontSize: 7
+                                                                            style: TextStyle(
+                                                                                color: Colors.grey,
+                                                                                fontSize: 7
+                                                                            ),
+                                                                            overflow: TextOverflow.ellipsis,
                                                                           ),
-                                                                          overflow: TextOverflow.ellipsis,
                                                                         ),
-                                                                      ),
 
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              );
+                                                                );
 
 
 
 
 
-                                                            },
-                                                            separatorBuilder: (context, index) {
-                                                              return SizedBox(width: 0,);
-                                                            },),
-                                                        ),
-                                                      ],
+                                                              },
+                                                              separatorBuilder: (context, index) {
+                                                                return SizedBox(width: 0,);
+                                                              },),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+
+
+
                                             ),
-
-
-
                                           ),
                                         ),
                                       ),
@@ -614,9 +622,8 @@ class _IndividualProspectState extends State<IndividualProspect> {
                                   }
                                   return  Container();
                                 },
-                                separatorBuilder: (context, index) {
-                                  return Divider();
-                                },),
+                               
+                              ),
                             );
                           }
                       }
@@ -713,15 +720,36 @@ class _IndividualProspectState extends State<IndividualProspect> {
       },
     );
   }
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
+
+
+  }
   addVisit(String? prospect, int? prospectID){
 
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
     geolocatorService.determinePosition().then((ele) {
       print("my position is ${ele!.latitude}");
+getAddressFromLatLng(ele.latitude!, ele.longitude!).then((e){
+  visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
+      latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!, location: e
+  );
+});
 
-      visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
-        latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!
-        );
 
 
     });

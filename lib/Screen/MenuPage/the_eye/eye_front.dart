@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/live_tracking_location_by_emp.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/follow_up_activity.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/map_view.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/map_for_all/map_view.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/markrting_activity.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/visit/person_visit_log_tab.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/live_tracking_screen.dart';

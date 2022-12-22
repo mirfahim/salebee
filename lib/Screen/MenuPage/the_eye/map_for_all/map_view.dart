@@ -8,15 +8,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Model/visit/live_tracking_model.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/map_view.dart';
+
+import 'package:salebee/Screen/MenuPage/the_eye/map_for_all/map_view.dart';
 import 'package:salebee/repository/attendance_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
 
-import '../../../Data/static_data.dart';
-import '../../../Model/TrackingModel/tracing_model.dart';
-import '../../../Model/employee/employee_list_model.dart';
+import '../../../../Data/static_data.dart';
+import '../../../../Model/TrackingModel/get_all_live_tracking_model.dart';
+import '../../../../Model/TrackingModel/tracing_model.dart';
+import '../../../../Model/employee/employee_list_model.dart';
 
 
 
@@ -76,10 +77,10 @@ AttendanceRepository attendanceRepository = AttendanceRepository();
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  return FutureBuilder<GetLiveTrackingModel>(
+                  return FutureBuilder<GetAllLiveTrackingModel>(
                     future: visitRepository.getAllLiveTrackingController(),
                     builder: (BuildContext context,
-                        AsyncSnapshot<GetLiveTrackingModel> snapshot) {
+                        AsyncSnapshot<GetAllLiveTrackingModel> snapshot) {
                       if (snapshot.data == null) {
                         print("no data found");
                       } else {
@@ -98,14 +99,18 @@ AttendanceRepository attendanceRepository = AttendanceRepository();
                             );
                           } else {
                             snapshot.data!.result!.forEach((element) {
+print("jjjj ${element!.employeeId!}");
 
+                                markerlatLen.add(LocationModel(
+                                    getEmpName(element.employeeId!, empSnap.data!.results!), 1, LatLng(element!.lat!, element!.long!), element.createdOn, ""));
 
-                                markerlatLen.add(LocationModel(getEmpName(element.employeeId!, empSnap.data!.results!), 1, LatLng(element.lat!, element.long!), element.createdOn, ""));
-
-
+print("jjjj ${markerlatLen!.length!}");
+//23.8370707
+                            //90.3719222
                             });
 
                             for(int i=0; i<markerlatLen.length; i++){
+
                               _markerss.add(
 // added markers
                                   Marker(
@@ -151,15 +156,17 @@ AttendanceRepository attendanceRepository = AttendanceRepository();
   }
   getEmpName(int id, List<Results> list) {
     List<Results> p = [];
+    List<Results> f = [];
+
     p.add(list
         .where((element) => element.employeeId == id)
         .first);
-    return p[0].employeeName;
+    return p[0].employeeName ;
   }
   getEmpImage(int id, List<Results> list) {
     List<Results> p = [];
     p.add(list
-        .where((element) => element.employeeId == id)
+        .where((element) => element.employeeId == 1)
         .first);
     return p[0].employeeName;
   }

@@ -1,12 +1,23 @@
+import 'dart:convert';
+
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Model/prospect/get_prospect_model.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect_front.dart';
+import 'package:salebee/Screen/Prospect/prospect_details.dart';
 import 'package:salebee/Screen/leave/leave_details.dart';
+import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/prospect_repository.dart';
+import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
+import 'package:http/http.dart' as http;
+import '../../Service/sharedPref_service.dart';
+import '../../repository/attendance_repository.dart';
 
 
 
@@ -20,19 +31,27 @@ class OrganizationProspect extends StatefulWidget {
 
 class _IndividualProspectState extends State<OrganizationProspect> {
   String searchString = "";
+  AttendanceRepository attendanceRepository = AttendanceRepository();
+  VisitRepository visitRepository = VisitRepository();
+  GeolocatorService geolocatorService = GeolocatorService();
+  bool loader = false;
+  String locationDis = "";
   List result = [];
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+  TaskRepository taskRepository = TaskRepository();
+  TextEditingController textNoteController = TextEditingController();
   TextEditingController _searchController = TextEditingController();
-List<StageModel> stageList = [
-  StageModel("New prospect", Colors.greenAccent, 1),
-  StageModel("Initial Contact", Colors.blueAccent, 2),
-  StageModel("On followup", Colors.redAccent, 3),
-  StageModel("Visited", Colors.orangeAccent, 4),
-  StageModel("Lead Created", Colors.purpleAccent, 5),
-  StageModel("Hot Lead", Colors.grey, 6),
-  StageModel("Already Client", Colors.grey, 7),
+  List<StageModel> stageList = [
+    StageModel("New prospect", Colors.greenAccent, 1),
+    StageModel("Initial Contact", Colors.blueAccent, 2),
+    StageModel("On followup", Colors.redAccent, 3),
+    StageModel("Visited", Colors.orangeAccent, 4),
+    StageModel("Lead Created", Colors.purpleAccent, 5),
+    StageModel("Hot Lead", Colors.grey, 6),
+    StageModel("Already Client", Colors.grey, 7),
 
 
-];
+  ];
   ProspectRepository prospectRepository = ProspectRepository();
   @override
   void initState() {
@@ -89,192 +108,527 @@ List<StageModel> stageList = [
         child: SafeArea(
           child: SingleChildScrollView(
             child:   Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 40,
-                    child: TextField(
-                      onChanged: (e) {
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 40,
+                      child: TextField(
+                        onChanged: (e) {
 
-                        setState(() {
-                          searchString = e;
-                        });
+                          setState(() {
+                            searchString = e;
+                          });
 
-                      },
+                        },
 
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                          labelText: "Search",
-                          hintText: "Search",
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(25.0)))),
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                            labelText: "Search",
+                            hintText: "Search",
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(25.0)))),
+                      ),
                     ),
                   ),
-                ),
-                FutureBuilder<GetProspectListModel>(
-                  future: prospectRepository.getAllProspectController(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<GetProspectListModel> snapshot) {
+                  FutureBuilder<GetProspectListModel>(
+                    future: prospectRepository.getAllProspectController(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<GetProspectListModel> snapshot) {
 
-                    if (snapshot.data == null) {
-                      print("no data found");
-                    } else {
-                       result = _search(snapshot.data!.result);
-                    }
+                      if (snapshot.data == null) {
+                        print("no data found");
+                      } else {
+                        result = _search(snapshot.data!.result);
+                      }
 
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Text("waiting");
-                      default:
-                        if (snapshot.hasError)
-                          return Center(child: Text('No Data Found'));
-                        if (snapshot.data == null) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          return Container(
-                            height: MediaQuery.of(context).size.height -200,
-                            child: ListView.separated(
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Text("waiting");
+                        default:
+                          if (snapshot.hasError)
+                            return Center(child: Text('No Data Found'));
+                          if (snapshot.data == null) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return Container(
+                              height: MediaQuery.of(context).size.height -200,
+                              child: ListView.separated(
 
-                              itemCount: result!.length,
-                              itemBuilder: (BuildContext context , index){
-                                var data = result![index];
+                                itemCount: result!.length,
+                                itemBuilder: (BuildContext context , index){
+                                  var data = result![index];
 
-                                if(data.isIndividual == false){
-                                  return  InkWell(
-                                    onTap: (){
-                                      Get.to(const LeaveDetails());
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          color: const Color(0xFFFFFFFF)
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
+                                  if(data.isIndividual == false){
+                                    return  ExpandableNotifier(
+                                      child: InkWell(
+                                        onTap: (){
+                                          Get.to(const ProspectDetails());
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(6),
+                                              color: const Color(0xFFFFFFFF)
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text('Pro -${data.id}',style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 12,
-                                                    color: Colors.grey
-                                                ),),
-                                                const SizedBox(height: 10,),
-                                                Text('25 Aug 2022',style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400
-                                                )),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text('Pro -${data.id}',style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 12,
+                                                        color: Colors.grey
+                                                    ),),
+                                                    const SizedBox(height: 10,),
+                                                    Text('25 Aug 2022',style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w400
+                                                    )),
 
-                                              ],
-                                            ),
-                                            ListTile(
-                                              trailing: Text("Since 83 days",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.normal,
-                                                    fontSize: 12,
-                                                    color: Colors.black54
-                                                ),),
+                                                  ],
+                                                ),
+                                                ListTile(
+                                                  trailing: Text("Since 83 days",
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.normal,
+                                                        fontSize: 12,
+                                                        color: Colors.black54
+                                                    ),),
 
-                                              title:Text(data.name!,style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12,
-                                                  color: Colors.black
-                                              ),),
-                                              subtitle: data.contactPersonName == null ?
-                                              Text("No data",style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12,
-                                                  color: Colors.grey
-                                              ),) : Text(data.contactPersonName!,style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12,
-                                                  color: Colors.grey
-                                              ),),
+                                                  title:Text(data.name!,style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 12,
+                                                      color: Colors.black
+                                                  ),),
+                                                  subtitle: data.contactPersonName == null ?
+                                                  Text("No data",style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 12,
+                                                      color: Colors.grey
+                                                  ),) : Text(data.contactPersonName!,style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 12,
+                                                      color: Colors.grey
+                                                  ),),
 
-                                            ),
-
-                                            Container(
-                                              height: 30,
-                                              child: ListView.separated(
-
-                                                scrollDirection: Axis.horizontal,
-                                                itemCount: stageList.length,
-                                                itemBuilder: (BuildContext context , index){
+                                                ),
 
 
-                                                  return  Card(
-                                                    elevation: 5,
-                                                    child: Container(
-                                                      width: MediaQuery.of(context).size.width * .11,
-                                                      child: Column(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: (){
+                                                ScrollOnExpand(
+                                                  scrollOnExpand: true,
+                                                  scrollOnCollapse: false,
+                                                  child: ExpandablePanel(
+                                                    theme:
+                                                    const ExpandableThemeData(
+                                                      headerAlignment:
+                                                      ExpandablePanelHeaderAlignment
+                                                          .center,
+                                                      tapBodyToCollapse:
+                                                      true,
+                                                    ),
+                                                    header: Row(
+                                                      children: [
+                                                        const Text(
+                                                          'Pick Any',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w600),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        InkWell(
+                                                          splashColor:
+                                                          Colors.blue,
+                                                          onTap: () {
+                                                            // _textMe(455);
+                                                          },
+                                                          child: Card(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100)),
+                                                            child:
+                                                            Container(
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                  shape:
+                                                                  BoxShape.circle),
+                                                              child:
+                                                              Padding(
+                                                                padding:
+                                                                const EdgeInsets.all(
+                                                                    8.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .chat,
+                                                                  color:
+                                                                  primaryColor,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        InkWell(
+                                                          splashColor:
+                                                          Colors.blue,
+                                                          onTap: () {
+                                                            // launchPhoneDialer(
+                                                            //     "2424");
+                                                          },
+                                                          child: Card(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100)),
+                                                            child:
+                                                            Container(
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                  shape:
+                                                                  BoxShape.circle),
+                                                              child:
+                                                              Padding(
+                                                                padding:
+                                                                const EdgeInsets.all(
+                                                                    8.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .call,
+                                                                  color:
+                                                                  primaryColor,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        InkWell(
+                                                          splashColor:
+                                                          Colors.blue,
+                                                          onTap: () {
+                                                            //    _launchWhatsapp( 356.toString());
+                                                          },
+                                                          child: Card(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    100)),
+                                                            child:
+                                                            Container(
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                  shape:
+                                                                  BoxShape.circle),
+                                                              child:
+                                                              Padding(
+                                                                padding:
+                                                                const EdgeInsets.all(
+                                                                    8.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .messenger,
+                                                                  color:
+                                                                  primaryColor,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Card(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  100)),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                            child: Padding(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .all(
+                                                                  8.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .more_horiz,
+                                                                color:
+                                                                primaryColor,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    collapsed:
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    expanded: Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .airline_seat_recline_normal_sharp,
+                                                              color: Colors
+                                                                  .grey,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Container(
+                                                              decoration:
+                                                              const BoxDecoration(
+                                                                  shape:
+                                                                  BoxShape.circle),
+                                                              child:
+                                                              const CircleAvatar(
+                                                                radius: 12,
+                                                                backgroundImage:
+                                                                AssetImage(
+                                                                  'images/suite.png',
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+
+                                                            Text(
+                                                              "No Data",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                  14),
+                                                            )
+
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                const Text(
+                                                                  'Action',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                      14,
+                                                                      fontWeight:
+                                                                      FontWeight.w600),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                GestureDetector(
+                                                                  onTap: (){
+                                                                    _showMyDialog(data.name!, data.id!);
+                                                                  },
+
+                                                                  child: Card(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(100)),
+                                                                    child:
+                                                                    Container(
+                                                                      decoration:
+                                                                      BoxDecoration(shape: BoxShape.circle),
+                                                                      child:
+                                                                      Padding(
+                                                                        padding:
+                                                                        const EdgeInsets.all(8.0),
+                                                                        child:
+                                                                        Text(
+                                                                          "Visit",
+                                                                          style: TextStyle(
+                                                                            color: primaryColor,
+                                                                            fontWeight: FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                Card(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(100)),
+                                                                  child:
+                                                                  Container(
+                                                                    decoration:
+                                                                    BoxDecoration(shape: BoxShape.circle),
+                                                                    child:
+                                                                    Padding(
+                                                                      padding:
+                                                                      const EdgeInsets.all(8.0),
+                                                                      child:
+                                                                      Icon(
+                                                                        Icons.edit,
+                                                                        color:
+                                                                        primaryColor,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+
+
+                                                                Card(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(100)),
+                                                                  child:
+                                                                  Container(
+                                                                    decoration:
+                                                                    BoxDecoration(shape: BoxShape.circle),
+                                                                    child:
+                                                                    Padding(
+                                                                      padding:
+                                                                      const EdgeInsets.all(8.0),
+                                                                      child:
+                                                                      Icon(
+                                                                        Icons.delete,
+                                                                        color:
+                                                                        Colors.red,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width:
+                                                                  50,
+                                                                ),
+
+
+                                                                Container()
+
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          height: 30,
+                                                          child: ListView.separated(
+
+                                                            scrollDirection: Axis.horizontal,
+                                                            itemCount: stageList.length,
+                                                            itemBuilder: (BuildContext context , index){
+
+
+                                                              return  Card(
+                                                                elevation: 5,
+                                                                child: Container(
+                                                                  width: MediaQuery.of(context).size.width * .11,
+                                                                  child: Column(
+                                                                    children: [
+
+                                                                      InkWell(
+                                                                        onTap: (){
+
+                                                                        },
+
+                                                                        child: CircleAvatar(
+                                                                          radius: 4,
+                                                                          backgroundColor: stageList[index].id! <= 3 ? stageList[index].color : Colors.grey,
+
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(height: 5,),
+                                                                      Expanded(
+
+                                                                        child: Text(stageList[index].stageName!,
+
+                                                                          style: TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: 7
+                                                                          ),
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                        ),
+                                                                      ),
+
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              );
+
+
+
+
 
                                                             },
-
-                                                            child: CircleAvatar(
-                                                              radius: 4,
-                                                              backgroundColor: stageList[index].id! <= 3 ? stageList[index].color : Colors.grey,
-
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 5,),
-                                                          Expanded(
-                                                            child: Text(stageList[index].stageName!,
-
-                                                              style: TextStyle(
-                                                                  color: Colors.grey,
-                                                                  fontSize: 7
-                                                              ),
-                                                              overflow: TextOverflow.ellipsis,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            separatorBuilder: (context, index) {
+                                                              return SizedBox(width: 0,);
+                                                            },),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  );
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
 
 
 
-
-
-                                                },
-                                                separatorBuilder: (context, index) {
-                                                  return SizedBox(width: 0,);
-                                                },),
-                                            )
-
-                                          ],
+                                          ),
                                         ),
-
-
-
                                       ),
-                                    ),
-                                  );
+                                    );
 
-                                }
-                                return  Container();
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider();
-                              },),
-                          );
-                        }
-                    }
-                  },
-                ),
-              ]
+                                  }
+                                  return  Container();
+                                },
+                                separatorBuilder: (context, index) {
+                                  return Divider();
+                                },),
+                            );
+                          }
+                      }
+                    },
+                  ),
+                ]
             ),
 
           ),
@@ -282,15 +636,138 @@ List<StageModel> stageList = [
       ),
     );
   }
-List<Result> _search(List<Result>? employee) {
-  if(searchString.isNotEmpty == true) {
-    //search logic what you want
-    return employee?.where((element) => element.name!.toLowerCase().contains(searchString))
-        .toList() ?? <Result>[];
+
+  Future<void> _showMyDialog(String prospectName, int prospectID) async {
+    loader = false;
+    String? token = SharedPreff.to.prefss.getString("token");
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Alert'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Please enter visit note..'),
+
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  controller: textNoteController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter Note',
+
+                      hintText: 'Description'),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: loader == true ? Center(child: CircularProgressIndicator(),): Text('Cancel', style: TextStyle(
+                  color: Colors.red
+              ),),
+              onPressed: () async {
+
+                Navigator.pop(context);
+
+              },
+            ),
+            TextButton(
+              child: loader == true ? Center(child: CircularProgressIndicator(),): Text('Done'),
+              onPressed: () async {
+                setState(() {
+                  loader = true;
+                });
+                taskRepository
+                    .taskAddController(
+                    token: token!,
+                    title: "Visited to $prospectName",
+                    description: textNoteController.text,
+                    type: 1,
+                    repeat: 1,
+                    priority: 1,
+                    prospectId: prospectID,
+                    status: 4,
+                    leadID: 0,
+                    assignaTo: 0) .then((value) {
+                  if (value.isSuccess == true) {
+                    addVisit(prospectName, prospectID);
+                    _showSnack(value.message!);
+
+                    setState(() {
+                      loader = false;
+                    });
+                    // Get.to(OtherExpense());
+                  } else {
+                    _showSnack(value.message!);
+
+                    setState(() {
+                      loader = false;
+                    });
+                  }
+                });
+                Navigator.pop(context);
+                //  _getLocation();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
+
+
+  }
+  addVisit(String? prospect, int? prospectID){
+
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    geolocatorService.determinePosition().then((ele) {
+      print("my position is ${ele!.latitude}");
+      getAddressFromLatLng(ele.latitude!, ele.longitude!).then((e){
+        visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
+            latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!, location: e
+        );
+      });
+
+
+
+    });
   }
 
-  return employee ?? <Result>[];
-}
+  void _showSnack(String msg) {
+    final _snackBarContent = SnackBar(content: Text(msg));
+    ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
+        .showSnackBar(_snackBarContent);
+  }
+  List<Result> _search(List<Result>? employee) {
+    if(searchString.isNotEmpty == true) {
+      //search logic what you want
+      return employee?.where((element) => element.name!.toLowerCase().contains(searchString))
+          .toList() ?? <Result>[];
+    }
+
+    return employee ?? <Result>[];
+  }
 }
 
 

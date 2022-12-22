@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/map_view.dart';
+import 'package:salebee/Screen/MenuPage/the_eye/map_for_all/map_view.dart';
 import 'package:salebee/utils.dart';
 
 import '../../../../Model/TrackingModel/tracing_model.dart';
@@ -64,7 +64,8 @@ class _MyAppState extends State<MapScreen> {
             ),
             icon: BitmapDescriptor.defaultMarker,
           )
-      );}
+      );
+    }
     _polyline.add(
         Polyline(
           polylineId: PolylineId('1'),
@@ -86,7 +87,7 @@ class _MyAppState extends State<MapScreen> {
           color: primaryColorLight,
           child: GoogleMap(
             mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(target: widget.latLnList[0], zoom: 13),
+            initialCameraPosition: CameraPosition(target: widget.latLnList.last, zoom: 13),
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },

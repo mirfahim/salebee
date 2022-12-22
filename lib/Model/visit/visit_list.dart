@@ -44,6 +44,7 @@ class Result {
     this.leadName,
     this.prospectId,
     this.prospectName,
+    this.locationDescription
   });
 
   int? id;
@@ -56,6 +57,7 @@ class Result {
   String? leadName;
   int? prospectId;
   String? prospectName;
+  String? locationDescription;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     id: json["Id"],
@@ -66,6 +68,7 @@ class Result {
     locationTime: DateTime.parse(json["LocationTime"]),
     leadId: json["LeadId"],
     leadName: json["LeadName"] == null ? "No data" : json["LeadName"],
+    locationDescription: json["LocationDescription"] == null ? "No data" : json["LocationDescription"],
     prospectId: json["ProspectId"],
     prospectName: json["ProspectName"] == null ? "No Data" : json["ProspectName"],
   );
@@ -81,6 +84,7 @@ class Result {
     "LeadName": leadName,
     "ProspectId": prospectId,
     "ProspectName": prospectName,
+    "LocationDescription": locationDescription,
   };
 }
 

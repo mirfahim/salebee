@@ -52,7 +52,7 @@ class _MenusScreenState extends State<MenusScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Get.to(WebViewClass());
+                    //  Get.to(WebViewClass());
                     },
                     child: Card(
                       elevation: 10,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,14 +10,16 @@ import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Provider/Login/provider_manager.dart';
 import 'package:salebee/Utils/my_colors.dart';
+import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import '../../Helper/location_helper.dart';
 import '../../Model/getAllTaskModel.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../repository/add_task_repository.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
+import 'package:http/http.dart' as http;
 
 class AllTask extends StatefulWidget {
   const AllTask({Key? key}) : super(key: key);
@@ -27,10 +31,17 @@ class AllTask extends StatefulWidget {
 class _AssignedToMeState extends State<AllTask> {
   TaskRepository taskRepository = TaskRepository();
   String statusName = "";
+  VisitRepository visitRepository = VisitRepository();
+  GeolocatorService geolocatorService = GeolocatorService();
+  bool loader = false;
+  String locationDis = "";
   int stausID = 1;
   int selectedTap = 0;
   int repeatId = 0;
   String taskTypeS = "";
+
+
+
   List<GetListForTaskDataModel> manageTaskList = [];
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
   int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
@@ -1000,6 +1011,10 @@ class _AssignedToMeState extends State<AllTask> {
                                                             if (value ==
                                                                 "Initiated") {
                                                               stausID = 5;
+                                                            }
+
+                                                            if(data!.taskType! == "Visit"){
+                                                           addVisit(data.prospectName!, data.prospectId!);
                                                             }
 
                                                             taskRepository
@@ -2476,7 +2491,40 @@ class _AssignedToMeState extends State<AllTask> {
       ));
     });
   }
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
 
+
+  }
+  addVisit(String? prospect, int? prospectID){
+
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    geolocatorService.determinePosition().then((ele) {
+      print("my position is ${ele!.latitude}");
+      getAddressFromLatLng(ele.latitude!, ele.longitude!).then((e){
+        visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
+            latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!, location: e
+        );
+      });
+
+
+
+    });
+  }
   _launchWhatsapp(String num) async {
     var whatsapp = "+88${num}";
     var whatsappAndroid =

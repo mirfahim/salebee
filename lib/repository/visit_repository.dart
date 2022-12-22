@@ -11,6 +11,7 @@ import 'package:salebee/Model/visit/live_tracking_model.dart';
 import 'package:universal_html/html.dart';
 
 import '../Helper/api_helper.dart';
+import '../Model/TrackingModel/get_all_live_tracking_model.dart';
 import '../Model/getAllMyTaskModel.dart';
 import '../Model/getAssignedTaskToMeModel.dart';
 import '../Model/getListForTaskModel.dart';
@@ -32,7 +33,10 @@ class VisitRepository {
 
       {required String prospectName,
         required String batteryStatus,
+        required String location,
+
         required DateTime locationTime,
+
         required double latitude,
         required double longitude,
         required int employeeId,
@@ -64,7 +68,7 @@ class VisitRepository {
       "ProspectName": prospectName,
       "FollowupType": 0,
       "IsLogIn": true,
-      "LocationDescription": "string",
+      "LocationDescription": location,
       "Token": tokenString,
       "Active": true,
       "CreatedBy": 0,
@@ -92,7 +96,7 @@ class VisitRepository {
 
       {
         required String batteryStatus,
-
+        required String location,
         required double latitude,
         required double longitude,
 
@@ -100,16 +104,15 @@ class VisitRepository {
       }) async {
 
 
-    List list1 = [];
-    List list2 = [];
+    print("my add Live data ++++++++url = ${StringsConst.BASEURL} lat $latitude, emp ${StaticData.employeeID}, location $location, battery $batteryStatus, my token = $tokenString");
 
     Map<String, dynamic> bodyString =
     {
       "Id": 0,
-      "EmployeeId": 2149,
-      "Lat": 23.809632,
-      "Long": 90.371358,
-      "Location": "dohs 7 no",
+      "EmployeeId": StaticData.employeeID,
+      "Lat": latitude,
+      "Long": longitude,
+      "Location": location,
       "BatteryStatus": batteryStatus,
       "Token": tokenString,
       "Active": true,
@@ -120,7 +123,25 @@ class VisitRepository {
       "IsDeleted": true
     };
 
-    Uri url = Uri.parse("$base_url/AddLiveTraking");
+    try{
+      Uri url = Uri.parse("${StringsConst.BASEURL}/AddLiveTraking");
+      final response = await http.post(
+        url,
+        body: jsonEncode(bodyString),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+
+      print("my resposnse add live tracking  +++++++++++++ ${response.body}");
+      String data = response.body;
+
+      return data;
+    }
+    catch(e){
+      print("my add live data error is $e");
+    }
+    Uri url = Uri.parse("${StringsConst.BASEURL}/AddLiveTraking");
     final response = await http.post(
       url,
       body: jsonEncode(bodyString),
@@ -133,6 +154,7 @@ class VisitRepository {
     String data = response.body;
 
     return data;
+
   }
 // all task get
   Future<GetVisitListModel> getAllVisitController() async {
@@ -189,10 +211,11 @@ try{
   }
   Future<GetVisitListModel> getEmployeeIdVisitController(int employeeId) async {
 
-    String base_url = "${StringsConst.BASEURL}";
+    String basse_url = "${StringsConst.BASEURL}";
+    print("my add Live data ++++++++url = $basse_url my token = $tokenString");
 
     try{
-      Uri url = Uri.parse("$base_url/GetEmployeeVisitList");
+      Uri url = Uri.parse("$basse_url/GetEmployeeVisitList");
       final response = await http.post(
         url,
         body: jsonEncode({
@@ -213,7 +236,7 @@ try{
     }catch(e){
       print("visit error is $e");
     }
-    Uri url = Uri.parse("$base_url/GetEmployeeVisitList");
+    Uri url = Uri.parse("$basse_url/GetEmployeeVisitList");
     final response = await http.post(
       url,
       body: jsonEncode({
@@ -241,20 +264,21 @@ try{
   }
 
   Future<GetLiveTrackingModel> getLiveTrackingByEmpController(int employeeId) async {
+    print("working in live");
+    String basse_url = StringsConst.BASEURL;
 
-    String base_url = "${StringsConst.BASEURL}";
 
     try{
-      Uri url = Uri.parse("$base_url/GetLiveTrakingDataList");
+      Uri url = Uri.parse("$basse_url/GetLiveTrakingDataList");
       final response = await http.post(
         url,
         body: jsonEncode({
 
-            "Token": "x+nxvcpxIxiShycYMY15u5wEQ/80afgbk273tbiN/IrcxkpGkJ2TAnzNuILRYkPx2SBgm3ZojvZEIxCOrNokGkfHjSQPrIxAJf4r3Ey1yPZdY/IBz/WvfzEAqygG2oi/",
+            "Token": tokenString,
             "ProspectID": 0,
             "LeadID": 0,
             "TaskID": 0,
-            "EmployeeID": 2149,
+            "EmployeeID": employeeId,
             "SupportID": 0,
             "FollowupID": 0,
             "FromDate": "2022-12-18T11:28:31.643Z",
@@ -274,17 +298,17 @@ try{
     }catch(e){
       print("visit error is $e");
     }
-    Uri url = Uri.parse("$base_url/GetLiveTrakingDataList");
+    Uri url = Uri.parse("$basse_url/GetLiveTrakingDataList");
     final response = await http.post(
       url,
       body: jsonEncode({
 
 
-          "Token": "x+nxvcpxIxiShycYMY15u5wEQ/80afgbk273tbiN/IrcxkpGkJ2TAnzNuILRYkPx2SBgm3ZojvZEIxCOrNokGkfHjSQPrIxAJf4r3Ey1yPZdY/IBz/WvfzEAqygG2oi/",
+          "Token": tokenString,
           "ProspectID": 0,
           "LeadID": 0,
           "TaskID": 0,
-          "EmployeeID": 2149,
+          "EmployeeID": employeeId,
           "SupportID": 0,
           "FollowupID": 0,
           "FromDate": "2022-12-18T11:28:31.643Z",
@@ -302,7 +326,7 @@ try{
 
     return getLiveTrackingModelFromJson(response.body);
   }
-  Future<GetLiveTrackingModel> getAllLiveTrackingController() async {
+  Future<GetAllLiveTrackingModel> getAllLiveTrackingController() async {
 
     String base_url = "${StringsConst.BASEURL}";
 
@@ -332,7 +356,7 @@ try{
       print("my resposnse repo get all live tracking ${response.body}");
       String data = response.body;
 
-      return getLiveTrackingModelFromJson(response.body);
+      return getAllLiveTrackingModelFromJson(response.body);
     }catch(e){
       print("visit error is $e");
     }
@@ -362,7 +386,7 @@ try{
     print("my resposnse repo get all live tracking ${response.body}");
     String data = response.body;
 
-    return getLiveTrackingModelFromJson(response.body);
+    return getAllLiveTrackingModelFromJson(response.body);
   }
 
 

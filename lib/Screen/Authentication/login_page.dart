@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:battery_plus/battery_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Helper/api_helper.dart';
+import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Model/login_model.dart';
 
 import 'package:salebee/Screen/Home/home.dart';
@@ -15,6 +17,7 @@ import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/Widget/button_widget.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/repository/add_task_repository.dart';
+import 'package:salebee/repository/visit_repository.dart';
 import '../../Provider/Login/provider_manager.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
@@ -44,7 +47,33 @@ class LoginPageState extends State<LoginPage> {
     print("my fcm toekn is =+++++++++ $fcmtoken");
     return fcmtoken;
   }
+  GeolocatorService geolocatorService = GeolocatorService();
+  VisitRepository visitRepository = VisitRepository();
+  String locationDis = "";
+  var battery = Battery();
+  getBattery()async{
+    var bat = await  battery.batteryLevel;
+    return bat;
+  }
+  getAddressFromLatLng( double lat, double lng) async {
+    String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
+    if(lat != null && lng != null){
+      var response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        Map data = jsonDecode(response.body);
+        print("response of api google ==== ${response.body}");
+        String _formattedAddress = data["results"][0]["formatted_address"];
+        print("response ==== $_formattedAddress");
+        locationDis =  _formattedAddress;
+        return locationDis;
+      }
+      return locationDis;
+    }
 
+
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -196,14 +225,33 @@ class LoginPageState extends State<LoginPage> {
 
 
                         Timer(Duration(seconds: 3), () {
-                          Navigator.pushAndRemoveUntil<dynamic>(
+                          geolocatorService.determinePosition().then((ele) {
+                            getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
+                              print("my location from google api $v");
+
+                              locationDis = v;
+
+                            });
+                            getBattery().then((v){
+                              const oneSec = Duration(minutes:5);
+                              print("my timer strated $v lat ${ele!.latitude!}");
+// Import package
+
+
+// Instantiate it
+
+
+                              Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(location: locationDis, latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
+                            });
+                          }).then((value) => Navigator.pushAndRemoveUntil<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
 
                               builder: (BuildContext context) => BottomNav(menuPage: false),
                             ),
                                 (route) => false,//if you want to disable back feature set to false
-                          );
+                          ));
+
                         });
 
                         print("go to homepage ____________");

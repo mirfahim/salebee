@@ -296,7 +296,8 @@ class _EmployeeListState extends State<EmployeeList> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context,  @required int? id,  String? nationalID,  String? bloddgrp, String? presentAddress,  String? branch,  String? phoneNo,  String? email) {
+  Widget _buildPopupDialog(BuildContext context,  @required int? id,  String? nationalID,  String? bloddgrp, String? presentAddress,
+      String? branch,  String? phoneNo,  String? email) {
     return new AlertDialog(
       title: const Text('Employee Details'),
       content: new Column(
