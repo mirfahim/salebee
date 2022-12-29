@@ -75,16 +75,10 @@ class _HomePageState extends State<HomePage> {
         print("my location from google api $v");
 
         locationDis = v;
-
       });
       getBattery().then((v){
         const oneSec = Duration(minutes:5);
         print("my timer strated $v lat ${ele!.latitude!}");
-// Import package
-
-
-// Instantiate it
-
 
         Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(location: locationDis, latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
       });

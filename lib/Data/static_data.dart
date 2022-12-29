@@ -15,7 +15,7 @@ class StaticData {
   static int contactPerson = 0;
   static List statusList = [];
   static Uint8List? customMarker;
-  static List<String> branchList = ["All", 'Branch 1', 'Branch 2', 'Branch 3', 'Branch 4',];
+  static List<String> branchList = ["All", 'Branch 1', 'Branch 2', 'Branch 3',];
   static List taskType = [
     "call",
     "mail",

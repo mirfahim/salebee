@@ -245,7 +245,7 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                         .size
                                         .height -
                                         315,
-                                    child: ListView.separated(
+                                    child: ListView.builder(
                                       itemCount: snap.data!.result!.length,
                                       itemBuilder:
                                           (BuildContext context, index) {
@@ -260,134 +260,31 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                                 int.parse(visitData.locationTime
                                                     .toString()
                                                     .substring(8, 10))) {
-                                          return Container(
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                        height: 45,
-                                                        decoration: BoxDecoration(
-                                                            color:
-                                                            primaryColorSecond
-                                                                .withOpacity(
-                                                                .3),
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(6)),
-                                                        width: 100,
-                                                        child: Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              vertical: 4.0),
-                                                          child: Column(
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                children: [
-                                                                  visitData
-                                                                      .locationTime ==
-                                                                      null
-                                                                      ? Text(
-                                                                    "No data",
-                                                                    textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                        10,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                                  )
-                                                                      : Text(
-                                                                    DateFormat(
-                                                                        'EEEE')
-                                                                        .format(
-                                                                        visitData
-                                                                            .locationTime!)
-                                                                        .toString()
-                                                                        .substring(
-                                                                        0,
-                                                                        3) +
-                                                                        ",",
-                                                                    textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                        10,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 5,
-                                                                  ),
-//"LogTimeIn":"2022-09-13T08:36:40.32"
-
-                                                                  Center(
-                                                                    child: visitData
-                                                                        .locationTime ==
-                                                                        null
-                                                                        ? Text(
-                                                                      "No Data",
-                                                                      textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                      style:
-                                                                      TextStyle(
-                                                                        fontSize:
-                                                                        10,
-                                                                      ),
-                                                                    )
-                                                                        : Text(
-                                                                      " " +
-                                                                          visitData
-                                                                              .locationTime!
-                                                                              .toString()
-                                                                              .substring(
-                                                                              8,
-                                                                              10),
-                                                                      textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                      style:
-                                                                      TextStyle(
-                                                                        fontSize:
-                                                                        10,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  visitData
-                                                                      .locationTime ==
-                                                                      null
-                                                                      ? Text(
-                                                                      "No data")
-                                                                      : Text(
-                                                                    DateFormat(
-                                                                        'MMM')
-                                                                        .format(
-                                                                        visitData
-                                                                            .locationTime!)
-                                                                        .toString()
-                                                                        .substring(
-                                                                        0,
-                                                                        3),
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                        10,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Card(
-                                                                child: Row(
+                                          return Card(
+                                            child: Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                              primaryColorSecond
+                                                                  .withOpacity(
+                                                                  .3),
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
                                                                   mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .center,
@@ -396,104 +293,179 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                                                         .locationTime ==
                                                                         null
                                                                         ? Text(
-                                                                        "No data")
+                                                                      "No data",
+                                                                      textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                          10,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                    )
                                                                         : Text(
-                                                                      DateFormat
-                                                                          .jm()
+                                                                      DateFormat(
+                                                                          'EEEE')
                                                                           .format(
                                                                           visitData
-                                                                              .locationTime!),
+                                                                              .locationTime!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                          0,
+                                                                          3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                      TextAlign
+                                                                          .center,
                                                                       style: TextStyle(
-                                                                          fontSize: 10,
-                                                                          fontWeight: FontWeight
+                                                                          fontSize:
+                                                                          10,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+
+                                                                    Center(
+                                                                      child: visitData
+                                                                          .locationTime ==
+                                                                          null
+                                                                          ? Text(
+                                                                        "No Data",
+                                                                        textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                        style:
+                                                                        TextStyle(
+                                                                          fontSize:
+                                                                          10,
+                                                                        ),
+                                                                      )
+                                                                          : Text(
+                                                                        " " +
+                                                                            visitData
+                                                                                .locationTime!
+                                                                                .toString()
+                                                                                .substring(
+                                                                                8,
+                                                                                10),
+                                                                        textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                        style:
+                                                                        TextStyle(
+                                                                          fontSize:
+                                                                          10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    visitData
+                                                                        .locationTime ==
+                                                                        null
+                                                                        ? Text(
+                                                                        "No data")
+                                                                        : Text(
+                                                                      DateFormat(
+                                                                          'MMM')
+                                                                          .format(
+                                                                          visitData
+                                                                              .locationTime!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                          0,
+                                                                          3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                          10,
+                                                                          fontWeight:
+                                                                          FontWeight
                                                                               .bold),
                                                                     ),
                                                                   ],
                                                                 ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )),
-                                                    SizedBox(
-                                                      width: 05,
-                                                    ),
-                                                    Container(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          visitData
-                                                              .prospectName ==
-                                                              null
-                                                              ? Text(
-                                                            "No Data",
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize: 12,
-                                                              color: Colors
-                                                                  .black54,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .bold,
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                    children: [
+                                                                      visitData
+                                                                          .locationTime ==
+                                                                          null
+                                                                          ? Text(
+                                                                          "No data")
+                                                                          : Text(
+                                                                        DateFormat
+                                                                            .jm()
+                                                                            .format(
+                                                                            visitData
+                                                                                .locationTime!),
+                                                                        style: TextStyle(
+                                                                            fontSize: 10,
+                                                                            fontWeight: FontWeight
+                                                                                .bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          )
-                                                              : Text(
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                          children: [
                                                             visitData
-                                                                .prospectName!,
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize: 12,
-                                                              color: Colors
-                                                                  .black54,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .bold,
+                                                                .prospectName ==
+                                                                null
+                                                                ? Text(
+                                                              "No Data",
+                                                              style:
+                                                              TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                              ),
+                                                            )
+                                                                : Text(
+                                                              visitData
+                                                                  .prospectName!,
+                                                              style:
+                                                              TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          Text(
-                                                            "prospect address",
-                                                            style: TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                              Colors
-                                                                  .black54,
+                                                            Text(
+                                                              visitData.prospectAddress!,
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                                color:
+                                                                Colors
+                                                                    .black54,
+                                                              ),
                                                             ),
-                                                          ),
 
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "Visted by: ",
-                                                                style: TextStyle(
-                                                                    fontSize: 9,
-                                                                    color:
-                                                                    Colors
-                                                                        .black,
-                                                                    fontWeight: FontWeight
-                                                                        .bold
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "${getEmpName(
-                                                                    visitData
-                                                                        .employeeId!,
-                                                                    snapshot
-                                                                        .data!
-                                                                        .results!)}",
-                                                                style: TextStyle(
-                                                                  fontSize: 10,
-                                                                  color:
-                                                                  Colors
-                                                                      .black54,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
+                                                            Row(
                                                               children: [
                                                                 Text(
-                                                                  "Visted address: ",
+                                                                  "Visted by: ",
                                                                   style: TextStyle(
                                                                       fontSize: 9,
                                                                       color:
@@ -503,68 +475,96 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                                                           .bold
                                                                   ),
                                                                 ),
-
-                                                                Container(
-                                                                  height: 30,
-                                                                  width: MediaQuery.of(context).size.width -250,
-                                                                  child: Expanded(
-                                                                    child: Text(
-                                                                      visitData.locationDescription!,
-                                                                      style: TextStyle(
-                                                                        fontSize: 10,
-                                                                        color:
-                                                                        Colors
-                                                                            .black54,
-                                                                      ),
-                                                                    ),
+                                                                Text(
+                                                                  "${getEmpName(
+                                                                      visitData
+                                                                          .employeeId!,
+                                                                      snapshot
+                                                                          .data!
+                                                                          .results!)}",
+                                                                  style: TextStyle(
+                                                                    fontSize: 10,
+                                                                    color:
+                                                                    Colors
+                                                                        .black54,
                                                                   ),
                                                                 ),
                                                               ],
                                                             ),
+                                                            Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Visted address: ",
+                                                                    style: TextStyle(
+                                                                        fontSize: 9,
+                                                                        color:
+                                                                        Colors
+                                                                            .black,
+                                                                        fontWeight: FontWeight
+                                                                            .bold
+                                                                    ),
+                                                                  ),
 
-                                                        ],
+                                                                  Container(
+                                                                    height: 20,
+                                                                    width: MediaQuery.of(context).size.width *.3,
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        visitData.locationDescription!,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: TextStyle(
+                                                                          fontSize: 10,
+                                                                          color:
+                                                                          Colors
+                                                                              .black54,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Spacer(),
+                                                      Spacer(),
 
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        geolocatorService.determinePosition().then((ele) {
-                                                          getAddressFromLatLng(
-                                                              ele!.latitude!,
-                                                              ele.longitude)
-                                                              .then((v) {
-                                                            print(
-                                                                "my location from google api $v");
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          geolocatorService.determinePosition().then((ele) {
+                                                            getAddressFromLatLng(
+                                                                ele!.latitude!,
+                                                                ele.longitude)
+                                                                .then((v) {
+                                                              print(
+                                                                  "my location from google api $v");
 
-                                                            locationDis = v;
-                                                          });
-                                                        }).then((value) =>  Get.to(VisitMapScreen(
-                                                          location: locationDis,
-                                                          lat: visitData
-                                                              .latitude,
-                                                          lon: visitData
-                                                              .longitude,
-                                                          time: visitData
-                                                              .locationTime,)));
+                                                              locationDis = v;
+                                                            });
+                                                          }).then((value) =>  Get.to(VisitMapScreen(
+                                                            location: locationDis,
+                                                            lat: visitData
+                                                                .latitude,
+                                                            lon: visitData
+                                                                .longitude,
+                                                            time: visitData
+                                                                .locationTime,)));
 
-                                                      },
-                                                      child: Icon(
-                                                          Icons.map
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
+                                                        },
+                                                        child: Icon(
+                                                            Icons.map
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           );
                                         }
                                         return Container();
                                       },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return Divider();
-                                      },
+
                                     ),
                                   );
                                 } else {

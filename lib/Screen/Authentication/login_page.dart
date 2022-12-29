@@ -225,32 +225,14 @@ class LoginPageState extends State<LoginPage> {
 
 
                         Timer(Duration(seconds: 3), () {
-                          geolocatorService.determinePosition().then((ele) {
-                            getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
-                              print("my location from google api $v");
-
-                              locationDis = v;
-
-                            });
-                            getBattery().then((v){
-                              const oneSec = Duration(minutes:5);
-                              print("my timer strated $v lat ${ele!.latitude!}");
-// Import package
-
-
-// Instantiate it
-
-
-                              Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(location: locationDis, latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
-                            });
-                          }).then((value) => Navigator.pushAndRemoveUntil<dynamic>(
+                          Navigator.pushAndRemoveUntil<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
 
                               builder: (BuildContext context) => BottomNav(menuPage: false),
                             ),
                                 (route) => false,//if you want to disable back feature set to false
-                          ));
+                          );
 
                         });
 

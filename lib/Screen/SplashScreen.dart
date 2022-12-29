@@ -147,35 +147,13 @@ class _SplashState extends State<Splash> {
   domainCheck() {
     print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
     if (StaticData.loggedIN == true && StaticData.subDomain != null) {
-      geolocatorService.determinePosition().then((ele) {
-        getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
-          print("my location from google api $v");
-
-          locationDis = v;
-        });
-        getBattery().then((v) {
-          const oneSec = Duration(minutes: 5);
-          print("my timer strated $v lat ${ele!.latitude!}");
-// Import package
-
-// Instantiate it
-
-          Timer.periodic(
-              oneSec,
-              (Timer t) => visitRepository.addliveTrackController(
-                    location: locationDis,
-                    latitude: ele!.latitude!,
-                    longitude: ele.longitude,
-                    batteryStatus: v.toString(),
-                  ));
-        });
-      }).then((value) => Navigator.of(context).pushReplacement(
+      Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => BottomNav(
                 menuPage: false,
               ),
             ),
-          ));
+          );
     } else if (SharedPreff.to.prefss.getString("subDomain") == '' ||
         SharedPreff.to.prefss.getString("subDomain") == null) {
       Navigator.of(context).pushReplacement(
