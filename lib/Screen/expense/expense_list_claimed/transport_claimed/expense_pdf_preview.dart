@@ -8,7 +8,9 @@ import 'package:salebee/utils.dart';
 
 class PdfPreviewPage extends StatelessWidget {
   final GetTransportExpenseModel? invoice;
-  const PdfPreviewPage({Key? key, required this.invoice}) : super(key: key);
+  int monthSelection;
+  int yearSelection ;
+   PdfPreviewPage({Key? key, required this.invoice, required this.monthSelection, required this.yearSelection, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class PdfPreviewPage extends StatelessWidget {
         title: Text('PDF Preview'),
       ),
       body: PdfPreview(
-        build: (context) => makePdf(invoice!),
+        build: (context) => makePdf(invoice!, monthSelection, yearSelection),
       ),
     );
   }

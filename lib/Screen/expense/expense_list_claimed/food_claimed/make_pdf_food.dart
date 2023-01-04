@@ -15,11 +15,11 @@ import 'package:pdf/widgets.dart';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
-Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
+Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSelection) async {
   final pdf = pw.Document();
   List<pw.Widget> widgets = [];
   widgets.add(pw.SizedBox(height: 5));
-
+  double totalAmount= 0;
    widgets.add(
        Column(
          mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -89,7 +89,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
                mainAxisAlignment: pw.MainAxisAlignment.end,
                children: [
                  Spacer(),
-                 PaddedText("${DateFormat.yMMM().format(DateTime.now())}"),
+                 PaddedText("${DateFormat.yMMM().format(DateTime(yearSelection, monthSelection))}"),
                ]),
            Row(children: [
              Container(
@@ -169,42 +169,62 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
           ],
         ),
         ...invoice.result!.map(
-              (e) => TableRow(
-            children: [
-              Expanded(
-                child: PaddedText(
+              (e) {
+  if(monthSelection == int.parse(e.createdOn.toString().substring(5,7)) && yearSelection == int.parse(e.createdOn.toString().substring(0,4))) {
+    invoice.result!.forEach((element) {
+      if (monthSelection ==
+          int.parse(element.createdOn.toString().substring(5, 7)) &&
+          yearSelection ==
+              int.parse(element.createdOn.toString().substring(0, 4))) {
+        totalAmount += element.expense!;
+      }
+    });
+    return TableRow(
+      children: [
+        Expanded(
+          child: PaddedText(
 
-                    "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
-                flex: 1,
-              ),
-              Expanded(
-                child: PaddedText("Breakfast"),
-                flex: 1,
-              ),
+              "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
+          flex: 1,
+        ),
+        Expanded(
+          child: PaddedText("Breakfast"),
+          flex: 1,
+        ),
 
-              Expanded(
-                child: PaddedText(
-                    e.description!),
-                flex: 2,
-              ),
-              Expanded(
-                child: PaddedText(
+        Expanded(
+          child: PaddedText(
+              e.description!),
+          flex: 2,
+        ),
+        Expanded(
+          child: PaddedText(
 
-                 "${e.person!.toString()}"),
-                flex: 1,
-              ),
-              Expanded(
-                child: PaddedText(
+              "${e.person!.toString()}"),
+          flex: 1,
+        ),
+        Expanded(
+          child: PaddedText(
 
-                  "${e.expense!.toString()}"),
-                flex: 1,
-              ),
-              Expanded(
-                child: PaddedText("Approved"),
-                flex: 1,
-              ),
-            ],
-          ),
+              "${e.expense!.toString()}"),
+          flex: 1,
+        ),
+        Expanded(
+          child: PaddedText("Approved"),
+          flex: 1,
+        ),
+      ],
+    );
+  } else {
+    return TableRow(
+
+      children: [
+
+      ],
+    );
+  }
+
+              },
         ),
         TableRow(
           children: [
@@ -212,7 +232,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice) async {
             PaddedText(''),
             PaddedText(''),
             PaddedText(
-                ""),
+                '\$${(totalAmount.toStringAsFixed(2))}'),
             // '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
           ],
         )

@@ -61,8 +61,8 @@ class AttendanceRepository {
       "LogTimeOut": "2022-10-02T04:49:01.264Z",
       "IsLogIn": true,
       "IsLogFromPhone": true,
-      "Latitude": 0,
-      "Longitude": 0,
+      "Latitude": lat,
+      "Longitude": lon,
       "LocationDescription": location,
       "Remark": note,
       "IsLate": true,
@@ -171,7 +171,7 @@ class AttendanceRepository {
             "EmployeeID": 0,
             "SupportID": 0,
             "FollowupID": 0,
-            "FromDate": "2022-11-29T05:54:29.320Z",
+            "FromDate": "2023-11-29T05:54:29.320Z",
             "ToDate": date.toString()
           }
       ),

@@ -253,19 +253,17 @@ class _CheckInOutState extends State<CheckInOut> {
                   SizedBox(
                     width: 10,
                   ),
-                  locationDis == "" ?
-                      Container(
-                        height: 15,
-                        width: 15,
-                        child: CircularProgressIndicator(
-
-                        ),
-                      )
-                 : Text(
-                    locationDis,
-                    maxLines: 2,
-                    style: TextStyle(fontSize: 8),
-                  )
+                  locationDis == ""
+                      ? Container(
+                          height: 15,
+                          width: 15,
+                          child: CircularProgressIndicator(),
+                        )
+                      : Text(
+                          locationDis,
+                          maxLines: 2,
+                          style: TextStyle(fontSize: 8),
+                        )
                 ],
               ),
             ),
@@ -499,7 +497,6 @@ class _CheckInOutState extends State<CheckInOut> {
   }
 
   Future<void> getAddressFromLatLong(Position position) async {
-
     getAddressFromLatLng(position.latitude, position.longitude).then((v) {
       print("my location from google api $v");
       setState(() {
@@ -517,7 +514,6 @@ class _CheckInOutState extends State<CheckInOut> {
     //     '${place.name},${place.street},${place.thoroughfare},${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     //
     // print("my address is ++++++++++++ $address");
-
   }
 
   duration(checkin, checkout) {
@@ -557,25 +553,26 @@ class _CheckInOutState extends State<CheckInOut> {
     }
   }
 
-  getAddressFromLatLng( double lat, double lng) async {
+  getAddressFromLatLng(double lat, double lng) async {
     String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
     String _host = 'https://maps.google.com/maps/api/geocode/json';
-    final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
-    if(lat != null && lng != null){
+    final url = '$_host?key=$mapApiKey&language=bn&latlng=$lat,$lng&country:BD';
+    if (lat != null && lng != null) {
       var response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map data = jsonDecode(response.body);
         print("response of api google ==== ${response.body}");
         String _formattedAddress = data["results"][0]["formatted_address"];
+        String _area =
+            data["results"][0]["address_components"][1]["short_name"];
         print("response ==== $_formattedAddress");
-     locationDis =  _formattedAddress;
+        locationDis = _area + ", " + _formattedAddress;
         return locationDis;
       }
-return locationDis;
+      return locationDis;
     }
-
-
   }
+
   attendanceFunction() async {
     end.value = 1;
     print("working chekout ${SharedPreff.to.prefss.getString("token")}");

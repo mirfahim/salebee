@@ -14,10 +14,11 @@ import 'package:pdf/widgets.dart';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
-Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
+Future<Uint8List> makePdf(GetTransportExpenseModel invoice, monthSelection, yearSelection) async {
   final pdf = pw.Document();
   List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
   List<pw.Widget> widgets = [];
+  double totalAmount= 0;
   widgets.add(pw.SizedBox(height: 5));
 
   widgets.add(
@@ -89,7 +90,7 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
             mainAxisAlignment: pw.MainAxisAlignment.end,
             children: [
               Spacer(),
-              PaddedText("${DateFormat.yMMM().format(DateTime.now())}"),
+              PaddedText("${DateFormat.yMMM().format(DateTime(yearSelection,monthSelection))}"),
             ]),
         Row(children: [
           Container(
@@ -168,61 +169,80 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
           ],
         ),
         ...invoice.result!.map(
-              (e) => TableRow(
-            children: [
-              Expanded(
-                child: PaddedText(
-                    "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
-                flex: 1,
-              ),
-              e.vehicleType == 0
-                  ? Expanded(
-                child: PaddedText(way[0]),
-                flex: 1,
-              )
-                  : e.vehicleType == 1
-                  ? Expanded(
-                child: PaddedText(way[1]),
-                flex: 1,
-              )
-                  : e.vehicleType == 2
-                  ? Expanded(
-                child: PaddedText(way[2]),
-                flex: 1,
-              )
-                  : e.vehicleType == 3
-                  ? Expanded(
-                child: PaddedText(way[3]),
-                flex: 1,
-              )
-                  : e.vehicleType == 4
-                  ? Expanded(
-                child: PaddedText(way[4]),
-                flex: 1,
-              )
-                  : Expanded(
-                child: PaddedText(way[5]),
-                flex: 1,
-              ),
-              Expanded(
-                child: PaddedText(
-                    "${e.startLocation!.toString()} - ${e.endLocation!.toString()}" + " ${e.description}"),
-                flex: 2,
-              ),
-              Expanded(
-                child: PaddedText("${e.person!.toString()}"),
-                flex: 1,
-              ),
-              Expanded(
-                child: PaddedText("${e.expense!.toString()}"),
-                flex: 1,
-              ),
-              Expanded(
-                child: PaddedText("Approved"),
-                flex: 1,
-              ),
-            ],
-          ),
+              (e) {
+
+                if(monthSelection == int.parse(e.createdOn.toString().substring(5,7)) && yearSelection == int.parse(e.createdOn.toString().substring(0,4))){
+                 invoice.result!.forEach((element) {
+                   if(monthSelection == int.parse(element.createdOn.toString().substring(5,7)) && yearSelection == int.parse(element.createdOn.toString().substring(0,4))){
+                     totalAmount += element.expense!;
+                   }
+
+                 });
+                  return TableRow(
+                    children: [
+                      Expanded(
+                        child: PaddedText(
+                            "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
+                        flex: 1,
+                      ),
+                      e.vehicleType == 0
+                          ? Expanded(
+                        child: PaddedText(way[0]),
+                        flex: 1,
+                      )
+                          : e.vehicleType == 1
+                          ? Expanded(
+                        child: PaddedText(way[1]),
+                        flex: 1,
+                      )
+                          : e.vehicleType == 2
+                          ? Expanded(
+                        child: PaddedText(way[2]),
+                        flex: 1,
+                      )
+                          : e.vehicleType == 3
+                          ? Expanded(
+                        child: PaddedText(way[3]),
+                        flex: 1,
+                      )
+                          : e.vehicleType == 4
+                          ? Expanded(
+                        child: PaddedText(way[4]),
+                        flex: 1,
+                      )
+                          : Expanded(
+                        child: PaddedText(way[5]),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: PaddedText(
+                            "${e.startLocation!.toString()} - ${e.endLocation!.toString()}" + " ${e.description}"),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: PaddedText("${e.person!.toString()}"),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: PaddedText("${e.expense!.toString()}"),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: PaddedText("Approved"),
+                        flex: 1,
+                      ),
+                    ],
+                  );
+                } else {
+                  return TableRow(
+
+                      children: [
+
+                      ],
+                  );
+                }
+
+              },
         ),
         TableRow(
           children: [
@@ -230,7 +250,7 @@ Future<Uint8List> makePdf(GetTransportExpenseModel invoice) async {
             PaddedText(''),
             PaddedText(''),
             PaddedText(
-                '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
+                '\$${totalAmount.toString()}')
           ],
         )
       ],

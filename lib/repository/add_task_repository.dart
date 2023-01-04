@@ -6,7 +6,6 @@ import 'package:salebee/Model/AddTaskModel.dart';
 import 'package:salebee/Model/checkin_model.dart';
 import 'package:salebee/Model/getAllTaskModel.dart';
 import 'package:salebee/Model/prospect_lead_concern_model.dart';
-
 import '../Helper/api_helper.dart';
 import '../Model/getAllMyTaskModel.dart';
 import '../Model/getAssignedTaskToMeModel.dart';
@@ -15,7 +14,6 @@ import '../Model/task_update_model.dart';
 import '../Service/sharedPref_service.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:http/http.dart' as http;
-
 import '../Utils/StringsConst.dart';
 
 class TaskRepository {

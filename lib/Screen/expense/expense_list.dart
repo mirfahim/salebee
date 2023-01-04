@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/expense/admin/approval_admin.dart';
 import 'package:salebee/Screen/expense/aproved.dart';
 import 'package:salebee/Screen/expense/claimed.dart';
 import 'package:salebee/Screen/expense/pending.dart';
@@ -11,7 +12,7 @@ class ExpenseList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         backgroundColor: primaryColorLight,
         appBar: AppBar(
@@ -20,7 +21,7 @@ class ExpenseList extends StatelessWidget {
               Text('Expense',style: TextStyle(
                 color: Colors.black,fontWeight: FontWeight.w600
               ),),
-              Text(DateTime.now().year.toString())
+
             ],
           ),
           automaticallyImplyLeading: true,
@@ -75,6 +76,9 @@ class ExpenseList extends StatelessWidget {
                           Tab(
                             text: 'Pending',
                           ),
+                          Tab(
+                            text: 'Admin Approval',
+                          ),
                         ],
                       ),
                     ),
@@ -96,6 +100,10 @@ class ExpenseList extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: Pending(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: AdminApprovalToList(),
                       )
                     ]),
               ),

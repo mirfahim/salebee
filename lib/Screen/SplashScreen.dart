@@ -217,9 +217,8 @@ class _SplashState extends State<Splash> {
             Text("${DateFormat.yMd().format(DateTime.now())}"),
             //day, month and year is optional parameter! Uses provide values or current date if not provided!
             Text(
-                '${BanglaUtility.getBanglaMonthName(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}'),
-            Text(
-                '${BanglaUtility.getBanglaDate(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}'),
+                '${BanglaUtility.getBanglaMonthName(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}' + ', ${BanglaUtility.getBanglaDate(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year).toString().substring(0,2)}'),
+         
       Text(_today.toFormat("MMMM dd yyyy")),//Ramadan 14 1439
           ],
         ),

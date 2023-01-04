@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:salebee/Model/attendance/getAllEmployeeAttendance.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
+import 'package:salebee/Screen/Attendence_report/map_for_attendance.dart';
 import 'package:salebee/Utils/StringsConst.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,7 +37,7 @@ class _ReportState extends State<AllReport> {
   int absent = 0;
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
   int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
-
+  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
   List<String> tabs = [
     'January',
     'February',
@@ -104,7 +105,7 @@ class _ReportState extends State<AllReport> {
     try {
       try {
         attendanceRepository
-            .getAllEmployeeAttendanceController(StaticData.employeeID!, DateTime(2022,  monthSelection,   daySelection,))
+            .getAllEmployeeAttendanceController(StaticData.employeeID!, DateTime(DateTime.now().year,  monthSelection,   daySelection,))
             .then((value) {
           value.result!.forEach((element) {
             presentID.add(AbsentModel(name: element.employeeName!, id: element.employeeId!));
@@ -281,7 +282,7 @@ class _ReportState extends State<AllReport> {
                                 FutureBuilder<GetAllEmployeeAttendance>(
                                     future: attendanceRepository
                                         .getAllEmployeeAttendanceController(
-                                            StaticData.employeeID!, DateTime(2022,  monthSelection,   daySelection,)),
+                                            StaticData.employeeID!, DateTime(2023,  monthSelection,   daySelection,)),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<GetAllEmployeeAttendance>
                                             snapshot) {
@@ -352,7 +353,7 @@ class _ReportState extends State<AllReport> {
                                                                 .logTimeIn
                                                                 .toString()
                                                                 .substring(
-                                                                    8, 10))) {
+                                                                    8, 10)) && yearSelection ==  int.parse(data.logTimeIn.toString().substring(0, 4))) {
                                                       return Card(
                                                         child: Row(
                                                             mainAxisAlignment:
@@ -409,14 +410,20 @@ class _ReportState extends State<AllReport> {
                                                                                 : Colors.red,
                                                                             fontWeight: FontWeight.w600),
                                                                       ),
-                                                                      Text(
-                                                                        data.locationDescription
-                                                                            .toString(),
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.grey,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontSize: 8),
+                                                                      InkWell(
+                                                                        onTap: (){
+                                                                          Get.to(AttendanceMapScreen(lat: data.latitude, lon: data.longitude, location: data.locationDescription, time: data.logTimeIn,));
+                                                                        },
+
+                                                                        child: Text(
+                                                                          data.locationDescription
+                                                                              .toString(),
+                                                                          style: TextStyle(
+                                                                              color:
+                                                                                  primaryColor,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 8),
+                                                                        ),
                                                                       )
                                                                     ],
                                                                   )),
@@ -443,10 +450,16 @@ class _ReportState extends State<AllReport> {
                                                                               "No Data",
                                                                               style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 8),
                                                                             )
-                                                                          : Text(
-                                                                              data.locationDescriptionOut.toString(),
-                                                                              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 8),
-                                                                            )
+                                                                          : InkWell(
+                                                                        onTap:(){
+                                                                          Get.to(AttendanceMapScreen(lat:  data.latitudeOut, lon: data.longitudeOut, location: data.locationDescriptionOut, time: DateTime.parse(data.logTimeOut) ,));
+
+                                                                        },
+                                                                            child: Text(
+                                                                                data.locationDescriptionOut.toString(),
+                                                                                style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600, fontSize: 8),
+                                                                              ),
+                                                                          )
                                                                     ],
                                                                   )),
                                                               Container(

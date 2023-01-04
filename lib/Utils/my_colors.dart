@@ -21,11 +21,6 @@ class MyColors {
   static  Color paste =HexColor("#99FEFF");
   static  Color greenPaste =HexColor("#D5FCEB");
   static  Color deepBlue =HexColor("#3866BB");
-
-
-
-
-
   static const Color grey_3 = Color(0xFFf7f7f7);
   static const Color grey_5 = Color(0xFFf2f2f2);
   static const Color grey_10 = Color(0xFFe6e6e6);

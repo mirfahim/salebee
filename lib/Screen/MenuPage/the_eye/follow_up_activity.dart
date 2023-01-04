@@ -77,6 +77,10 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
   int taskType = 0;
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
   int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
+  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
+  String dropdownValue = DateTime.now().year.toString();
+
+  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
   List<String> tabs = [
     'January',
     'February',
@@ -167,31 +171,81 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                         DefaultTabController(
                           initialIndex: monthSelection - 1,
                           length: 12,
-                          child: TabBar(
-                            indicator: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: primaryColorSecond.withOpacity(.5)),
-                            isScrollable: true,
-                            indicatorColor: Colors.orangeAccent,
-                            labelColor: Colors.black54,
-                            onTap: (index) {
-                              setState(() {
-                                monthSelection = index + 1;
-                              });
-                            },
-                            tabs: tabs
-                                .map((tab) => Tab(
+                          child:  Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Container(
+                                  width: 70,
+                                  child: DropdownButton<String>(
+                                    value: dropdownValue,
+                                    isExpanded: true,
+                                    icon: Icon(Icons
+                                        .arrow_drop_down_outlined),
+                                    elevation: 16,
+                                    style: const TextStyle(
+                                        color: Colors
+                                            .deepPurple),
+                                    underline:
+                                    Container(
+                                      height: 2,
+                                      color: Colors
+                                          .transparent,
+                                    ),
+
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        dropdownValue = value!;
+                                        yearSelection = int.parse(dropdownValue);
+                                      });
+                                    },
+                                    items: yearList.map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+
+                              Container(
+                                width: MediaQuery.of(context).size.width - 150,
+
+                                child: DefaultTabController(
+                                  initialIndex: monthSelection -1,
+                                  length: 12,
+                                  child: TabBar(
+
+
+                                    indicator: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: primaryColorSecond.withOpacity(.5)),
+                                    isScrollable: true,
+                                    indicatorColor: Colors.black,
+                                    labelColor: Colors.black,
+
+
+                                    onTap: (index){
+                                      setState((){
+                                        monthSelection = index+1;
+                                      });
+
+                                    },
+                                    tabs: tabs
+                                        .map((tab) => Tab(
                                       icon: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          tab,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Text(tab,style: TextStyle(fontSize: 12),),
                                       ),
                                     ))
-                                .toList(),
+                                        .toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+
                           ),
                         ),
                         Padding(

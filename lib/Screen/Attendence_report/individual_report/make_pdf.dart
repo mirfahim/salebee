@@ -4,7 +4,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
 import 'package:salebee/Model/expense/get_expense_food_model.dart';
-import 'package:salebee/Model/expense/get_other_expense_model.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:salebee/utils.dart';
 
@@ -16,11 +15,13 @@ import 'package:pdf/widgets.dart';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
-Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSelection) async {
+import '../../../Model/get_attendance_model.dart';
+
+Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSelection) async {
   final pdf = pw.Document();
   List<pw.Widget> widgets = [];
   widgets.add(pw.SizedBox(height: 5));
-  double totalAmount= 0;
+
   widgets.add(
     Column(
       mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -77,10 +78,10 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
                 mainAxisAlignment: pw.MainAxisAlignment.center,
                 crossAxisAlignment: pw.CrossAxisAlignment.center,
                 children: [
-                  Text("Expense Sheet",
+                  Text("Attendance Sheet",
                       style: pw.TextStyle(
                           fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                  Text("(Other)",
+                  Text("",
                       style: pw.TextStyle(
                           fontSize: 16, fontWeight: pw.FontWeight.bold)),
                 ])),
@@ -90,7 +91,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             mainAxisAlignment: pw.MainAxisAlignment.end,
             children: [
               Spacer(),
-              PaddedText("${DateFormat.yMMM().format(DateTime(yearSelection, monthSelection))}"),
+              PaddedText("${DateFormat.yMMM().format(DateTime(yearSelection,monthSelection))}"),
             ]),
         Row(children: [
           Container(
@@ -128,7 +129,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             ),
             Padding(
               child: Text(
-                'Type',
+                'Check In',
 
                 textAlign: TextAlign.center,
               ),
@@ -136,7 +137,24 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             ),
             Padding(
               child: Text(
-                'Purposes/ Description',
+                'Check Out',
+
+                textAlign: TextAlign.center,
+              ),
+              padding: EdgeInsets.all(20),
+            ),
+            // Padding(
+            //   child: Text(
+            //     'In Time',
+            //
+            //     textAlign: TextAlign.center,
+            //   ),
+            //   padding: EdgeInsets.all(20),
+            // ),
+
+            Padding(
+              child: Text(
+                'Working Hour',
 
                 textAlign: TextAlign.center,
               ),
@@ -144,24 +162,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             ),
             Padding(
               child: Text(
-                'Person',
-
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(20),
-            ),
-
-            Padding(
-              child: Text(
-                'Cost',
-
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(20),
-            ),
-            Padding(
-              child: Text(
-                'Status',
+                'Note',
 
                 textAlign: TextAlign.center,
               ),
@@ -169,59 +170,100 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             ),
           ],
         ),
-        ...invoice.result!.map(
+        ...report.result!.map(
               (e) {
-  if(monthSelection == int.parse(e.createdOn.toString().substring(5,7)) && yearSelection == int.parse(e.createdOn.toString().substring(0,4))){
-  invoice.result!.forEach((element) {
-  if(monthSelection == int.parse(element.createdOn.toString().substring(5,7)) && yearSelection == int.parse(element.createdOn.toString().substring(0,4))){
-  totalAmount += element.expense!;
-  }
+                final hours = DateTime.parse(
+                    e.logTimeOut ??
+                        "2035-09-13T21:06:40.32")
+                    .difference(
+                    DateTime.parse(e.logTimeIn))
+                    .inHours;
+                final minutes = DateTime.parse(
+                    e.logTimeOut ??
+                        "2035-09-13T21:06:40.32")
+                    .difference(
+                    DateTime.parse(e.logTimeIn))
+                    .inMinutes;
+                final totalWorkingHours =
+                    '$hours.${(minutes - (hours * 60))}';
 
-  });
-  return TableRow(
-    children: [
-      Expanded(
-        child: PaddedText(
+                if ( monthSelection ==
+                    int.parse(e.logTimeIn
+                        .toString()
+                        .substring(5, 7)) && yearSelection == int.parse(e.logTimeIn
+                    .toString()
+                    .substring(0, 4)) ){
+                  return TableRow(
 
-            "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
-        flex: 1,
-      ),
-      Expanded(
-        child: PaddedText(e.expenseName!),
-        flex: 1,
-      ),
+                    children: [
+                      Expanded(
+                        child: PaddedText(
 
-      Expanded(
-        child: PaddedText(
-            e.description!),
-        flex: 2,
-      ),
-      Expanded(
-        child: PaddedText(
-            e.person.toString()),
-        //  "${e.expense!.toString()}"),
-        flex: 1,
-      ),
-      Expanded(
-        child: PaddedText(
-            e.expense.toString()),
-        //  "${e.expense!.toString()}"),
-        flex: 1,
-      ),
-      Expanded(
-        child: PaddedText("Approved"),
-        flex: 1,
-      ),
-    ],
-  );
-  } else {
-    return TableRow(
+                            "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: Column(
+                            children: [
+                              PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
+                              PaddedText(
 
-      children: [
+                                  e.locationDescription.toString()),
+                            ]
+                        ),
 
-      ],
-    );
-  }
+                        flex: 1,
+                      ),
+
+                      Expanded(
+                        child: e.logTimeOut != null ?  Column(
+                            children: [
+                              PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeOut))}"),
+                              PaddedText(
+
+                                  e.locationDescriptionOut.toString()),
+                            ]
+                        )
+                            :Column(
+                            children: [
+                              PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
+                              PaddedText(
+
+                                  e.locationDescription.toString()),
+                            ]
+                        ),
+                        flex: 1,
+                      ),
+                      // Expanded(
+                      //   child: int.parse(e.logTimeIn.substring(11,12)) < 10 ?
+                      //   PaddedText(int.parse(e.logTimeIn.substring(11,13)).toString()) : PaddedText("No"),
+                      //   flex: 1,
+                      // ),
+                      Expanded(
+                        child:double.parse(
+                            totalWorkingHours) >
+                            18.00 ?PaddedText(
+
+                            "No Data"):
+                        PaddedText(
+
+                            "${totalWorkingHours}" + " hrs"),
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: PaddedText(e.checkOutNote ?? "No data"),
+                        flex: 2,
+                      ),
+                    ],
+                  );
+                } else {
+                  return TableRow(
+
+                    children: [
+
+                    ],
+                  );
+                }
 
               },
         ),
@@ -231,7 +273,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             PaddedText(''),
             PaddedText(''),
             PaddedText(
-                '\$${(totalAmount.toStringAsFixed(2))}'),
+                ""),
             // '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
           ],
         )
@@ -239,7 +281,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
     ),
   );
   widgets.add(
-    pw.SizedBox(height: 40),
+    pw.SizedBox(height: 60),
   );
   widgets.add(
       Row(
@@ -264,7 +306,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
                     thickness: 1
                 ),
               ),
-              Text("Accounts Checked"),
+              Text("Admin Checked"),
               pw.SizedBox(width: 10),
             ]),
             Column(children: [
@@ -280,12 +322,19 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             ]),
           ])
   );
+
+
+
   // final imageLogo = MemoryImage((await rootBundle.load('assets/technical_logo.png')).buffer.asUint8List());
   pdf.addPage(
-    MultiPage(
-      build: (context) => widgets
 
+    pw.MultiPage(
 
+        build: (context) {
+          return
+            widgets
+          ;
+        }
     ),
   );
   return pdf.save();
