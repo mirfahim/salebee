@@ -2,7 +2,10 @@ import 'dart:convert';
 
 
 
+import 'package:salebee/Model/prospect/get_prospectList_by_id_model.dart';
+
 import '../Helper/api_helper.dart';
+import '../Model/followUp/followUP_by_prospectID_model.dart';
 import '../Model/getAllMyTaskModel.dart';
 import '../Model/getAssignedTaskToMeModel.dart';
 import '../Model/getListForTaskModel.dart';
@@ -101,5 +104,45 @@ class ProspectRepository {
     return getProspectListModelFromJson(response.body);
   }
 
+  Future<GetAllProspectByIdtModel> getAllProspectListByUserIdController() async {
+    String convertToken = tokenString.replaceAll("+", "%2B");
+    String finalToken = convertToken.replaceAll("/", "%2F");
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
+    Uri url = Uri.parse("$base_url/GetAllProspectByAssignedUserId");
+    final response = await http.post(
+      url,
+      body: jsonEncode({"Token": tokenString}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo get all prospect list by id${response.body}");
+    String data = response.body;
+
+    return getAllProspectByIdtModelFromJson(response.body!);
+  }
+  Future<GetFollowupListModel> getProspectFollowupByIdController() async {
+    String convertToken = tokenString.replaceAll("+", "%2B");
+    String finalToken = convertToken.replaceAll("/", "%2F");
+    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+
+    Uri url = Uri.parse("$base_url/ProspectFollowupById");
+    final response = await http.post(
+      url,
+      body: jsonEncode({
+        "Token": tokenString,
+        "ProspectID": 163305,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo get followup list by id${response.body}");
+    String data = response.body;
+
+    return getFollowupListModelFromJson(response.body!);
+  }
 }

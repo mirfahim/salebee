@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import '../Utils/StringsConst.dart';
 
 class AttendanceRepository {
+  static List<Results> employeeList = [];
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
   Future<CheckinResponse> checkInController(
@@ -283,6 +284,8 @@ class AttendanceRepository {
 
     print("my resposnse repo get attendance${response.body}");
     String data = response.body;
+
+
 
     return AllEmployeeListModelFromJson(response.body);
   }

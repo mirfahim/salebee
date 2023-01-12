@@ -31,7 +31,9 @@ class ProspectFront extends StatelessWidget {
           centerTitle: true,
 
         ),
-        body: Container(
+        body:
+
+        Container(
           color: primaryColorLight,
           child: SafeArea(
             child: Column(

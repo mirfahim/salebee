@@ -13,6 +13,7 @@ import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/utils.dart';
 
 import '../../../Model/employee/employee_list_model.dart';
+import '../../../Model/expense/get_all_expense_model.dart';
 
 List<String> tabs = [
   'January',
@@ -260,11 +261,11 @@ class _ApprovedState extends State<AdminApprovalToList> {
                             ),
                           ),
                         ),
-                        FutureBuilder<GetTransportExpenseModel>(
+                        FutureBuilder<GetAllExpenseModel>(
                           future: expenseRepository
-                              .getTransportExpense(), // async work
+                              .getAllExpense(), // async work
                           builder: (BuildContext context,
-                              AsyncSnapshot<GetTransportExpenseModel>
+                              AsyncSnapshot<GetAllExpenseModel>
                                   snapshot) {
                             totalBalance = 0;
                             if (snapshot.data == null) {
@@ -275,14 +276,14 @@ class _ApprovedState extends State<AdminApprovalToList> {
                               // print(sum);
                               snapshot.data!.result!.forEach((element) {
                                 if (selectMonth ==
-                                        int.parse(element.createdOn
+                                        int.parse(element.date
                                             .toString()
                                             .substring(5, 7)) &&
                                     yearSelection ==
-                                        int.parse(element.createdOn
+                                        int.parse(element.date
                                             .toString()
                                             .substring(0, 4))) {
-                                  totalBalance += element.expense!;
+                                  totalBalance += element.cost!;
                                   print("total amount is  $totalBalance");
                                 }
                               });
@@ -431,34 +432,13 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                 (BuildContext context, index) {
                                               var data =
                                                   snapshot.data!.result![index];
-                                              if (data.vehicleType == 0) {
-                                                vehicleName = way[0];
-                                              }
-                                              if (data.vehicleType == 1) {
-                                                vehicleName = way[1];
-                                              }
-                                              if (data.vehicleType == 2) {
-                                                vehicleName = way[2];
-                                              }
-                                              if (data.vehicleType == 3) {
-                                                vehicleName = way[3];
-                                              }
-                                              if (data.vehicleType == 4) {
-                                                vehicleName = way[4];
-                                              }
-                                              if (data.vehicleType == 5) {
-                                                vehicleName = way[5];
-                                              }
-                                              if (data.vehicleType == 6) {
-                                                vehicleName = way[6];
-                                              }
 
                                               if (selectMonth ==
-                                                      int.parse(data.createdOn
+                                                      int.parse(data.date
                                                           .toString()
                                                           .substring(5, 7)) &&
                                                   yearSelection ==
-                                                      int.parse(data.createdOn
+                                                      int.parse(data.date
                                                           .toString()
                                                           .substring(0, 4))) {
                                                 return Card(
@@ -532,7 +512,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                               .3),
                                                                           borderRadius: BorderRadius.circular(
                                                                               6)),
-                                                                      width: 70,
+                                                                      width: 75,
                                                                       child:
                                                                           Padding(
                                                                         padding:
@@ -544,7 +524,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                                               children: [
                                                                                 Text(
-                                                                                  DateFormat('EEEE').format(data.startTime!).toString().substring(0, 3) + ",",
+                                                                                  DateFormat('EEEE').format(data.date!).toString().substring(0, 3) + ",",
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                                                                                 ),
@@ -554,13 +534,13 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                 //"LogTimeIn":"2022-09-13T08:36:40.32"
                                                                                 Center(
                                                                                   child: Text(
-                                                                                    " " + data.startTime.toString().substring(8, 10),
+                                                                                    " " + data.date.toString().substring(8, 10),
                                                                                     textAlign: TextAlign.center,
                                                                                     style: TextStyle(fontSize: 12),
                                                                                   ),
                                                                                 ),
                                                                                 Text(
-                                                                                  DateFormat('MMM').format(data.startTime!),
+                                                                                  DateFormat('MMM').format(data.date!),
                                                                                   style: TextStyle(fontSize: 12),
                                                                                 ),
                                                                               ],
@@ -570,7 +550,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                 children: [
                                                                                   Text(
-                                                                                    DateFormat.jm().format(data.startTime!),
+                                                                                    DateFormat.jm().format(data.date!),
                                                                                     style: TextStyle(fontSize: 8),
                                                                                   ),
                                                                                 ],
@@ -601,7 +581,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                     child: Row(
                                                                                       children: [
                                                                                         Text(
-                                                                                          vehicleName,
+                                                                                          data.type!,
                                                                                           style: TextStyle(fontWeight: FontWeight.bold),
                                                                                         ),
                                                                                         Text(": "),
@@ -609,7 +589,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                           height: 5,
                                                                                         ),
                                                                                         Text(
-                                                                                          data.expense.toString(),
+                                                                                          data.cost.toString(),
                                                                                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                                                                         ),
                                                                                         Text(
@@ -619,44 +599,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                       ],
                                                                                     ),
                                                                                   ),
-                                                                                  Container(
-                                                                                    width: 140,
-                                                                                    child: Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                                      children: [
-                                                                                        Text(
-                                                                                          'Start: ',
-                                                                                          style: TextStyle(color: Colors.black.withOpacity(.7)),
-                                                                                        ),
-                                                                                        Expanded(
-                                                                                          child: Text(
-                                                                                            data.startLocation!,
-                                                                                            overflow: TextOverflow.ellipsis,
-                                                                                            style: TextStyle(color:Colors.black.withOpacity(.4)),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                  Container(
-                                                                                    width: 140,
-                                                                                    child: Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                                      children: [
-                                                                                        Text(
-                                                                                          'End: ',
-                                                                                          style: TextStyle(color:  Colors.black.withOpacity(.7)),
-                                                                                        ),
-                                                                                        Expanded(
-                                                                                          child: Text(
-                                                                                            data.endLocation!,
-                                                                                            overflow: TextOverflow.ellipsis,
-                                                                                            style: TextStyle(color:  Colors.black.withOpacity(.4)),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  )
+
                                                                                 ],
                                                                               ),
                                                                             ),
@@ -728,16 +671,16 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                       ),
                                       GestureDetector(
                                           onTap: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (builder) =>
-                                                    PdfPreviewPage(
-                                                  invoice: snapshot.data!,
-                                                  monthSelection: selectMonth,
-                                                  yearSelection: yearSelection,
-                                                ),
-                                              ),
-                                            );
+                                            // Navigator.of(context).push(
+                                            //   MaterialPageRoute(
+                                            //     builder: (builder) =>
+                                            //         PdfPreviewPage(
+                                            //       invoice: snapshot.data!,
+                                            //       monthSelection: selectMonth,
+                                            //       yearSelection: yearSelection,
+                                            //     ),
+                                            //   ),
+                                            // );
                                           },
                                           child: Row(
                                             mainAxisAlignment:

@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:salebee/Screen/follow_up/follow_up_list.dart';
 
+import '../../Model/prospect/get_prospectList_by_id_model.dart';
 import '../../utils.dart';
 
-class ProspectDetails extends StatelessWidget {
-  const ProspectDetails({Key? key}) : super(key: key);
+class ProspectDetails extends StatefulWidget {
+  var data;
+  String? prospectName;
+  String? stage;
+  String? industry;
+  String? createdby;
+  DateTime? createdOn;
+  String? assignto;
+  List<ConcernPerson>? concernPerson;
+  String? note;
 
+   ProspectDetails({Key? key, this.data, this.stage, this.prospectName, this.concernPerson, this.createdOn,this.assignto, this.createdby, this.industry, this.note} ) : super(key: key);
+
+  @override
+  State<ProspectDetails> createState() => _ProspectDetailsState();
+}
+
+class _ProspectDetailsState extends State<ProspectDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroudColor,
+      backgroundColor: primaryColorLight,
       appBar: AppBar(
 
         title:  Text('Prospect Details',style: TextStyle(
@@ -22,7 +40,7 @@ class ProspectDetails extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
         ),
-        backgroundColor: backgroudColor,
+        backgroundColor: primaryColorLight,
         elevation: 0,
         centerTitle: true,
       ),
@@ -40,34 +58,7 @@ class ProspectDetails extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text('Name',style: TextStyle(
-                            color: text,fontSize: 12, fontWeight: FontWeight.w400
-                        ),),
-                      ),
-                      Flexible(
-                          flex: 2,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: const Color(0xFFFFEDD5)
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                              child: Text('',style: TextStyle(
-                                  color: Color(0xFFEA580C),fontSize: 10, fontWeight: FontWeight.w600
-                              ),),
-                            ),
-                          )
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 5,),
-                  const Divider(thickness: 1,color: Colors.grey,),
-                  const SizedBox(height: 5,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text('Stage',style: TextStyle(
+                        child: Text('Prospect:',style: TextStyle(
                             color: text,fontSize: 12, fontWeight: FontWeight.w400
                         ),),
                       ),
@@ -75,7 +66,7 @@ class ProspectDetails extends StatelessWidget {
                           flex: 3,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                            child: Text('',style: TextStyle(
+                            child: Text(widget.prospectName!,style: TextStyle(
                                 fontSize: 12, color: text, fontWeight: FontWeight.w600
                             ),),
                           )
@@ -88,7 +79,7 @@ class ProspectDetails extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text('Industry',style: TextStyle(
+                        child: Text('Stage:',style: TextStyle(
                             color: text,fontSize: 12, fontWeight: FontWeight.w400
                         ),),
                       ),
@@ -96,7 +87,7 @@ class ProspectDetails extends StatelessWidget {
                           flex: 3,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                            child: Text('',style: TextStyle(
+                            child: Text(widget.stage!,style: TextStyle(
                                 fontSize: 12, color: text, fontWeight: FontWeight.w600
                             ),),
                           )
@@ -109,7 +100,7 @@ class ProspectDetails extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text('Prospect for',style: TextStyle(
+                        child: Text('Industry:',style: TextStyle(
                             color: text,fontSize: 12, fontWeight: FontWeight.w400
                         ),),
                       ),
@@ -117,41 +108,43 @@ class ProspectDetails extends StatelessWidget {
                           flex: 3,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                            child: Text('',style: TextStyle(
+                            child: Text(widget.industry!,style: TextStyle(
                                 fontSize: 12, color: text, fontWeight: FontWeight.w600
                             ),),
                           )
                       )
                     ],
                   ),
+                  // const SizedBox(height: 5,),
+                  // const Divider(thickness: 1,color: Colors.grey,),
+                  // const SizedBox(height: 5,),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Text('Prospect for:',style: TextStyle(
+                  //           color: text,fontSize: 12, fontWeight: FontWeight.w400
+                  //       ),),
+                  //     ),
+                  //     Flexible(
+                  //         flex: 3,
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
+                  //           child: Text('',style: TextStyle(
+                  //               fontSize: 12, color: text, fontWeight: FontWeight.w600
+                  //           ),),
+                  //         )
+                  //     )
+                  //   ],
+                  // ),
+
+
                   const SizedBox(height: 5,),
                   const Divider(thickness: 1,color: Colors.grey,),
                   const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
-                        child: Text('Created by',style: TextStyle(
-                            color: text,fontSize: 12, fontWeight: FontWeight.w400
-                        ),),
-                      ),
-                      Flexible(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                            child: Text('',style: TextStyle(
-                                fontSize: 12, color: text, fontWeight: FontWeight.w600
-                            ),),
-                          )
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 5,),
-                  const Divider(thickness: 1,color: Colors.grey,),
-                  const SizedBox(height: 5,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text('Created on',style: TextStyle(
+                        child: Text('Created on:',style: TextStyle(
                             color: text,fontSize: 12, fontWeight: FontWeight.w400
                         ),),
                       ),
@@ -162,7 +155,7 @@ class ProspectDetails extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('',style: TextStyle(
+                                Text("${DateFormat.yMMM().format(widget.createdOn!)}",style: TextStyle(
                                     fontSize: 12, color: text, fontWeight: FontWeight.w600
                                 ),),
 
@@ -178,7 +171,7 @@ class ProspectDetails extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text('Created by',style: TextStyle(
+                        child: Text('Created by:',style: TextStyle(
                             color: text,fontSize: 12, fontWeight: FontWeight.w400
                         ),),
                       ),
@@ -189,7 +182,7 @@ class ProspectDetails extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('N/A',style: TextStyle(
+                                Text(widget.createdby!,style: TextStyle(
                                     fontSize: 12, color: text, fontWeight: FontWeight.w600
                                 ),),
 
@@ -205,7 +198,7 @@ class ProspectDetails extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: Text('Assign to',style: TextStyle(
+                        child: Text('Assign to:',style: TextStyle(
                             color: text,fontSize: 12, fontWeight: FontWeight.w400
                         ),),
                       ),
@@ -219,12 +212,10 @@ class ProspectDetails extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Mohammad Kamal',style: TextStyle(
+                                    Text(widget.assignto!,style: TextStyle(
                                         fontSize: 12, color: text, fontWeight: FontWeight.w600
                                     ),),
-                                    Text('Md. Hafizur Rahaman',style: TextStyle(
-                                        fontSize: 12, color: text, fontWeight: FontWeight.w600
-                                    ),)
+
                                   ],
                                 ),
 
@@ -236,10 +227,14 @@ class ProspectDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 5,),
                   const Divider(thickness: 1,color: Colors.grey,),
+
                   Container(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
+                          Text('Concern Person: ',style: TextStyle(
+                              color: text,fontSize: 12, fontWeight: FontWeight.w400
+                          ),),
                           Container(
                             height: 20,
                             color:
@@ -307,8 +302,9 @@ class ProspectDetails extends StatelessWidget {
                   Container(
                     height: 80,
                     child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: widget.concernPerson!.length,
                         itemBuilder: (BuildContext  context, int  index){
+                          var concern = widget.concernPerson![index];
 
 
                           return Container(
@@ -325,7 +321,7 @@ class ProspectDetails extends StatelessWidget {
                                   MediaQuery.of(context).size.width / 4,
                                   child:
                                   Text(
-                                    "No Data",
+                                    concern.name!,
                                     style:
                                     TextStyle(color: Colors.grey, fontSize: 12),
                                   ),
@@ -335,6 +331,7 @@ class ProspectDetails extends StatelessWidget {
                                   width:
                                   MediaQuery.of(context).size.width / 3.5,
                                   child:
+                          concern.designation == null ?
                                   Text(
                                     "No Data",
                                     style:
@@ -342,21 +339,38 @@ class ProspectDetails extends StatelessWidget {
                                       color: Colors.grey,
                                       fontSize: 12,
                                     ),
-                                  ),
+                                  ):
+                          Text(
+                            concern.designation!,
+                            style:
+                            TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
                                 ),
 
                                 Container(
                                   width:
                                   MediaQuery.of(context).size.width / 4,
                                   child:
+                          concern.mobile == null?
                                   Text(
-                                    "No Data",
+                                    concern.mobile!,
                                     style:
                                     TextStyle(
                                       color: Colors.grey,
                                       fontSize: 12,
                                     ),
-                                  ),
+                                  )
+                                  : Text(
+                            concern.mobile!,
+                            style:
+                            TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
                                 )
 
                               ],
@@ -368,36 +382,29 @@ class ProspectDetails extends StatelessWidget {
                   const Divider(thickness: 1,color: Colors.grey,),
                   Row(
                     children: [
-                      Expanded(
-                        child: Text('Important note',style: TextStyle(
-                            color: text,fontSize: 12, fontWeight: FontWeight.w400
-                        ),),
-                      ),
-                      Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('ff ff',style: TextStyle(
-                                        fontSize: 12, color: text, fontWeight: FontWeight.w600
-                                    ),),
-                                    Text('fff ff',style: TextStyle(
-                                        fontSize: 12, color: text, fontWeight: FontWeight.w600
-                                    ),)
-                                  ],
-                                ),
+                      Text('Important note: ',style: TextStyle(
+                          color: text,fontSize: 12, fontWeight: FontWeight.w400
+                      ),),
+                      Container(
+                        width: MediaQuery.of(
+                            context)
+                            .size
+                            .width *
+                            .6,
+                        child: Text(widget.note!,
+                          style: TextStyle(
+                            fontSize: 12, color: Colors.black54, fontWeight: FontWeight.normal,
 
-                              ],
-                            ),
-                          )
+                        ),
+                          maxLines: 4,
+                        ),
                       )
                     ],
                   ),
+                  SizedBox(height: 10,),
+                  Container(
+                    height: 300,
+                      child: FollowUpList()),
                 ],
               ),
             ),

@@ -33,7 +33,7 @@ class _MyAppState extends State<AttendanceMapScreen> {
   final Set<Marker> _markerss = {};
 
 
-
+//   LatLng(23.7985053, 90.3842538),
 
   List<LocationModel> markerlatLen = [
 
@@ -52,7 +52,7 @@ class _MyAppState extends State<AttendanceMapScreen> {
           Marker(
             markerId: MarkerId(i.toString()),
             position: markerlatLen[i].latLn,
-            icon: BitmapDescriptor.fromBytes(StaticData.customMarker!),
+            //icon: BitmapDescriptor.fromBytes(StaticData.customMarker!),
 
             infoWindow: InfoWindow(
               title: markerlatLen[i].title,

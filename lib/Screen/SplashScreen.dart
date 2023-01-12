@@ -19,6 +19,7 @@ import 'package:salebee/Utils/StringsConst.dart';
 import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/repository/add_task_repository.dart';
+import 'package:salebee/repository/attendance_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 //import 'package:location/location.dart';
 import '../Data/static_data.dart';
@@ -39,6 +40,8 @@ class _SplashState extends State<Splash> {
   //
   //DbHelper dbHelper = DbHelper();
   TaskRepository taskRepository = TaskRepository();
+  AttendanceRepository attendanceRepository = AttendanceRepository();
+
   var hiveBox = Hive.box("manageTask");
   var _today = HijriCalendar.now();
   List<dynamic> todaysTaskList = [];
@@ -146,6 +149,7 @@ class _SplashState extends State<Splash> {
 
   domainCheck() {
     print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
+
     if (StaticData.loggedIN == true && StaticData.subDomain != null) {
       Navigator.of(context).pushReplacement(
             MaterialPageRoute(

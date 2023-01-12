@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:salebee/Model/checkin_model.dart';
 import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
+import 'package:salebee/Model/expense/get_all_expense_model.dart';
 import 'package:salebee/Model/expense/get_expense_food_model.dart';
 import 'package:salebee/Model/expense/get_other_expense_model.dart';
 import 'package:salebee/Model/transportExpenseModel.dart';
@@ -133,7 +134,7 @@ class ExpenseRepository {
       "StartLocation": startLocation,
       "EndLocation": endLocation,
       "StartTime": DateTime.now().toString(),
-      "EndTime": "2022-11-15T06:05:16.687Z",
+      "EndTime": DateTime.now().toString(),
       "Expense": expense,
       "ExpenseDate": "2022-11-15T06:05:16.687Z",
       "ApprovedBy": 0,
@@ -146,7 +147,7 @@ class ExpenseRepository {
 
       "CreatedOn": DateTime.now().toString(),
       "UpdatedBy": 0,
-      "UpdatedOn": "2022-11-15T06:05:16.687Z",
+      "UpdatedOn": DateTime.now().toString(),
       "Token": tokenString
     };
 
@@ -333,5 +334,62 @@ class ExpenseRepository {
     }
 
     return getTransportExpenseModelFromJson(response.body);
+  }
+
+  Future<GetAllExpenseModel> getAllExpense() async {
+    Map<String, dynamic> bodyString =
+    {
+      "Token": tokenString,
+      "ProspectID": 0,
+      "LeadID": 0,
+      "TaskID": 0,
+      "EmployeeID": 1,
+      "SupportID": 0,
+      "FollowupID": 0
+    };
+
+    Uri url = Uri.parse("$base_url/GetAllExpenseList");
+    final response = await http.post(
+      url,
+      body: jsonEncode(bodyString),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("my resposnse repo for get transport expense list${response.body}");
+    var data = jsonDecode(response.body);
+
+
+    try{
+      Map<String, dynamic> bodyString =
+      {
+        "Token": tokenString,
+        "ProspectID": 0,
+        "LeadID": 0,
+        "TaskID": 0,
+        "EmployeeID": 1,
+        "SupportID": 0,
+        "FollowupID": 0
+      };
+
+      Uri url = Uri.parse("$base_url/GetAllExpenseList");
+      final response = await http.post(
+        url,
+        body: jsonEncode(bodyString),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+
+      print("my resposnse repo for get all expense list${response.body}");
+      var data = jsonDecode(response.body);
+
+      return getAllExpenseModelFromJson(response.body);
+    }catch(e){
+      print("my get other list errr is ${e.toString()}");
+    }
+
+    return getAllExpenseModelFromJson(response.body);
   }
 }

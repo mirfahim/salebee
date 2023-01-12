@@ -21,6 +21,7 @@ import 'package:salebee/Screen/test_screen.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/repository/add_task_repository.dart';
+import 'package:salebee/repository/attendance_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Utils/StringsConst.dart';
@@ -42,6 +43,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GeolocatorService geolocatorService = GeolocatorService();
   VisitRepository visitRepository = VisitRepository();
+  AttendanceRepository attendanceRepository = AttendanceRepository();
   String locationDis = "";
   var battery = Battery();
   getBattery()async{
@@ -69,7 +71,8 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   initState() {
-    super.initState();
+
+    print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
     geolocatorService.determinePosition().then((ele) {
       getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
         print("my location from google api $v");
