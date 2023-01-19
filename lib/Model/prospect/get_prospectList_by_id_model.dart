@@ -16,12 +16,12 @@ class GetAllProspectByIdtModel {
   });
 
   String? message;
-  List<Result>? result;
+  List<ProspectResult>? result;
   bool? isSuccess;
 
   factory GetAllProspectByIdtModel.fromJson(Map<String, dynamic> json) => GetAllProspectByIdtModel(
     message: json["Message"],
-    result: json["Result"] == null ? [] : List<Result>.from(json["Result"]!.map((x) => Result.fromJson(x))),
+    result: json["Result"] == null ? [] : List<ProspectResult>.from(json["Result"]!.map((x) => ProspectResult.fromJson(x))),
     isSuccess: json["IsSuccess"],
   );
 
@@ -32,8 +32,8 @@ class GetAllProspectByIdtModel {
   };
 }
 
-class Result {
-  Result({
+class ProspectResult {
+  ProspectResult({
     this.id,
     this.prospectName,
     this.type,
@@ -54,13 +54,17 @@ class Result {
      this.followupActivity,
      this.lat,
      this.lon,
+    this.website,
+    this.zone,
     // this.filter,
   });
 
   int? id;
   String? prospectName;
   Type? type;
-  int? stage;
+  String? stage;
+  String? website;
+  String? zone;
   bool? isIndividual;
   String? industry;
   String? prospectFor;
@@ -79,11 +83,13 @@ class Result {
    double? lon;
   // List<int?>? filter;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory ProspectResult.fromJson(Map<String, dynamic> json) => ProspectResult(
     id: json["Id"],
     prospectName: json["prospect_name"],
     type: typeValues!.map[json["Type"]],
-    stage: json["Stage"] == null ? 0 : json["Stage"] ,
+    stage: json["Stage"] == null ? "No Data" : json["Stage"] ,
+    website: json["Website"] == null ? "No Website" : json["Website"] ,
+    zone: json["Zone"] == null ? "No Zone" : json["Zone"] ,
     isIndividual: json["IsIndividual"],
     industry: json["Industry"] == null ? "No data" :json["Industry"] ,
     prospectFor: json["prospect_for"] == null ? "No Data" : json["prospect_for"],
@@ -95,7 +101,7 @@ class Result {
     lastFollowupEmployeeId: json["last_followup_employee_id"],
      concernPerson: json["concern_person"] == null ? [] : List<ConcernPerson>.from(json["concern_person"]!.map((x) => ConcernPerson.fromJson(x))),
      importantNote: json["important_note"] == null ? "No data" : json["important_note"],
-     address: json["Address"],
+     address: json["Address"] == "" ? "No Address" : json["Address"],
      followupLogActivity: FollowupLogActivity.fromJson(json["followup_log_activity"]),
      followupActivity: FollowupActivity.fromJson(json["followup_activity"]),
      lat: json["Lat"],
@@ -108,6 +114,8 @@ class Result {
     "prospect_name": prospectName,
     "Type": typeValues.reverse![type],
     "Stage": stage,
+    "Website": website,
+    "Zone": zone,
     "IsIndividual": isIndividual,
     "Industry": industry,
     "prospect_for": prospectFor,
@@ -141,8 +149,8 @@ class ConcernPerson {
 
   factory ConcernPerson.fromJson(Map<String, dynamic> json) => ConcernPerson(
     name: json["name"],
-    designation: json["designation"],
-    mobile: json["mobile"],
+    designation: json["designation"] == null ? "No Data" : json["designation"] ,
+    mobile: json["mobile"]== null ? "No Data" : json["mobile"],
   );
 
   Map<String, dynamic> toJson() => {

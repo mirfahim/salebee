@@ -19,17 +19,12 @@ import '../../../../Model/TrackingModel/get_all_live_tracking_model.dart';
 import '../../../../Model/TrackingModel/tracing_model.dart';
 import '../../../../Model/employee/employee_list_model.dart';
 
-
-
-
 class EyeMapScreeen extends StatefulWidget {
-
   @override
   State<EyeMapScreeen> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<EyeMapScreeen> {
-
   Completer<GoogleMapController> _controller = Completer();
 
   Iterable markers = [];
@@ -37,28 +32,20 @@ class _MyAppState extends State<EyeMapScreeen> {
   final Set<Marker> _markerss = {};
   List<Result> result = [];
 
-  List<LocationModel> markerlatLen = [
-
-
-  ];
-VisitRepository visitRepository = VisitRepository();
-AttendanceRepository attendanceRepository = AttendanceRepository();
+  List<LocationModel> markerlatLen = [];
+  VisitRepository visitRepository = VisitRepository();
+  AttendanceRepository attendanceRepository = AttendanceRepository();
   @override
   void initState() {
-
-
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: primaryColorLight,
-
-      body:    SingleChildScrollView(
-        child:    FutureBuilder<AllEmployeeListModel>(
+      body: SingleChildScrollView(
+        child: FutureBuilder<AllEmployeeListModel>(
           future: attendanceRepository.getAllEmployeeList(),
           builder: (BuildContext context,
               AsyncSnapshot<AllEmployeeListModel> empSnap) {
@@ -83,9 +70,7 @@ AttendanceRepository attendanceRepository = AttendanceRepository();
                         AsyncSnapshot<GetAllLiveTrackingModel> snapshot) {
                       if (snapshot.data == null) {
                         print("no data found");
-                      } else {
-
-                      }
+                      } else {}
 
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
@@ -99,45 +84,56 @@ AttendanceRepository attendanceRepository = AttendanceRepository();
                             );
                           } else {
                             snapshot.data!.result!.forEach((element) {
-print("jjjj ${element!.employeeId!}");
+                              print("jjjj ${element!.employeeId!}");
 
-                                markerlatLen.add(LocationModel(
-                                    getEmpName(element.employeeId!, empSnap.data!.results!), 1, LatLng(element!.lat!, element!.long!), element.createdOn, ""));
+                              markerlatLen.add(LocationModel(
+                                  getEmpName(element.employeeId!,
+                                      empSnap.data!.results!),
+                                  1,
+                                  LatLng(element!.lat!, element!.long!),
+                                  element.createdOn,
+                                  ""));
 
-print("jjjj ${markerlatLen!.length!}");
+                              print("jjjj ${markerlatLen!.length!}");
 //23.8370707
-                            //90.3719222
+                              //90.3719222
                             });
 
-                            for(int i=0; i<markerlatLen.length; i++){
-
+                            for (int i = 0; i < markerlatLen.length; i++) {
                               _markerss.add(
 // added markers
                                   Marker(
-                                    markerId: MarkerId(i.toString()),
-                                    position: markerlatLen[i].latLn,
-                                    infoWindow: InfoWindow(
-                                      title: markerlatLen[i].title!.toString(),
-                                      snippet: DateFormat.jm().format(markerlatLen[i].time!),
-                                    ),
-                                    icon: BitmapDescriptor.fromBytes(StaticData.customMarker!),
-                                  )
-                              );}
+                                markerId: MarkerId(i.toString()),
+                                position: markerlatLen[i].latLn,
+                                infoWindow: InfoWindow(
+                                  title: markerlatLen[i].title!.toString(),
+                                  snippet: DateFormat.jm()
+                                      .format(markerlatLen[i].time!),
+                                ),
+                                icon: BitmapDescriptor.fromBytes(
+                                    StaticData.customMarker!),
+                              ));
+                            }
                             return Column(
                               children: [
-                                SizedBox(height: 20,),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Container(
-                                  height: MediaQuery.of(context).size.height - 160,
+                                  height:
+                                      MediaQuery.of(context).size.height - 160,
                                   width: MediaQuery.of(context).size.width - 10,
                                   color: primaryColorLight,
                                   child: GoogleMap(
                                     mapType: MapType.normal,
-                                    initialCameraPosition: CameraPosition(target: markerlatLen[0].latLn, zoom: 13),
-                                    onMapCreated: (GoogleMapController controller) {
+                                    initialCameraPosition: CameraPosition(
+                                        target: markerlatLen[0].latLn,
+                                        zoom: 13),
+                                    onMapCreated:
+                                        (GoogleMapController controller) {
                                       _controller.complete(controller);
                                     },
                                     markers: _markerss,
-
                                   ),
                                 ),
                               ],
@@ -151,26 +147,20 @@ print("jjjj ${markerlatLen!.length!}");
           },
         ),
       ),
-
     );
   }
+
   getEmpName(int id, List<Results> list) {
     List<Results> p = [];
     List<Results> f = [];
 
-    p.add(list
-        .where((element) => element.employeeId == id)
-        .first);
-    return p[0].employeeName ;
+    p.add(list.where((element) => element.employeeId == id).first);
+    return p[0].employeeName;
   }
+
   getEmpImage(int id, List<Results> list) {
     List<Results> p = [];
-    p.add(list
-        .where((element) => element.employeeId == 1)
-        .first);
+    p.add(list.where((element) => element.employeeId == 1).first);
     return p[0].employeeName;
   }
 }
-
-
-

@@ -20,6 +20,8 @@ import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:salebee/utils.dart';
 
+import 'map_for_all/map_front.dart';
+
 class TheEyeFront extends StatefulWidget {
   const TheEyeFront({Key? key}) : super(key: key);
 
@@ -134,7 +136,7 @@ class _TheEyeFrontState extends State<TheEyeFront> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: EyeMapScreeen(),
+                          child: MapFront(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),

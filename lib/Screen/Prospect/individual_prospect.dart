@@ -41,7 +41,7 @@ class _IndividualProspectState extends State<IndividualProspect> {
   GeolocatorService geolocatorService = GeolocatorService();
   bool loader = false;
   String locationDis = "";
-  List<Result> result = [];
+  List<ProspectResult> result = [];
   String stageName = "";
   List<String> stage = [
     'New Prospect',
@@ -199,7 +199,7 @@ class _IndividualProspectState extends State<IndividualProspect> {
                                       child: InkWell(
                                         onTap: (){
                                           Get.to( ProspectDetails(data: data, prospectName: data.prospectName,
-                                            stage: getStage(data.stage!),
+                                            stage: data.stage!,
                                             createdby: getEmp(data.createdBy!, AttendanceRepository.employeeList),
                                             industry: data.industry,
                                             createdOn: data.createdOn,
@@ -248,7 +248,7 @@ class _IndividualProspectState extends State<IndividualProspect> {
 
                                                       ),
                                                       child: Center(
-                                                        child:  Text(getStage(data.stage!),
+                                                        child:  Text(data.stage!,
                                                           style: TextStyle(
                                                               fontWeight: FontWeight.normal,
                                                               fontSize: 12,
@@ -265,8 +265,8 @@ class _IndividualProspectState extends State<IndividualProspect> {
                                                     subtitle: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Text("Zone name"),
-                                                        Text("website link"),
+                                                        Text(data.zone!),
+                                                        Text(data.website!),
                                                         Text("Industry"),
                                                         data.concernPerson!.isEmpty ?
                                                         Text("No data",style: TextStyle(
@@ -883,14 +883,14 @@ class _IndividualProspectState extends State<IndividualProspect> {
     ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
         .showSnackBar(_snackBarContent);
   }
-  List<Result> _search(List<Result>? employee) {
+  List<ProspectResult> _search(List<ProspectResult>? employee) {
     if(searchString.isNotEmpty == true) {
       //search logic what you want
       return employee?.where((element) => element.prospectName!.toLowerCase().contains(searchString))
-          .toList() ?? <Result>[];
+          .toList() ?? <ProspectResult>[];
     }
 
-    return employee ?? <Result>[];
+    return employee ?? <ProspectResult>[];
   }
   _launchWhatsapp(String num) async {
     var whatsapp = "+88${num}";

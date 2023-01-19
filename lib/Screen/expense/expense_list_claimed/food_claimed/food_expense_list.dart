@@ -34,6 +34,7 @@ class FoodClaimedList extends StatefulWidget {
 
 class _ApprovedState extends State<FoodClaimedList> {
   ExpenseRepository expenseRepository = ExpenseRepository();
+  List expenseList = [];
   List<String> type = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
   List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
   String dropdownValue = DateTime.now().year.toString();
@@ -150,7 +151,9 @@ class _ApprovedState extends State<FoodClaimedList> {
                               } else {
                                 snapshot.data!.result!.forEach((element) {
                                   if(selectMonth == int.parse(element.createdOn.toString().substring(5,7)) && yearSelection == int.parse(element.createdOn.toString().substring(0,4))){
-                                    totalBalance +=  element.expense!;
+                                    expenseList.add(element.expense);
+
+                                    totalBalance =  expenseList.fold(0, (previousValue, element) =>previousValue + element);
                                     print("total amount is  $totalBalance");}
 
                                 });

@@ -36,6 +36,7 @@ class _ApprovedState extends State<OtherClaimedList> {
   ExpenseRepository expenseRepository = ExpenseRepository();
   String vehicleName = "";
   double totalBalance = 0.0;
+  List expenseList = [];
   int selectMonth = int.parse(DateTime.now().toString().substring(5, 7));
   List<String> yearList = <String>[
     DateTime.now().year.toString(),
@@ -154,7 +155,8 @@ class _ApprovedState extends State<OtherClaimedList> {
                                           int.parse(element.createdOn
                                               .toString()
                                               .substring(0, 4))) {
-                                    totalBalance += element.expense!;
+                                    expenseList.add(element.expense!);
+                                    totalBalance = expenseList.fold(0, (previousValue, element) => previousValue + element);
                                     print("total amount is  $totalBalance");
                                   }
                                 });

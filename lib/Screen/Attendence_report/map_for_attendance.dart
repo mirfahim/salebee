@@ -31,8 +31,6 @@ class _MyAppState extends State<AttendanceMapScreen> {
   Iterable markers = [];
   final Set<Polyline> _polyline = {};
   final Set<Marker> _markerss = {};
-
-
 //   LatLng(23.7985053, 90.3842538),
 
   List<LocationModel> markerlatLen = [
@@ -87,7 +85,6 @@ class _MyAppState extends State<AttendanceMapScreen> {
 
         ),
       ),
-
     );
   }
 }

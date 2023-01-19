@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/attendance_repository.dart';
+import 'package:salebee/repository/prospect_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Utils/StringsConst.dart';
@@ -32,6 +33,8 @@ import '../Attendence_report/attendence_report.dart';
 import '../leave/leave_front.dart';
 import '../notification/notification_1.dart';
 import '../test.dart';
+import 'package:location/location.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,7 +47,10 @@ class _HomePageState extends State<HomePage> {
   GeolocatorService geolocatorService = GeolocatorService();
   VisitRepository visitRepository = VisitRepository();
   AttendanceRepository attendanceRepository = AttendanceRepository();
+  ProspectRepository prospectRepository = ProspectRepository();
   String locationDis = "";
+  var location = Location();
+
   var battery = Battery();
   getBattery()async{
     var bat = await  battery.batteryLevel;
@@ -71,23 +77,38 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   initState() {
+     prospectRepository.getAllProspectListByUserIdController().then((value) {
+       return StaticData.prosepctList = value.result!;
+     });
+    attendanceRepository.getAllEmployeeList().then((value) {
+      AttendanceRepository.employeeList = value.results!;
 
-    print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
-    geolocatorService.determinePosition().then((ele) {
-      getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
-        print("my location from google api $v");
-
-        locationDis = v;
-      });
-      getBattery().then((v){
-        const oneSec = Duration(minutes:5);
-        print("my timer strated $v lat ${ele!.latitude!}");
-
-        Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(location: locationDis, latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
-      });
+      print("my emp list from pros ${AttendanceRepository.employeeList[0].employeeId} ");
     });
+        print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
+        addLiveTracking();
+
     // You can let the plugin handle fetching the status and showing a dialog,
     // or you can fetch the status and display your own dialog, or no dialog.
+  }
+  addLiveTracking()async{
+    if (await Permission.locationWhenInUse.serviceStatus.isEnabled) {
+      geolocatorService.determinePosition().then((ele) {
+        getAddressFromLatLng(ele!.latitude!, ele.longitude).then((v) {
+          print("my location from google api $v");
+
+          locationDis = v;
+        });
+        getBattery().then((v){
+          const oneSec = Duration(minutes:5);
+          print("my timer strated $v lat ${ele!.latitude!}");
+
+          Timer.periodic(oneSec, (Timer t) => visitRepository.addliveTrackController(location: locationDis, latitude: ele!.latitude!, longitude: ele.longitude, batteryStatus: v.toString(),  ));
+        });
+      });
+    } else {
+      await location.requestService();
+    }
   }
 
   advancedStatusCheck() async {

@@ -7,10 +7,12 @@ class MapFront extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height - 200,
-          width: MediaQuery.of(context).size.width - 200,
-          child: EyeMapScreeen()),
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height -200,
+            width: MediaQuery.of(context).size.width ,
+            child: EyeMapScreeen()),
+      ),
     );
   }
 }

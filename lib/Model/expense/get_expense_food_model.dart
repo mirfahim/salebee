@@ -61,6 +61,7 @@ class Result {
       this.token,
       this.description,
       this.person,
+        this.status,
       this.prospectID});
 
   int? id;
@@ -78,13 +79,14 @@ class Result {
   int? person;
   String? description;
   int? prospectID;
-  var token;
+  String? token;
+  int? status;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["Id"],
         mealType: json["MealType"],
         dishName: json["DishName"] ?? "no data",
-        expense: json["Expense"],
+        expense: json["Expense"] ?? 0.0,
         expenseDate: DateTime.parse(json["ExpenseDate"]),
         approvedBy: json["ApprovedBy"],
         attachment: json["Attachment"] == null ? "bg" : json["Attachment"],
@@ -97,6 +99,7 @@ class Result {
         prospectID: json["ProspectId"] == null ? 0 : json["ProspectId"],
         description: json["Description"] == null ? "No data" : json["Description"],
         person: json["Person"] == null ? 1 : json["Person"],
+    status:  json["Status"] == null ? 0 : json["Status"],
       );
 
   Map<String, dynamic> toJson() => {

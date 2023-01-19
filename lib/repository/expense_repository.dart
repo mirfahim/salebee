@@ -343,7 +343,7 @@ class ExpenseRepository {
       "ProspectID": 0,
       "LeadID": 0,
       "TaskID": 0,
-      "EmployeeID": 1,
+      "EmployeeID": 0,
       "SupportID": 0,
       "FollowupID": 0
     };
@@ -391,5 +391,39 @@ class ExpenseRepository {
     }
 
     return getAllExpenseModelFromJson(response.body);
+  }
+  Future changeStatusExpense(int expenseID, String type, int statusID) async {
+
+    Map<String, dynamic> bodyString =
+
+    {
+      "Token": tokenString,
+      "ProspectID": 0,
+      "LeadID": 0,
+      "TaskID": 0,
+      "EmployeeID": 0,
+      "SupportID": 0,
+      "FollowupID": 0,
+      "ExpenseID": expenseID,
+      "Type": type,
+      "StatusId": statusID,
+      "FromDate": "2023-01-18T04:41:35.123Z",
+      "ToDate": "2023-01-18T04:41:35.123Z"
+
+    };
+
+    Uri url = Uri.parse("$base_url/UpdateExpenseStatus");
+    final response = await http.post(
+      url,
+      body: jsonEncode(bodyString),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    print("updated ${response.body}");
+    var data = jsonDecode(response.body);
+    return data;
+    // return attendanceResponseModelFromJson(response.body);
   }
 }

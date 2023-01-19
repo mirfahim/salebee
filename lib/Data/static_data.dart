@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 
 import '../Model/login_model.dart';
+import '../Model/prospect/get_prospectList_by_id_model.dart';
 
 class StaticData {
+  static List<ProspectResult> prosepctList= [];
   static int assignToID = 0;
   static int todaysTask = 0;
   static int department = 0;
@@ -21,7 +23,8 @@ class StaticData {
     "mail",
     "visit",
     "Meeting",
-    "All"
+    "SMS",
+    "File"
 
   ];
   static String? subDomain = "";

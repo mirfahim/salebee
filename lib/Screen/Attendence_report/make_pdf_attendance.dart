@@ -6,7 +6,7 @@ import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
 import 'package:salebee/Model/expense/get_expense_food_model.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:salebee/utils.dart';
-
+import 'package:google_language_fonts/google_language_fonts.dart';
 import 'package:universal_html/html.dart' as html;
 import 'dart:typed_data';
 
@@ -206,7 +206,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                           PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
                           PaddedText(
 
-                              e.locationDescription.toString()),
+                              e.locationDescription.toString(),),
                         ]
                     ),
 
@@ -225,9 +225,9 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                         :Column(
                         children: [
                           PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
-                          PaddedText(
+                          Text(
 
-                              e.locationDescription.toString()),
+                              e.locationDescription.toString(),),
                         ]
                     ),
                     flex: 1,

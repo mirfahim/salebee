@@ -40,6 +40,8 @@ class Result {
     this.person,
     this.cost,
     this.status,
+    this.empId,
+    this.expenseID
   });
 
   DateTime? date;
@@ -47,24 +49,30 @@ class Result {
   String? description;
   int? person;
   double? cost;
-  dynamic status;
+  int? status;
+  int? empId;
+  int? expenseID;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     date: DateTime.parse(json["Date"]),
-    type: json["Type"],
+    type: json["Type"] ==  null ? "Food" : json["Type"],
+    empId: json["EmployeeId"],
     description: json["Description"],
     person: json["Person"],
     cost: json["Cost"],
-    status: json["Status"],
+    status: json["Status"] == null ? 0 : json["Status"],
+    expenseID: json["ExpenseId"],
   );
 
   Map<String, dynamic> toJson() => {
     "Date": date?.toIso8601String(),
-    "Type": typeValues.reverse![type],
+    "Type": type,
     "Description": description,
+    "EmployeeId": empId,
     "Person": person,
     "Cost": cost,
     "Status": status,
+    "ExpenseId": expenseID,
   };
 }
 

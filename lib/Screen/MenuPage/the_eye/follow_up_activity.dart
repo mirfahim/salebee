@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Model/prospect/get_prospectList_by_id_model.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
 import 'package:salebee/Screen/MenuPage/the_eye/activity_log_history.dart';
 import 'package:salebee/repository/attendance_repository.dart';
+import 'package:salebee/repository/prospect_repository.dart';
 
 import '../../../Model/employee/employee_list_model.dart';
+import '../../../Model/followUp/followUP_by_prospectID_model.dart';
+import '../../../Model/followUp/follow_up_by_date_model.dart';
 import '../../../utils.dart';
 
 class FollowUpActivity extends StatefulWidget {
@@ -16,6 +20,7 @@ class FollowUpActivity extends StatefulWidget {
 
 class _AllVisitTrackPageState extends State<FollowUpActivity> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
+  ProspectRepository prospectRepository = ProspectRepository();
   String? newEmployee;
   List<StageModel> stageList = [
     StageModel(
@@ -77,10 +82,14 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
   int taskType = 0;
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
   int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
-  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
+  List<String> yearList = <String>[
+    DateTime.now().year.toString(),
+    DateTime(DateTime.now().year - 1).toString().substring(0, 4),
+    DateTime(DateTime.now().year - 2).toString().substring(0, 4)
+  ];
   String dropdownValue = DateTime.now().year.toString();
 
-  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
+  int yearSelection = int.parse(DateTime.now().toString().substring(0, 4));
   List<String> tabs = [
     'January',
     'February',
@@ -171,7 +180,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                         DefaultTabController(
                           initialIndex: monthSelection - 1,
                           length: 12,
-                          child:  Row(
+                          child: Row(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
@@ -180,27 +189,25 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                   child: DropdownButton<String>(
                                     value: dropdownValue,
                                     isExpanded: true,
-                                    icon: Icon(Icons
-                                        .arrow_drop_down_outlined),
+                                    icon: Icon(Icons.arrow_drop_down_outlined),
                                     elevation: 16,
                                     style: const TextStyle(
-                                        color: Colors
-                                            .deepPurple),
-                                    underline:
-                                    Container(
+                                        color: Colors.deepPurple),
+                                    underline: Container(
                                       height: 2,
-                                      color: Colors
-                                          .transparent,
+                                      color: Colors.transparent,
                                     ),
-
                                     onChanged: (String? value) {
                                       // This is called when the user selects an item.
                                       setState(() {
                                         dropdownValue = value!;
-                                        yearSelection = int.parse(dropdownValue);
+                                        yearSelection =
+                                            int.parse(dropdownValue);
                                       });
                                     },
-                                    items: yearList.map<DropdownMenuItem<String>>((String value) {
+                                    items: yearList
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: Text(value),
@@ -209,43 +216,41 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                   ),
                                 ),
                               ),
-
                               Container(
                                 width: MediaQuery.of(context).size.width - 150,
-
                                 child: DefaultTabController(
-                                  initialIndex: monthSelection -1,
+                                  initialIndex: monthSelection - 1,
                                   length: 12,
                                   child: TabBar(
-
-
                                     indicator: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: primaryColorSecond.withOpacity(.5)),
+                                        color:
+                                            primaryColorSecond.withOpacity(.5)),
                                     isScrollable: true,
                                     indicatorColor: Colors.black,
                                     labelColor: Colors.black,
-
-
-                                    onTap: (index){
-                                      setState((){
-                                        monthSelection = index+1;
+                                    onTap: (index) {
+                                      setState(() {
+                                        monthSelection = index + 1;
                                       });
-
                                     },
                                     tabs: tabs
                                         .map((tab) => Tab(
-                                      icon: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(tab,style: TextStyle(fontSize: 12),),
-                                      ),
-                                    ))
+                                              icon: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Text(
+                                                  tab,
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              ),
+                                            ))
                                         .toList(),
                                   ),
                                 ),
                               ),
                             ],
-
                           ),
                         ),
                         Padding(
@@ -390,245 +395,2009 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height - 335,
-                          child: ListView.separated(
-                            itemCount: trackingList.length,
-                            itemBuilder: (BuildContext context, index) {
-                              var data = trackingList[index];
-                              return Container(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                            height: 45,
-                                            decoration: BoxDecoration(
-                                                color: primaryColorSecond
-                                                    .withOpacity(.3),
-                                                borderRadius:
-                                                    BorderRadius.circular(6)),
-                                            width: 100,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 4.0),
+                        FutureBuilder<GetFollowupListModelByDate>(
+                          future: prospectRepository
+                              .getProspectFollowupByDateController(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<GetFollowupListModelByDate>
+                                  snapshot) {
+                            if (snapshot.data == null) {
+                              print("no data found");
+                            } else {}
+
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return Text("waiting");
+                              default:
+                                if (snapshot.hasError)
+                                  return Center(child: Text('No Data Found'));
+                                if (snapshot.data == null) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else {
+                                  if (typeIndex == 0) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount:
+                                            snapshot.data!.result!.call!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.call![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
                                               child: Column(
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
                                                     children: [
-                                                      Text(
-                                                        DateFormat('EEEE')
-                                                                .format(
-                                                                    data.date!)
-                                                                .toString()
-                                                                .substring(
-                                                                    0, 3) +
-                                                            ",",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 10,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.date!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
 //"LogTimeIn":"2022-09-13T08:36:40.32"
-                                                      Center(
-                                                        child: Text(
-                                                          " " +
-                                                              data.date
-                                                                  .toString()
-                                                                  .substring(
-                                                                      8, 10),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            fontSize: 10,
-                                                          ),
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data.date.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data
+                                                                              .date!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data.date!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data.empName!,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                      Text(
-                                                        DateFormat('MMM')
-                                                            .format(data.date!)
-                                                            .toString()
-                                                            .substring(0, 3),
-                                                        style: TextStyle(
-                                                            fontSize: 10,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Card(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          DateFormat.jm()
-                                                              .format(
-                                                                  data.date!),
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                        SizedBox(
-                                          width: 05,
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Prospect Name",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black54,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                data.location.toString(),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black54,
-                                                ),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Followed up: ",
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.blue,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Mr. xyz",
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.black54,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            Get.to((ActivityLogHistory()));
-                                          },
-                                          child: Card(
-                                            color: Colors.greenAccent,
-                                            child: Text(
-                                              "Activity",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 40,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              105,
-                                          child: ListView.separated(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: stageList.length,
-                                            itemBuilder:
-                                                (BuildContext context, index) {
-                                              return Card(
-                                                elevation: 5,
-                                                child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      .11,
-                                                  child: Column(
-                                                    children: [
+                                                      Spacer(),
                                                       InkWell(
                                                         onTap: () {},
-                                                        child: CircleAvatar(
-                                                          radius: 10,
-                                                          child: Text(
-                                                            stageList[index]
-                                                                .num
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                fontSize: 8),
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
                                                           ),
-                                                          backgroundColor:
-                                                              stageList[index]
-                                                                          .id! <=
-                                                                      8
-                                                                  ? stageList[
-                                                                          index]
-                                                                      .color
-                                                                  : Colors.grey,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          stageList[index]
-                                                              .stageName!,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontSize: 7),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
+                                                      )
                                                     ],
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                            separatorBuilder: (context, index) {
-                                              return SizedBox(
-                                                width: 0,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Divider(
-                                height: 10,
-                                thickness: 5,
-                              );
-                            },
-                          ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.call,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.description!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (typeIndex == 1) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount:
+                                            snapshot.data!.result!.call!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.call![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.date!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data.date.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data
+                                                                              .date!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data.date!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data.empName!,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.call,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.description!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (typeIndex == 2) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount: snapshot
+                                            .data!.result!.visit!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.visit![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.date!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data.date.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data
+                                                                              .date!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data.date!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data.empName!,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.call,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.description!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (typeIndex == 3) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount: snapshot
+                                            .data!.result!.meeting!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.meeting![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.date!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data.date.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data
+                                                                              .date!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data.date!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data.empName!,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.meeting_room,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.description!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (typeIndex == 4) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount:
+                                            snapshot.data!.result!.sms!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.sms![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.createdOn!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.createdOn!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.createdOn!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.createdOn!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data!.createdOn!.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data!
+                                                                              .createdOn!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data!.createdOn!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data
+                                                                      .prospectId!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data
+                                                                      .prospectId!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data!
+                                                                      .createdBy
+                                                                      .toString(),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.call,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.mobileNo!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (typeIndex == 5) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount:
+                                            snapshot.data!.result!.call!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.call![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.date!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data.date.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data
+                                                                              .date!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data.date!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data.empName!,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.call,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.description!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              335,
+                                      child: ListView.separated(
+                                        itemCount:
+                                            snapshot.data!.result!.call!.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data = snapshot
+                                              .data!.result!.call![index];
+                                          if (daySelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(8, 10)) &&
+                                              monthSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(5, 7)) &&
+                                              yearSelection ==
+                                                  int.parse(data!.date!
+                                                      .toString()
+                                                      .substring(0, 4))) {
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                          height: 45,
+                                                          decoration: BoxDecoration(
+                                                              color: primaryColorSecond
+                                                                  .withOpacity(
+                                                                      .3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6)),
+                                                          width: 100,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      DateFormat('EEEE')
+                                                                              .format(data!.date!)
+                                                                              .toString()
+                                                                              .substring(0, 3) +
+                                                                          ",",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+//"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        " " +
+                                                                            data.date.toString().substring(8,
+                                                                                10),
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      DateFormat(
+                                                                              'MMM')
+                                                                          .format(data
+                                                                              .date!)
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              3),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat.jm()
+                                                                            .format(data.date!),
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
+                                                      SizedBox(
+                                                        width: 05,
+                                                      ),
+                                                      Container(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              getProspectName(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              getProspectAdrs(
+                                                                  data.prosID!,
+                                                                  StaticData
+                                                                      .prosepctList),
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black54,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Followed up: ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  data.empName!,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .black54,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                primaryColorLight,
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        30),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        30)),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "stage",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              (ActivityLogHistory()));
+                                                        },
+                                                        child: Card(
+                                                          color: Colors
+                                                              .greenAccent,
+                                                          child: Icon(
+                                                            Icons.call,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(data!.description!),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context, int index) {
+                                          return Divider(
+                                            height: 10,
+                                            thickness: 5,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                }
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -639,6 +2408,18 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
         },
       ),
     );
+  }
+
+  getProspectName(int id, List<ProspectResult> list) {
+    List<ProspectResult> p = [];
+    p.add(list.where((element) => element.id == id).first);
+    return p[0].prospectName;
+  }
+
+  getProspectAdrs(int id, List<ProspectResult> list) {
+    List<ProspectResult> p = [];
+    p.add(list.where((element) => element.id == id).first);
+    return p[0].address;
   }
 }
 
