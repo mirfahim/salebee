@@ -9,7 +9,9 @@ import 'package:salebee/utils.dart';
 import '../../Model/followUp/followUP_by_prospectID_model.dart';
 
 class FollowUpList extends StatefulWidget {
-  const FollowUpList({Key? key}) : super(key: key);
+  int? prospectId;
+
+   FollowUpList({Key? key, this.prospectId}) : super(key: key);
 
   @override
   State<FollowUpList> createState() => _FollowUpListState();
@@ -28,7 +30,7 @@ class _FollowUpListState extends State<FollowUpList> {
               height: 10,
             ),
             FutureBuilder<GetFollowupListModel>(
-              future: prospectRepository.getProspectFollowupByIdController(),
+              future: prospectRepository.getProspectFollowupByIdController(widget.prospectId!),
               builder: (BuildContext context,
                   AsyncSnapshot<GetFollowupListModel> snapshot) {
                 if (snapshot.data == null) {
@@ -179,9 +181,13 @@ class _FollowUpListState extends State<FollowUpList> {
                                                       return Card(
                                                         child: ListTile(
                                                           title: Text(
-                                                              data!.titles!),
+                                                              data!.titles!, style: TextStyle(
+                                                            fontSize: 10,
+                                                          ),),
                                                           subtitle: Text(data!
-                                                              .description!),
+                                                              .description!, style: TextStyle(
+                                                            fontSize: 9,
+                                                          ),),
                                                           trailing: Container(
                                                               height: 40,
                                                               decoration: BoxDecoration(

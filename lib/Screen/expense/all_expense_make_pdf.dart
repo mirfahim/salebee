@@ -205,7 +205,11 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
                     child: PaddedText("${e.cost!.toString()}"),
                     flex: 1,
                   ),
+                  e.status == 0 ?
                   Expanded(
+                    child: PaddedText("Claimed"),
+                    flex: 1,
+                  ) : Expanded(
                     child: PaddedText("Approved"),
                     flex: 1,
                   ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:salebee/Model/expense/getTransportExpenseModel.dart';
+import 'package:salebee/Screen/expense/all_expense_pdf_preview.dart';
 import 'package:salebee/Screen/expense/expense_create/expense_create_front.dart';
 import 'package:salebee/Screen/expense/expense_create/other_expense.dart';
 
@@ -406,23 +407,48 @@ class _ApprovedState extends State<AdminApprovalToList> {
 
                                                       Spacer(),
                                                       check3 == true ?
-                                                      Container(
-                                                          height:
-                                                          40,
-                                                          width: 100,
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                              primaryColor,
-                                                              borderRadius:
-                                                              BorderRadius.all(Radius.circular(10.0))),
-                                                          child: Center(
-                                                              child: Text(
-                                                                "Approve All",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                    Colors.white,
-                                                                    fontSize: 12),
-                                                              )))
+                                                      GestureDetector(
+                                                        onTap:(){
+
+
+                                                          if(check3 == true){
+                                                            snapshot.data!.result!.forEach((element) {
+                                                              if(element.status == 0 &&
+                                                                  selectMonth ==
+                                                                      int.parse(element.date
+                                                                          .toString()
+                                                                          .substring(5, 7)) &&
+                                                                  yearSelection ==
+                                                                      int.parse(element.date
+                                                                          .toString()
+                                                                          .substring(0, 4)))
+                                                                expenseRepository.changeStatusExpense(element.expenseID!, element.type!, element.status == 0 ? 1 : 0).then((value) => setState((){
+
+                                                                }));
+                                                            });
+
+                                                          } else {
+                                                            print("tapped error in all approve");
+                                                          }
+                                        },
+                                                        child: Container(
+                                                            height:
+                                                            40,
+                                                            width: 100,
+                                                            decoration: BoxDecoration(
+                                                                color:
+                                                                primaryColor,
+                                                                borderRadius:
+                                                                BorderRadius.all(Radius.circular(10.0))),
+                                                            child: Center(
+                                                                child: Text(
+                                                                  "Approve All",
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      Colors.white,
+                                                                      fontSize: 12),
+                                                                ))),
+                                                      )
                                                           : Container(),
                                                     ],
                                                   ),
@@ -650,9 +676,13 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                 onTap: (){
                                                                                   print("tapped");
 
-                                                                                  expenseRepository.changeStatusExpense(data.expenseID!, data.type!, data.status == 0 ? 1 : 0).then((value) => setState((){
 
-                                                                                  }));
+                                                                                   expenseRepository.changeStatusExpense(data.expenseID!, data.type!, data.status == 0 ? 1 : 0).then((value) => setState((){
+
+                                                                                   }));
+
+
+
                                                                                 },
                                                                                 child: Container(
                                                                                     height:
@@ -688,16 +718,11 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                   ),
                                                   GestureDetector(
                                                       onTap: () {
-                                                        // Navigator.of(context).push(
-                                                        //   MaterialPageRoute(
-                                                        //     builder: (builder) =>
-                                                        //         PdfPreviewPage(
-                                                        //       invoice: snapshot.data!,
-                                                        //       monthSelection: selectMonth,
-                                                        //       yearSelection: yearSelection,
-                                                        //     ),
-                                                        //   ),
-                                                        // );
+                                                        Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                            builder: (builder) => AllExPdfPreviewPage(invoice: snapshot.data!, monthSelection: selectMonth, yearSelection: 2023, ),
+                                                          ),
+                                                        );
                                                       },
                                                       child: Row(
                                                         mainAxisAlignment:
@@ -1148,16 +1173,11 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                   ),
                                                   GestureDetector(
                                                       onTap: () {
-                                                        // Navigator.of(context).push(
-                                                        //   MaterialPageRoute(
-                                                        //     builder: (builder) =>
-                                                        //         PdfPreviewPage(
-                                                        //       invoice: snapshot.data!,
-                                                        //       monthSelection: selectMonth,
-                                                        //       yearSelection: yearSelection,
-                                                        //     ),
-                                                        //   ),
-                                                        // );
+                                                        Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                            builder: (builder) => AllExPdfPreviewPage(invoice: snapshot.data!, monthSelection: selectMonth, yearSelection: 2023, ),
+                                                          ),
+                                                        );
                                                       },
                                                       child: Row(
                                                         mainAxisAlignment:
@@ -1304,45 +1324,45 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        width:230,
-                                                        child: CheckboxListTile(
-                                                          value: check3,
-                                                          controlAffinity: ListTileControlAffinity.leading, //checkbox at left
-                                                          onChanged: (bool? value) {
-                                                            setState(() {
-                                                              check3 = value;
-                                                            });
-                                                          },
-                                                          title: Text("Select All" +  " (0.0 bdt)",style: TextStyle(fontSize: 12, ),),
-                                                        ),
-                                                      ),
-
-                                                      Spacer(),
-                                                      check3 == true ?
-                                                      Container(
-                                                          height:
-                                                          40,
-                                                          width: 100,
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                              primaryColor,
-                                                              borderRadius:
-                                                              BorderRadius.all(Radius.circular(10.0))),
-                                                          child: Center(
-                                                              child: Text(
-                                                                "Approve All",
-                                                                style: TextStyle(
-                                                                    color:
-                                                                    Colors.white,
-                                                                    fontSize: 12),
-                                                              )))
-                                                          : Container(),
-                                                    ],
-                                                  ),
+                                                  // Row(
+                                                  //   children: [
+                                                  //     Container(
+                                                  //       height: 40,
+                                                  //       width:230,
+                                                  //       child: CheckboxListTile(
+                                                  //         value: check3,
+                                                  //         controlAffinity: ListTileControlAffinity.leading, //checkbox at left
+                                                  //         onChanged: (bool? value) {
+                                                  //           setState(() {
+                                                  //             check3 = value;
+                                                  //           });
+                                                  //         },
+                                                  //         title: Text("Select All" +  " (0.0 bdt)",style: TextStyle(fontSize: 12, ),),
+                                                  //       ),
+                                                  //     ),
+                                                  //
+                                                  //     Spacer(),
+                                                  //     check3 == true ?
+                                                  //     Container(
+                                                  //         height:
+                                                  //         40,
+                                                  //         width: 100,
+                                                  //         decoration: BoxDecoration(
+                                                  //             color:
+                                                  //             primaryColor,
+                                                  //             borderRadius:
+                                                  //             BorderRadius.all(Radius.circular(10.0))),
+                                                  //         child: Center(
+                                                  //             child: Text(
+                                                  //               "Approve All",
+                                                  //               style: TextStyle(
+                                                  //                   color:
+                                                  //                   Colors.white,
+                                                  //                   fontSize: 12),
+                                                  //             )))
+                                                  //         : Container(),
+                                                  //   ],
+                                                  // ),
 
 
                                                   Container(
@@ -1575,7 +1595,7 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                                                     width: 70,
                                                                                     decoration: BoxDecoration(
                                                                                         color:
-                                                                                        Colors.cyan,
+                                                                                        data.status == 0 ? Colors.cyan : Colors.grey,
                                                                                         borderRadius:
                                                                                         BorderRadius.all(Radius.circular(10.0))),
                                                                                     child: Center(child: data.status == 0 ?
@@ -1610,16 +1630,12 @@ class _ApprovedState extends State<AdminApprovalToList> {
                                                   ),
                                                   GestureDetector(
                                                       onTap: () {
-                                                        // Navigator.of(context).push(
-                                                        //   MaterialPageRoute(
-                                                        //     builder: (builder) =>
-                                                        //         PdfPreviewPage(
-                                                        //       invoice: snapshot.data!,
-                                                        //       monthSelection: selectMonth,
-                                                        //       yearSelection: yearSelection,
-                                                        //     ),
-                                                        //   ),
-                                                        // );
+                                                        print("tapped");
+                                                        Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                            builder: (builder) => AllExPdfPreviewPage(invoice: snapshot.data!, monthSelection: selectMonth, yearSelection: 2023, ),
+                                                          ),
+                                                        );
                                                       },
                                                       child: Row(
                                                         mainAxisAlignment:

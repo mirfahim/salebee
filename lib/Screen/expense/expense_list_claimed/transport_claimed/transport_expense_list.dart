@@ -500,7 +500,7 @@ class _ApprovedState extends State<TransportClaimedList> {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder: (builder) =>
-                                                      PdfPreviewPage(
+                                                      PdfPreviewPageTrans(
                                                     invoice: snapshot.data!,
                                                     monthSelection: selectMonth,
                                                     yearSelection:

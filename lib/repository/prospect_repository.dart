@@ -82,6 +82,7 @@ class ProspectRepository {
     print("my resposnse repo ${response.body}");
     String data = response.body;
 
+
     return response.body;
   }
 
@@ -121,10 +122,10 @@ class ProspectRepository {
 
     print("my resposnse repo get all prospect list by id${response.body}");
     String data = response.body;
-
+    SharedPreff.to.prefss.setString("prospectList", data);
     return getAllProspectByIdtModelFromJson(response.body!);
   }
-  Future<GetFollowupListModel> getProspectFollowupByIdController() async {
+  Future<GetFollowupListModel> getProspectFollowupByIdController(int prospectId) async {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
@@ -134,7 +135,7 @@ class ProspectRepository {
       url,
       body: jsonEncode({
         "Token": tokenString,
-        "ProspectID": 163305,
+        "ProspectID": prospectId,
       }),
       headers: {
         "Content-Type": "application/json",

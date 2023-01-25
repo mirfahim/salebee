@@ -14,7 +14,7 @@ import 'package:pdf/widgets.dart';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
-Future<Uint8List> makePdf(GetTransportExpenseModel invoice, monthSelection, yearSelection) async {
+Future<Uint8List> makeTransPdf(GetTransportExpenseModel invoice, monthSelection, yearSelection) async {
   final pdf = pw.Document();
   List<String> way = ['Rikshaw', 'Bus', 'Bike', 'Car','CNG,', 'Train', 'Air', 'Others'];
   List<pw.Widget> widgets = [];

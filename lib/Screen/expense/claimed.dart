@@ -602,7 +602,7 @@ class _ClaimedState extends State<Claimed> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (builder) => PdfPreviewPage(invoice: snapshot.data!, monthSelection: selectMonth, yearSelection: 2023, ),
+                                        builder: (builder) => AllExPdfPreviewPage(invoice: snapshot.data!, monthSelection: selectMonth, yearSelection: 2023, ),
                                       ),
                                     );
                                   },

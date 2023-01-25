@@ -39,7 +39,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
   bool loader = false;
   String locationDis = "";
   List<ProspectResult> result = [];
- 
+  String? statgeString = "";
   String stageName = "";
   List<String> stage = ['New Prospect', 'Initial Contact', ''];
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
@@ -96,10 +96,13 @@ class _IndividualProspectState extends State<OrganizationProspect> {
     ActivityModel("Visit", Colors.orangeAccent, 4, Icon(Icons.map), 1),
   ];
   ProspectRepository prospectRepository = ProspectRepository();
+  GetAllProspectByIdtModel getAllProspectByIdtModel = GetAllProspectByIdtModel();
   @override
   void initState() {
     super.initState();
-    super.initState();
+    Map <String, dynamic> prospectMap = jsonDecode(SharedPreff.to.prefss.getString("prospectList")!);
+    getAllProspectByIdtModel = GetAllProspectByIdtModel.fromJson(prospectMap);
+    print("yo bro ${getAllProspectByIdtModel.result!.length.toString()}");
     attendanceRepository.getAllEmployeeList().then((value) {
       AttendanceRepository.employeeList = value.results!;
 
@@ -177,6 +180,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                   ),
                 ),
               ),
+              getAllProspectByIdtModel == null ?
               FutureBuilder<GetAllProspectByIdtModel>(
                 future:
                     prospectRepository.getAllProspectListByUserIdController(),
@@ -202,716 +206,1429 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                         return Column(
                           children: [
                             Container(
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "New prospect").length.toString()),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text( "New Prospect", style: TextStyle(fontSize: 8),)
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colors.transparent,
-                                    height: 4,
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "Step1").length.toString()),
 
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text("New Prospect", style: TextStyle(fontSize: 8),)
+                              child: SingleChildScrollView(
+                                 scrollDirection : Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              statgeString =  "";
+                                            });
+                                            print("stage string $statgeString");
+                                          },
+                                          child: CircleAvatar(
 
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colors.transparent,
-                                    height: 4,
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "Initial Contact").length.toString()),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text("Initial Contact", style: TextStyle(fontSize: 8),)
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.length.toString(),
+                                              style: TextStyle(fontSize: 10), ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text( "All", style: TextStyle(fontSize: 8),)
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              statgeString =  "New prospect";
+                                            });
+                                            print("stage string $statgeString");
+                                          },
+                                          child: CircleAvatar(
 
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colors.transparent,
-                                    height: 4,
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "Visited").length.toString()),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text("Visited", style: TextStyle(fontSize: 8),)
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "New prospect").length.toString(),
+                                              style: TextStyle(fontSize: 12), ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text( "New Prospect", style: TextStyle(fontSize: 8),)
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              statgeString =  "Step1";
+                                            });
+                                            print("stage string $statgeString");
+                                          },
+                                          child: CircleAvatar(
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "Step1").length.toString(),
+                                              style: TextStyle(fontSize: 12),),
 
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colors.transparent,
-                                    height: 4,
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "Already Client").length.toString()),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text("Already Client", style: TextStyle(fontSize: 8),)
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text("Step1", style: TextStyle(fontSize: 8),)
 
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colors.transparent,
-                                    height: 4,
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "On followup").length.toString()),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text("On followup", style: TextStyle(fontSize: 8),)
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
 
-                                    ],
-                                  ),
-                                  Container(
-                                    color: Colors.transparent,
-                                    height: 4,
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: Text(snapshot.data!.result!.where((element) => element.stage == "Hot Lead").length.toString()),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      Text("Hot Lead", style: TextStyle(fontSize: 8),)
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              statgeString ="Initial Contact";
+                                            });
+                                          },
+                                          child: CircleAvatar(
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "Initial Contact").length.toString(),
+                                              style: TextStyle(fontSize: 12),),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text("Initial Contact", style: TextStyle(fontSize: 8),)
 
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
+
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              statgeString = "Visited";
+                                            });
+                                          },
+                                          child: CircleAvatar(
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "Visited").length.toString(),
+                                              style: TextStyle(fontSize: 12),),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text("Visited", style: TextStyle(fontSize: 8),)
+
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
+
+                                        GestureDetector(
+                                        onTap: (){
+                                          setState(() {
+                                            statgeString =  "Already Client";
+                                          });
+                  },
+
+                                          child: CircleAvatar(
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "Already Client").length.toString(),
+                                              style: TextStyle(fontSize: 12),),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text("Already Client", style: TextStyle(fontSize: 8),)
+
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
+
+                                        GestureDetector(
+                                          onTap:(){
+                                            setState(() {
+                                              statgeString = "On followup";
+                                            });
+                  },
+                                          child: CircleAvatar(
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "On followup").length.toString(),
+                                              style: TextStyle(fontSize: 12),),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text("On followup", style: TextStyle(fontSize: 8),)
+
+                                      ],
+                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      height: 4,
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      children: [
+
+                                        GestureDetector(
+                                          onTap:(){
+                                            setState(() {
+                                              statgeString = "Hot Lead";
+                                            });
+
+                  },
+                                          child: CircleAvatar(
+                                            radius:16,
+                                            child: Text(snapshot.data!.result!.where((element) => element.stage == "Hot Lead").length.toString(),
+                                              style: TextStyle(fontSize: 12),),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Text("Hot Lead", style: TextStyle(fontSize: 8),)
+
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Container(
                               height: MediaQuery.of(context).size.height - 250,
-                              child: ListView.separated(
+                              child: ListView.builder(
                                 itemCount: result!.length,
                                 itemBuilder: (BuildContext context, index) {
                                   var data = result![index];
 
-                                  if (data.isIndividual == false) {
-                                    return ExpandableNotifier(
-                                      child: InkWell(
-                                        onTap: () {
-                                          Get.to(ProspectDetails(
-                                            data: data,
-                                            prospectName: data.prospectName ?? "No Data",
-                                            stage:data.stage, //getStage(data.stage!) ??
-                                            createdby: "Emp Name",
-                                            // getEmp(data.createdBy!,
-                                            //     AttendanceRepository.employeeList)
-                                            industry: data.industry,
-                                            createdOn: data.createdOn,
-                                            assignto: getEmp(data.assignTo!,
-                                                AttendanceRepository.employeeList),
-                                            concernPerson: data.concernPerson == []
-                                                ? [
-                                                    ConcernPerson(
-                                                        name: "NO data",
-                                                        designation: "No Data",
-                                                        mobile: "no data")
-                                                  ]
-                                                : data.concernPerson,
-                                            note: data.importantNote,
-                                          ));
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                              color: const Color(0xFFFFFFFF)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Pro -${data.id}',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 12,
-                                                          color: Colors.grey),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                        "${DateFormat.yMMM().format(data.createdOn!)}",
+                                  if (data.isIndividual == false && statgeString == "" ) {
+                                    return Card(
+                                      child: ExpandableNotifier(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.to(ProspectDetails(
+                                              data: data,
+                                              prospectName: data.prospectName ?? "No Data",
+                                              stage:data.stage, //getStage(data.stage!) ??
+                                              prospectId: data.id,
+                                              createdby: "Emp Name",
+                                              // getEmp(data.createdBy!,
+                                              //     AttendanceRepository.employeeList)
+                                              industry: data.industry,
+                                              createdOn: data.createdOn,
+                                              assignto: getEmp(data.assignTo!,
+                                                  AttendanceRepository.employeeList),
+                                              concernPerson: data.concernPerson == []
+                                                  ? [
+                                                ConcernPerson(
+                                                    name: "NO data",
+                                                    designation: "No Data",
+                                                    mobile: "no data")
+                                              ]
+                                                  : data.concernPerson,
+                                              note: data.importantNote,
+                                            ));
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(6),
+                                                color: const Color(0xFFFFFFFF)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Pro -${data.id}',
                                                         style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: 12,
                                                             fontWeight:
-                                                                FontWeight.w400)),
-                                                  ],
-                                                ),
-                                                ListTile(
-                                                    trailing: Container(
-                                                      height: 40,
-                                                      width: 100,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: borderColor,
-                                                              width: 1),
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                      .all(
-                                                                  Radius.circular(
-                                                                      10.0))),
-                                                      child: Center(
-                                                        child: Text(data.stage!,
-                                                         // getStage(data.stage!),
+                                                            FontWeight.w700,
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                          "${DateFormat.yMMM().format(data.createdOn!)}",
                                                           style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight.normal,
+                                                              color: Colors.grey,
                                                               fontSize: 12,
-                                                              color:
-                                                                  Colors.black54),
+                                                              fontWeight:
+                                                              FontWeight.w400)),
+                                                    ],
+                                                  ),
+                                                  ListTile(
+                                                      trailing: Container(
+                                                        height: 40,
+                                                        width: 100,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: borderColor,
+                                                                width: 1),
+                                                            borderRadius:
+                                                            const BorderRadius
+                                                                .all(
+                                                                Radius.circular(
+                                                                    10.0))),
+                                                        child: Center(
+                                                          child: Text(data.stage!,
+                                                            // getStage(data.stage!),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight.normal,
+                                                                fontSize: 12,
+                                                                color:
+                                                                Colors.black54),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    title: Text(
-                                                      data.prospectName!,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 12,
-                                                          color: Colors.black),
-                                                    ),
-                                                    subtitle: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(data.zone!),
-                                                        Text(data.website!),
-                                                        data.industry == null
-                                                            ? Container()
-                                                            : Text(data.industry!),
-                                                        data.concernPerson!.isEmpty
-                                                            ? Text(
-                                                                "No data",
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              )
-                                                            : Text(
-                                                                data
-                                                                    .concernPerson![
-                                                                        0]
-                                                                    .name
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: 14,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                        data.concernPerson!.isEmpty
-                                                            ? Text(
-                                                                "No data",
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              )
-                                                            : Text(
-                                                                data
-                                                                    .concernPerson![
-                                                                        0]
-                                                                    .designation
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                        data.concernPerson!.isEmpty
-                                                            ? Text(
-                                                                "No data",
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              )
-                                                            : Text(
-                                                                data
-                                                                    .concernPerson![
-                                                                        0]
-                                                                    .mobile
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              ),
-                                                      ],
-                                                    )),
-                                                ScrollOnExpand(
-                                                  scrollOnExpand: true,
-                                                  scrollOnCollapse: false,
-                                                  child: ExpandablePanel(
-                                                    theme:
-                                                        const ExpandableThemeData(
-                                                      headerAlignment:
-                                                          ExpandablePanelHeaderAlignment
-                                                              .center,
-                                                      tapBodyToCollapse: true,
-                                                    ),
-                                                    header: Row(
-                                                      children: [
-                                                        const Text(
-                                                          'Pick Any',
-                                                          style: TextStyle(
-                                                              color: Colors.black,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight.w600),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        InkWell(
-                                                          splashColor: Colors.blue,
-                                                          onTap: () {
-                                                            _textMe(data.concernPerson![0].mobile!.toString());
-                                                          },
-                                                          child: Card(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100)),
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(8.0),
-                                                                child: Icon(
-                                                                  Icons.chat,
-                                                                  color:
-                                                                      primaryColor,
-                                                                ),
-                                                              ),
-                                                            ),
+                                                      title: Text(
+                                                        data.prospectName!,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.w700,
+                                                            fontSize: 12,
+                                                            color: Colors.black),
+                                                      ),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(data.zone!),
+                                                          Text(data.website!),
+                                                          data.industry == null
+                                                              ? Container()
+                                                              : Text(data.industry!),
+                                                          data.concernPerson!.isEmpty
+                                                              ? Text(
+                                                            "No data",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          )
+                                                              : Text(
+                                                            data
+                                                                .concernPerson![
+                                                            0]
+                                                                .name
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        InkWell(
-                                                          splashColor: Colors.blue,
-                                                          onTap: () {
-                                                            launchPhoneDialer(
-                                                                data.concernPerson![0].mobile!.toString());
-                                                          },
-                                                          child: Card(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100)),
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(8.0),
-                                                                child: Icon(
-                                                                  Icons.call,
-                                                                  color:
-                                                                      primaryColor,
-                                                                ),
-                                                              ),
-                                                            ),
+                                                          data.concernPerson!.isEmpty
+                                                              ? Text(
+                                                            "No data",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          )
+                                                              : Text(
+                                                            data
+                                                                .concernPerson![
+                                                            0]
+                                                                .designation
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        InkWell(
-                                                          splashColor: Colors.blue,
-                                                          onTap: () {
-                                                               _launchWhatsapp(data.concernPerson![0].mobile!.toString());
-                                                          },
-                                                          child: Card(
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100)),
-                                                            child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(8.0),
-                                                                child: Icon(
-                                                                  Icons.messenger,
-                                                                  color:
-                                                                      primaryColor,
-                                                                ),
-                                                              ),
-                                                            ),
+                                                          data.concernPerson!.isEmpty
+                                                              ? Text(
+                                                            "No data",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          )
+                                                              : Text(
+                                                            data
+                                                                .concernPerson![
+                                                            0]
+                                                                .mobile
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Card(
-                                                          shape:
-                                                              RoundedRectangleBorder(
+                                                        ],
+                                                      )),
+                                                  ScrollOnExpand(
+                                                    scrollOnExpand: true,
+                                                    scrollOnCollapse: false,
+                                                    child: ExpandablePanel(
+                                                      theme:
+                                                      const ExpandableThemeData(
+                                                        headerAlignment:
+                                                        ExpandablePanelHeaderAlignment
+                                                            .center,
+                                                        tapBodyToCollapse: true,
+                                                      ),
+                                                      header: Row(
+                                                        children: [
+                                                          const Text(
+                                                            'Pick Any',
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                FontWeight.w600),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors.blue,
+                                                            onTap: () {
+                                                              _textMe(data.concernPerson![0].mobile!.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
                                                                   borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              100)),
-                                                          child: Container(
-                                                            decoration:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      100)),
+                                                              child: Container(
+                                                                decoration:
                                                                 BoxDecoration(
                                                                     shape: BoxShape
                                                                         .circle),
-                                                            child: Padding(
-                                                              padding:
+                                                                child: Padding(
+                                                                  padding:
                                                                   const EdgeInsets
                                                                       .all(8.0),
-                                                              child: Icon(
-                                                                Icons.more_horiz,
-                                                                color: primaryColor,
+                                                                  child: Icon(
+                                                                    Icons.chat,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    collapsed: const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    expanded: Column(
-                                                      children: [
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .airline_seat_recline_normal_sharp,
-                                                              color: Colors.grey,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Container(
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle),
-                                                              child:
-                                                                  const CircleAvatar(
-                                                                radius: 12,
-                                                                backgroundImage:
-                                                                    AssetImage(
-                                                                  'images/suite.png',
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors.blue,
+                                                            onTap: () {
+                                                              launchPhoneDialer(
+                                                                  data.concernPerson![0].mobile!.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      100)),
+                                                              child: Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child: Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                                  child: Icon(
+                                                                    Icons.call,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              width: 5,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors.blue,
+                                                            onTap: () {
+                                                              _launchWhatsapp(data.concernPerson![0].mobile!.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      100)),
+                                                              child: Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child: Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                                  child: Icon(
+                                                                    Icons.messenger,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                            Text("Emp Name",
-                                                              // getEmp(
-                                                              //     data.createdBy! ??
-                                                              //         1,
-                                                              //     AttendanceRepository
-                                                              //         .employeeList),
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.grey,
-                                                                  fontSize: 14),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                const Text(
-                                                                  'Action',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize: 14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Card(
+                                                            shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    100)),
+                                                            child: Container(
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                              child: Padding(
+                                                                padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                                child: Icon(
+                                                                  Icons.more_horiz,
+                                                                  color: primaryColor,
                                                                 ),
-                                                                SizedBox(
-                                                                  width: 10,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      collapsed: const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      expanded: Column(
+                                                        children: [
+                                                          const SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .airline_seat_recline_normal_sharp,
+                                                                color: Colors.grey,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Container(
+                                                                decoration:
+                                                                const BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child:
+                                                                const CircleAvatar(
+                                                                  radius: 12,
+                                                                  backgroundImage:
+                                                                  AssetImage(
+                                                                    'images/suite.png',
+                                                                  ),
                                                                 ),
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    _showMyDialog(
-                                                                        data.prospectName!,
-                                                                        data.id!);
-                                                                  },
-                                                                  child: Card(
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                100)),
-                                                                    child:
-                                                                        Container(
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                              shape:
-                                                                                  BoxShape.circle),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text("Emp Name",
+                                                                // getEmp(
+                                                                //     data.createdBy! ??
+                                                                //         1,
+                                                                //     AttendanceRepository
+                                                                //         .employeeList),
+                                                                style: TextStyle(
+                                                                    color:
+                                                                    Colors.grey,
+                                                                    fontSize: 14),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Action',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize: 14,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      _showMyDialog(
+                                                                          data.prospectName!,
+                                                                          data.id!);
+                                                                    },
+                                                                    child: Card(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              100)),
                                                                       child:
-                                                                          Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(
-                                                                                8.0),
-                                                                        child: Text(
-                                                                          "Visit",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                primaryColor,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                      Container(
+                                                                        decoration:
+                                                                        BoxDecoration(
+                                                                            shape:
+                                                                            BoxShape.circle),
+                                                                        child:
+                                                                        Padding(
+                                                                          padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                          child: Text(
+                                                                            "Visit",
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color:
+                                                                              primaryColor,
+                                                                              fontWeight:
+                                                                              FontWeight.bold,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Card(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                                  100)),
-                                                                  child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                        shape: BoxShape
-                                                                            .circle),
-                                                                    child: Padding(
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                                  .all(
-                                                                              8.0),
-                                                                      child: Icon(
-                                                                        Icons.edit,
-                                                                        color:
-                                                                            primaryColor,
-                                                                      ),
-                                                                    ),
+                                                                  SizedBox(
+                                                                    width: 5,
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Card(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                                  100)),
-                                                                  child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                        shape: BoxShape
-                                                                            .circle),
-                                                                    child: Padding(
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                                  .all(
-                                                                              8.0),
-                                                                      child: Icon(
-                                                                        Icons
-                                                                            .delete,
-                                                                        color: Colors
-                                                                            .red,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 50,
-                                                                ),
-                                                                Container()
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Container(
-                                                          height: 50,
-                                                          child: ListView.separated(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            itemCount:
-                                                                activityList.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    index) {
-                                                              return Row(
-                                                                children: [
-                                                                  Badge(
-                                                                    badgeContent: index ==
-                                                                            0
-                                                                        ? Text(data
-                                                                            .followupLogActivity!
-                                                                            .leadCount
-                                                                            .toString())
-                                                                        : index == 1
-                                                                            ? Text(data
-                                                                                .followupLogActivity!
-                                                                                .quoteCount
-                                                                                .toString())
-                                                                            : index ==
-                                                                                    2
-                                                                                ? Text(data.followupLogActivity!.orderCount.toString())
-                                                                                : index == 3
-                                                                                    ? Text(data.followupActivity!.call.toString())
-                                                                                    : index == 4
-                                                                                        ? Text(data.followupActivity!.message.toString())
-                                                                                        : index == 5
-                                                                                            ? Text(data.followupActivity!.meeting.toString())
-                                                                                            : Text(data.followupActivity!.visit.toString()),
-                                                                    badgeColor:
-                                                                        primaryColorLight,
-                                                                    child: Card(
-                                                                      elevation: 5,
-                                                                      child:
-                                                                          Container(
-                                                                        width: MediaQuery.of(context)
-                                                                                .size
-                                                                                .width *
-                                                                            .11,
-                                                                        height: 40,
-                                                                        child:
-                                                                            Column(
-                                                                          children: [
-                                                                            InkWell(
-                                                                              onTap:
-                                                                                  () {},
-                                                                              child:
-                                                                                  CircleAvatar(
-                                                                                radius:
-                                                                                    10,
-                                                                                backgroundColor:
-                                                                                    Colors.transparent,
-                                                                                child:
-                                                                                    activityList[index].icon,
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height:
-                                                                                  5,
-                                                                            ),
-                                                                            Expanded(
-                                                                              child:
-                                                                                  Text(
-                                                                                activityList[index].activityName!,
-                                                                                style:
-                                                                                    TextStyle(color: Colors.grey, fontSize: 7),
-                                                                                overflow:
-                                                                                    TextOverflow.ellipsis,
-                                                                              ),
-                                                                            ),
-                                                                          ],
+                                                                  Card(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            100)),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          shape: BoxShape
+                                                                              .circle),
+                                                                      child: Padding(
+                                                                        padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                        child: Icon(
+                                                                          Icons.edit,
+                                                                          color:
+                                                                          primaryColor,
                                                                         ),
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   SizedBox(
-                                                                    width: 10,
-                                                                  )
+                                                                    width: 5,
+                                                                  ),
+                                                                  Card(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            100)),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          shape: BoxShape
+                                                                              .circle),
+                                                                      child: Padding(
+                                                                        padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                        child: Icon(
+                                                                          Icons
+                                                                              .delete,
+                                                                          color: Colors
+                                                                              .red,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 50,
+                                                                  ),
+                                                                  Container()
                                                                 ],
-                                                              );
-                                                            },
-                                                            separatorBuilder:
-                                                                (context, index) {
-                                                              return SizedBox(
-                                                                width: 0,
-                                                              );
-                                                            },
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ),
-                                                      ],
+                                                          Container(
+                                                            height: 50,
+                                                            child: ListView.separated(
+                                                              scrollDirection:
+                                                              Axis.horizontal,
+                                                              itemCount:
+                                                              activityList.length,
+                                                              itemBuilder:
+                                                                  (BuildContext
+                                                              context,
+                                                                  index) {
+                                                                return Row(
+                                                                  children: [
+                                                                    Badge(
+                                                                      badgeContent: index ==
+                                                                          0
+                                                                          ? Text(data
+                                                                          .followupLogActivity!
+                                                                          .leadCount
+                                                                          .toString())
+                                                                          : index == 1
+                                                                          ? Text(data
+                                                                          .followupLogActivity!
+                                                                          .quoteCount
+                                                                          .toString())
+                                                                          : index ==
+                                                                          2
+                                                                          ? Text(data.followupLogActivity!.orderCount.toString())
+                                                                          : index == 3
+                                                                          ? Text(data.followupActivity!.call.toString())
+                                                                          : index == 4
+                                                                          ? Text(data.followupActivity!.message.toString())
+                                                                          : index == 5
+                                                                          ? Text(data.followupActivity!.meeting.toString())
+                                                                          : Text(data.followupActivity!.visit.toString()),
+                                                                      badgeColor:
+                                                                      primaryColorLight,
+                                                                      child: Card(
+                                                                        elevation: 5,
+                                                                        child:
+                                                                        Container(
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                              .11,
+                                                                          height: 40,
+                                                                          child:
+                                                                          Column(
+                                                                            children: [
+                                                                              InkWell(
+                                                                                onTap:
+                                                                                    () {},
+                                                                                child:
+                                                                                CircleAvatar(
+                                                                                  radius:
+                                                                                  10,
+                                                                                  backgroundColor:
+                                                                                  Colors.transparent,
+                                                                                  child:
+                                                                                  activityList[index].icon,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height:
+                                                                                5,
+                                                                              ),
+                                                                              Expanded(
+                                                                                child:
+                                                                                Text(
+                                                                                  activityList[index].activityName!,
+                                                                                  style:
+                                                                                  TextStyle(color: Colors.grey, fontSize: 7),
+                                                                                  overflow:
+                                                                                  TextOverflow.ellipsis,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    )
+                                                                  ],
+                                                                );
+                                                              },
+                                                              separatorBuilder:
+                                                                  (context, index) {
+                                                                return SizedBox(
+                                                                  width: 0,
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+
+                                  } else if(data.isIndividual == false && statgeString == data.stage) {
+                                    return Card(
+                                      child: ExpandableNotifier(
+                                        
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.to(ProspectDetails(
+                                              data: data,
+                                              prospectName: data.prospectName ?? "No Data",
+                                              stage:data.stage, //getStage(data.stage!) ??
+                                              prospectId: data.id,
+                                              createdby: "Emp Name",
+                                              // getEmp(data.createdBy!,
+                                              //     AttendanceRepository.employeeList)
+                                              industry: data.industry,
+                                              createdOn: data.createdOn,
+                                              assignto: getEmp(data.assignTo!,
+                                                  AttendanceRepository.employeeList),
+                                              concernPerson: data.concernPerson == []
+                                                  ? [
+                                                ConcernPerson(
+                                                    name: "NO data",
+                                                    designation: "No Data",
+                                                    mobile: "no data")
+                                              ]
+                                                  : data.concernPerson,
+                                              note: data.importantNote,
+                                            ));
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(6),
+                                                color: const Color(0xFFFFFFFF)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'Pro -${data.id}',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.w700,
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                          "${DateFormat.yMMM().format(data.createdOn!)}",
+                                                          style: TextStyle(
+                                                              color: Colors.grey,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                              FontWeight.w400)),
+                                                    ],
+                                                  ),
+                                                  ListTile(
+                                                      trailing: Container(
+                                                        height: 40,
+                                                        width: 100,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: borderColor,
+                                                                width: 1),
+                                                            borderRadius:
+                                                            const BorderRadius
+                                                                .all(
+                                                                Radius.circular(
+                                                                    10.0))),
+                                                        child: Center(
+                                                          child: Text(data.stage!,
+                                                            // getStage(data.stage!),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight.normal,
+                                                                fontSize: 12,
+                                                                color:
+                                                                Colors.black54),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        data.prospectName!,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.w700,
+                                                            fontSize: 12,
+                                                            color: Colors.black),
+                                                      ),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(data.zone!),
+                                                          Text(data.website!),
+                                                          data.industry == null
+                                                              ? Container()
+                                                              : Text(data.industry!),
+                                                          data.concernPerson!.isEmpty
+                                                              ? Text(
+                                                            "No data",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          )
+                                                              : Text(
+                                                            data
+                                                                .concernPerson![
+                                                            0]
+                                                                .name
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                          data.concernPerson!.isEmpty
+                                                              ? Text(
+                                                            "No data",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          )
+                                                              : Text(
+                                                            data
+                                                                .concernPerson![
+                                                            0]
+                                                                .designation
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                          data.concernPerson!.isEmpty
+                                                              ? Text(
+                                                            "No data",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          )
+                                                              : Text(
+                                                            data
+                                                                .concernPerson![
+                                                            0]
+                                                                .mobile
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                  ScrollOnExpand(
+                                                    scrollOnExpand: true,
+                                                    scrollOnCollapse: false,
+                                                    child: ExpandablePanel(
+                                                      theme:
+                                                      const ExpandableThemeData(
+                                                        headerAlignment:
+                                                        ExpandablePanelHeaderAlignment
+                                                            .center,
+                                                        tapBodyToCollapse: true,
+                                                      ),
+                                                      header: Row(
+                                                        children: [
+                                                          const Text(
+                                                            'Pick Any',
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                FontWeight.w600),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors.blue,
+                                                            onTap: () {
+                                                              _textMe(data.concernPerson![0].mobile!.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      100)),
+                                                              child: Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child: Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                                  child: Icon(
+                                                                    Icons.chat,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors.blue,
+                                                            onTap: () {
+                                                              launchPhoneDialer(
+                                                                  data.concernPerson![0].mobile!.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      100)),
+                                                              child: Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child: Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                                  child: Icon(
+                                                                    Icons.call,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors.blue,
+                                                            onTap: () {
+                                                              _launchWhatsapp(data.concernPerson![0].mobile!.toString());
+                                                            },
+                                                            child: Card(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      100)),
+                                                              child: Container(
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child: Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                                  child: Icon(
+                                                                    Icons.messenger,
+                                                                    color:
+                                                                    primaryColor,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Card(
+                                                            shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    100)),
+                                                            child: Container(
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                              child: Padding(
+                                                                padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                                child: Icon(
+                                                                  Icons.more_horiz,
+                                                                  color: primaryColor,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      collapsed: const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      expanded: Column(
+                                                        children: [
+                                                          const SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .airline_seat_recline_normal_sharp,
+                                                                color: Colors.grey,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Container(
+                                                                decoration:
+                                                                const BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child:
+                                                                const CircleAvatar(
+                                                                  radius: 12,
+                                                                  backgroundImage:
+                                                                  AssetImage(
+                                                                    'images/suite.png',
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text("Emp Name",
+                                                                // getEmp(
+                                                                //     data.createdBy! ??
+                                                                //         1,
+                                                                //     AttendanceRepository
+                                                                //         .employeeList),
+                                                                style: TextStyle(
+                                                                    color:
+                                                                    Colors.grey,
+                                                                    fontSize: 14),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  const Text(
+                                                                    'Action',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize: 14,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      _showMyDialog(
+                                                                          data.prospectName!,
+                                                                          data.id!);
+                                                                    },
+                                                                    child: Card(
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              100)),
+                                                                      child:
+                                                                      Container(
+                                                                        decoration:
+                                                                        BoxDecoration(
+                                                                            shape:
+                                                                            BoxShape.circle),
+                                                                        child:
+                                                                        Padding(
+                                                                          padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                          child: Text(
+                                                                            "Visit",
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color:
+                                                                              primaryColor,
+                                                                              fontWeight:
+                                                                              FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Card(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            100)),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          shape: BoxShape
+                                                                              .circle),
+                                                                      child: Padding(
+                                                                        padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                        child: Icon(
+                                                                          Icons.edit,
+                                                                          color:
+                                                                          primaryColor,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Card(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            100)),
+                                                                    child: Container(
+                                                                      decoration: BoxDecoration(
+                                                                          shape: BoxShape
+                                                                              .circle),
+                                                                      child: Padding(
+                                                                        padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                        child: Icon(
+                                                                          Icons
+                                                                              .delete,
+                                                                          color: Colors
+                                                                              .red,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 50,
+                                                                  ),
+                                                                  Container()
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Container(
+                                                            height: 50,
+                                                            child: ListView.separated(
+                                                              scrollDirection:
+                                                              Axis.horizontal,
+                                                              itemCount:
+                                                              activityList.length,
+                                                              itemBuilder:
+                                                                  (BuildContext
+                                                              context,
+                                                                  index) {
+                                                                return Row(
+                                                                  children: [
+                                                                    Badge(
+                                                                      badgeContent: index ==
+                                                                          0
+                                                                          ? Text(data
+                                                                          .followupLogActivity!
+                                                                          .leadCount
+                                                                          .toString())
+                                                                          : index == 1
+                                                                          ? Text(data
+                                                                          .followupLogActivity!
+                                                                          .quoteCount
+                                                                          .toString())
+                                                                          : index ==
+                                                                          2
+                                                                          ? Text(data.followupLogActivity!.orderCount.toString())
+                                                                          : index == 3
+                                                                          ? Text(data.followupActivity!.call.toString())
+                                                                          : index == 4
+                                                                          ? Text(data.followupActivity!.message.toString())
+                                                                          : index == 5
+                                                                          ? Text(data.followupActivity!.meeting.toString())
+                                                                          : Text(data.followupActivity!.visit.toString()),
+                                                                      badgeColor:
+                                                                      primaryColorLight,
+                                                                      child: Card(
+                                                                        elevation: 5,
+                                                                        child:
+                                                                        Container(
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                              .11,
+                                                                          height: 40,
+                                                                          child:
+                                                                          Column(
+                                                                            children: [
+                                                                              InkWell(
+                                                                                onTap:
+                                                                                    () {},
+                                                                                child:
+                                                                                CircleAvatar(
+                                                                                  radius:
+                                                                                  10,
+                                                                                  backgroundColor:
+                                                                                  Colors.transparent,
+                                                                                  child:
+                                                                                  activityList[index].icon,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height:
+                                                                                5,
+                                                                              ),
+                                                                              Expanded(
+                                                                                child:
+                                                                                Text(
+                                                                                  activityList[index].activityName!,
+                                                                                  style:
+                                                                                  TextStyle(color: Colors.grey, fontSize: 7),
+                                                                                  overflow:
+                                                                                  TextOverflow.ellipsis,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 10,
+                                                                    )
+                                                                  ],
+                                                                );
+                                                              },
+                                                              separatorBuilder:
+                                                                  (context, index) {
+                                                                return SizedBox(
+                                                                  width: 0,
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -920,9 +1637,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                   }
                                   return Container();
                                 },
-                                separatorBuilder: (context, index) {
-                                  return Divider();
-                                },
+                               
                               ),
                             ),
                           ],
@@ -930,7 +1645,1235 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                       }
                   }
                 },
+              )
+                  :  Container(
+                height: MediaQuery.of(context).size.height - 250,
+                child: ListView.builder(
+                  itemCount: getAllProspectByIdtModel.result!.length,
+                  itemBuilder: (BuildContext context, index) {
+                    var data = getAllProspectByIdtModel.result![index];
+
+                    if (data.isIndividual == false && statgeString == "" ) {
+                      return Card(
+                        child: ExpandableNotifier(
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(ProspectDetails(
+                                data: data,
+                                prospectName: data.prospectName ?? "No Data",
+                                stage:data.stage, //getStage(data.stage!) ??
+                                prospectId: data.id,
+                                createdby: "Emp Name",
+                                // getEmp(data.createdBy!,
+                                //     AttendanceRepository.employeeList)
+                                industry: data.industry,
+                                createdOn: data.createdOn,
+                                assignto: getEmp(data.assignTo!,
+                                    AttendanceRepository.employeeList),
+                                concernPerson: data.concernPerson == []
+                                    ? [
+                                  ConcernPerson(
+                                      name: "NO data",
+                                      designation: "No Data",
+                                      mobile: "no data")
+                                ]
+                                    : data.concernPerson,
+                                note: data.importantNote,
+                              ));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(6),
+                                  color: const Color(0xFFFFFFFF)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Pro -${data.id}',
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              fontSize: 12,
+                                              color: Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                            "${DateFormat.yMMM().format(data.createdOn!)}",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                                fontWeight:
+                                                FontWeight.w400)),
+                                      ],
+                                    ),
+                                    ListTile(
+                                        trailing: Container(
+                                          height: 40,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: borderColor,
+                                                  width: 1),
+                                              borderRadius:
+                                              const BorderRadius
+                                                  .all(
+                                                  Radius.circular(
+                                                      10.0))),
+                                          child: Center(
+                                            child: Text(data.stage!,
+                                              // getStage(data.stage!),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontSize: 12,
+                                                  color:
+                                                  Colors.black54),
+                                            ),
+                                          ),
+                                        ),
+                                        title: Text(
+                                          data.prospectName!,
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              fontSize: 12,
+                                              color: Colors.black),
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(data.zone!),
+                                            Text(data.website!),
+                                            data.industry == null
+                                                ? Container()
+                                                : Text(data.industry!),
+                                            data.concernPerson!.isEmpty
+                                                ? Text(
+                                              "No data",
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            )
+                                                : Text(
+                                              data
+                                                  .concernPerson![
+                                              0]
+                                                  .name
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 14,
+                                                  color: Colors
+                                                      .grey),
+                                            ),
+                                            data.concernPerson!.isEmpty
+                                                ? Text(
+                                              "No data",
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            )
+                                                : Text(
+                                              data
+                                                  .concernPerson![
+                                              0]
+                                                  .designation
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            ),
+                                            data.concernPerson!.isEmpty
+                                                ? Text(
+                                              "No data",
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            )
+                                                : Text(
+                                              data
+                                                  .concernPerson![
+                                              0]
+                                                  .mobile
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            ),
+                                          ],
+                                        )),
+                                    ScrollOnExpand(
+                                      scrollOnExpand: true,
+                                      scrollOnCollapse: false,
+                                      child: ExpandablePanel(
+                                        theme:
+                                        const ExpandableThemeData(
+                                          headerAlignment:
+                                          ExpandablePanelHeaderAlignment
+                                              .center,
+                                          tapBodyToCollapse: true,
+                                        ),
+                                        header: Row(
+                                          children: [
+                                            const Text(
+                                              'Pick Any',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                  FontWeight.w600),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.blue,
+                                              onTap: () {
+                                                _textMe(data.concernPerson![0].mobile!.toString());
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        100)),
+                                                child: Container(
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .all(8.0),
+                                                    child: Icon(
+                                                      Icons.chat,
+                                                      color:
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.blue,
+                                              onTap: () {
+                                                launchPhoneDialer(
+                                                    data.concernPerson![0].mobile!.toString());
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        100)),
+                                                child: Container(
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .all(8.0),
+                                                    child: Icon(
+                                                      Icons.call,
+                                                      color:
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.blue,
+                                              onTap: () {
+                                                _launchWhatsapp(data.concernPerson![0].mobile!.toString());
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        100)),
+                                                child: Container(
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .all(8.0),
+                                                    child: Icon(
+                                                      Icons.messenger,
+                                                      color:
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Card(
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(
+                                                      100)),
+                                              child: Container(
+                                                decoration:
+                                                BoxDecoration(
+                                                    shape: BoxShape
+                                                        .circle),
+                                                child: Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .all(8.0),
+                                                  child: Icon(
+                                                    Icons.more_horiz,
+                                                    color: primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        collapsed: const SizedBox(
+                                          height: 10,
+                                        ),
+                                        expanded: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons
+                                                      .airline_seat_recline_normal_sharp,
+                                                  color: Colors.grey,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  decoration:
+                                                  const BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child:
+                                                  const CircleAvatar(
+                                                    radius: 12,
+                                                    backgroundImage:
+                                                    AssetImage(
+                                                      'images/suite.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text("Emp Name",
+                                                  // getEmp(
+                                                  //     data.createdBy! ??
+                                                  //         1,
+                                                  //     AttendanceRepository
+                                                  //         .employeeList),
+                                                  style: TextStyle(
+                                                      color:
+                                                      Colors.grey,
+                                                      fontSize: 14),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'Action',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .black,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w600),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        _showMyDialog(
+                                                            data.prospectName!,
+                                                            data.id!);
+                                                      },
+                                                      child: Card(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                100)),
+                                                        child:
+                                                        Container(
+                                                          decoration:
+                                                          BoxDecoration(
+                                                              shape:
+                                                              BoxShape.circle),
+                                                          child:
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets.all(
+                                                                8.0),
+                                                            child: Text(
+                                                              "Visit",
+                                                              style:
+                                                              TextStyle(
+                                                                color:
+                                                                primaryColor,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Card(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              100)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape
+                                                                .circle),
+                                                        child: Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .all(
+                                                              8.0),
+                                                          child: Icon(
+                                                            Icons.edit,
+                                                            color:
+                                                            primaryColor,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Card(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              100)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape
+                                                                .circle),
+                                                        child: Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .all(
+                                                              8.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .delete,
+                                                            color: Colors
+                                                                .red,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 50,
+                                                    ),
+                                                    Container()
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: 50,
+                                              child: ListView.separated(
+                                                scrollDirection:
+                                                Axis.horizontal,
+                                                itemCount:
+                                                activityList.length,
+                                                itemBuilder:
+                                                    (BuildContext
+                                                context,
+                                                    index) {
+                                                  return Row(
+                                                    children: [
+                                                      Badge(
+                                                        badgeContent: index ==
+                                                            0
+                                                            ? Text(data
+                                                            .followupLogActivity!
+                                                            .leadCount
+                                                            .toString())
+                                                            : index == 1
+                                                            ? Text(data
+                                                            .followupLogActivity!
+                                                            .quoteCount
+                                                            .toString())
+                                                            : index ==
+                                                            2
+                                                            ? Text(data.followupLogActivity!.orderCount.toString())
+                                                            : index == 3
+                                                            ? Text(data.followupActivity!.call.toString())
+                                                            : index == 4
+                                                            ? Text(data.followupActivity!.message.toString())
+                                                            : index == 5
+                                                            ? Text(data.followupActivity!.meeting.toString())
+                                                            : Text(data.followupActivity!.visit.toString()),
+                                                        badgeColor:
+                                                        primaryColorLight,
+                                                        child: Card(
+                                                          elevation: 5,
+                                                          child:
+                                                          Container(
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                                .11,
+                                                            height: 40,
+                                                            child:
+                                                            Column(
+                                                              children: [
+                                                                InkWell(
+                                                                  onTap:
+                                                                      () {},
+                                                                  child:
+                                                                  CircleAvatar(
+                                                                    radius:
+                                                                    10,
+                                                                    backgroundColor:
+                                                                    Colors.transparent,
+                                                                    child:
+                                                                    activityList[index].icon,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height:
+                                                                  5,
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                  Text(
+                                                                    activityList[index].activityName!,
+                                                                    style:
+                                                                    TextStyle(color: Colors.grey, fontSize: 7),
+                                                                    overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      )
+                                                    ],
+                                                  );
+                                                },
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return SizedBox(
+                                                    width: 0,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+
+                    } else if(data.isIndividual == false && statgeString == data.stage) {
+                      return Card(
+                        child: ExpandableNotifier(
+
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(ProspectDetails(
+                                data: data,
+                                prospectName: data.prospectName ?? "No Data",
+                                stage:data.stage, //getStage(data.stage!) ??
+                                prospectId: data.id,
+                                createdby: "Emp Name",
+                                // getEmp(data.createdBy!,
+                                //     AttendanceRepository.employeeList)
+                                industry: data.industry,
+                                createdOn: data.createdOn,
+                                assignto: getEmp(data.assignTo!,
+                                    AttendanceRepository.employeeList),
+                                concernPerson: data.concernPerson == []
+                                    ? [
+                                  ConcernPerson(
+                                      name: "NO data",
+                                      designation: "No Data",
+                                      mobile: "no data")
+                                ]
+                                    : data.concernPerson,
+                                note: data.importantNote,
+                              ));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(6),
+                                  color: const Color(0xFFFFFFFF)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Pro -${data.id}',
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              fontSize: 12,
+                                              color: Colors.grey),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                            "${DateFormat.yMMM().format(data.createdOn!)}",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                                fontWeight:
+                                                FontWeight.w400)),
+                                      ],
+                                    ),
+                                    ListTile(
+                                        trailing: Container(
+                                          height: 40,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: borderColor,
+                                                  width: 1),
+                                              borderRadius:
+                                              const BorderRadius
+                                                  .all(
+                                                  Radius.circular(
+                                                      10.0))),
+                                          child: Center(
+                                            child: Text(data.stage!,
+                                              // getStage(data.stage!),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight.normal,
+                                                  fontSize: 12,
+                                                  color:
+                                                  Colors.black54),
+                                            ),
+                                          ),
+                                        ),
+                                        title: Text(
+                                          data.prospectName!,
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.w700,
+                                              fontSize: 12,
+                                              color: Colors.black),
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(data.zone!),
+                                            Text(data.website!),
+                                            data.industry == null
+                                                ? Container()
+                                                : Text(data.industry!),
+                                            data.concernPerson!.isEmpty
+                                                ? Text(
+                                              "No data",
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            )
+                                                : Text(
+                                              data
+                                                  .concernPerson![
+                                              0]
+                                                  .name
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 14,
+                                                  color: Colors
+                                                      .grey),
+                                            ),
+                                            data.concernPerson!.isEmpty
+                                                ? Text(
+                                              "No data",
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            )
+                                                : Text(
+                                              data
+                                                  .concernPerson![
+                                              0]
+                                                  .designation
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            ),
+                                            data.concernPerson!.isEmpty
+                                                ? Text(
+                                              "No data",
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            )
+                                                : Text(
+                                              data
+                                                  .concernPerson![
+                                              0]
+                                                  .mobile
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .bold,
+                                                  fontSize: 12,
+                                                  color: Colors
+                                                      .grey),
+                                            ),
+                                          ],
+                                        )),
+                                    ScrollOnExpand(
+                                      scrollOnExpand: true,
+                                      scrollOnCollapse: false,
+                                      child: ExpandablePanel(
+                                        theme:
+                                        const ExpandableThemeData(
+                                          headerAlignment:
+                                          ExpandablePanelHeaderAlignment
+                                              .center,
+                                          tapBodyToCollapse: true,
+                                        ),
+                                        header: Row(
+                                          children: [
+                                            const Text(
+                                              'Pick Any',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                  FontWeight.w600),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.blue,
+                                              onTap: () {
+                                                _textMe(data.concernPerson![0].mobile!.toString());
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        100)),
+                                                child: Container(
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .all(8.0),
+                                                    child: Icon(
+                                                      Icons.chat,
+                                                      color:
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.blue,
+                                              onTap: () {
+                                                launchPhoneDialer(
+                                                    data.concernPerson![0].mobile!.toString());
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        100)),
+                                                child: Container(
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .all(8.0),
+                                                    child: Icon(
+                                                      Icons.call,
+                                                      color:
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.blue,
+                                              onTap: () {
+                                                _launchWhatsapp(data.concernPerson![0].mobile!.toString());
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        100)),
+                                                child: Container(
+                                                  decoration:
+                                                  BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .all(8.0),
+                                                    child: Icon(
+                                                      Icons.messenger,
+                                                      color:
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Card(
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(
+                                                      100)),
+                                              child: Container(
+                                                decoration:
+                                                BoxDecoration(
+                                                    shape: BoxShape
+                                                        .circle),
+                                                child: Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .all(8.0),
+                                                  child: Icon(
+                                                    Icons.more_horiz,
+                                                    color: primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        collapsed: const SizedBox(
+                                          height: 10,
+                                        ),
+                                        expanded: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons
+                                                      .airline_seat_recline_normal_sharp,
+                                                  color: Colors.grey,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  decoration:
+                                                  const BoxDecoration(
+                                                      shape: BoxShape
+                                                          .circle),
+                                                  child:
+                                                  const CircleAvatar(
+                                                    radius: 12,
+                                                    backgroundImage:
+                                                    AssetImage(
+                                                      'images/suite.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text("Emp Name",
+                                                  // getEmp(
+                                                  //     data.createdBy! ??
+                                                  //         1,
+                                                  //     AttendanceRepository
+                                                  //         .employeeList),
+                                                  style: TextStyle(
+                                                      color:
+                                                      Colors.grey,
+                                                      fontSize: 14),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'Action',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .black,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w600),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        _showMyDialog(
+                                                            data.prospectName!,
+                                                            data.id!);
+                                                      },
+                                                      child: Card(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                100)),
+                                                        child:
+                                                        Container(
+                                                          decoration:
+                                                          BoxDecoration(
+                                                              shape:
+                                                              BoxShape.circle),
+                                                          child:
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets.all(
+                                                                8.0),
+                                                            child: Text(
+                                                              "Visit",
+                                                              style:
+                                                              TextStyle(
+                                                                color:
+                                                                primaryColor,
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Card(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              100)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape
+                                                                .circle),
+                                                        child: Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .all(
+                                                              8.0),
+                                                          child: Icon(
+                                                            Icons.edit,
+                                                            color:
+                                                            primaryColor,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Card(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              100)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape
+                                                                .circle),
+                                                        child: Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .all(
+                                                              8.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .delete,
+                                                            color: Colors
+                                                                .red,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 50,
+                                                    ),
+                                                    Container()
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: 50,
+                                              child: ListView.separated(
+                                                scrollDirection:
+                                                Axis.horizontal,
+                                                itemCount:
+                                                activityList.length,
+                                                itemBuilder:
+                                                    (BuildContext
+                                                context,
+                                                    index) {
+                                                  return Row(
+                                                    children: [
+                                                      Badge(
+                                                        badgeContent: index ==
+                                                            0
+                                                            ? Text(data
+                                                            .followupLogActivity!
+                                                            .leadCount
+                                                            .toString())
+                                                            : index == 1
+                                                            ? Text(data
+                                                            .followupLogActivity!
+                                                            .quoteCount
+                                                            .toString())
+                                                            : index ==
+                                                            2
+                                                            ? Text(data.followupLogActivity!.orderCount.toString())
+                                                            : index == 3
+                                                            ? Text(data.followupActivity!.call.toString())
+                                                            : index == 4
+                                                            ? Text(data.followupActivity!.message.toString())
+                                                            : index == 5
+                                                            ? Text(data.followupActivity!.meeting.toString())
+                                                            : Text(data.followupActivity!.visit.toString()),
+                                                        badgeColor:
+                                                        primaryColorLight,
+                                                        child: Card(
+                                                          elevation: 5,
+                                                          child:
+                                                          Container(
+                                                            width: MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                                .11,
+                                                            height: 40,
+                                                            child:
+                                                            Column(
+                                                              children: [
+                                                                InkWell(
+                                                                  onTap:
+                                                                      () {},
+                                                                  child:
+                                                                  CircleAvatar(
+                                                                    radius:
+                                                                    10,
+                                                                    backgroundColor:
+                                                                    Colors.transparent,
+                                                                    child:
+                                                                    activityList[index].icon,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height:
+                                                                  5,
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                  Text(
+                                                                    activityList[index].activityName!,
+                                                                    style:
+                                                                    TextStyle(color: Colors.grey, fontSize: 7),
+                                                                    overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      )
+                                                    ],
+                                                  );
+                                                },
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return SizedBox(
+                                                    width: 0,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
+
+                ),
               ),
+
             ]),
           ),
         ),

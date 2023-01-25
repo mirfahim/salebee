@@ -9,7 +9,8 @@ import 'package:salebee/utils.dart';
 import '../../Model/followUp/followUP_by_prospectID_model.dart';
 
 class FollowUpPage extends StatefulWidget {
-  const FollowUpPage({Key? key}) : super(key: key);
+  int? prosId;
+   FollowUpPage({Key? key, this.prosId}) : super(key: key);
 
   @override
   State<FollowUpPage> createState() => _FollowUpListState();
@@ -28,7 +29,7 @@ class _FollowUpListState extends State<FollowUpPage> {
               height: 10,
             ),
             FutureBuilder<GetFollowupListModel>(
-              future: prospectRepository.getProspectFollowupByIdController(),
+              future: prospectRepository.getProspectFollowupByIdController(widget.prosId!),
               builder: (BuildContext context,
                   AsyncSnapshot<GetFollowupListModel> snapshot) {
                 if (snapshot.data == null) {

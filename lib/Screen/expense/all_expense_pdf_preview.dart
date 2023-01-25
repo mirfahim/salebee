@@ -9,11 +9,12 @@ import 'package:salebee/utils.dart';
 
 import 'all_expense_make_pdf.dart';
 
-class PdfPreviewPage extends StatelessWidget {
+class AllExPdfPreviewPage extends StatelessWidget {
   final GetAllExpenseModel? invoice;
+
   int monthSelection;
   int yearSelection ;
-  PdfPreviewPage({Key? key, required this.invoice, required this.monthSelection, required this.yearSelection, }) : super(key: key);
+  AllExPdfPreviewPage({Key? key, required this.invoice, required this.monthSelection, required this.yearSelection,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

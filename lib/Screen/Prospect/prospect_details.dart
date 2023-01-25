@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Screen/follow_up/add_followup_log.dart';
 import 'package:salebee/Screen/follow_up/follow_up_list.dart';
 
 import '../../Model/prospect/get_prospectList_by_id_model.dart';
@@ -16,8 +17,9 @@ class ProspectDetails extends StatefulWidget {
   String? assignto;
   List<ConcernPerson>? concernPerson;
   String? note;
+  int? prospectId;
 
-   ProspectDetails({Key? key, this.data, this.stage, this.prospectName, this.concernPerson, this.createdOn,this.assignto, this.createdby, this.industry, this.note} ) : super(key: key);
+   ProspectDetails({Key? key,this.prospectId, this.data, this.stage, this.prospectName, this.concernPerson, this.createdOn,this.assignto, this.createdby, this.industry, this.note} ) : super(key: key);
 
   @override
   State<ProspectDetails> createState() => _ProspectDetailsState();
@@ -402,9 +404,28 @@ class _ProspectDetailsState extends State<ProspectDetails> {
                     ],
                   ),
                   SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(AddLogFollowUp(prospectID: widget.prospectId,));
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 120,
+
+                        decoration:  BoxDecoration(
+
+                            shape: BoxShape.rectangle,
+                            color: primaryColor,
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(10.0))),
+
+
+                      child: Center(child: Text("Add Followup", style: TextStyle(fontSize: 12, color: Colors.white),)),
+                    ),
+                  ),
                   Container(
                     height: 300,
-                      child: FollowUpList()),
+                      child: FollowUpList(prospectId: widget.prospectId,)),
                 ],
               ),
             ),
