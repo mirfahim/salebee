@@ -10,7 +10,8 @@ import '../../Model/followUp/followUP_by_prospectID_model.dart';
 
 class FollowUpPage extends StatefulWidget {
   int? prosId;
-   FollowUpPage({Key? key, this.prosId}) : super(key: key);
+  String? prospect;
+   FollowUpPage({Key? key, this.prosId, this.prospect}) : super(key: key);
 
   @override
   State<FollowUpPage> createState() => _FollowUpListState();
@@ -21,6 +22,9 @@ class _FollowUpListState extends State<FollowUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Follow up - ${widget.prospect}"),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

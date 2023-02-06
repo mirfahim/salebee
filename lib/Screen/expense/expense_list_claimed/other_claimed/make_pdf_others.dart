@@ -28,15 +28,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
       children: [
         Column(
           children: [
-            Row(
-                crossAxisAlignment: pw.CrossAxisAlignment.end,
-                mainAxisAlignment: pw.MainAxisAlignment.end,
-                children: [
-                  Spacer(),
-                  Text("Printed on: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
-                    style: TextStyle(
-                        fontWeight: pw.FontWeight.normal, fontSize: 12),),
-                ]),
+
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +116,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -132,7 +124,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -140,7 +132,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -148,7 +140,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
 
             Padding(
@@ -157,7 +149,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -165,7 +157,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
           ],
         ),
@@ -239,7 +231,7 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
     ),
   );
   widgets.add(
-    pw.SizedBox(height: 40),
+    pw.Spacer(),
   );
   widgets.add(
       Row(
@@ -280,6 +272,21 @@ Future<Uint8List> makePdf(GetOtherExpenseModel invoice, monthSelection, yearSele
             ]),
           ])
   );
+  widgets.add(
+    pw.SizedBox(height: 20),
+  );
+
+  widgets.add(
+    Row(
+        crossAxisAlignment: pw.CrossAxisAlignment.end,
+        mainAxisAlignment: pw.MainAxisAlignment.end,
+        children: [
+          Spacer(),
+          Text("Printed on: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
+            style: TextStyle(
+                fontWeight: pw.FontWeight.normal, fontSize: 12),),
+        ]),
+  );
   // final imageLogo = MemoryImage((await rootBundle.load('assets/technical_logo.png')).buffer.asUint8List());
   pdf.addPage(
     MultiPage(
@@ -296,7 +303,7 @@ Widget PaddedText(
       final TextAlign align = TextAlign.left,
     }) =>
     Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(2),
       child: Text(
         text,
         textAlign: align,

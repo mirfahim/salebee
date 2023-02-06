@@ -402,7 +402,8 @@ class _ApprovedState extends State<FoodClaimedList> {
                                                       PdfPreviewPage(
                                                           invoice:
                                                               snapshot.data!,
-                                                        monthSelection: selectMonth, yearSelection: yearSelection,),
+                                                        monthSelection: selectMonth, yearSelection: yearSelection,
+                                                      expenselist: expenseList,),
                                                 ),
                                               );
                                             },

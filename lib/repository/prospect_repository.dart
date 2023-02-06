@@ -107,9 +107,11 @@ class ProspectRepository {
   }
 
   Future<GetAllProspectByIdtModel> getAllProspectListByUserIdController() async {
+    String base_url = "${StringsConst.BASEURL}";
+    print("my main url is ----------------${StringsConst.MAINURL} ++++++");
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+    print("working 1 brop bro bro ${SharedPreff.to.prefss.get("token")} ++++++");
 
     Uri url = Uri.parse("$base_url/GetAllProspectByAssignedUserId");
     final response = await http.post(
@@ -122,6 +124,7 @@ class ProspectRepository {
 
     print("my resposnse repo get all prospect list by id${response.body}");
     String data = response.body;
+
     SharedPreff.to.prefss.setString("prospectList", data);
     return getAllProspectByIdtModelFromJson(response.body!);
   }

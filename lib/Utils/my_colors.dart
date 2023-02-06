@@ -11,7 +11,9 @@ class MyColors {
   static const Color lightBlue = Color(0x00000007);
   static const Color darkBlue = Color(0x00000008);
   static  Color shadeBlue =HexColor("#ebf9ff");
-  static  Color appColor =HexColor("#f8f9fd");
+  static  Color appColor =HexColor("#77CBD2");
+  static  Color brown =HexColor("#FBCD59");
+  static  Color brownLight =HexColor("#FCE0A2");
   static  Color grey01 =HexColor("#b8b8b8");
   static  Color appBlue =HexColor("#009ee5");
   static  Color shadeBlack =HexColor("#484848");
@@ -31,6 +33,10 @@ class MyColors {
   static const Color grey_90 = Color(0xFF263238);
   static const Color grey_95 = Color(0xff1a1a1a);
   static const Color grey_100_ = Color(0xFF0d0d0d);
+
+  // customcolor
+
+  static  Color customRed =HexColor("#EE3E54");
 
 
 }

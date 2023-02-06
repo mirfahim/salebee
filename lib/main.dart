@@ -16,6 +16,7 @@ import 'package:salebee/utils.dart';
 import 'Provider/Login/provider_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Screen/Authentication/login_page.dart';
+import 'Screen/schedule/schedule_home.dart';
 import 'Screen/task/notification_service.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

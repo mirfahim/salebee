@@ -10,6 +10,10 @@ import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
 import 'package:salebee/Screen/expense/expense_create/food.dart';
 import 'package:salebee/Screen/expense/expense_list_claimed/transport_claimed/transport_expense_list.dart';
+import 'package:salebee/Screen/follow_up/follow_up_page.dart';
+import 'package:salebee/Screen/follow_up/followup_controller.dart';
+import 'package:salebee/Screen/task/add_new_task.dart';
+import 'package:salebee/Screen/task/add_task_form.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/expense_repository.dart';
 import 'package:salebee/repository/followup_repository.dart';
@@ -17,7 +21,8 @@ import 'package:salebee/utils.dart';
 
 class AddLogFollowUp extends StatefulWidget {
   int? prospectID;
-  AddLogFollowUp({Key? key, this.prospectID}) : super(key: key);
+  String? prospect;
+  AddLogFollowUp({Key? key, this.prospectID , this.prospect}) : super(key: key);
 
   @override
   State<AddLogFollowUp> createState() =>
@@ -27,8 +32,10 @@ class AddLogFollowUp extends StatefulWidget {
 class _TransportExpenseCreatePageState
     extends State<AddLogFollowUp> {
   final selectedDate = DateTime.now().obs;
+  TaskRepository taskRepository = TaskRepository();
   FollowUpRepository followUpRepository = FollowUpRepository();
   final pickedDate = ''.obs;
+  FollowUpController followUpController = FollowUpController();
   List<String> allList = [];
   var wayDescriptionController = TextEditingController();
   var vehicleNameController = TextEditingController();
@@ -43,7 +50,7 @@ class _TransportExpenseCreatePageState
   String? newProspect = "Select";
   int wayType = 0;
   int outcomeType = 0;
-  TaskRepository taskRepository = TaskRepository();
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   List<String> way = [
     "Other",
     'Call',
@@ -62,7 +69,7 @@ class _TransportExpenseCreatePageState
 
   var bytes;
   bool circular = false;
-
+  String? newEmployee;
 
 
   @override
@@ -88,7 +95,8 @@ class _TransportExpenseCreatePageState
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Add Log Activity"),
+        title: Text("Add Log- ${widget.prospect}"),
+
       ),
       backgroundColor: primaryColorLight,
       body: SafeArea(
@@ -368,53 +376,24 @@ class _TransportExpenseCreatePageState
                     height: 10,
                   ),
                   Container(
-                    width: 150,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Date',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Obx(() => Text(
-                                    DateFormat.yMMMd()
-                                        .format(selectedDate.value),
-                                    style:
-                                    const TextStyle(color: Colors.grey),
-                                  )),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(
-                                    Icons.calendar_today,
-                                    size: 14,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    height: 40,
+                    width:230,
+                    child: CheckboxListTile(
+                      value: followUpController.checkBox.value,
+                      controlAffinity: ListTileControlAffinity.leading, //checkbox at left
+                      onChanged: (bool? value) {
+                        setState(() {
+                          followUpController.checkBox.value = value!;
+                        });
+                      },
+                      title: Text("Next Followup",style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold ),),
                     ),
                   ),
+                  followUpController.checkBox.value == true ?
+                  Container(
+                    height: MediaQuery.of(context).size.height * .7,
+                    child: AddTaskForm(followUp: true,)
+                  ) : Container()
 
 
                 ],
@@ -428,6 +407,35 @@ class _TransportExpenseCreatePageState
                       setState(() {
                         circular = true;
                       });
+                      if(followUpController.checkBox.value == true){
+                        print("task add started from follwup");
+                        taskRepository
+                            .taskAddController(
+                            token: "token",
+                            title: "Log activity",
+                            description: wayDescriptionController.text,
+                            type: wayTypeIndex,
+                            repeat: 0,
+                            priority: StaticData.priorityID,
+                            status: 0,
+                            leadID: StaticData.leadID,
+                            assignaTo: StaticData.assignToID)
+                            .then((value) {
+                          if (value.isSuccess == true) {
+                            _showSnack(value.message!);
+                            _showSnack("Task Assign to $newEmployee");
+                            setState(() {
+                              circular = false;
+                            });
+                            // Get.to(OtherExpense());
+                          } else {
+                            _showSnack(value.message!);
+                            setState(() {
+                              circular = false;
+                            });
+                          }
+                        });
+                      }
                      followUpRepository.addFollowUpLog(description: wayDescriptionController.text, logType: wayTypeIndex, outComeType: outcomeType, prospectId: widget.prospectID, ).then((e) {
                        print("hlw mir ${e["IsSuccess"]}");
 
@@ -435,9 +443,10 @@ class _TransportExpenseCreatePageState
                          setState(() {
                            circular = false;
                          });
+                         Get.to(FollowUpPage(prosId: widget.prospectID, prospect: widget.prospect,));
                          final snackBar = SnackBar(
-                           content: const Text(
-                               'Activity Successfully added'),
+                           content:  Text(
+                               'Activity Successfully added for ${widget.prospect!}'),
                            action: SnackBarAction(
                              label: 'Undo',
 
@@ -446,13 +455,7 @@ class _TransportExpenseCreatePageState
                              },
                            ),
                          );
-                         ScaffoldMessenger.of(context)
-                             .showSnackBar(snackBar);
-                         Navigator.of(context).push(
-                           MaterialPageRoute(
-                             builder: (context) => ProspectFront(),
-                           ),
-                         );
+
                        } else {
                          setState(() {
                            circular = false;
@@ -489,7 +492,11 @@ class _TransportExpenseCreatePageState
       ),
     );
   }
-
+  void _showSnack(String msg) {
+    final _snackBarContent = SnackBar(content: Text(msg));
+    ScaffoldMessenger.of(_scaffoldkey.currentState!.context)
+        .showSnackBar(_snackBarContent);
+  }
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

@@ -2,6 +2,7 @@
 // Import package
 import 'dart:convert';
 import 'dart:io';
+import 'package:percent_indicator/percent_indicator.dart';
 //import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -20,7 +21,9 @@ import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/attendance_repository.dart';
+import 'package:salebee/repository/prospect_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
+import 'package:salebee/utils.dart';
 //import 'package:location/location.dart';
 import '../Data/static_data.dart';
 import '../Helper/location_helper.dart';
@@ -41,7 +44,7 @@ class _SplashState extends State<Splash> {
   //DbHelper dbHelper = DbHelper();
   TaskRepository taskRepository = TaskRepository();
   AttendanceRepository attendanceRepository = AttendanceRepository();
-
+  ProspectRepository prospectRepository = ProspectRepository();
   var hiveBox = Hive.box("manageTask");
   var _today = HijriCalendar.now();
   List<dynamic> todaysTaskList = [];
@@ -71,6 +74,7 @@ class _SplashState extends State<Splash> {
         " my subdomain is ++++${StaticData.subDomain} api url is ${StringsConst.BASEURL}");
 
     getAllTask();
+
     Timer(Duration(seconds: 4), () {
       saveDataToHive();
 
@@ -89,6 +93,10 @@ class _SplashState extends State<Splash> {
           DateTime.now().toString().substring(0, 10)));
       print("my todays task list is ${todaysTaskList.length}");
       StaticData.todaysTask = todaysTaskList.length;
+    });
+    prospectRepository.getAllProspectListByUserIdController().then((value) {
+      print("prospect data from splash $value");
+      return value.result!;
     });
   }
 
@@ -151,13 +159,15 @@ class _SplashState extends State<Splash> {
     print("my sub domain data yo brooooooooooooooooo ${StaticData.subDomain}");
 
     if (StaticData.loggedIN == true && StaticData.subDomain != null) {
+      print("prospect data from splash");
+
       Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => BottomNav(
-                menuPage: false,
-              ),
-            ),
-          );
+        MaterialPageRoute(
+          builder: (context) => BottomNav(
+            menuPage: false,
+          ),
+        ),
+      );
     } else if (SharedPreff.to.prefss.getString("subDomain") == '' ||
         SharedPreff.to.prefss.getString("subDomain") == null) {
       Navigator.of(context).pushReplacement(
@@ -190,12 +200,13 @@ class _SplashState extends State<Splash> {
   //
   @override
   Widget build(BuildContext context) {
+    checkIndicator(delay: 2);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0.0,
       ),
       //
-      backgroundColor: MyColors.appColor,
+      backgroundColor: primaryColorLight,
       //
       body: Center(
         child: Column(
@@ -203,7 +214,7 @@ class _SplashState extends State<Splash> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: MyColors.appColor,
+                color: primaryColorLight,
                 borderRadius: BorderRadius.circular(
                   12.0,
                 ),
@@ -218,15 +229,75 @@ class _SplashState extends State<Splash> {
               ),
             ),
             Text("Today's date:"),
+            Container(
+              decoration: BoxDecoration(
+                color: MyColors.appColor,
+                borderRadius: BorderRadius.circular(
+                  12.0,
+                ),
+              ),
+              padding: EdgeInsets.all(
+                16.0,
+              ),
+              child: Image.asset(
+                "images/Icons/calendar.png",
+                width: 100.0,
+                height: 100.0,
+              ),
+            ),
             Text("${DateFormat.yMd().format(DateTime.now())}"),
             //day, month and year is optional parameter! Uses provide values or current date if not provided!
             Text(
-                '${BanglaUtility.getBanglaMonthName(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}' + ', ${BanglaUtility.getBanglaDate(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year).toString().substring(0,2)}'),
-         
-      Text(_today.toFormat("MMMM dd yyyy")),//Ramadan 14 1439
+              '${BanglaUtility.getBanglaMonthName(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}' +
+                  ', ${BanglaUtility.getBanglaDate(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year).toString().substring(0, 2)}',
+              style: TextStyle(
+                  fontSize: 16,
+                  color: MyColors.brown,
+                  fontWeight: FontWeight.bold),
+            ),
+
+            Text(
+              _today.toFormat("MMMM dd yyyy"),
+              style: TextStyle(
+                  fontSize: 14,
+                  color: MyColors.customRed,
+                  fontWeight: FontWeight.bold),
+            ), //Ramadan 14 1439
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.grey,
+                color: Colors.green,
+                strokeWidth: 3,
+                value: _value,
+                semanticsLabel: "10",
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  double _value = 0;
+  void checkIndicator({delay = 2}) {
+    new Timer.periodic(Duration(milliseconds: delay * 500), (Timer timer) {
+      setState(() {
+        if (_value == 1) {
+          timer.cancel();
+          performFunction();
+        } else {
+          _value = _value + 0.1;
+        }
+      });
+    });
+  }
+
+  void performFunction() {
+    //call your function after the loading
   }
 }

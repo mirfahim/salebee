@@ -14,6 +14,7 @@ import 'package:salebee/Screen/expense/aproved.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
 import 'package:salebee/Screen/expense/expense_create/other_expense.dart';
 import 'package:salebee/Screen/expense/expense_create/transport.dart';
+import 'package:salebee/Screen/lead/lead_view.dart';
 import 'package:salebee/Screen/notification/notification.dart';
 import 'package:salebee/Screen/setting/setting_page.dart';
 import 'package:salebee/Screen/task/task_main.dart';
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   GeolocatorService geolocatorService = GeolocatorService();
   VisitRepository visitRepository = VisitRepository();
   AttendanceRepository attendanceRepository = AttendanceRepository();
-  ProspectRepository prospectRepository = ProspectRepository();
+
   String locationDis = "";
   var location = Location();
 
@@ -77,9 +78,7 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   initState() {
-     prospectRepository.getAllProspectListByUserIdController().then((value) {
-       return StaticData.prosepctList = value.result!;
-     });
+
     attendanceRepository.getAllEmployeeList().then((value) {
       AttendanceRepository.employeeList = value.results!;
 
@@ -290,9 +289,9 @@ class _HomePageState extends State<HomePage> {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to( Get.to(ExpenseList()));
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
+                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
                       ),
 
                       Positioned(
@@ -324,11 +323,11 @@ class _HomePageState extends State<HomePage> {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(LeadView());
                               },
                               child: circleRow(
                                   size,
-                                  'Expenses',
+                                  'Lead',
                                   (size.width / 2.5),
                                   (size.height / 2),
                                   false))),
@@ -471,9 +470,9 @@ class _HomePageState extends State<HomePage> {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(ExpenseList());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
+                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
                       ),
                       Positioned(
                           top: (size.height / 6.0),
@@ -503,11 +502,11 @@ class _HomePageState extends State<HomePage> {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(LeadView());
                               },
                               child: circleRow(
                                   size,
-                                  'Expenses',
+                                  'Lead',
                                   (size.width / 2.5),
                                   (size.height / 2),
                                   false))),
@@ -675,9 +674,9 @@ class _HomePageState extends State<HomePage> {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(ExpenseList());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
+                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
                       ),
                       Positioned(
                           top: (size.height / 5.0),
@@ -707,11 +706,11 @@ class _HomePageState extends State<HomePage> {
                           left: (size.width / 2.34),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(LeadView());
                               },
                               child: circleRow(
                                   size,
-                                  'Expenses',
+                                  'Lead',
                                   (size.width / 2.5),
                                   (size.height / 2),
                                   false))),
@@ -838,9 +837,9 @@ class _HomePageState extends State<HomePage> {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(ExpenseList());
                             },
-                            child: circleRow(size, 'Leave', 20.0, 50.0, false)),
+                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
                       ),
                       Positioned(
                           top: (size.height / 5.0),
@@ -870,11 +869,11 @@ class _HomePageState extends State<HomePage> {
                           left: (size.width / 2.5),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(LeadView());
                               },
                               child: circleRow(
                                   size,
-                                  'Expenses',
+                                  'Lead',
                                   (size.width / 2.5),
                                   (size.height / 2),
                                   false))),
@@ -1041,9 +1040,9 @@ class _HomePageState extends State<HomePage> {
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
-                              Get.to(LeaveFront());
+                              Get.to(ExpenseList());
                             },
-                            child: circleRow(size, 'Leave', (size.width / 4),
+                            child: circleRow(size, 'Expenses', (size.width / 4),
                                 (size.height / 6), false)),
                       ),
                       GestureDetector(
@@ -1071,11 +1070,11 @@ class _HomePageState extends State<HomePage> {
                           left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
-                                Get.to(ExpenseList());
+                                Get.to(LeadView());
                               },
                               child: circleRow(
                                   size,
-                                  'Expenses',
+                                  'Lead',
                                   (size.width / 2.5),
                                   (size.height / 2),
                                   false))),

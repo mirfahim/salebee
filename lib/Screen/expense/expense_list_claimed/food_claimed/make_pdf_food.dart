@@ -15,7 +15,7 @@ import 'package:pdf/widgets.dart';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
-Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSelection) async {
+Future<Uint8List> makePdfFood(GetFoodExpenseModel invoice,  monthSelection, yearSelection, List expenseList) async {
   final pdf = pw.Document();
   List<pw.Widget> widgets = [];
   widgets.add(pw.SizedBox(height: 5));
@@ -27,15 +27,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
          children: [
            Column(
              children: [
-               Row(
-                   crossAxisAlignment: pw.CrossAxisAlignment.end,
-                   mainAxisAlignment: pw.MainAxisAlignment.end,
-                   children: [
-                     Spacer(),
-                     Text("Printed on: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
-                       style: TextStyle(
-                           fontWeight: pw.FontWeight.normal, fontSize: 12),),
-                   ]),
+
                Container(
                  child: Row(
                    mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +71,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
                      Text("Expense Sheet",
                          style: pw.TextStyle(
                              fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                     Text("(Other)",
+                     Text("(Food)",
                          style: pw.TextStyle(
                              fontSize: 16, fontWeight: pw.FontWeight.bold)),
                    ])),
@@ -118,12 +110,13 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
         TableRow(
           children: [
             Padding(
+
               child: Text(
                 'Date',
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -131,7 +124,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -139,7 +132,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -147,7 +140,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
 
             Padding(
@@ -156,7 +149,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -164,7 +157,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
           ],
         ),
@@ -176,7 +169,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
           int.parse(element.createdOn.toString().substring(5, 7)) &&
           yearSelection ==
               int.parse(element.createdOn.toString().substring(0, 4))) {
-        totalAmount += element.expense!;
+        totalAmount =  expenseList.fold(0, (previousValue, element) =>previousValue + element);
       }
     });
     return TableRow(
@@ -226,8 +219,15 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
 
               },
         ),
+
+
+
         TableRow(
+
+
+
           children: [
+            PaddedText(''),
             PaddedText('TOTAL', align: TextAlign.right),
             PaddedText(''),
             PaddedText(''),
@@ -240,7 +240,7 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
     ),
   );
   widgets.add(
-      pw.SizedBox(height: 60),
+      pw.Spacer(),
   );
    widgets.add(
        Row(
@@ -281,6 +281,21 @@ Future<Uint8List> makePdf(GetFoodExpenseModel invoice,  monthSelection, yearSele
              ]),
            ])
    );
+   widgets.add(
+     pw.SizedBox(height: 20),
+   );
+
+   widgets.add(
+     Row(
+         crossAxisAlignment: pw.CrossAxisAlignment.end,
+         mainAxisAlignment: pw.MainAxisAlignment.end,
+         children: [
+           Spacer(),
+           Text("Printed on: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
+             style: TextStyle(
+                 fontWeight: pw.FontWeight.normal, fontSize: 12),),
+         ]),
+   );
 
 
 
@@ -304,7 +319,7 @@ Widget PaddedText(
       final TextAlign align = TextAlign.left,
     }) =>
     Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(2),
       child: Text(
         text,
         textAlign: align,

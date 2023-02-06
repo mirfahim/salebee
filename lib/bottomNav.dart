@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/notification/notification_1.dart';
 import 'package:salebee/Screen/setting/setting_page.dart';
+import 'package:salebee/Utils/my_colors.dart';
 import 'package:salebee/drawer.dart';
 import 'package:salebee/utils.dart';
 import 'package:get/get.dart';
@@ -55,6 +56,7 @@ class _BottomNavState extends State<BottomNav> {
         shape: CircularNotchedRectangle(),
         notchMargin: 15,
         child: Container(
+
           height: 60,
           child: Center(
             child: Row(

@@ -1073,6 +1073,21 @@ class _AssignedToMeState extends State<AllTask> {
 
                                                             if(data!.taskType! == "Visit"){
                                                            addVisit(data.prospectName!, data.prospectId!);
+                                                           taskRepository
+                                                               .taskUpdateController(
+                                                               token: token!,
+                                                               title: data.title!,
+                                                               taskID: data.taskId!,
+                                                               assignaTo: data.assignedTo!,
+                                                               description: data.taskDesc!,
+                                                               type: data.type ?? 0,
+                                                               repeat: repeatId,
+                                                               priority: data.priority!,
+                                                               status: stausID)
+                                                               .then((value) {
+                                                             setState(
+                                                                     () {});
+                                                           });
                                                             }
 
                                                             taskRepository

@@ -19,12 +19,12 @@ class GetAllMyTaskModel {
   });
 
   String? message;
-  List<Result>? result;
+  List<MyTaskResult>? result;
   bool? isSuccess;
 
   factory GetAllMyTaskModel.fromJson(Map<String, dynamic> json) => GetAllMyTaskModel(
     message: json["Message"],
-    result: List<Result>.from(json["Result"].map((x) => Result.fromJson(x))),
+    result: List<MyTaskResult>.from(json["Result"].map((x) => MyTaskResult.fromJson(x))),
     isSuccess: json["IsSuccess"],
   );
 
@@ -35,8 +35,8 @@ class GetAllMyTaskModel {
   };
 }
 
-class Result {
-  Result({
+class MyTaskResult {
+  MyTaskResult({
     this.taskId,
     this.createdOn,
     this.createdBy,
@@ -98,7 +98,7 @@ class Result {
   IsProspectActive? isProspectActive;
   String? createdByName;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory MyTaskResult.fromJson(Map<String, dynamic> json) => MyTaskResult(
     taskId: json["TaskID"],
     createdOn: DateTime.parse(json["CreatedOn"]),
     createdBy: json["CreatedBy"],

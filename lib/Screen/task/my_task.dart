@@ -1,12 +1,12 @@
 import 'dart:convert';
-
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:salebee/Model/getAllMyTaskModel.dart';
-import 'package:salebee/Model/getAssignedTaskToMeModel.dart';
 import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Provider/Login/provider_manager.dart';
 import 'package:salebee/Utils/my_colors.dart';
@@ -15,7 +15,6 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import '../../Helper/location_helper.dart';
-import '../../Model/getAllTaskModel.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../repository/add_task_repository.dart';
 import '../../repository/visit_repository.dart';
@@ -42,7 +41,8 @@ class _AssignedToMeState extends State<MyTask> {
   List<String> statusList = [];
   List doneList = [];
   List incompleteList = [];
-  List initiatedList = [];
+  List<MyTaskResult> initiatedList = [];
+  List<DateTime> notificationDateList = [];
   int totalInitiated = 0;
   int totalDone = 0;
   int totalIncomplete = 0;
@@ -101,10 +101,55 @@ class _AssignedToMeState extends State<MyTask> {
     30,
     31
   ];
+
+
+  sendTaskNotification(List<MyTaskResult> listDate)async {
+    await FlutterLocalNotificationsPlugin().cancelAll();
+    for(int i = 0 ; i < listDate.length;  i ++ ){
+      var scheduledNotificationDateTime =
+      listDate[i].dueDate!.subtract(Duration(minutes: 20));
+      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          'your channel id', 'your channel name',
+          importance: Importance.high, priority: Priority.high, ticker: 'ticker');
+      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+      var platformChannelSpecifics = NotificationDetails(
+          android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+
+      // Step 5: Show the notification
+      await FlutterLocalNotificationsPlugin().schedule(
+          i,
+          listDate[i].title!,
+          listDate[i].taskDesc!,
+          scheduledNotificationDateTime,
+          platformChannelSpecifics);
+    }
+
+
+
+  }
   GetListForTaskDataModel manageModel = GetListForTaskDataModel();
+  Event buildEvent({Recurrence? recurrence, String? title, String? description }) {
+    return Event(
+      title: title!,
+      description: description!,
+      location: 'Flutter app',
+      startDate: DateTime.now(),
+      endDate: DateTime.now().add(Duration(minutes: 30)),
+      allDay: false,
+      iosParams: IOSParams(
+        reminder: Duration(minutes: 40),
+        url: "http://example.com",
+      ),
+      androidParams: AndroidParams(
+        emailInvites: ["hasibur9rahman@gmail.com"],
+      ),
+      recurrence: recurrence,
+    );
+  }
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
   }
 
@@ -122,6 +167,7 @@ class _AssignedToMeState extends State<MyTask> {
           future: taskRepository.getMyTaskController(), // async work
           builder: (BuildContext context,
               AsyncSnapshot<GetAllMyTaskModel> snapshot) {
+            notificationDateList.clear();
             initiatedList.clear();
             doneList.clear();
             incompleteList.clear();
@@ -130,6 +176,17 @@ class _AssignedToMeState extends State<MyTask> {
             } else {
               initiatedList.addAll(snapshot.data!.result!
                   .where((element) => element.statusId == 5));
+
+
+
+
+
+
+
+
+
+
+
               print("my ini list i s=++++++++++++${initiatedList.length}");
               doneList.addAll(snapshot.data!.result!
                   .where((element) => element.statusId == 4));
@@ -142,6 +199,24 @@ class _AssignedToMeState extends State<MyTask> {
               totalInitiated = initiatedList.length;
               totalDone = doneList.length;
               totalIncomplete = incompleteList.length;
+
+
+
+
+
+
+
+
+                sendTaskNotification(initiatedList.where((element) => element.dueDate!.year! == DateTime.now().year
+                    && element.dueDate!.month >= DateTime.now().month
+                    &&
+                    element.dueDate!.hour >= DateTime.now().hour).toList());
+
+
+
+
+
+
             }
             // scoring system
             //    totalInitiated = snapshot.data!.result!.map((ele) => ele.statusId).fold(0, (prev, amount) => prev + amount!);
@@ -509,60 +584,68 @@ class _AssignedToMeState extends State<MyTask> {
                                                                   MainAxisAlignment
                                                                       .spaceBetween,
                                                               children: [
-                                                                Container(
-                                                                    height: 52,
-                                                                    decoration: BoxDecoration(
-                                                                        color: primaryColorSecond.withOpacity(
-                                                                            .3),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                6)),
-                                                                    width: 100,
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .symmetric(
-                                                                          vertical:
-                                                                              4.0),
+                                                                GestureDetector(
+                                                            onTap: (){
+                                                              print("tapped11");
+                                                              Add2Calendar.addEvent2Cal(
+                                                                buildEvent(title:  data.title, description: data.taskDesc),
+                                                              );
+                                                      },
+                                                                  child: Container(
+                                                                      height: 52,
+                                                                      decoration: BoxDecoration(
+                                                                          color: primaryColorSecond.withOpacity(
+                                                                              .3),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  6)),
+                                                                      width: 100,
                                                                       child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            children: [
-                                                                              Text(
-                                                                                DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) + ",",
-                                                                                textAlign: TextAlign.center,
-                                                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                height: 5,
-                                                                              ),
-                                                                              //"LogTimeIn":"2022-09-13T08:36:40.32"
-                                                                              Center(
-                                                                                child: Text(
-                                                                                  " " + data.dueDate.toString().substring(8, 10),
-                                                                                  textAlign: TextAlign.center,
-                                                                                ),
-                                                                              ),
-                                                                              Text(DateFormat('MMM').format(data.dueDate!).toString().substring(0, 3)),
-                                                                            ],
-                                                                          ),
-                                                                          Card(
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                          Padding(
+                                                                        padding: const EdgeInsets
+                                                                                .symmetric(
+                                                                            vertical:
+                                                                                4.0),
+                                                                        child:
+                                                                            Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              mainAxisAlignment:
+                                                                                  MainAxisAlignment.center,
                                                                               children: [
                                                                                 Text(
-                                                                                  DateFormat.jm().format(data.dueDate!),
+                                                                                  DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) + ",",
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                                                 ),
+                                                                                SizedBox(
+                                                                                  height: 5,
+                                                                                ),
+                                                                                //"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                                Center(
+                                                                                  child: Text(
+                                                                                    " " + data.dueDate.toString().substring(8, 10),
+                                                                                    textAlign: TextAlign.center,
+                                                                                  ),
+                                                                                ),
+                                                                                Text(DateFormat('MMM').format(data.dueDate!).toString().substring(0, 3)),
                                                                               ],
                                                                             ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    )),
+                                                                            Card(
+                                                                              child:
+                                                                                  Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    DateFormat.jm().format(data.dueDate!),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      )),
+                                                                ),
                                                                 Spacer(),
                                                                 Text(
                                                                   "${data.dueDate!.difference(DateTime.now()).inDays} days",
@@ -962,6 +1045,21 @@ class _AssignedToMeState extends State<MyTask> {
                                                                         }
                                                                         if(data!.taskType! == "Visit"){
                                                                           addVisit(data.prospectName!, data.prospectId!);
+                                                                          taskRepository
+                                                                              .taskUpdateController(
+                                                                              token: token!,
+                                                                              title: data.title!,
+                                                                              taskID: data.taskId!,
+                                                                               assignaTo: data.assignedTo!,
+                                                                              description: data.taskDesc!,
+                                                                              type: data.type ?? 0,
+                                                                              repeat: repeatId,
+                                                                              priority: data.priority!,
+                                                                              status: stausID)
+                                                                              .then((value) {
+                                                                            setState(
+                                                                                    () {});
+                                                                          });
                                                                         }
                                                                         taskRepository
                                                                             .taskUpdateController(
@@ -1427,68 +1525,77 @@ class _AssignedToMeState extends State<MyTask> {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children: [
-                                                            Container(
-                                                                height: 52,
-                                                                decoration: BoxDecoration(
-                                                                    color: primaryColorSecond
-                                                                        .withOpacity(
-                                                                            .3),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            6)),
-                                                                width: 100,
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          4.0),
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Text(
-                                                                            DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) +
-                                                                                ",",
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                            style:
-                                                                                TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                5,
-                                                                          ),
-                                                                          //"LogTimeIn":"2022-09-13T08:36:40.32"
-                                                                          Center(
-                                                                            child:
-                                                                                Text(
-                                                                              " " + data.dueDate.toString().substring(8, 10),
-                                                                              textAlign: TextAlign.center,
-                                                                            ),
-                                                                          ),
-                                                                          Text(DateFormat('MMM')
-                                                                              .format(data.dueDate!)
-                                                                              .toString()
-                                                                              .substring(0, 3)),
-                                                                        ],
-                                                                      ),
-                                                                      Card(
-                                                                        child:
-                                                                            Row(
+
+                                                            GestureDetector(
+                                                        onTap:(){
+                                                          print("tapped11");
+                                                          Add2Calendar.addEvent2Cal(
+                                                            buildEvent(title:  data.title, description: data.taskDesc),
+                                                          );
+                                                  },
+                                                              child: Container(
+                                                                  height: 52,
+                                                                  decoration: BoxDecoration(
+                                                                      color: primaryColorSecond
+                                                                          .withOpacity(
+                                                                              .3),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6)),
+                                                                  width: 100,
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        vertical:
+                                                                            4.0),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Row(
                                                                           mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                           children: [
                                                                             Text(
-                                                                              DateFormat.jm().format(data.dueDate!),
+                                                                              DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) +
+                                                                                  ",",
+                                                                              textAlign:
+                                                                                  TextAlign.center,
+                                                                              style:
+                                                                                  TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                                             ),
+                                                                            SizedBox(
+                                                                              height:
+                                                                                  5,
+                                                                            ),
+                                                                            //"LogTimeIn":"2022-09-13T08:36:40.32"
+                                                                            Center(
+                                                                              child:
+                                                                                  Text(
+                                                                                " " + data.dueDate.toString().substring(8, 10),
+                                                                                textAlign: TextAlign.center,
+                                                                              ),
+                                                                            ),
+                                                                            Text(DateFormat('MMM')
+                                                                                .format(data.dueDate!)
+                                                                                .toString()
+                                                                                .substring(0, 3)),
                                                                           ],
                                                                         ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )),
+                                                                        Card(
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text(
+                                                                                DateFormat.jm().format(data.dueDate!),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )),
+                                                            ),
                                                             Spacer(),
                                                             Text(
                                                               "${data.dueDate!.difference(DateTime.now()).inDays} days",
@@ -2291,6 +2398,7 @@ class _AssignedToMeState extends State<MyTask> {
       ));
     });
   }
+
   addVisit(String? prospect, int? prospectID){
 
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");

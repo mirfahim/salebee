@@ -57,10 +57,10 @@ class ProspectFront extends StatelessWidget {
                           isScrollable: true,
                           tabs: const [
                             Tab(
-                              text: 'Individual Prospect',
+                              text: 'Organization Prospect',
                             ),
                             Tab(
-                              text: 'Organization Prospect',
+                              text: 'Individual Prospect',
                             ),
 
                           ],
@@ -75,11 +75,11 @@ class ProspectFront extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: IndividualProspect(),
+                          child: OrganizationProspect(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: OrganizationProspect(),
+                          child: IndividualProspect(),
                         )
                       ]),
                 ),

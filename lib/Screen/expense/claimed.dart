@@ -43,24 +43,28 @@ class _ClaimedState extends State<Claimed> {
   List foodCostList = [];
   List othersCostList = [];
 
-  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
+  List<String> yearList = <String>[
+    DateTime.now().year.toString(),
+    DateTime(DateTime.now().year - 1).toString().substring(0, 4),
+    DateTime(DateTime.now().year - 2).toString().substring(0, 4)
+  ];
 
-  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
+  int yearSelection = int.parse(DateTime.now().toString().substring(0, 4));
   String dropdownValue = DateTime.now().year.toString();
-  double foodCost = 0.0;
-  double transposrCost = 0.0;
-  double otherCost = 0.0;
-  int selectMonth = int.parse(DateTime.now().toString().substring(5,7));
+  double foodCostClaimed = 0.0;
+  double foodCostApproved = 0.0;
+  double transposrCostClaimed = 0.0;
+  double transposrCostApproved = 0.0;
+  double otherCostClaimed = 0.0;
+  double otherCostApproved = 0.0;
+  int selectMonth = int.parse(DateTime.now().toString().substring(5, 7));
   @override
   void initState() {
-
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: primaryColorLight,
       body: SafeArea(
@@ -77,26 +81,19 @@ class _ClaimedState extends State<Claimed> {
                       child: DropdownButton<String>(
                         value: dropdownValue,
                         isExpanded: true,
-                        icon: Icon(Icons
-                            .arrow_drop_down_outlined),
+                        icon: Icon(Icons.arrow_drop_down_outlined),
                         elevation: 16,
-                        style: const TextStyle(
-                            color: Colors
-                                .deepPurple),
-                        underline:
-                        Container(
+                        style: const TextStyle(color: Colors.deepPurple),
+                        underline: Container(
                           height: 2,
-                          color: Colors
-                              .transparent,
+                          color: Colors.transparent,
                         ),
-
                         onChanged: (String? value) {
-
                           // This is called when the user selects an item.
                           setState(() {
-                            foodCost = 0.0;
-                            transposrCost = 0.0;
-                            otherCost = 0.0;
+                            foodCostClaimed = 0.0;
+                            transposrCostClaimed = 0.0;
+                            otherCostClaimed = 0.0;
                             transportCostList.clear();
                             foodCostList.clear();
                             othersCostList.clear();
@@ -106,7 +103,8 @@ class _ClaimedState extends State<Claimed> {
                             yearSelection = int.parse(dropdownValue);
                           });
                         },
-                        items: yearList.map<DropdownMenuItem<String>>((String value) {
+                        items: yearList
+                            .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -115,9 +113,8 @@ class _ClaimedState extends State<Claimed> {
                       ),
                     ),
                   ),
-
                   DefaultTabController(
-                    initialIndex: selectMonth -1,
+                    initialIndex: selectMonth - 1,
                     length: 12,
                     child: Container(
                       width: MediaQuery.of(context).size.width - 150,
@@ -128,62 +125,51 @@ class _ClaimedState extends State<Claimed> {
                         isScrollable: true,
                         indicatorColor: Colors.black,
                         labelColor: Colors.black,
-
-
-                        onTap: (index){
-                          setState((){
-                            selectMonth = index+1;
+                        onTap: (index) {
+                          setState(() {
+                            selectMonth = index + 1;
                           });
-
                         },
                         tabs: tabs
                             .map((tab) => Tab(
-                          icon: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(tab),
-                          ),
-                        ))
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(tab),
+                                  ),
+                                ))
                             .toList(),
                       ),
                     ),
                   ),
                 ],
               ),
-
               FutureBuilder<GetAllExpenseModel>(
                 future: expenseRepository.getAllExpense(),
                 builder: (BuildContext context,
                     AsyncSnapshot<GetAllExpenseModel> snapshot) {
-
                   if (snapshot.data == null) {
                     print("no data found");
                   } else {
+                 otherCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                        int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Others" && e.status == 0).fold(0, (previousValue, element) =>
+                 previousValue + element.cost!);
+                 otherCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Others" && e.status == 1).fold(0, (previousValue, element) =>
+                 previousValue + element.cost!);
+                 foodCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Food" && e.status == 0).fold(0, (previousValue, element) =>
+                 previousValue + element.cost!);
+                 foodCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Food" && e.status == 1).fold(0, (previousValue, element) =>
+                 previousValue + element.cost!);
+                 transposrCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Transport" && e.status == 0).fold(0, (previousValue, element) =>
+                 previousValue + element.cost!);
+                 transposrCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Transport" && e.status == 1).fold(0, (previousValue, element) =>
+                 previousValue + element.cost!);
 
-                    snapshot.data!.result!.forEach((e) {
-                      transportCostList.clear();
-                      foodCostList.clear();
-                      othersCostList.clear();
-                      print("llllllll ${e.date.toString().substring(5,7)} +++ ${e.date.toString().substring(0,4)}");
-                      if(selectMonth == int.parse(e.date.toString().substring(5,7)) && yearSelection == int.parse(e.date.toString().substring(0,4)) && e.type == "Transport"){
-                        transportCostList.add(e.cost);
-                        transportCostList.forEach((e){
-                          transposrCost += e;
 
-                        });
-                      } else if(selectMonth == int.parse(e.date.toString().substring(5,7)) && yearSelection == int.parse(e.date.toString().substring(0,4)) && e.type == "Food"){
-
-                          foodCostList.add(e.cost);
-                          foodCostList.forEach((e){
-                            foodCost += e;
-                        });
-                      } else if(selectMonth == int.parse(e.date.toString().substring(5,7)) && yearSelection == int.parse(e.date.toString().substring(0,4)) && e.type == "Other") {
-                        othersCostList.add(e.cost);
-                        othersCostList.forEach((e){
-                          otherCost += e;
-                        });
-                      }
-
-                    });
                   }
 
                   switch (snapshot.connectionState) {
@@ -262,7 +248,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      transposrCost.toString(),
+                                                      transposrCostClaimed
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -290,7 +277,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      transposrCost.toString(),
+                                                      transposrCostApproved
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -318,7 +306,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      transposrCost.toString(),
+                                                     "${ transposrCostClaimed - transposrCostApproved
+                                                          }",
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -390,7 +379,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      foodCost.toString(),
+                                                      foodCostClaimed
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -418,7 +408,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      foodCost.toString(),
+                                                      foodCostApproved
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -446,7 +437,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      foodCost.toString(),
+                                                      "${foodCostClaimed - foodCostApproved}"
+                                                          ,
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -519,7 +511,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      otherCost.toString(),
+                                                      otherCostClaimed
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -547,7 +540,8 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      otherCost.toString(),
+                                                      otherCostApproved
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -575,7 +569,7 @@ class _ClaimedState extends State<Claimed> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      otherCost.toString(),
+                                                      "${otherCostClaimed - otherCostApproved}",
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -602,7 +596,12 @@ class _ClaimedState extends State<Claimed> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (builder) => AllExPdfPreviewPage(invoice: snapshot.data!, monthSelection: selectMonth, yearSelection: 2023, ),
+                                        builder: (builder) =>
+                                            AllExPdfPreviewPage(
+                                          invoice: snapshot.data!,
+                                          monthSelection: selectMonth,
+                                          yearSelection: 2023,
+                                        ),
                                       ),
                                     );
                                   },

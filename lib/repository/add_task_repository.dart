@@ -11,6 +11,7 @@ import '../Model/getAllMyTaskModel.dart';
 import '../Model/getAssignedTaskToMeModel.dart';
 import '../Model/getListForTaskModel.dart';
 import '../Model/task_update_model.dart';
+import '../Screen/task/task_controller/task_controller.dart';
 import '../Service/sharedPref_service.dart';
 import 'package:salebee/Utils/Alerts.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,7 @@ class TaskRepository {
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
   String tokenString = SharedPreff.to.prefss.get("token").toString();
-
+  // TaskController taskController =  TaskController();
   Future<AddTaskResponseModel> taskAddController(
       {required String token,
       required String title,
@@ -63,7 +64,7 @@ class TaskRepository {
       "IsViewed": true,
       "StatusUpdateDate": "2022-08-30T10:46:49.198Z",
       "StatusUpdateBy": 0,
-      "Token": token,
+      "Token": tokenString,
       "TaskShareList": list1,
       "TaskContactList": list2
     };
@@ -102,7 +103,7 @@ class TaskRepository {
     Map<String, dynamic> bodyString =
     {
       "TaskID": taskID,
-      "Type": 0,
+      "Type": type,
       "Title": title,
       "TaskDesc": description,
       "Notes": "string",
@@ -111,7 +112,7 @@ class TaskRepository {
       "SupportID": 0,
       "StartDate": "2022-10-10T05:40:37.409Z",
       "StartTime": "string",
-      "DueDate": "2022-10-10T05:40:37.409Z",
+      "DueDate": DateTime.now().toString(),
       "DueTime": "string",
       "ReminderDate": "2022-10-10T05:40:37.409Z",
       "ReminderDays": 0,

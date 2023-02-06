@@ -35,8 +35,8 @@ class _HomePageState extends State<CustomBottomBar> {
             ),
             child: BottomNavigationBar(
                 currentIndex: _currentIndex,
-                backgroundColor: Colors.grey[100],
-                selectedItemColor: Colors.white,
+                backgroundColor: MyColors.brown,
+                selectedItemColor: MyColors.brown,
                 onTap: (index) {
                   setState(() {
                     _currentIndex = index;

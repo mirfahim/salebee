@@ -125,7 +125,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -133,7 +133,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -141,7 +141,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -149,7 +149,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -157,7 +157,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
             Padding(
               child: Text(
@@ -165,7 +165,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
 
                 textAlign: TextAlign.center,
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(5),
             ),
           ],
         ),
@@ -239,7 +239,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
     ),
   );
   widgets.add(
-    pw.SizedBox(height: 40),
+    pw.Spacer(),
   );
   widgets.add(
       Row(
@@ -296,7 +296,7 @@ Widget PaddedText(
       final TextAlign align = TextAlign.left,
     }) =>
     Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(2),
       child: Text(
         text,
         textAlign: align,

@@ -406,7 +406,7 @@ class _ProspectDetailsState extends State<ProspectDetails> {
                   SizedBox(height: 10,),
                   GestureDetector(
                     onTap: (){
-                      Get.to(AddLogFollowUp(prospectID: widget.prospectId,));
+                      Get.to(AddLogFollowUp(prospectID: widget.prospectId, prospect: widget.prospectName,));
                     },
                     child: Container(
                       height: 30,

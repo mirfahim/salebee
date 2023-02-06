@@ -95,17 +95,17 @@ class ProspectResult {
     prospectFor: json["prospect_for"] == null ? "No Data" : json["prospect_for"],
     createdBy: json["created_by"] == null ? 1 : json["created_by"],
     createdOn: json["created_on"] == null ? DateTime.now() :DateTime.parse(json["created_on"]),
-    code: json["Code"],
+    code: json["Code"] == null ? "jhi" : json["Code"],
     assignTo: json["assign_to"] == null ? 1 :  json["assign_to"],
     lastFollowup: json["last_followup"] == null ? DateTime.now() :DateTime.parse(json["last_followup"]),
-    lastFollowupEmployeeId: json["last_followup_employee_id"],
+    lastFollowupEmployeeId: json["last_followup_employee_id"] == null ? 1 :json["last_followup_employee_id"] ,
      concernPerson: json["concern_person"] == null ? [] : List<ConcernPerson>.from(json["concern_person"]!.map((x) => ConcernPerson.fromJson(x))),
      importantNote: json["important_note"] == null ? "No data" : json["important_note"],
      address: json["Address"] == "" ? "No Address" : json["Address"],
      followupLogActivity: FollowupLogActivity.fromJson(json["followup_log_activity"]),
      followupActivity: FollowupActivity.fromJson(json["followup_activity"]),
-     lat: json["Lat"],
-     lon: json["lon"],
+     lat: json["Lat"] == null ? 23.487845 :json["Lat"],
+     lon: json["lon"] == null ? 230434 : json["lon"],
     // filter: json["filter"] == null ? [] : List<int?>.from(json["filter"]!.map((x) => x)),
   );
 
@@ -148,7 +148,7 @@ class ConcernPerson {
   String? mobile;
 
   factory ConcernPerson.fromJson(Map<String, dynamic> json) => ConcernPerson(
-    name: json["name"],
+    name: json["name"] == null ? "urwio" : json["name"],
     designation: json["designation"] == null ? "No Data" : json["designation"] ,
     mobile: json["mobile"]== null ? "No Data" : json["mobile"],
   );
@@ -203,10 +203,10 @@ class FollowupActivity {
   int? visit;
 
   factory FollowupActivity.fromJson(Map<String, dynamic> json) => FollowupActivity(
-    call: json["Call"],
-    message: json["Message"],
-    meeting: json["Meeting"],
-    visit: json["Visit"],
+    call: json["Call"] == null ? 0 : json["Call"],
+    message: json["Message"]== null? 0:json["Message"],
+    meeting: json["Meeting"] == null? 0:   json["Meeting"],
+    visit: json["Visit"] == null? 0 :json["Visit"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -229,9 +229,9 @@ class FollowupLogActivity {
   int? orderCount;
 
   factory FollowupLogActivity.fromJson(Map<String, dynamic> json) => FollowupLogActivity(
-    leadCount: json["LeadCount"],
-    quoteCount: json["QuoteCount"],
-    orderCount: json["OrderCount"],
+    leadCount: json["LeadCount"] == null ? 0 :  json["LeadCount"],
+    quoteCount: json["QuoteCount"] == null ? 0:json["QuoteCount"],
+    orderCount: json["OrderCount"] == null ? 0:json["OrderCount"],
   );
 
   Map<String, dynamic> toJson() => {
