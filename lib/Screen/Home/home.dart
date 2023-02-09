@@ -4,12 +4,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 //import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
-import 'package:salebee/Screen/edit_profile.dart';
+
 import 'package:salebee/Screen/expense/aproved.dart';
 import 'package:salebee/Screen/expense/expense_list.dart';
 import 'package:salebee/Screen/expense/expense_create/other_expense.dart';
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         children: [
           badge == true
-              ? Badge(
+              ? badges.Badge(
                   badgeContent: Text("${StaticData.todaysTask}"),
                   badgeColor: Colors.greenAccent,
                   child: Container(
@@ -237,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Badge(
+                        child: badges.Badge(
                           badgeColor: Colors.redAccent,
                           badgeContent: Text('2'),
                           child: Container(
@@ -416,7 +416,7 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Badge(
+                        child: badges.Badge(
                           badgeColor: Colors.redAccent,
                           badgeContent: Text("${StaticData.todaysTask}"),
                           child: Container(
@@ -622,7 +622,7 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Badge(
+                        child: badges.Badge(
                           badgeColor: Colors.redAccent,
                           badgeContent: Text('3'),
                           child: Container(
@@ -785,7 +785,7 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Badge(
+                        child: badges.Badge(
                           badgeColor: Colors.redAccent,
                           badgeContent: Text('3'),
                           child: Container(
@@ -988,7 +988,7 @@ class _HomePageState extends State<HomePage> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
-                        child: Badge(
+                        child: badges.Badge(
                           badgeColor: Colors.redAccent,
                           badgeContent: Text('3'),
                           child: Container(

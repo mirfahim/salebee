@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Screen/Attendence_report/map_for_attendance.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/map_for_all/map_view.dart';
+import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/map_screen.dart';
+import 'package:salebee/Screen/A_MenuPage/the_eye/map_for_all/map_view.dart';
 
 import '../../Data/static_data.dart';
 import '../../Model/get_attendance_model.dart';

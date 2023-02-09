@@ -164,7 +164,7 @@ class _SplashState extends State<Splash> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => BottomNav(
-            menuPage: false,
+            A_MenuPage: false,
           ),
         ),
       );

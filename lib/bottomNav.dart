@@ -9,13 +9,13 @@ import 'package:salebee/drawer.dart';
 import 'package:salebee/utils.dart';
 import 'package:get/get.dart';
 import 'Screen/Home/home.dart';
-import 'Screen/MenuPage/manus_page.dart';
+import 'Screen/A_MenuPage/manus_page.dart';
 import 'Screen/notification/notification.dart';
 
 
 class BottomNav extends StatefulWidget {
-bool menuPage = true;
-BottomNav({required this.menuPage});
+bool A_MenuPage = true;
+BottomNav({required this.A_MenuPage});
 
 
   @override

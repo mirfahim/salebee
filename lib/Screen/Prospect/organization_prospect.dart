@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -938,7 +938,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                   index) {
                                                                 return Row(
                                                                   children: [
-                                                                    Badge(
+                                                                    badges.Badge(
                                                                       badgeContent: index ==
                                                                           0
                                                                           ? Text(data
@@ -1546,7 +1546,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                   index) {
                                                                 return Row(
                                                                   children: [
-                                                                    Badge(
+                                                                    badges.Badge(
                                                                       badgeContent: index ==
                                                                           0
                                                                           ? Text(data
@@ -2479,7 +2479,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data
@@ -3087,7 +3087,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data
@@ -4007,7 +4007,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data
@@ -4615,7 +4615,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data

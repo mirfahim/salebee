@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/live_tracking/map_screen.dart';
+import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/map_screen.dart';
 import 'package:salebee/Screen/test/test.dart';
-import 'package:salebee/Screen/wallet/wallet_view.dart';
+
 import '../../Data/static_data.dart';
 import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';

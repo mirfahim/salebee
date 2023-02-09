@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee/Screen/MenuPage/the_eye/map_for_all/map_view.dart';
+import 'package:salebee/Screen/A_MenuPage/the_eye/map_for_all/map_view.dart';
 import 'package:salebee/utils.dart';
 
 import '../../../../Data/static_data.dart';

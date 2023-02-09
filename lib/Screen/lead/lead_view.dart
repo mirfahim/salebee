@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Helper/location_helper.dart';
-
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect.dart';
 import 'package:salebee/Screen/Prospect/create_prospect/create_prospect_front.dart';
 import 'package:salebee/Screen/Prospect/prospect_details.dart';
@@ -943,7 +941,7 @@ class _IndividualProspectState extends State<LeadView> {
                                                                   index) {
                                                                 return Row(
                                                                   children: [
-                                                                    Badge(
+                                                                    badges.Badge(
                                                                       badgeContent: index ==
                                                                           0
                                                                           ? Text(data
@@ -1551,7 +1549,7 @@ class _IndividualProspectState extends State<LeadView> {
                                                                   index) {
                                                                 return Row(
                                                                   children: [
-                                                                    Badge(
+                                                                    badges.Badge(
                                                                       badgeContent: index ==
                                                                           0
                                                                           ? Text(data
@@ -2396,7 +2394,7 @@ class _IndividualProspectState extends State<LeadView> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data
@@ -3004,7 +3002,7 @@ class _IndividualProspectState extends State<LeadView> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data
@@ -3837,7 +3835,7 @@ class _IndividualProspectState extends State<LeadView> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data
@@ -4445,7 +4443,7 @@ class _IndividualProspectState extends State<LeadView> {
                                                                 index) {
                                                               return Row(
                                                                 children: [
-                                                                  Badge(
+                                                                  badges.Badge(
                                                                     badgeContent: index ==
                                                                         0
                                                                         ? Text(data

@@ -229,7 +229,7 @@ class LoginPageState extends State<LoginPage> {
                             context,
                             MaterialPageRoute<dynamic>(
 
-                              builder: (BuildContext context) => BottomNav(menuPage: false),
+                              builder: (BuildContext context) => BottomNav(A_MenuPage: false),
                             ),
                                 (route) => false,//if you want to disable back feature set to false
                           );

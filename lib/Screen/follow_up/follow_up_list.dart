@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -88,7 +88,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                           FontWeight.w600),
                                                   isScrollable: true,
                                                   tabs: [
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.call!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -96,7 +96,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'Call',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.message!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -104,7 +104,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'Message',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.meeting!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -112,7 +112,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'Meeting',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.visit!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -120,7 +120,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'Visit',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.others!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -128,7 +128,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'Others',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent:Text(snapshot.data!.result!.email!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -136,7 +136,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'Email',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent:Text(snapshot.data!.result!.sms!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
@@ -144,7 +144,7 @@ class _FollowUpListState extends State<FollowUpList> {
                                                         text: 'SMS',
                                                       ),
                                                     ),
-                                                    Badge(
+                                                    badges.Badge(
                                                       badgeContent:Text(snapshot.data!.result!.file!.length.toString(), style: TextStyle(fontSize: 10),),
                                                       badgeColor:
                                                           Colors.greenAccent,
