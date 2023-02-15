@@ -103,6 +103,7 @@ class _IndividualProspectState extends State<OrganizationProspect> {
     Map <String, dynamic> prospectMap = jsonDecode(SharedPreff.to.prefss.getString("prospectList")!);
     getAllProspectByIdtModel = GetAllProspectByIdtModel.fromJson(prospectMap);
     print("yo bro ${getAllProspectByIdtModel.result!.length.toString()}");
+
     result = _search(getAllProspectByIdtModel.result);
     attendanceRepository.getAllEmployeeList().then((value) {
       AttendanceRepository.employeeList = value.results!;

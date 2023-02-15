@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Screen/A_MenuPage/dashboard/taskManager/screens/prospect_dashbrd.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/daily_work/calendar_page.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/live_tracking_location_by_emp.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/follow_up_activity.dart';
@@ -21,16 +22,18 @@ import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:salebee/utils.dart';
 
-import 'map_for_all/map_front.dart';
+import '../../../Dashboard/taskManager/screens/task_dashbrd.dart';
 
-class TheEyeFront extends StatefulWidget {
-  const TheEyeFront({Key? key}) : super(key: key);
+
+
+class DashBrdFront extends StatefulWidget {
+  const DashBrdFront({Key? key}) : super(key: key);
 
   @override
-  State<TheEyeFront> createState() => _TheEyeFrontState();
+  State<DashBrdFront> createState() => _TheEyeFrontState();
 }
 
-class _TheEyeFrontState extends State<TheEyeFront> {
+class _TheEyeFrontState extends State<DashBrdFront> {
   Iterable markers = [];
 
   Future<Uint8List> getBytesFromAsset({String? path,int? width})async {
@@ -57,12 +60,12 @@ class _TheEyeFrontState extends State<TheEyeFront> {
   Widget build(BuildContext context) {
     getImage();
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
 
 
-          title:  Text('The Eye',style: TextStyle(
+          title:  Text('Dashboard',style: TextStyle(
               color: appBarHeader,fontSize: 24
           ),),
           leading: IconButton(
@@ -100,20 +103,18 @@ class _TheEyeFrontState extends State<TheEyeFront> {
                           isScrollable: true,
                           tabs: const [
                             Tab(
-                              text: 'Live tracking',
+                              text: 'Task',
                             ),
                             Tab(
-                              text: 'Visit',
+                              text: 'Prospect',
                             ),
                             Tab(
-                              text: 'Map view',
+                              text: 'Lead',
                             ),
                             Tab(
-                              text: 'Follow Up Activity',
+                              text: 'Sale',
                             ),
-                            Tab(
-                              text: 'Daily Task log',
-                            ),
+
 
                           ],
                         ),
@@ -124,21 +125,18 @@ class _TheEyeFrontState extends State<TheEyeFront> {
                     ],
                   ),
                 ),
-                 Expanded(
+                Expanded(
                   child: TabBarView(
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: LiveTrackingScreen(),
+                          child: DashBoard(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: VisitLog(),
+                          child: ProspectDashBoard(),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: MapFront(),
-                        ),
+
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: FollowUpActivity(),

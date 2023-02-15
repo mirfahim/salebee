@@ -2,6 +2,7 @@ import 'dart:convert';
 
 
 
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/followUp/follow_up_by_date_model.dart';
 import 'package:salebee/Model/prospect/get_prospectList_by_id_model.dart';
 
@@ -126,6 +127,7 @@ class ProspectRepository {
     String data = response.body;
 
     SharedPreff.to.prefss.setString("prospectList", data);
+    print("prospect yo bro");
     return getAllProspectByIdtModelFromJson(response.body!);
   }
   Future<GetFollowupListModel> getProspectFollowupByIdController(int prospectId) async {
@@ -156,32 +158,64 @@ class ProspectRepository {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
 
     Uri url = Uri.parse("$base_url/ProspectFollowupByDate");
-    final response = await http.post(
-      url,
-      body: jsonEncode(
-          {
-            "Token": tokenString,
-            "ProspectID": 0,
-            "LeadID": 0,
-            "TaskID": 0,
-            "EmployeeID": 0,
-            "SupportID": 0,
-            "FollowupID": 0,
-            "ExpenseID": 0,
-            "Type": "string",
-            "StatusId": 0,
-            "FromDate": "2023-01-18T04:41:35.079Z",
-            "ToDate": DateTime.now().toString(),
-          }
-      ),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    );
 
-    print("my resposnse repo get followup list by date ${response.body}");
-    String data = response.body;
+    try{
+      final response = await http.post(
+        url,
+        body: jsonEncode(
+            {
+              "Token": tokenString,
+              "ProspectID": 0,
+              "LeadID": 0,
+              "TaskID": 0,
+              "EmployeeID": 0,
+              "SupportID": 0,
+              "FollowupID": 0,
+              "ExpenseID": 0,
+              "Type": "string",
+              "StatusId": 0,
+              "FromDate": "2023-01-18T04:41:35.079Z",
+              "ToDate": DateTime.now().toString(),
+            }
+        ),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
 
-    return getFollowupListModelByDateFromJson(response.body!);
+      print("my resposnse repo get followup list by date ${response.body}");
+      String data = response.body;
+
+      return getFollowupListModelByDateFromJson(response.body!);
+    }catch(e){
+      final response = await http.post(
+        url,
+        body: jsonEncode(
+            {
+              "Token": tokenString,
+              "ProspectID": 0,
+              "LeadID": 0,
+              "TaskID": 0,
+              "EmployeeID": 0,
+              "SupportID": 0,
+              "FollowupID": 0,
+              "ExpenseID": 0,
+              "Type": "string",
+              "StatusId": 0,
+              "FromDate": "2023-01-18T04:41:35.079Z",
+              "ToDate": DateTime.now().toString(),
+            }
+        ),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      );
+
+      print("my error repo get followup list by date $e");
+      String data = response.body;
+
+      return getFollowupListModelByDateFromJson(response.body!);
+    }
+
   }
 }

@@ -22,6 +22,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   ProspectRepository prospectRepository = ProspectRepository();
   String? newEmployee;
+  int? empID;
   List<StageModel> stageList = [
     StageModel(
         "Follow up",
@@ -314,10 +315,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
 // This is called when the user selects an item.
                                 setState(() {
                                   newEmployee = value!;
-                                  snapshot.data!.results!.forEach((element) {
-                                    print("${element.employeeName}" +
-                                        "$newEmployee");
-                                  });
+
 // assignToID = snapshot
 //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
                                 });
@@ -402,7 +400,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                               AsyncSnapshot<GetFollowupListModelByDate>
                                   snapshot) {
                             if (snapshot.data == null) {
-                              print("no data found");
+                              print("no data found in followup");
                             } else {}
 
                             switch (snapshot.connectionState) {
@@ -439,7 +437,9 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                               yearSelection ==
                                                   int.parse(data!.date!
                                                       .toString()
-                                                      .substring(0, 4))) {
+                                                      .substring(0, 4)) &&
+                                          newEmployee == data!.empName
+                                          ) {
                                             return Container(
                                               child: Column(
                                                 children: [
@@ -564,41 +564,26 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                                         .bold,
                                                               ),
                                                             ),
-                                                            Text(
-                                                              getProspectAdrs(
-                                                                  data.prosID!,
-                                                                  StaticData
-                                                                      .prosepctList),
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black54,
+                                                            Container(
+                                                             height: 30,
+                                                              width: MediaQuery.of(context).size.width - 290,
+
+
+                                                              child: Text(
+
+                                                                getProspectAdrs(
+                                                                    data.prosID!,
+                                                                    StaticData
+                                                                        .prosepctList),
+                                                                maxLines: 2,
+                                                                style: TextStyle(
+                                                                  fontSize: 12,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
                                                               ),
                                                             ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Followed up: ",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .blue,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  data.empName!,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .black54,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+
                                                           ],
                                                         ),
                                                       ),
@@ -607,7 +592,7 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                         onTap: () {},
                                                         child: Container(
                                                           height: 30,
-                                                          width: 70,
+                                                          width: 100,
                                                           decoration:
                                                               BoxDecoration(
                                                             color:
@@ -643,7 +628,9 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                                 Expanded(
                                                                   child: Center(
                                                                     child: Text(
-                                                                      "stage",
+                                                                      getProspectStage(data.prosID!,
+                                                                          StaticData
+                                                                              .prosepctList),
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
@@ -664,6 +651,30 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                   ),
                                                   Row(
                                                     children: [
+                                                      Text(
+                                                        "Followed up: ",
+                                                        style:
+                                                        TextStyle(
+                                                          fontSize:
+                                                          12,
+                                                          color: Colors
+                                                              .blue,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data.empName!,
+                                                        style:
+                                                        TextStyle(
+                                                          fontSize:
+                                                          12,
+                                                          color: Colors
+                                                              .black54,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
                                                       GestureDetector(
                                                         onTap: () {
                                                           Get.to(
@@ -679,7 +690,13 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                           ),
                                                         ),
                                                       ),
-                                                      Text(data!.description!),
+                                                      Container(
+                                                       height: MediaQuery.of(context).size.height * .06,
+                                                          width: MediaQuery.of(context).size.width - 70,
+                                                          child: Text(
+                                                              data!.description!,
+                                                          maxLines: 3,)
+                                                      ),
                                                     ],
                                                   ),
                                                 ],
@@ -732,39 +749,39 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                           decoration: BoxDecoration(
                                                               color: primaryColorSecond
                                                                   .withOpacity(
-                                                                      .3),
+                                                                  .3),
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          6)),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  6)),
                                                           width: 100,
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        4.0),
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical:
+                                                                4.0),
                                                             child: Column(
                                                               children: [
                                                                 Row(
                                                                   mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
+                                                                  MainAxisAlignment
+                                                                      .center,
                                                                   children: [
                                                                     Text(
                                                                       DateFormat('EEEE')
-                                                                              .format(data!.date!)
-                                                                              .toString()
-                                                                              .substring(0, 3) +
+                                                                          .format(data!.date!)
+                                                                          .toString()
+                                                                          .substring(0, 3) +
                                                                           ",",
                                                                       textAlign:
-                                                                          TextAlign
-                                                                              .center,
+                                                                      TextAlign
+                                                                          .center,
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              10,
+                                                                          10,
                                                                           fontWeight:
-                                                                              FontWeight.bold),
+                                                                          FontWeight.bold),
                                                                     ),
                                                                     SizedBox(
                                                                       height: 5,
@@ -772,50 +789,50 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
 //"LogTimeIn":"2022-09-13T08:36:40.32"
                                                                     Center(
                                                                       child:
-                                                                          Text(
+                                                                      Text(
                                                                         " " +
                                                                             data.date.toString().substring(8,
                                                                                 10),
                                                                         textAlign:
-                                                                            TextAlign.center,
+                                                                        TextAlign.center,
                                                                         style:
-                                                                            TextStyle(
+                                                                        TextStyle(
                                                                           fontSize:
-                                                                              10,
+                                                                          10,
                                                                         ),
                                                                       ),
                                                                     ),
                                                                     Text(
                                                                       DateFormat(
-                                                                              'MMM')
+                                                                          'MMM')
                                                                           .format(data
-                                                                              .date!)
+                                                                          .date!)
                                                                           .toString()
                                                                           .substring(
-                                                                              0,
-                                                                              3),
+                                                                          0,
+                                                                          3),
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              10,
+                                                                          10,
                                                                           fontWeight:
-                                                                              FontWeight.bold),
+                                                                          FontWeight.bold),
                                                                     ),
                                                                   ],
                                                                 ),
                                                                 Card(
                                                                   child: Row(
                                                                     mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                     children: [
                                                                       Text(
                                                                         DateFormat.jm()
                                                                             .format(data.date!),
                                                                         style: TextStyle(
                                                                             fontSize:
-                                                                                10,
+                                                                            10,
                                                                             fontWeight:
-                                                                                FontWeight.bold),
+                                                                            FontWeight.bold),
                                                                       ),
                                                                     ],
                                                                   ),
@@ -829,58 +846,48 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                       Container(
                                                         child: Column(
                                                           crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                           children: [
-                                                            Text(
-                                                              getProspectName(
-                                                                  data.prosID!,
-                                                                  StaticData
-                                                                      .prosepctList),
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black54,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
+                                                            Container(
+                                                              height: 30,
+                                                              width: MediaQuery.of(context).size.width - 290,
+                                                              child: Text(
+                                                                getProspectName(
+                                                                    data.prosID!,
+                                                                    StaticData
+                                                                        .prosepctList),
+                                                                style: TextStyle(
+                                                                  fontSize: 12,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                                ),
+                                                                maxLines: 2,
                                                               ),
                                                             ),
-                                                            Text(
-                                                              getProspectAdrs(
-                                                                  data.prosID!,
-                                                                  StaticData
-                                                                      .prosepctList),
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .black54,
+                                                            Container(
+                                                              height: 30,
+                                                              width: MediaQuery.of(context).size.width - 290,
+
+
+                                                              child: Text(
+
+                                                                getProspectAdrs(
+                                                                    data.prosID!,
+                                                                    StaticData
+                                                                        .prosepctList),
+                                                                maxLines: 2,
+                                                                style: TextStyle(
+                                                                  fontSize: 12,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
                                                               ),
                                                             ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Followed up: ",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .blue,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  data.empName!,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .black54,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+
                                                           ],
                                                         ),
                                                       ),
@@ -889,51 +896,53 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                         onTap: () {},
                                                         child: Container(
                                                           height: 30,
-                                                          width: 70,
+                                                          width: 100,
                                                           decoration:
-                                                              BoxDecoration(
+                                                          BoxDecoration(
                                                             color:
-                                                                primaryColorLight,
+                                                            primaryColorLight,
                                                             borderRadius: const BorderRadius
-                                                                    .only(
+                                                                .only(
                                                                 topLeft: Radius
                                                                     .circular(
-                                                                        30),
+                                                                    30),
                                                                 topRight: Radius
                                                                     .circular(
-                                                                        30),
+                                                                    30),
                                                                 bottomLeft: Radius
                                                                     .circular(
-                                                                        30),
+                                                                    30),
                                                                 bottomRight: Radius
                                                                     .circular(
-                                                                        30)),
+                                                                    30)),
                                                           ),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        8.0,
-                                                                    vertical:
-                                                                        3),
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                8.0,
+                                                                vertical:
+                                                                3),
                                                             child: Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
+                                                              MainAxisAlignment
+                                                                  .center,
                                                               children: [
                                                                 Expanded(
                                                                   child: Center(
                                                                     child: Text(
-                                                                      "stage",
+                                                                      getProspectStage(data.prosID!,
+                                                                          StaticData
+                                                                              .prosepctList),
                                                                       overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              12,
+                                                                          12,
                                                                           color:
-                                                                              Colors.black),
+                                                                          Colors.black),
                                                                     ),
                                                                   ),
                                                                 )
@@ -942,6 +951,30 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                           ),
                                                         ),
                                                       )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "Followed up: ",
+                                                        style:
+                                                        TextStyle(
+                                                          fontSize:
+                                                          12,
+                                                          color: Colors
+                                                              .blue,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        data.empName!,
+                                                        style:
+                                                        TextStyle(
+                                                          fontSize:
+                                                          12,
+                                                          color: Colors
+                                                              .black54,
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                   Row(
@@ -957,11 +990,17 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
                                                           child: Icon(
                                                             Icons.call,
                                                             color:
-                                                                Colors.white70,
+                                                            Colors.white70,
                                                           ),
                                                         ),
                                                       ),
-                                                      Text(data!.description!),
+                                                      Container(
+                                                          height: MediaQuery.of(context).size.height * .06,
+                                                          width: MediaQuery.of(context).size.width - 70,
+                                                          child: Text(
+                                                            data!.description!,
+                                                            maxLines: 3,)
+                                                      ),
                                                     ],
                                                   ),
                                                 ],
@@ -2420,6 +2459,11 @@ class _AllVisitTrackPageState extends State<FollowUpActivity> {
     List<ProspectResult> p = [];
     p.add(list.where((element) => element.id == id).first);
     return p[0].address;
+  }
+  getProspectStage(int id, List<ProspectResult> list) {
+    List<ProspectResult> p = [];
+    p.add(list.where((element) => element.id == id).first);
+    return p[0].stage;
   }
 }
 

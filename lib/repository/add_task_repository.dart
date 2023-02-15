@@ -18,6 +18,33 @@ import 'package:http/http.dart' as http;
 import '../Utils/StringsConst.dart';
 
 class TaskRepository {
+
+  // "Done") {
+  // stausID = 4;
+
+
+  // "Incomplete") {
+  // stausID = 1;
+
+
+  // "All") {
+  // stausID = 0;
+
+
+  // "Cancelled") {
+  // stausID = 11;
+
+
+  // "Need More Time") {
+  // stausID = 13;
+
+  // "Partially Done") {
+  // stausID = 3;
+
+
+  // "Initiated"
+  // stausID = 5;
+
   String base_url = "${StringsConst.BASEURL}";
   ApiService apiService = ApiService();
   String tokenString = SharedPreff.to.prefss.get("token").toString();

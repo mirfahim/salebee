@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:salebee/utils.dart';
 
 class ExpenseGraphDesign extends StatefulWidget {
-  const ExpenseGraphDesign({Key? key}) : super(key: key);
+  int? jan;
+  int? feb;
+  int? march;
+  int? aprl;
+  int? may;
+  int? june;
+  int? july;
+  int? aug;
+  int? sep;
+  int? oct;
+  int? nov;
+  int? dec;
+
+   ExpenseGraphDesign({this.jan, this.feb, this.march, this.aprl, this.may, this.june, this.july, this.aug, this.sep, this.oct, this.nov, this.dec});
 
   @override
   State<ExpenseGraphDesign> createState() => _ExpenseGraphDesignState();
@@ -16,24 +30,20 @@ class _ExpenseGraphDesignState extends State<ExpenseGraphDesign> {
       child: LineChart(
         LineChartData(
           minX: 0,
-          maxX: 10,
+          maxX: 4,
           minY: 0,
           maxY: 10,
-          backgroundColor: Colors.black,
+          backgroundColor: primaryColorLight,
           lineBarsData: [
             LineChartBarData(
               spots: [
-                const FlSpot(0, 4),
+                const FlSpot(0, 9),
                 const FlSpot(1, 6),
                 const FlSpot(2, 8),
                 const FlSpot(3, 6.2),
-                const FlSpot(4, 6),
-                const FlSpot(5, 8),
-                const FlSpot(6, 9),
-                const FlSpot(7, 7),
-                const FlSpot(8, 6),
-                const FlSpot(9, 7.8),
-                const FlSpot(10, 8),
+                const FlSpot(4, 6.2),
+
+
               ],
               isCurved: true,
               gradient: const LinearGradient(
@@ -61,7 +71,7 @@ class _ExpenseGraphDesignState extends State<ExpenseGraphDesign> {
               drawVerticalLine: true,
               getDrawingVerticalLine: (value) {
                 return FlLine(
-                  color: Colors.grey.shade800,
+                  color: Colors.transparent,
                   strokeWidth: 0.8,
                 );
               }),
@@ -78,7 +88,7 @@ class _ExpenseGraphDesignState extends State<ExpenseGraphDesign> {
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                   showTitles: true,
-                  reservedSize: 12,
+                  reservedSize: 10,
                   getTitlesWidget: (value, meta) {
                     String text = '';
                     switch (value.toInt()) {
@@ -94,31 +104,15 @@ class _ExpenseGraphDesignState extends State<ExpenseGraphDesign> {
                       case 4:
                         text = "4";
                         break;
-                      case 5:
-                        text = "5";
-                        break;
-                      case 6:
-                        text = "6";
-                        break;
-                      case 7:
-                        text = "7";
-                        break;
-                      case 8:
-                        text = "8";
-                        break;
-                      case 9:
-                        text = "9";
-                        break;
-                      case 10:
-                        text = "10";
-                        break;
+
+
                       default:
                         return Container();
                     }
                     return Text(
                       text,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 10,
                       ),
                     );

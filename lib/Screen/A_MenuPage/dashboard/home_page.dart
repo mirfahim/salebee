@@ -72,7 +72,7 @@ class _HomePageState extends State<DashBoardPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const ExpenseGraphDesign(),
+                   ExpenseGraphDesign(),
                   const CircleProgressChart(),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),

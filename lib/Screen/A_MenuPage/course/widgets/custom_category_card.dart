@@ -1,6 +1,8 @@
+import 'package:get/get.dart';
 import 'package:salebee/Screen/A_MenuPage/course/datas/category_json.dart';
 import 'package:salebee/Screen/A_MenuPage/course/datas/courses_json.dart';
 import 'package:salebee/Screen/A_MenuPage/course/datas/user_profile.dart';
+import 'package:salebee/Screen/A_MenuPage/course/pages/content_list.dart';
 import 'package:salebee/Screen/A_MenuPage/course/theme/colors.dart';
 import 'package:salebee/Screen/A_MenuPage/course/theme/padding.dart';
 import 'package:salebee/Screen/A_MenuPage/course/utils/contant.dart';
@@ -33,7 +35,7 @@ class CustomCategoryCard extends StatelessWidget {
          
           return GestureDetector(
             onTap: () {
-            
+                   Get.to(ContentList());
             },
             child: Container(
               height: size.width * .25,

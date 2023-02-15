@@ -70,25 +70,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: spacer + 24),
 
                     //heading
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomHeading(
-                          title: 'Hi, ${userName[0]}!',
-                          subTitle: 'Let\'s start learning.',
-                          color: textWhite,
-                        ),
-                        Container(
-                            height: spacer,
-                            width: spacer,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image.asset(
-                                  UserProfile['image'].toString(),
-                                  fit: BoxFit.cover,
-                                ))),
-                      ],
-                    ),
+
                     SizedBox(height: spacer),
 
                     //search

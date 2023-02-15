@@ -96,6 +96,7 @@ class _SplashState extends State<Splash> {
     });
     prospectRepository.getAllProspectListByUserIdController().then((value) {
       print("prospect data from splash $value");
+      StaticData.prosepctList = value.result!;
       return value.result!;
     });
   }
