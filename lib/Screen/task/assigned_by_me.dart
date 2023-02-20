@@ -1048,6 +1048,7 @@ bool today = true;
                                                                   addVisit(data.prospectName!, data.prospectId!);
                                                                   taskRepository
                                                                       .taskUpdateController(
+                                                                      prospectId: data.prospectId,
                                                                       token:
                                                                       token!,
                                                                       title: data
@@ -1077,6 +1078,8 @@ bool today = true;
                                                                 }
                                                                 taskRepository
                                                                     .taskUpdateController(
+                                                                    prospectId: data.prospectId,
+
                                                                     token:
                                                                     token!,
                                                                     title: data
@@ -2101,6 +2104,8 @@ bool today = true;
 
                                                                 taskRepository
                                                                     .taskUpdateController(
+                                                                    prospectId: data.prospectId,
+
                                                                     token:
                                                                     token!,
                                                                     title: data

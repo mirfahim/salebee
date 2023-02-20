@@ -87,7 +87,7 @@ class _MyAppState extends State<EyeMapScreeen> {
                               print("jjjj ${element!.employeeId!}");
 
                               markerlatLen.add(LocationModel(
-                                  getEmpName(element.employeeId!,
+                                  getEmpName(element.employeeId == 0 ? 79 : element.employeeId!,
                                       empSnap.data!.results!),
                                   1,
                                   LatLng(element!.lat!, element!.long!),

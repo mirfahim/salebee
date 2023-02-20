@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:salebee/Utils/ROute/app_pages.dart';
 import 'package:salebee/utils.dart';
 import 'Provider/Login/provider_manager.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,6 +31,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
 
 // initialize hive
@@ -63,7 +67,8 @@ void main() async {
       AndroidInitializationSettings('app_icon');
   await LocalNotificationService().initialize();
 
-  runApp(MyApp());
+  runApp(
+      MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -76,6 +81,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProviderManager()),
       ],
       child: GetMaterialApp(
+        initialRoute: AppPages.INITIAL,
+        getPages: AppPages.routes,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: primaryColorLight,

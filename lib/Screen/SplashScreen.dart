@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Model/lead/get_lead_model.dart';
 import 'package:salebee/Screen/Authentication/login_page.dart';
 import 'package:salebee/Screen/Authentication/sub_domain_page.dart';
 import 'package:salebee/Screen/Home/home.dart';
@@ -21,6 +22,7 @@ import 'package:salebee/Widget/bottom_bar.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/repository/add_task_repository.dart';
 import 'package:salebee/repository/attendance_repository.dart';
+import 'package:salebee/repository/lead_repository.dart';
 import 'package:salebee/repository/prospect_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
@@ -43,6 +45,7 @@ class _SplashState extends State<Splash> {
   //
   //DbHelper dbHelper = DbHelper();
   TaskRepository taskRepository = TaskRepository();
+  LeaDRepository leaDRepository = LeaDRepository();
   AttendanceRepository attendanceRepository = AttendanceRepository();
   ProspectRepository prospectRepository = ProspectRepository();
   var hiveBox = Hive.box("manageTask");
@@ -97,6 +100,11 @@ class _SplashState extends State<Splash> {
     prospectRepository.getAllProspectListByUserIdController().then((value) {
       print("prospect data from splash $value");
       StaticData.prosepctList = value.result!;
+      return value.result!;
+    });
+    leaDRepository.getLeadController().then((value) {
+      print("lead data from splash $value");
+      StaticData.leadList = value.result!;
       return value.result!;
     });
   }

@@ -1,12 +1,16 @@
 import 'dart:typed_data';
 
+import 'package:salebee/Model/lead/get_lead_model.dart';
+
 import '../Model/login_model.dart';
 import '../Model/prospect/get_prospectList_by_id_model.dart';
 
 class StaticData {
   static List<ProspectResult> prosepctList= [];
+  static List<LeadResult> leadList= [];
   static int assignToID = 0;
   static int todaysTask = 0;
+  static String mobileNo = "";
   static int department = 0;
   static String designation = "";
   static int prospectID = 0;

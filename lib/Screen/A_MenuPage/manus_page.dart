@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/A_MenuPage/contact_book/contact_book.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/home_page.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/screens/task_dashbrd.dart';
-import 'package:salebee/Screen/A_MenuPage/dashboard/taskManager/screens/dashbrd_front.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/screens/task_dashbrd.dart';
+import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/screens/dashbrd_front.dart';
 import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/A_MenuPage/SendEmail/send_email_pagr.dart';
 import 'package:salebee/Screen/A_MenuPage/chat/chat_screen.dart';
@@ -22,6 +23,7 @@ import 'package:salebee/Screen/follow_up/follow_up_page.dart';
 import 'package:salebee/Screen/lead/lead_view.dart';
 import 'package:salebee/Screen/leave/leave_front.dart';
 import 'package:salebee/Screen/schedule/schedule_home.dart';
+import 'package:salebee/Utils/ROute/app_pages.dart';
 import 'package:salebee/bottomNav.dart';
 import 'package:salebee/utils.dart';
 
@@ -410,7 +412,7 @@ class _MenusScreenState extends State<MenusScreen> {
                   ),
                   GestureDetector(
                     onTap: (){
-                     // Get.to(TaskManagerPage());
+                      Get.toNamed(Routes.ContactFrontTab);
                     },
                     child: Card(
                       elevation: 10,

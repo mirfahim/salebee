@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Data/static_data.dart';
+import 'package:salebee/Model/prospect/get_prospectList_by_id_model.dart';
 import 'package:salebee/Model/visit/visit_list.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/map_screen.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/visit/visit_list_map.dart';
@@ -452,13 +454,22 @@ class _AllVisitTrackPageState extends State<VisitLog> {
                                                                               .bold,
                                                                     ),
                                                                   ),
-                                                            Text(
-                                                              visitData
-                                                                  .prospectAddress!,
-                                                              style: TextStyle(
-                                                                fontSize: 10,
-                                                                color: Colors
-                                                                    .black54,
+                                                            Container(
+                                                              height: 25,
+                                                              width: MediaQuery.of(context).size.width * .6,
+                                                              child: Text(
+
+                                                                getProspectAdrs(
+                                                                    visitData
+                                                                        .prospectId!,
+                                                                    StaticData
+                                                                        .prosepctList),
+                                                                style: TextStyle(
+                                                                  fontSize: 10,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
+                                                                maxLines: 2,
                                                               ),
                                                             ),
                                                             Container(
@@ -581,7 +592,11 @@ class _AllVisitTrackPageState extends State<VisitLog> {
       ),
     );
   }
-
+  getProspectAdrs(int id, List<ProspectResult> list) {
+    List<ProspectResult> p = [];
+    p.add(list.where((element) => element.id == id).first);
+    return p[0].address;
+  }
   getAddress(lat, lon) async {
     getAddressFromLatLng(lat, lon).then((v) {
       print("my location from google api $v");

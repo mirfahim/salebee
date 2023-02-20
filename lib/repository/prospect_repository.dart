@@ -24,54 +24,47 @@ class ProspectRepository {
   ApiService apiService = ApiService();
   String tokenString = SharedPreff.to.prefss.get("token").toString();
 
-  Future prospectAddController(
-      {required String token,
-        required String title,
-        required String description,
-        required int type,
-        required int repeat,
-        required int priority,
-        int? prospectId,
-        int? leadID,
-        int? assignaTo,
-        required int status}) async {
-    print("token  ${SharedPreff.to.prefss.get("token")} , type $type repeat $repeat priority $priority prospect id $prospectId lead id $leadID, assign to $assignaTo++++++");
-    print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
+  Future prospectAddController({String? prospectName}) async {
 
-    List list1 = [];
-    List list2 = [];
 
-    Map<String, dynamic> bodyString = {
-      "TaskID": 0,
-      "Type": type,
-      "Title": title,
-      "TaskDesc": description,
-      "Notes": "stradfaing",
-      "ProspectId": prospectId ?? 0,
-      "LeadID": leadID ?? 0,
-      "SupportID": 0,
-      "StartDate": DateTime.now().toString(),
-      "StartTime": "string",
-      "DueDate": DateTime.now().toString(),
-      "DueTime": "string",
-      "ReminderDate": "2022-08-30T10:46:49.198Z",
-      "ReminderDays": 0,
-      "ReminderHour": 0,
-      "ReminderMinutes": 0,
-      "Repeat": repeat,
-      "AssignedTo": assignaTo,
-      "Priority": priority ,
-      "StatusId": status,
-      "FollowUpID": 0,
-      "IsViewed": true,
-      "StatusUpdateDate": "2022-08-30T10:46:49.198Z",
-      "StatusUpdateBy": 0,
-      "Token": token,
-      "TaskShareList": list1,
-      "TaskContactList": list2
+
+    print("yo bro prospect add");
+    Map<String, dynamic> bodyString =  {
+      "ProspectName": prospectName,
+      "InformationSourceId": 10,
+      "OrganizaiontypeId": 2,
+      "IsIndividual": 0,
+      "CampaignId": 1,
+      "Note": "Test Swagger",
+      "Phone": "0197980034",
+      "Email": "reza@nexzen.com",
+      "InterestedItems": [1,2,3,4,5],
+      "ContactPersons": {
+        "Name": "reza",
+        "Phone": "01979800341",
+        "Email": "reza1@nexzen.com",
+        "DepartmentId": 10,
+        "DesignationId": 10,
+        "InfluencingRoleId": 1,
+        "GenderId": 1,
+        "ProfessionId": 1,
+        "JobTypeId": 1,
+        "IsPrimary": true,
+        "DateOfBirth": "2023-02-15T06:53:09.991Z"
+      },
+      "Organization": {
+        "Address": "DOHS",
+        "Phone": "01979800342",
+        "Website": "string",
+        "Zone": 10,
+        "SocialMedia": "string",
+        "Latitude": 0,
+        "Longitude": 0
+      },
+      "Token": tokenString,
     };
 
-    Uri url = Uri.parse("$base_url/LoadProspect?Token=$tokenString");
+    Uri url = Uri.parse("$base_url/AddProspect");
     final response = await http.post(
       url,
       body: jsonEncode(bodyString),
@@ -80,7 +73,7 @@ class ProspectRepository {
       },
     );
 
-    print("my resposnse repo ${response.body}");
+    print("my resposnse repo add prospect ${response.body}");
     String data = response.body;
 
 

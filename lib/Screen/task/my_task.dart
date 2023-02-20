@@ -50,10 +50,14 @@ class _AssignedToMeState extends State<MyTask> {
   List<String> allStatusList = [];
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
   int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
-  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
+  List<String> yearList = <String>[
+    DateTime.now().year.toString(),
+    DateTime(DateTime.now().year - 1).toString().substring(0, 4),
+    DateTime(DateTime.now().year - 2).toString().substring(0, 4)
+  ];
   String dropdownValue = DateTime.now().year.toString();
 
-  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
+  int yearSelection = int.parse(DateTime.now().toString().substring(0, 4));
   List<String> tabs = [
     'January',
     'February',
@@ -102,18 +106,20 @@ class _AssignedToMeState extends State<MyTask> {
     31
   ];
 
-
-  sendTaskNotification(List<MyTaskResult> listDate)async {
+  sendTaskNotification(List<MyTaskResult> listDate) async {
     await FlutterLocalNotificationsPlugin().cancelAll();
-    for(int i = 0 ; i < listDate.length;  i ++ ){
+    for (int i = 0; i < listDate.length; i++) {
       var scheduledNotificationDateTime =
-      listDate[i].dueDate!.subtract(Duration(minutes: 20));
+          listDate[i].dueDate!.subtract(Duration(minutes: 20));
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           'your channel id', 'your channel name',
-          importance: Importance.high, priority: Priority.high, ticker: 'ticker');
+          importance: Importance.high,
+          priority: Priority.high,
+          ticker: 'ticker');
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+          android: androidPlatformChannelSpecifics,
+          iOS: iOSPlatformChannelSpecifics);
 
       // Step 5: Show the notification
       await FlutterLocalNotificationsPlugin().schedule(
@@ -123,12 +129,11 @@ class _AssignedToMeState extends State<MyTask> {
           scheduledNotificationDateTime,
           platformChannelSpecifics);
     }
-
-
-
   }
+
   GetListForTaskDataModel manageModel = GetListForTaskDataModel();
-  Event buildEvent({Recurrence? recurrence, String? title, String? description }) {
+  Event buildEvent(
+      {Recurrence? recurrence, String? title, String? description}) {
     return Event(
       title: title!,
       description: description!,
@@ -146,6 +151,7 @@ class _AssignedToMeState extends State<MyTask> {
       recurrence: recurrence,
     );
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -177,16 +183,6 @@ class _AssignedToMeState extends State<MyTask> {
               initiatedList.addAll(snapshot.data!.result!
                   .where((element) => element.statusId == 5));
 
-
-
-
-
-
-
-
-
-
-
               print("my ini list i s=++++++++++++${initiatedList.length}");
               doneList.addAll(snapshot.data!.result!
                   .where((element) => element.statusId == 4));
@@ -200,23 +196,12 @@ class _AssignedToMeState extends State<MyTask> {
               totalDone = doneList.length;
               totalIncomplete = incompleteList.length;
 
-
-
-
-
-
-
-
-                sendTaskNotification(initiatedList.where((element) => element.dueDate!.year! == DateTime.now().year
-                    && element.dueDate!.month >= DateTime.now().month
-                    &&
-                    element.dueDate!.hour >= DateTime.now().hour).toList());
-
-
-
-
-
-
+              sendTaskNotification(initiatedList
+                  .where((element) =>
+                      element.dueDate!.year! == DateTime.now().year &&
+                      element.dueDate!.month >= DateTime.now().month &&
+                      element.dueDate!.hour >= DateTime.now().hour)
+                  .toList());
             }
             // scoring system
             //    totalInitiated = snapshot.data!.result!.map((ele) => ele.statusId).fold(0, (prev, amount) => prev + amount!);
@@ -299,27 +284,26 @@ class _AssignedToMeState extends State<MyTask> {
                                     child: DropdownButton<String>(
                                       value: dropdownValue,
                                       isExpanded: true,
-                                      icon: Icon(Icons
-                                          .arrow_drop_down_outlined),
+                                      icon:
+                                          Icon(Icons.arrow_drop_down_outlined),
                                       elevation: 16,
                                       style: const TextStyle(
-                                          color: Colors
-                                              .deepPurple),
-                                      underline:
-                                      Container(
+                                          color: Colors.deepPurple),
+                                      underline: Container(
                                         height: 2,
-                                        color: Colors
-                                            .transparent,
+                                        color: Colors.transparent,
                                       ),
-
                                       onChanged: (String? value) {
                                         // This is called when the user selects an item.
                                         setState(() {
                                           dropdownValue = value!;
-                                          yearSelection = int.parse(dropdownValue);
+                                          yearSelection =
+                                              int.parse(dropdownValue);
                                         });
                                       },
-                                      items: yearList.map<DropdownMenuItem<String>>((String value) {
+                                      items: yearList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
                                           child: Text(value),
@@ -328,43 +312,43 @@ class _AssignedToMeState extends State<MyTask> {
                                     ),
                                   ),
                                 ),
-
                                 Container(
-                                  width: MediaQuery.of(context).size.width - 150,
-
+                                  width:
+                                      MediaQuery.of(context).size.width - 150,
                                   child: DefaultTabController(
-                                    initialIndex: monthSelection -1,
+                                    initialIndex: monthSelection - 1,
                                     length: 12,
                                     child: TabBar(
-
-
                                       indicator: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: primaryColorSecond.withOpacity(.5)),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: primaryColorSecond
+                                              .withOpacity(.5)),
                                       isScrollable: true,
                                       indicatorColor: Colors.black,
                                       labelColor: Colors.black,
-
-
-                                      onTap: (index){
-                                        setState((){
-                                          monthSelection = index+1;
+                                      onTap: (index) {
+                                        setState(() {
+                                          monthSelection = index + 1;
                                         });
-
                                       },
                                       tabs: tabs
                                           .map((tab) => Tab(
-                                        icon: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(tab,style: TextStyle(fontSize: 12),),
-                                        ),
-                                      ))
+                                                icon: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    tab,
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                ),
+                                              ))
                                           .toList(),
                                     ),
                                   ),
                                 ),
                               ],
-
                             ),
                           ),
                         ),
@@ -451,24 +435,19 @@ class _AssignedToMeState extends State<MyTask> {
                                     //       providersss.filterData.isEmpty
 
                                     today == true
-                                        ?  monthSelection ==
-                                    int.parse(data
-                                        .dueDate
-                                        .toString()
-                                        .substring(
-                                        5, 7)) &&
-                                    daySelection ==
-                                        int.parse(data
-                                            .dueDate
-                                            .toString()
-                                            .substring(
-                                            8, 10)) && yearSelection ==
-                                        int.parse(data
-                                            .dueDate
-                                            .toString()
-                                            .substring(
-                                            0, 4))
-                                ? ExpandableNotifier(
+                                        ? monthSelection ==
+                                                    int.parse(data.dueDate
+                                                        .toString()
+                                                        .substring(5, 7)) &&
+                                                daySelection ==
+                                                    int.parse(data.dueDate
+                                                        .toString()
+                                                        .substring(8, 10)) &&
+                                                yearSelection ==
+                                                    int.parse(data.dueDate
+                                                        .toString()
+                                                        .substring(0, 4))
+                                            ? ExpandableNotifier(
                                                 child: Stack(
                                                   children: [
                                                     Card(
@@ -585,33 +564,30 @@ class _AssignedToMeState extends State<MyTask> {
                                                                       .spaceBetween,
                                                               children: [
                                                                 GestureDetector(
-                                                            onTap: (){
-                                                              print("tapped11");
-                                                              Add2Calendar.addEvent2Cal(
-                                                                buildEvent(title:  data.title, description: data.taskDesc),
-                                                              );
-                                                      },
+                                                                  onTap: () {
+                                                                    print(
+                                                                        "tapped11");
+                                                                    Add2Calendar
+                                                                        .addEvent2Cal(
+                                                                      buildEvent(
+                                                                          title: data
+                                                                              .title,
+                                                                          description:
+                                                                              data.taskDesc),
+                                                                    );
+                                                                  },
                                                                   child: Container(
                                                                       height: 52,
-                                                                      decoration: BoxDecoration(
-                                                                          color: primaryColorSecond.withOpacity(
-                                                                              .3),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(
-                                                                                  6)),
+                                                                      decoration: BoxDecoration(color: primaryColorSecond.withOpacity(.3), borderRadius: BorderRadius.circular(6)),
                                                                       width: 100,
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets
-                                                                                .symmetric(
-                                                                            vertical:
-                                                                                4.0),
+                                                                      child: Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(vertical: 4.0),
                                                                         child:
                                                                             Column(
                                                                           children: [
                                                                             Row(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment.center,
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
                                                                               children: [
                                                                                 Text(
                                                                                   DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) + ",",
@@ -632,8 +608,7 @@ class _AssignedToMeState extends State<MyTask> {
                                                                               ],
                                                                             ),
                                                                             Card(
-                                                                              child:
-                                                                                  Row(
+                                                                              child: Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                 children: [
                                                                                   Text(
@@ -1043,26 +1018,20 @@ class _AssignedToMeState extends State<MyTask> {
                                                                           stausID =
                                                                               5;
                                                                         }
-                                                                        if(data!.taskType! == "Visit"){
-                                                                          addVisit(data.prospectName!, data.prospectId!);
+                                                                        if (data!.taskType! ==
+                                                                            "Visit") {
+                                                                          addVisit(
+                                                                              data.prospectName!,
+                                                                              data.prospectId!);
                                                                           taskRepository
-                                                                              .taskUpdateController(
-                                                                              token: token!,
-                                                                              title: data.title!,
-                                                                              taskID: data.taskId!,
-                                                                               assignaTo: data.assignedTo!,
-                                                                              description: data.taskDesc!,
-                                                                              type: data.type ?? 0,
-                                                                              repeat: repeatId,
-                                                                              priority: data.priority!,
-                                                                              status: stausID)
+                                                                              .taskUpdateController(prospectId: data.prospectId!, token: token!, title: data.title!, taskID: data.taskId!, assignaTo: data.assignedTo!, description: data.taskDesc!, type: data.type ?? 0, repeat: repeatId, priority: data.priority!, status: stausID)
                                                                               .then((value) {
-                                                                            setState(
-                                                                                    () {});
+                                                                            setState(() {});
                                                                           });
                                                                         }
                                                                         taskRepository
                                                                             .taskUpdateController(
+                                                                                prospectId: data.prospectId,
                                                                                 token: token!,
                                                                                 title: data.title!,
                                                                                 taskID: data.taskId!,
@@ -1525,14 +1494,19 @@ class _AssignedToMeState extends State<MyTask> {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children: [
-
                                                             GestureDetector(
-                                                        onTap:(){
-                                                          print("tapped11");
-                                                          Add2Calendar.addEvent2Cal(
-                                                            buildEvent(title:  data.title, description: data.taskDesc),
-                                                          );
-                                                  },
+                                                              onTap: () {
+                                                                print(
+                                                                    "tapped11");
+                                                                Add2Calendar
+                                                                    .addEvent2Cal(
+                                                                  buildEvent(
+                                                                      title: data
+                                                                          .title,
+                                                                      description:
+                                                                          data.taskDesc),
+                                                                );
+                                                              },
                                                               child: Container(
                                                                   height: 52,
                                                                   decoration: BoxDecoration(
@@ -1543,41 +1517,36 @@ class _AssignedToMeState extends State<MyTask> {
                                                                           BorderRadius.circular(
                                                                               6)),
                                                                   width: 100,
-                                                                  child: Padding(
+                                                                  child:
+                                                                      Padding(
                                                                     padding: const EdgeInsets
                                                                             .symmetric(
                                                                         vertical:
                                                                             4.0),
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       children: [
                                                                         Row(
                                                                           mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                           children: [
                                                                             Text(
-                                                                              DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) +
-                                                                                  ",",
-                                                                              textAlign:
-                                                                                  TextAlign.center,
-                                                                              style:
-                                                                                  TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                                              DateFormat('EEEE').format(data.dueDate!).toString().substring(0, 3) + ",",
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                                             ),
                                                                             SizedBox(
-                                                                              height:
-                                                                                  5,
+                                                                              height: 5,
                                                                             ),
                                                                             //"LogTimeIn":"2022-09-13T08:36:40.32"
                                                                             Center(
-                                                                              child:
-                                                                                  Text(
+                                                                              child: Text(
                                                                                 " " + data.dueDate.toString().substring(8, 10),
                                                                                 textAlign: TextAlign.center,
                                                                               ),
                                                                             ),
-                                                                            Text(DateFormat('MMM')
-                                                                                .format(data.dueDate!)
-                                                                                .toString()
-                                                                                .substring(0, 3)),
+                                                                            Text(DateFormat('MMM').format(data.dueDate!).toString().substring(0,
+                                                                                3)),
                                                                           ],
                                                                         ),
                                                                         Card(
@@ -2399,40 +2368,42 @@ class _AssignedToMeState extends State<MyTask> {
     });
   }
 
-  addVisit(String? prospect, int? prospectID){
-
+  addVisit(String? prospect, int? prospectID) {
     print("working 1 ${SharedPreff.to.prefss.get("token")} ++++++");
     geolocatorService.determinePosition().then((ele) {
       print("my position is ${ele!.latitude}");
-      getAddressFromLatLng(ele.latitude!, ele.longitude!).then((e){
-        visitRepository.visitAddController(prospectName: prospect!, locationTime: DateTime.now(), employeeId: 2149,
-            latitude: ele.latitude!, longitude: ele.longitude!, batteryStatus: "30", prospectId: prospectID!, location: e
-        );
+      getAddressFromLatLng(ele.latitude!, ele.longitude!).then((e) {
+        visitRepository.visitAddController(
+            prospectName: prospect!,
+            locationTime: DateTime.now(),
+            employeeId: 2149,
+            latitude: ele.latitude!,
+            longitude: ele.longitude!,
+            batteryStatus: "30",
+            prospectId: prospectID!,
+            location: e);
       });
-
-
-
     });
   }
-  getAddressFromLatLng( double lat, double lng) async {
+
+  getAddressFromLatLng(double lat, double lng) async {
     String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
     String _host = 'https://maps.google.com/maps/api/geocode/json';
     final url = '$_host?key=$mapApiKey&language=en&latlng=$lat,$lng';
-    if(lat != null && lng != null){
+    if (lat != null && lng != null) {
       var response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map data = jsonDecode(response.body);
         print("response of api google ==== ${response.body}");
         String _formattedAddress = data["results"][0]["formatted_address"];
         print("response ==== $_formattedAddress");
-        locationDis =  _formattedAddress;
+        locationDis = _formattedAddress;
         return locationDis;
       }
       return locationDis;
     }
-
-
   }
+
   _launchWhatsapp(String num) async {
     var whatsapp = "+88${num}";
     var whatsappAndroid =

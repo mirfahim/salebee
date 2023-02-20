@@ -9,6 +9,7 @@ import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Model/getListForTaskModel.dart';
 import 'package:salebee/Screen/task/notification_service.dart';
 import 'package:salebee/repository/add_task_repository.dart';
+import 'package:salebee/repository/lead_repository.dart';
 import 'package:salebee/repository/prospect_repository.dart';
 import 'package:salebee/utils.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -45,19 +46,20 @@ List<String> status = <String>[
 ];
 bool colorSelect = true;
 
-class CreateInitialProspect extends StatefulWidget {
+class CreateLead extends StatefulWidget {
   @override
-  State<CreateInitialProspect> createState() => _AddNewTaskState();
+  State<CreateLead> createState() => _AddNewTaskState();
 }
 
-class _AddNewTaskState extends State<CreateInitialProspect> {
+class _AddNewTaskState extends State<CreateLead> {
   final selectedDate = DateTime.now().obs;
   TaskRepository taskRepository = TaskRepository();
   ProspectRepository prospectRepository = ProspectRepository();
+  LeaDRepository leaDRepository = LeaDRepository();
 
   final pickedDate = ''.obs;
-  var textTitleController = TextEditingController();
-  var textDescriptionController = TextEditingController();
+  var leadNameController = TextEditingController();
+  var closingAMountController = TextEditingController();
   var textNoteController = TextEditingController();
   int typeIndex = 1;
   var startDateController = TextEditingController();
@@ -73,7 +75,13 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
   List leadList = [];
   String concernPerson = "";
   String leadName = "";
-
+  List priorityList = [
+    "Normal",
+    "High",
+    "Low",
+    "Medium"
+  ];
+  String? prioritySelect;
   String? newPriority;
   int repeatId = 0;
   String? newRepeat = "Select";
@@ -118,6 +126,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
       newLead = value.result!["SelectListLeads"]![0].text;
       newCantactPerson = value.result!["SelectListEmployee"]![0].text;
       newEmployee = value.result!["SelectListEmployee"]![0].text;
+      prioritySelect = priorityList[0];
       newProspect = value.result!["SelectListProspects"]![0].text;
       newPriority = value.result!["SelectListPriority"]![0].text;
       //prospectList = value.result!["SelectListProspects"]!;
@@ -131,6 +140,9 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
     final orientation = MediaQuery.of(context).orientation;
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Create Lead"),
+      ),
       key: _scaffoldkey,
       resizeToAvoidBottomInset: true,
       backgroundColor: primaryColorLight,
@@ -147,7 +159,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                     future: taskRepository.getAllListForTaskController(),
                     builder: (context, snapshot) {
                       if(snapshot.data == null){
-                          print("error in prospect initial");
+                        print("error in prospect initial");
                       }else {
                         snapshot.data!.result!["SelectListProspects"]!
                             .forEach((element) {
@@ -183,7 +195,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                 height: 10,
                               ),
                               Text(
-                                'Organization Name',
+                                'Lead Name',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -200,7 +212,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10.0))),
                                 child: TextFormField(
-                                  controller: textTitleController,
+                                  controller: leadNameController,
                                   onChanged: (value) {
                                     // _productController.searchProduct(value);
                                   },
@@ -224,7 +236,197 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                 height: 20,
                               ),
                               Text(
-                                'Organization Short Name',
+                                'Prospect Name',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: text),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: borderColor, width: 1),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child:  DropdownButtonHideUnderline(
+
+                                      child: DropdownSearch<String>(
+
+                                        popupProps: PopupProps.menu(
+                                          fit: FlexFit.loose,
+
+                                          showSearchBox: true,
+                                          showSelectedItems: true,
+
+                                          disabledItemFn: (String s) => s.startsWith('I'),
+                                        ),
+                                        items: allList,
+                                        dropdownDecoratorProps: DropDownDecoratorProps(
+                                          dropdownSearchDecoration: InputDecoration(
+
+
+                                            hintText: "Employee List",
+                                          ),
+                                        ),
+                                        onChanged:(String? value) {
+                                          // This is called when the user selects an item.
+                                          print('taxGroup $value');
+
+                                          setState(() {
+                                            newProspect = value;
+                                            snapshot.data!
+                                                .result!["SelectListProspects"]!
+                                                .forEach((element) {
+                                              // print("${element.text}"+"$newLead");
+                                              if (element.text == newProspect) {
+                                                StaticData.prospectID =
+                                                    int.parse(element.value);
+                                                print(
+                                                    "my assign id is ${StaticData.prospectID}");
+                                              } else {
+                                                // _showSnack("Task Assign to ${StaticData.assignToID}");
+                                                // print("no match in assign to");
+                                              }
+                                            });
+                                          });
+
+                                          taskRepository
+                                              .getProspectLeadandConcern(
+                                              StaticData.prospectID)
+                                              .then((value) {
+                                            for (var element in value.result!) {
+                                              for (var con in element.contact!) {
+                                                setState(() {
+
+                                                  concernPersonList.clear();
+
+                                                  //concernPersonList.add("select");
+                                                  concernPersonList.add(
+
+                                                    con.name,
+
+                                                  );
+
+                                                  print("my concern person list is ${concernPersonList.length.toString()}");
+                                                  concernPerson = concernPersonList[0];
+                                                });
+
+
+                                              }
+                                              for (var lead in element.lead!) {
+                                                setState(() {
+
+                                                  leadList.clear();
+
+                                                  //concernPersonList.add("select");
+                                                  leadList.add(  lead!.leadName!);
+
+                                                  print("my leadlist list is ${leadList.length.toString()}");
+                                                  leadName = leadList[0];
+                                                });
+
+
+                                              }
+                                            }
+                                          });
+                                        },
+                                        selectedItem: allList[0],
+                                      ),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 20,
+                              ),
+
+
+
+
+
+
+                              Text(
+                                'Estimated closing date',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: text),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: borderColor, width: 1),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  child: TextFormField(
+                                    controller: dueDateController,
+                                    readOnly: true,
+                                    onTap: () {
+                                      DatePicker.showDateTimePicker(context,
+                                          showTitleActions: true,
+                                          onChanged: (date) {
+                                            print('change $date in time zone ' +
+                                                date.timeZoneOffset.inHours
+                                                    .toString());
+                                          }, onConfirm: (date) {
+                                            String myDate = DateTime(date.year,
+                                                date.month, date.day)
+                                                .toString();
+                                            String myTime = DateTime(
+                                              date.hour,
+                                              date.minute,
+                                            ).toString();
+                                            print("my min and sec for due is $myTime");
+
+                                            dueDateController.text =
+                                                myDate.substring(0, 10);
+                                            dueTimeController.text =
+                                                date.toString().substring(11, 16);
+                                            print('confirm $date');
+                                          }, currentTime: DateTime.now());
+                                    },
+                                    onChanged: (value) {
+                                      // _productController.searchProduct(value);
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      prefix: Container(
+                                        width: 20,
+                                      ),
+                                      hintText: 'Due Date',
+                                      suffixIcon: Icon(
+                                        Icons.date_range_rounded,
+                                        color: Color(0xFF7C8DB5),
+                                        size: 14,
+                                      ),
+                                      hintStyle: TextStyle(
+                                          fontSize: 12.0,
+                                          fontFamily: 'Roboto',
+                                          color: tabBarUnSelectedColor),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+
+                              Text(
+                                'Estimated closing amount',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -241,7 +443,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10.0))),
                                 child: TextFormField(
-                                  controller: textTitleController,
+                                  controller: closingAMountController,
                                   onChanged: (value) {
                                     // _productController.searchProduct(value);
                                   },
@@ -250,7 +452,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                     prefix: Container(
                                       width: 20,
                                     ),
-                                    hintText: 'Enter a task title',
+                                    hintText: 'Enter amount',
                                     // icon:
 
                                     hintStyle: TextStyle(
@@ -261,80 +463,6 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-
-
-
-
-
-
-                              Text(
-                                'Industry Type',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: text),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: borderColor, width: 1),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 8, right: 8),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    value: newEmployee,
-                                    icon: Icon(Icons.arrow_drop_down_outlined),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.transparent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        newEmployee = value!;
-                                        snapshot.data!
-                                            .result!["SelectListEmployee"]!
-                                            .forEach((element) {
-                                          print("${element.text}" +
-                                              "$newEmployee");
-                                          if (element.text == newEmployee) {
-                                            StaticData.assignToID =
-                                                int.parse(element.value);
-                                            print(
-                                                "my assign id is ${StaticData.assignToID}");
-                                          } else {
-                                            // _showSnack("Task Assign to ${StaticData.assignToID}");
-                                            // print("no match in assign to");
-                                          }
-                                        });
-                                        // assignToID = snapshot
-                                        //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
-                                      });
-                                    },
-                                    items: snapshot
-                                        .data!.result!["SelectListEmployee"]!
-                                        .map((value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.text.toString(),
-                                        child: Text(value.text.toString()),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -343,79 +471,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                               ),
 
                               Text(
-                                'Interested Item',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: text),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: borderColor, width: 1),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 8, right: 8),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    value: newEmployee,
-                                    icon: Icon(Icons.arrow_drop_down_outlined),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.transparent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        newEmployee = value!;
-                                        snapshot.data!
-                                            .result!["SelectListEmployee"]!
-                                            .forEach((element) {
-                                          print("${element.text}" +
-                                              "$newEmployee");
-                                          if (element.text == newEmployee) {
-                                            StaticData.assignToID =
-                                                int.parse(element.value);
-                                            print(
-                                                "my assign id is ${StaticData.assignToID}");
-                                          } else {
-                                            // _showSnack("Task Assign to ${StaticData.assignToID}");
-                                            // print("no match in assign to");
-                                          }
-                                        });
-                                        // assignToID = snapshot
-                                        //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
-                                      });
-                                    },
-                                    items: snapshot
-                                        .data!.result!["SelectListEmployee"]!
-                                        .map((value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.text.toString(),
-                                        child: Text(value.text.toString()),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              Text(
-                                'Information Source',
+                                'Assign Person',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -559,7 +615,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                               ),
 
                               Text(
-                                'Organization Type',
+                                'Lead Stage',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -631,7 +687,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                               ),
 
                               Text(
-                                'Prospect Status',
+                                'Priority',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -652,7 +708,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                   const EdgeInsets.only(left: 8, right: 8),
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    value: newEmployee,
+                                    value: prioritySelect,
                                     icon: Icon(Icons.arrow_drop_down_outlined),
                                     elevation: 16,
                                     style: const TextStyle(
@@ -664,32 +720,14 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                     onChanged: (String? value) {
                                       // This is called when the user selects an item.
                                       setState(() {
-                                        newEmployee = value!;
-                                        snapshot.data!
-                                            .result!["SelectListEmployee"]!
-                                            .forEach((element) {
-                                          print("${element.text}" +
-                                              "$newEmployee");
-                                          if (element.text == newEmployee) {
-                                            StaticData.assignToID =
-                                                int.parse(element.value);
-                                            print(
-                                                "my assign id is ${StaticData.assignToID}");
-                                          } else {
-                                            // _showSnack("Task Assign to ${StaticData.assignToID}");
-                                            // print("no match in assign to");
-                                          }
-                                        });
-                                        // assignToID = snapshot
-                                        //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
+                                        prioritySelect = value!;
                                       });
                                     },
-                                    items: snapshot
-                                        .data!.result!["SelectListEmployee"]!
+                                    items: priorityList
                                         .map((value) {
                                       return DropdownMenuItem<String>(
-                                        value: value.text.toString(),
-                                        child: Text(value.text.toString()),
+                                        value: value.toString(),
+                                        child: Text(value.toString()),
                                       );
                                     }).toList(),
                                   ),
@@ -702,71 +740,71 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                                 height: 10,
                               ),
 
-                              Text(
-                                'Campaign',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: text),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: borderColor, width: 1),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 8, right: 8),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    value: newEmployee,
-                                    icon: Icon(Icons.arrow_drop_down_outlined),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.transparent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        newEmployee = value!;
-                                        snapshot.data!
-                                            .result!["SelectListEmployee"]!
-                                            .forEach((element) {
-                                          print("${element.text}" +
-                                              "$newEmployee");
-                                          if (element.text == newEmployee) {
-                                            StaticData.assignToID =
-                                                int.parse(element.value);
-                                            print(
-                                                "my assign id is ${StaticData.assignToID}");
-                                          } else {
-                                            // _showSnack("Task Assign to ${StaticData.assignToID}");
-                                            // print("no match in assign to");
-                                          }
-                                        });
-                                        // assignToID = snapshot
-                                        //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
-                                      });
-                                    },
-                                    items: snapshot
-                                        .data!.result!["SelectListEmployee"]!
-                                        .map((value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.text.toString(),
-                                        child: Text(value.text.toString()),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
+                              // Text(
+                              //   'Campaign',
+                              //   style: TextStyle(
+                              //       fontSize: 12,
+                              //       fontWeight: FontWeight.w400,
+                              //       color: text),
+                              // ),
+                              // SizedBox(
+                              //   height: 10,
+                              // ),
+                              // Container(
+                              //   decoration: BoxDecoration(
+                              //       color: Colors.white,
+                              //       border: Border.all(
+                              //           color: borderColor, width: 1),
+                              //       borderRadius: const BorderRadius.all(
+                              //           Radius.circular(10.0))),
+                              //   child: Padding(
+                              //     padding:
+                              //     const EdgeInsets.only(left: 8, right: 8),
+                              //     child: DropdownButton<String>(
+                              //       isExpanded: true,
+                              //       value: newEmployee,
+                              //       icon: Icon(Icons.arrow_drop_down_outlined),
+                              //       elevation: 16,
+                              //       style: const TextStyle(
+                              //           color: Colors.deepPurple),
+                              //       underline: Container(
+                              //         height: 2,
+                              //         color: Colors.transparent,
+                              //       ),
+                              //       onChanged: (String? value) {
+                              //         // This is called when the user selects an item.
+                              //         setState(() {
+                              //           newEmployee = value!;
+                              //           snapshot.data!
+                              //               .result!["SelectListEmployee"]!
+                              //               .forEach((element) {
+                              //             print("${element.text}" +
+                              //                 "$newEmployee");
+                              //             if (element.text == newEmployee) {
+                              //               StaticData.assignToID =
+                              //                   int.parse(element.value);
+                              //               print(
+                              //                   "my assign id is ${StaticData.assignToID}");
+                              //             } else {
+                              //               // _showSnack("Task Assign to ${StaticData.assignToID}");
+                              //               // print("no match in assign to");
+                              //             }
+                              //           });
+                              //           // assignToID = snapshot
+                              //           //     .data!.result!["SelectListEmployee"]!.indexOf(newEmployee);
+                              //         });
+                              //       },
+                              //       items: snapshot
+                              //           .data!.result!["SelectListEmployee"]!
+                              //           .map((value) {
+                              //         return DropdownMenuItem<String>(
+                              //           value: value.text.toString(),
+                              //           child: Text(value.text.toString()),
+                              //         );
+                              //       }).toList(),
+                              //     ),
+                              //   ),
+                              // ),
 
                               SizedBox(
                                 height: 20,
@@ -789,8 +827,10 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                   alignment: Alignment.bottomCenter,
                   child: InkWell(
                     onTap: () {
-                      print("prospect add");
-                      prospectRepository.prospectAddController(prospectName: textTitleController.text);
+                      print("lead add");
+                      leaDRepository.leadAddController(leadName: leadNameController.text , prospectId: StaticData.prospectID).then((value) {
+                        print(value);
+                      });
                     },
                     child: Container(
                       height: 48,
@@ -802,7 +842,7 @@ class _AddNewTaskState extends State<CreateInitialProspect> {
                         padding: EdgeInsets.all(8.0),
                         child: Center(
                           child: Text(
-                            'Create',
+                            'Create Lead',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,

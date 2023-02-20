@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/theme/colors/light_colors.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/back_button.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/theme/colors/light_colors.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/back_button.dart';
 
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/my_text_field.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/my_text_field.dart';
 
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/top_container.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/top_container.dart';
 
 class CreateNewTaskPage extends StatelessWidget {
   @override

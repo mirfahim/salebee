@@ -1075,6 +1075,8 @@ class _AssignedToMeState extends State<AllTask> {
                                                            addVisit(data.prospectName!, data.prospectId!);
                                                            taskRepository
                                                                .taskUpdateController(
+                                                               prospectId: data.prospectId,
+
                                                                token: token!,
                                                                title: data.title!,
                                                                taskID: data.taskId!,
@@ -1092,6 +1094,7 @@ class _AssignedToMeState extends State<AllTask> {
 
                                                             taskRepository
                                                                 .taskUpdateController(
+                                                                prospectId: data.prospectId,
                                                                 token:
                                                                 token!,
                                                                 title: data
@@ -2150,6 +2153,7 @@ class _AssignedToMeState extends State<AllTask> {
 
                                                             taskRepository
                                                                 .taskUpdateController(
+                                                                prospectId: data.prospectId,
                                                                 token:
                                                                 token!,
                                                                 title: data

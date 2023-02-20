@@ -959,6 +959,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                           addVisit(data.prospectName!, data.prospectId!);
                                                                           taskRepository
                                                                               .taskUpdateController(
+                                                                              prospectId: data.prospectId,
                                                                               token: token!,
                                                                               title: data.title!,
                                                                               taskID: data.taskId!,
@@ -975,6 +976,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
                                                                         }
                                                                         taskRepository
                                                                             .taskUpdateController(
+                                                                            prospectId: data.prospectId,
                                                                                 token: token!,
                                                                                 title: data.title!,
                                                                                 taskID: data.taskId!,
@@ -1887,6 +1889,7 @@ class _AssignedToMeState extends State<AssignedToMe> {
 
                                                                     taskRepository
                                                                         .taskUpdateController(
+                                                                      prospectId: data.prospectId,
                                                                             token:
                                                                                 token!,
                                                                             title: data

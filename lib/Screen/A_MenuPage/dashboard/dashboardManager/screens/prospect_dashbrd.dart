@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:salebee/Model/getAllMyTaskModel.dart';
 import 'package:salebee/Model/prospect/get_prospectList_by_id_model.dart';
 
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/theme/colors/light_colors.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/active_project_card.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/theme/colors/light_colors.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/active_project_card.dart';
 
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/task_column.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/task_column.dart';
 
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/top_container.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/top_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';

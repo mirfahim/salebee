@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:salebee/Screen/A_MenuPage/dashboard/taskManager/dates_list.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/screens/create_new_task_page.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/theme/colors/light_colors.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/back_button.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/calendar_dates.dart';
-import 'package:salebee/Screen/A_MenuPage/Dashboard/taskManager/widgets/task_container.dart';
+import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/dates_list.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/screens/create_new_task_page.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/theme/colors/light_colors.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/back_button.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/calendar_dates.dart';
+import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/task_container.dart';
 import 'package:salebee/Screen/task/add_new_task.dart';
 
 

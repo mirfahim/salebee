@@ -3,7 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
-import 'package:salebee/Screen/A_MenuPage/dashboard/taskManager/screens/prospect_dashbrd.dart';
+import 'package:salebee/Screen/A_MenuPage/contact_book/contact_book.dart';
+import 'package:salebee/Screen/A_MenuPage/contact_book/contact_controller.dart';
+import 'package:salebee/Screen/A_MenuPage/contact_book/employee_contact.dart';
+import 'package:salebee/Screen/A_MenuPage/contact_book/prospect_conatct.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/daily_work/calendar_page.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/live_tracking_location_by_emp.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/follow_up_activity.dart';
@@ -22,50 +25,23 @@ import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:salebee/utils.dart';
 
-import '../../../Dashboard/taskManager/screens/task_dashbrd.dart';
 
 
+class ConatctBookFrontTab extends GetView<MobileRechargeController> {
+  const ConatctBookFrontTab({Key? key}) : super(key: key);
 
-class DashBrdFront extends StatefulWidget {
-  const DashBrdFront({Key? key}) : super(key: key);
 
-  @override
-  State<DashBrdFront> createState() => _TheEyeFrontState();
-}
-
-class _TheEyeFrontState extends State<DashBrdFront> {
-  Iterable markers = [];
-
-  Future<Uint8List> getBytesFromAsset({String? path,int? width})async {
-    ByteData data = await rootBundle.load(path!);
-    ui.Codec codec = await ui.instantiateImageCodec(
-        data.buffer.asUint8List(),
-        targetWidth: width
-    );
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(
-        format: ui.ImageByteFormat.png))!
-        .buffer.asUint8List();
-  }
-  getImage() async {
-    StaticData.customMarker = await getBytesFromAsset(
-        path:'images/marker.png', //paste the custom image path
-        width: 50 // size of custom image as marker
-    );
-    return StaticData.customMarker;
-
-  }
 
   @override
   Widget build(BuildContext context) {
-    getImage();
+
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
 
 
-          title:  Text('Dashboard',style: TextStyle(
+          title:  Text('Contact Book',style: TextStyle(
               color: appBarHeader,fontSize: 24
           ),),
           leading: IconButton(
@@ -103,16 +79,13 @@ class _TheEyeFrontState extends State<DashBrdFront> {
                           isScrollable: true,
                           tabs: const [
                             Tab(
-                              text: 'Task',
+                              text: 'Phone Contact',
+                            ),
+                            Tab(
+                              text: 'Employee',
                             ),
                             Tab(
                               text: 'Prospect',
-                            ),
-                            Tab(
-                              text: 'Lead',
-                            ),
-                            Tab(
-                              text: 'Sale',
                             ),
 
 
@@ -130,21 +103,18 @@ class _TheEyeFrontState extends State<DashBrdFront> {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: DashBoard(),
+                          child: MobileRechargeView(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: ProspectDashBoard(),
+                          child: EmployeeListConatct(),
                         ),
 
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: FollowUpActivity(),
+                          child: ProspectContact(),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: CalendarPage(),
-                        ),
+
                       ]),
                 ),
               ],

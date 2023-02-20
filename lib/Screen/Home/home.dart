@@ -185,104 +185,107 @@ class _HomePageState extends State<HomePage> {
         "sub domain is ${SharedPreff.to.prefss.get("subDomain")} and my url is ${StringsConst.BASEURL}");
     Size size = MediaQuery.of(context).size;
     print(size.height);
-    if (size.height < 650) {
-      return Scaffold(
-        backgroundColor: primaryColorLight,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        StaticData.name != null
-                            ? Text(
-                                StaticData.name!,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            : Text(
-                                "No name",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        StaticData.employeeID != null
-                            ? Text(
-                                'ID: ${StaticData.employeeID}',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                            : Text(
-                                'ID: ',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(NotificationPage1());
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(150)),
-                        child: badges.Badge(
-                          badgeColor: Colors.redAccent,
-                          badgeContent: Text('2'),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.notification_important,
-                                color: darkBlue,
-                              ),
+  if(size.height < 650){
+    print("size 650 ${size.height}");
+    return Scaffold(
+      backgroundColor: primaryColorLight,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      StaticData.name != null
+                          ? Text(
+                        StaticData.name!,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      )
+                          : Text(
+                        "No name",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      StaticData.employeeID != null
+                          ? Text(
+                        'ID: ${StaticData.employeeID}',
+                        style:
+                        TextStyle(fontSize: 16, color: Colors.grey),
+                      )
+                          : Text(
+                        'ID: ',
+                        style:
+                        TextStyle(fontSize: 16, color: Colors.grey),
+                      )
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(NotificationPage1());
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(150)),
+                      child: badges.Badge(
+                        badgeColor: Colors.redAccent,
+                        badgeContent: Text('2'),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.notification_important,
+                              color: darkBlue,
                             ),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
-              Expanded(
-                child: Center(
+            ),
+            Expanded(
+              child: Center(
+                child: Container(
+                  height: size.height / 1.2,
                   child: Stack(
                     children: [
                       Container(
-                        height: size.height / 1.3,
+                        height: size.height / 1.4,
                         transform: Matrix4.translationValues(
-                            -(size.width / 2.5), 0.0, 0.0),
+                            -(size.height / 6), 0.0, 0.0),
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: Colors.white),
                       ),
                       Container(
                         transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 5.5), 0.0),
+                          - ((size.height * 50 )/ size.width), ((size.height * 75) / size.width),0,),
                         child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
-                                radius: 140,
-                                backgroundImage: NetworkImage(
-                                    "${StringsConst.MAINURL}" +
-                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
-                              )
+                          radius: size.height / 6,
+                          backgroundImage: NetworkImage(
+                              "${StringsConst.MAINURL}" +
+                                  "${StaticData.proLink!.replaceAll("../..", "")}"),
+                        )
                             : CircleAvatar(
-                                radius: 140,
-                                backgroundImage:
-                                    NetworkImage(StaticData.proLink!),
-                              ),
+                          radius: size.height / 6,
+                          backgroundImage:
+                          NetworkImage(StaticData.proLink!),
+                        ),
                       ),
                       Positioned(
                         top: (size.height / 13),
@@ -359,12 +362,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    }
-    else if (size.height < 800) {
+      ),
+    );
+  }
+  else if (size.height < 800) {
+    print("size 800 ${size.height}");
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -571,6 +576,7 @@ class _HomePageState extends State<HomePage> {
       );
     }
     else if (size.height < 850) {
+    print("size 850 ${size.height}");
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -733,7 +739,8 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-    else if (size.height < 900) {
+    else if (size.height < 860) {
+    print("size 860 ${size.height}");
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -812,13 +819,13 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         height: size.height / 1.4,
                         transform: Matrix4.translationValues(
-                            -(size.width / 2.5), 0.0, 0.0),
+                            -(size.width / 3), 0.0, 0.0),
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: Colors.white),
                       ),
                       Container(
                         transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 5.5), 0.0),
+                            -(size.width / 4.5), (size.height / 5.5), 0.0),
                         child: StaticData.proLink!.startsWith(".", 0)
                             ? CircleAvatar(
                                 radius: 140,
@@ -833,7 +840,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                       ),
                       Positioned(
-                        top: (size.height / 11),
+                        top: (size.height / 10),
                         left: (size.width / 8),
                         child: InkWell(
                             onTap: () {
@@ -843,7 +850,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Positioned(
                           top: (size.height / 5.0),
-                          left: (size.width / 2.2),
+                          left: (size.width / 2.3),
                           child: InkWell(
                               onTap: () {
                                 Get.to(AttendenceReport());
@@ -856,7 +863,7 @@ class _HomePageState extends State<HomePage> {
                                   false))),
                       Positioned(
                         top: (size.height / 2.8),
-                        left: (size.width / 1.8),
+                        left: (size.width / 1.9),
                         child: InkWell(
                           onTap: () {
                             Get.to(Task());
@@ -865,7 +872,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Positioned(
-                          top: (size.height / 2),
+                          top: (size.height / 2.1),
                           left: (size.width / 2.5),
                           child: InkWell(
                               onTap: () {
@@ -878,8 +885,8 @@ class _HomePageState extends State<HomePage> {
                                   (size.height / 2),
                                   false))),
                       Positioned(
-                        top: (size.height / 1.75),
-                        left: (size.width / 8),
+                        top: (size.height / 1.8),
+                        left: (size.width / 9),
                         child: InkWell(
                             onTap: () {
                               Get.to(ProspectFront());
@@ -887,8 +894,8 @@ class _HomePageState extends State<HomePage> {
                             child: circleRow(
                                 size,
                                 'Prospect',
-                                (size.width / 12),
-                                (size.height / 1.74),
+                                (size.width / 13),
+                                (size.height / 2),
                                 false)),
                       ),
                     ],
@@ -936,7 +943,214 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
-    } else if (size.height < 1200) {
+
+    } else if (size.height < 950) {
+    print("size 950 ${size.height}");
+    return Scaffold(
+      backgroundColor: primaryColorLight,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      StaticData.name != null
+                          ? Text(
+                        StaticData.name!,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      )
+                          : Text(
+                        "No name",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      StaticData.employeeID != null
+                          ? Text(
+                        'ID: ${StaticData.employeeID}',
+                        style:
+                        TextStyle(fontSize: 16, color: Colors.grey),
+                      )
+                          : Text(
+                        'ID: ',
+                        style:
+                        TextStyle(fontSize: 16, color: Colors.grey),
+                      )
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(NotificationPage1());
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(150)),
+                      child: badges.Badge(
+                        badgeColor: Colors.redAccent,
+                        badgeContent: Text('3'),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.notification_important,
+                              color: darkBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      height: size.height / 1.4,
+                      transform: Matrix4.translationValues(
+                          -(size.width / 3), 0.0, 0.0),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.white),
+                    ),
+                    Container(
+                      transform: Matrix4.translationValues(
+                          -(size.width / 4.5), (size.height / 5.5), 0.0),
+                      child: StaticData.proLink!.startsWith(".", 0)
+                          ? CircleAvatar(
+                        radius: 140,
+                        backgroundImage: NetworkImage(
+                            "${StringsConst.MAINURL}" +
+                                "${StaticData.proLink!.replaceAll("../..", "")}"),
+                      )
+                          : CircleAvatar(
+                        radius: 140,
+                        backgroundImage:
+                        NetworkImage(StaticData.proLink!),
+                      ),
+                    ),
+                    Positioned(
+                      top: (size.height / 10),
+                      left: (size.width / 8),
+                      child: InkWell(
+                          onTap: () {
+                            Get.to(ExpenseList());
+                          },
+                          child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
+                    ),
+                    Positioned(
+                        top: (size.height / 5.0),
+                        left: (size.width / 2.3),
+                        child: InkWell(
+                            onTap: () {
+                              Get.to(AttendenceReport());
+                            },
+                            child: circleRow(
+                                size,
+                                'Attendance',
+                                (size.width / 2.7),
+                                (size.height / 8),
+                                false))),
+                    Positioned(
+                      top: (size.height / 2.8),
+                      left: (size.width / 1.9),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(Task());
+                        },
+                        child: circleRow(size, 'Tasks', 240.0, 210.0, true),
+                      ),
+                    ),
+                    Positioned(
+                        top: (size.height / 2.1),
+                        left: (size.width / 2.5),
+                        child: InkWell(
+                            onTap: () {
+                              Get.to(LeadView());
+                            },
+                            child: circleRow(
+                                size,
+                                'Lead',
+                                (size.width / 2.5),
+                                (size.height / 2),
+                                false))),
+                    Positioned(
+                      top: (size.height / 1.8),
+                      left: (size.width / 9),
+                      child: InkWell(
+                          onTap: () {
+                            Get.to(ProspectFront());
+                          },
+                          child: circleRow(
+                              size,
+                              'Prospect',
+                              (size.width / 13),
+                              (size.height / 2),
+                              false)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Row(
+            //         children: [
+            //           Icon(
+            //             Icons.arrow_back,
+            //             color: darkBlue,
+            //           ),
+            //           Text(
+            //             'Prev',
+            //             style: TextStyle(color: darkBlue),
+            //           )
+            //         ],
+            //       ),
+            //       InkWell(
+            //         onTap: () {
+            //           Get.to(AdsPage());
+            //         },
+            //         child: Row(
+            //           children: [
+            //             Icon(
+            //               Icons.arrow_forward,
+            //               color: darkBlue,
+            //             ),
+            //             Text(
+            //               'Next',
+            //               style: TextStyle(color: darkBlue),
+            //             )
+            //           ],
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // )
+          ],
+        ),
+      ),
+    );
+
+  }else if (size.height < 1200) {
+    print("size 1200 ${size.height}");
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
@@ -1138,6 +1352,9 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-    return Container();
-  }
+      return Container();
+    }
+
+
+
 }
