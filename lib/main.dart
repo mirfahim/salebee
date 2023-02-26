@@ -32,7 +32,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
 
-  WidgetsFlutterBinding.ensureInitialized();
+
 
 // initialize hive
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
