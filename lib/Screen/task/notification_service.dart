@@ -10,19 +10,19 @@ class LocalNotificationService {
     tz.initializeTimeZones();
     const AndroidInitializationSettings androidSetting =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    const IOSInitializationSettings iosSetting = IOSInitializationSettings(
+    DarwinInitializationSettings iosSetting = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
 
     // #2
-    const initSettings =
+    final initSettings =
         InitializationSettings(android: androidSetting, iOS: iosSetting);
 
     // #3
     await _localNotificationsPlugin
-        .initialize(initSettings, onSelectNotification: onSelectNotification)
+        .initialize(initSettings,)
         .then((_) {
       print('setupPlugin: setup success');
     }).catchError((Object error) {
@@ -37,8 +37,8 @@ class LocalNotificationService {
             importance: Importance.max,
             priority: Priority.max,
             playSound: true);
-    const IOSNotificationDetails iosNotificationDetails =
-        IOSNotificationDetails();
+    DarwinNotificationDetails iosNotificationDetails =
+    DarwinNotificationDetails();
     return NotificationDetails(
         android: androidNotificationDetails, iOS: iosNotificationDetails);
   }

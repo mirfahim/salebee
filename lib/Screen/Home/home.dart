@@ -138,7 +138,9 @@ class _HomePageState extends State<HomePage> {
           badge == true
               ? badges.Badge(
                   badgeContent: Text("${StaticData.todaysTask}"),
-                  badgeColor: Colors.greenAccent,
+            badgeStyle: badges.BadgeStyle(
+              badgeColor: Colors.greenAccent,
+            ),
                   child: Container(
                     decoration: BoxDecoration(
                         shape: BoxShape.circle, color: primaryColor),
@@ -239,7 +241,9 @@ class _HomePageState extends State<HomePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(150)),
                       child: badges.Badge(
-                        badgeColor: Colors.redAccent,
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: Colors.redAccent,
+                        ),
                         badgeContent: Text('2'),
                         child: Container(
                           decoration: const BoxDecoration(
@@ -422,7 +426,9 @@ class _HomePageState extends State<HomePage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
                         child: badges.Badge(
-                          badgeColor: Colors.redAccent,
+                          badgeStyle: badges.BadgeStyle(
+                            badgeColor: Colors.redAccent,
+                          ),
                           badgeContent: Text("${StaticData.todaysTask}"),
                           child: Container(
                             decoration: const BoxDecoration(
@@ -629,7 +635,9 @@ class _HomePageState extends State<HomePage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
                         child: badges.Badge(
-                          badgeColor: Colors.redAccent,
+                          badgeStyle: badges.BadgeStyle(
+                            badgeColor: Colors.redAccent,
+                          ),
                           badgeContent: Text('3'),
                           child: Container(
                             decoration: const BoxDecoration(
@@ -793,7 +801,9 @@ class _HomePageState extends State<HomePage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
                         child: badges.Badge(
-                          badgeColor: Colors.redAccent,
+                          badgeStyle: badges.BadgeStyle(
+                            badgeColor: Colors.redAccent,
+                          ),
                           badgeContent: Text('3'),
                           child: Container(
                             decoration: const BoxDecoration(
@@ -998,7 +1008,9 @@ class _HomePageState extends State<HomePage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(150)),
                       child: badges.Badge(
-                        badgeColor: Colors.redAccent,
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: Colors.redAccent,
+                        ),
                         badgeContent: Text('3'),
                         child: Container(
                           decoration: const BoxDecoration(
@@ -1094,6 +1106,7 @@ class _HomePageState extends State<HomePage> {
                       left: (size.width / 9),
                       child: InkWell(
                           onTap: () {
+
                             Get.to(ProspectFront());
                           },
                           child: circleRow(
@@ -1203,7 +1216,9 @@ class _HomePageState extends State<HomePage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(150)),
                         child: badges.Badge(
-                          badgeColor: Colors.redAccent,
+                          badgeStyle: badges.BadgeStyle(
+                            badgeColor: Colors.redAccent,
+                          ),
                           badgeContent: Text('3'),
                           child: Container(
                             decoration: const BoxDecoration(

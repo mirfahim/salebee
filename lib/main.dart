@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:device_preview/device_preview.dart';
+//import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
+//import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:salebee/Screen/SplashScreen.dart';
 import 'package:provider/provider.dart';
@@ -34,14 +34,15 @@ void main() async {
 
 
 
-// initialize hive
-  final appDocumentDirectory = await getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDirectory.path);
+//initialize hive
+ // final appDocumentDirectory = await getApplicationDocumentsDirectory();
+ // Hive.init(appDocumentDirectory.path);
   // open a box
-  await Hive.openBox("manageTask");
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //await Hive.openBox("manageTask");
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(

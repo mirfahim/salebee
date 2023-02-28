@@ -961,8 +961,9 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                           : index == 5
                                                                           ? Text(data.followupActivity!.meeting.toString())
                                                                           : Text(data.followupActivity!.visit.toString()),
-                                                                      badgeColor:
-                                                                      primaryColorLight,
+                                                                      badgeStyle: badges.BadgeStyle(
+                                                                        badgeColor: primaryColorLight,
+                                                                      ),
                                                                       child: Card(
                                                                         elevation: 5,
                                                                         child:
@@ -1569,8 +1570,9 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                           : index == 5
                                                                           ? Text(data.followupActivity!.meeting.toString())
                                                                           : Text(data.followupActivity!.visit.toString()),
-                                                                      badgeColor:
-                                                                      primaryColorLight,
+                                                                      badgeStyle: badges.BadgeStyle(
+                                                                        badgeColor: primaryColorLight,
+                                                                      ),
                                                                       child: Card(
                                                                         elevation: 5,
                                                                         child:
@@ -2502,8 +2504,9 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                         : index == 5
                                                                         ? Text(data.followupActivity!.meeting.toString())
                                                                         : Text(data.followupActivity!.visit.toString()),
-                                                                    badgeColor:
-                                                                    primaryColorLight,
+                                                                    badgeStyle: badges.BadgeStyle(
+                                                                      badgeColor: primaryColorLight,
+                                                                    ),
                                                                     child: Card(
                                                                       elevation: 5,
                                                                       child:
@@ -3110,8 +3113,9 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                         : index == 5
                                                                         ? Text(data.followupActivity!.meeting.toString())
                                                                         : Text(data.followupActivity!.visit.toString()),
-                                                                    badgeColor:
-                                                                    primaryColorLight,
+                                                                    badgeStyle: badges.BadgeStyle(
+                                                                      badgeColor: primaryColorLight,
+                                                                    ),
                                                                     child: Card(
                                                                       elevation: 5,
                                                                       child:
@@ -4030,8 +4034,9 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                         : index == 5
                                                                         ? Text(data.followupActivity!.meeting.toString())
                                                                         : Text(data.followupActivity!.visit.toString()),
-                                                                    badgeColor:
-                                                                    primaryColorLight,
+                                                                    badgeStyle: badges.BadgeStyle(
+                                                                      badgeColor: primaryColorLight,
+                                                                    ),
                                                                     child: Card(
                                                                       elevation: 5,
                                                                       child:
@@ -4638,8 +4643,9 @@ class _IndividualProspectState extends State<OrganizationProspect> {
                                                                         : index == 5
                                                                         ? Text(data.followupActivity!.meeting.toString())
                                                                         : Text(data.followupActivity!.visit.toString()),
-                                                                    badgeColor:
-                                                                    primaryColorLight,
+                                                                    badgeStyle: badges.BadgeStyle(
+                                                                      badgeColor: primaryColorLight,
+                                                                    ),
                                                                     child: Card(
                                                                       elevation: 5,
                                                                       child:

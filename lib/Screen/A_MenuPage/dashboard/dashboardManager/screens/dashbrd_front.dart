@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/screens/prospect_dashbrd.dart';
+import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/screens/sale_dash.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/daily_work/calendar_page.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/live_tracking_location_by_emp.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/follow_up_activity.dart';
@@ -143,7 +144,7 @@ class _TheEyeFrontState extends State<DashBrdFront> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: CalendarPage(),
+                          child: SaleDashBoard(),
                         ),
                       ]),
                 ),

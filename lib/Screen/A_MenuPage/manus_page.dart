@@ -4,6 +4,7 @@ import 'package:salebee/Screen/A_MenuPage/contact_book/contact_book.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/home_page.dart';
 import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/screens/task_dashbrd.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/screens/dashbrd_front.dart';
+import 'package:salebee/Screen/A_MenuPage/facebook/facebook_app_event.dart';
 import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/A_MenuPage/SendEmail/send_email_pagr.dart';
 import 'package:salebee/Screen/A_MenuPage/chat/chat_screen.dart';
@@ -432,6 +433,32 @@ class _MenusScreenState extends State<MenusScreen> {
 
                           ),
                           Center(child: const Text('Contact Book')),
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(FacebookAppEvent());
+                    },
+                    child: Card(
+                      elevation: 10,
+                      color: Colors.teal[100],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(  'images/Icons/facebook.png',)
+
+                              ),
+                            ),
+
+                          ),
+                          Center(child: const Text('Facebook')),
                         ],
                       ),
                     ),

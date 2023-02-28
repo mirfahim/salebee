@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:salebee/Model/getAllMyTaskModel.dart';
@@ -11,6 +12,7 @@ import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/top
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
+import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/widgets/fl_chart_screen.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/expense_graph.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/daily_work/calendar_page.dart';
 import 'package:salebee/repository/add_task_repository.dart';
@@ -209,6 +211,7 @@ class _EmployeeListState extends State<DashBoard> {
                                     ),
                                     SizedBox(height: 10,),
                                     Text("Week Wise Task Completion"),
+
                                     SizedBox(height: 10,),
                                     Card(child:  ExpenseGraphDesign(jan: snapshot.data!.result!.where((element) =>  element.statusId == 1).length,)),
                                     Container(

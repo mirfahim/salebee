@@ -22,7 +22,7 @@ class _MyAppState extends State<LocalNotification> {
               var androidPlatformChannelSpecifics = AndroidNotificationDetails(
                   'your channel id', 'your channel name',
                   importance: Importance.high, priority: Priority.high, ticker: 'ticker');
-              var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+              var iOSPlatformChannelSpecifics = DarwinNotificationDetails();
               var platformChannelSpecifics = NotificationDetails(
                   android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
 

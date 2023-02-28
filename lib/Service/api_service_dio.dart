@@ -30,8 +30,8 @@ class ApiClient {
   static init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     dio.options.baseUrl = base_url;
-    dio.options.connectTimeout = 60000;
-    dio.options.receiveTimeout = 60000;
+    dio.options.connectTimeout = Duration( seconds: 2);
+    dio.options.receiveTimeout = Duration( seconds: 2);
     dio.options.headers = {
     //  HttpHeaders.acceptHeader: "application/json",
       //HttpHeaders.acceptHeader: "application/json",

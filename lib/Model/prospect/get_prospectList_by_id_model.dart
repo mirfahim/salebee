@@ -61,7 +61,7 @@ class ProspectResult {
 
   int? id;
   String? prospectName;
-  Type? type;
+  String? type;
   String? stage;
   String? website;
   String? zone;
@@ -86,7 +86,7 @@ class ProspectResult {
   factory ProspectResult.fromJson(Map<String, dynamic> json) => ProspectResult(
     id: json["Id"],
     prospectName: json["prospect_name"],
-    type: typeValues!.map[json["Type"]],
+    type: json["Type"],
     stage: json["Stage"] == null ? "No Data" : json["Stage"] ,
     website: json["Website"] == null ? "No Website" : json["Website"] ,
     zone: json["Zone"] == null ? "No Zone" : json["Zone"] ,
@@ -112,7 +112,7 @@ class ProspectResult {
   Map<String, dynamic> toJson() => {
     "Id": id,
     "prospect_name": prospectName,
-    "Type": typeValues.reverse![type],
+    "Type": type,
     "Stage": stage,
     "Website": website,
     "Zone": zone,

@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:salebee/Model/getAllMyTaskModel.dart';
@@ -11,6 +12,7 @@ import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/widgets/top
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salebee/Model/employee/employee_list_model.dart';
+import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/widgets/fl_chart_screen.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/expense_graph.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/daily_work/calendar_page.dart';
 import 'package:salebee/repository/add_task_repository.dart';
@@ -18,14 +20,14 @@ import 'package:salebee/repository/attendance_repository.dart';
 import 'package:salebee/utils.dart';
 
 
-class ActivityDashBoard extends StatefulWidget {
+class DashBoard extends StatefulWidget {
 
 
   @override
-  State<ActivityDashBoard> createState() => _EmployeeListState();
+  State<DashBoard> createState() => _EmployeeListState();
 }
 
-class _EmployeeListState extends State<ActivityDashBoard> {
+class _EmployeeListState extends State<DashBoard> {
   AttendanceRepository attendanceRepository = AttendanceRepository();
   TaskRepository taskRepository = TaskRepository();
   TextEditingController searchController = TextEditingController();
@@ -118,7 +120,7 @@ class _EmployeeListState extends State<ActivityDashBoard> {
                                                   TaskColumn(
                                                     icon: Icons.alarm,
                                                     iconBackgroundColor: LightColors.kRed,
-                                                    title: 'Total Activity',
+                                                    title: 'Total Task',
                                                     subtitle: snapshot.data!.result!.length.toString() + " Tasks",
                                                   ),
 
@@ -129,17 +131,87 @@ class _EmployeeListState extends State<ActivityDashBoard> {
                                           SizedBox(
                                             height: 15.0,
                                           ),
+                                          Text("Completed Task Type"),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              TaskColumn(
+
+                                                icon: Icons.call,
+                                                iconBackgroundColor: LightColors.kDarkYellow,
+                                                title: 'Call',
+                                                subtitle: snapshot.data!.result!.where((element) =>  element.statusId == 4 && element.taskType == "Call").length.toString() + " Tasks",
+                                              ),
+                                              SizedBox(width: 20.0),
+
+                                              TaskColumn(
+                                                icon: Icons.mail_outline,
+                                                iconBackgroundColor: LightColors.kBlue,
+                                                title: 'Mail',
+                                                subtitle: snapshot.data!.result!.where((element) =>  element.statusId == 4 && element.taskType == "Mail").length.toString() + " Tasks",
+
+                                              ),
+                                              SizedBox(width: 20.0),
+
+                                              TaskColumn(
+                                                icon: Icons.location_on_outlined,
+                                                iconBackgroundColor: LightColors.kBlue,
+                                                title: 'Visit',
+                                                subtitle: snapshot.data!.result!.where((element) =>  element.statusId == 4 && element.taskType == "Visit").length.toString() + " Tasks",
+
+                                              ),
+                                            ],
+                                          ),
+
+                                          SizedBox(
+                                            height: 15.0,
+                                          ),
+                                          Text("To-Do Task Type"),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              TaskColumn(
 
 
+                                                icon: Icons.phone,
+                                                iconBackgroundColor: LightColors.kDarkYellow,
+                                                title: 'Call',
+                                                subtitle: snapshot.data!.result!.where((element) =>  element.statusId == 5 && element.taskType == "Call").length.toString() + " Tasks",
 
+                                              ),
+                                              SizedBox(width: 20.0),
+
+                                              TaskColumn(
+                                                icon: Icons.mail_outline,
+                                                iconBackgroundColor: LightColors.kBlue,
+                                                title: 'Mail',
+                                                subtitle: snapshot.data!.result!.where((element) =>  element.statusId == 5 && element.taskType == "Mail").length.toString() + " Tasks",
+
+                                              ),
+                                              SizedBox(width: 20.0),
+
+                                              TaskColumn(
+                                                icon: Icons.location_on_outlined,
+                                                iconBackgroundColor: LightColors.kBlue,
+                                                title: 'Visit',
+                                                subtitle: snapshot.data!.result!.where((element) =>  element.statusId == 5 && element.taskType == "Visit").length.toString() + " Tasks",
+
+                                              ),
+                                            ],
+                                          ),
 
 
 
                                         ],
                                       ),
                                     ),
+                                    SizedBox(height: 10,),
+                                    Text("Week Wise Task Completion"),
 
-                                    Text("Week Wise Activity"),
                                     SizedBox(height: 10,),
                                     Card(child:  ExpenseGraphDesign(jan: snapshot.data!.result!.where((element) =>  element.statusId == 1).length,)),
                                     Container(
@@ -149,7 +221,7 @@ class _EmployeeListState extends State<ActivityDashBoard> {
                                       child:   Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          subheading('Activity Status'),
+                                          subheading('Work Status'),
                                           SizedBox(height: 5.0),
                                           Row(
                                             children: <Widget>[

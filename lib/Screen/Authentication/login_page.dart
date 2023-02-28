@@ -23,6 +23,9 @@ import '../../Service/sharedPref_service.dart';
 import '../../Utils/StringsConst.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import '../../repository/lead_repository.dart';
+import '../../repository/prospect_repository.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -33,6 +36,9 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   var textUserController = TextEditingController();
   var textPwdController = TextEditingController();
+  LeaDRepository leaDRepository = LeaDRepository();
+
+  ProspectRepository prospectRepository = ProspectRepository();
   ApiService apiService = ApiService();
   List<LoginResponseModel> list = [];
   LoginResponseModel _allResponse = LoginResponseModel();
@@ -222,6 +228,17 @@ class LoginPageState extends State<LoginPage> {
                           circularLoad = false;
                         });
                         setPref();
+
+                        prospectRepository.getAllProspectListByUserIdController().then((value) {
+                          print("prospect data from splash $value");
+                          StaticData.prosepctList = value.result!;
+                          return value.result!;
+                        });
+                        leaDRepository.getLeadController().then((value) {
+                          print("lead data from splash $value");
+                          StaticData.leadList = value.result!;
+                          return value.result!;
+                        });
 
 
                         Timer(Duration(seconds: 3), () {

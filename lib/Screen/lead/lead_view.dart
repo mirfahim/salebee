@@ -726,8 +726,9 @@ class _IndividualProspectState extends State<LeadView> {
                                                                     badges.Badge(
                                                                       badgeContent:
                                                                            Text("data"),
-                                                                      badgeColor:
-                                                                      primaryColorLight,
+                                                                      badgeStyle: badges.BadgeStyle(
+                                                                        badgeColor: primaryColorLight,
+                                                                      ),
                                                                       child: Card(
                                                                         elevation: 5,
                                                                         child:
@@ -1329,8 +1330,9 @@ class _IndividualProspectState extends State<LeadView> {
                                                       badges.Badge(
                                                         badgeContent:
                                                         Text("data"),
-                                                        badgeColor:
-                                                        primaryColorLight,
+                                                        badgeStyle: badges.BadgeStyle(
+                                                          badgeColor: primaryColorLight,
+                                                        ),
                                                         child: Card(
                                                           elevation: 5,
                                                           child:

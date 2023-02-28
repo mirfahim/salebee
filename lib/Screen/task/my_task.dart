@@ -116,10 +116,11 @@ class _AssignedToMeState extends State<MyTask> {
           importance: Importance.high,
           priority: Priority.high,
           ticker: 'ticker');
-      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+     // var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
-          iOS: iOSPlatformChannelSpecifics);
+          //iOS: iOSPlatformChannelSpecifics
+      );
 
       // Step 5: Show the notification
       await FlutterLocalNotificationsPlugin().schedule(

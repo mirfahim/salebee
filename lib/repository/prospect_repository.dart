@@ -106,22 +106,43 @@ class ProspectRepository {
     String convertToken = tokenString.replaceAll("+", "%2B");
     String finalToken = convertToken.replaceAll("/", "%2F");
     print("working 1 brop bro bro ${SharedPreff.to.prefss.get("token")} ++++++");
+try{
+  Uri url = Uri.parse("$base_url/GetAllProspectByAssignedUserId");
+  final response = await http.post(
+    url,
+    body: jsonEncode({"Token": tokenString}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  );
 
-    Uri url = Uri.parse("$base_url/GetAllProspectByAssignedUserId");
-    final response = await http.post(
-      url,
-      body: jsonEncode({"Token": tokenString}),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    );
+  print("my resposnse repo get all prospect list by id${response.body}");
+  String data = response.body;
 
-    print("my resposnse repo get all prospect list by id${response.body}");
-    String data = response.body;
+  SharedPreff.to.prefss.setString("prospectList", data);
+  print("prospect yo bro");
+  return getAllProspectByIdtModelFromJson(response.body!);
+}
+catch(e){
+  Uri url = Uri.parse("$base_url/GetAllProspectByAssignedUserId");
+  final response = await http.post(
+    url,
+    body: jsonEncode({"Token": tokenString}),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  );
 
-    SharedPreff.to.prefss.setString("prospectList", data);
-    print("prospect yo bro");
-    return getAllProspectByIdtModelFromJson(response.body!);
+  print("my resposnse repo get all prospect list by id${response.body}");
+  String data = response.body;
+
+  SharedPreff.to.prefss.setString("prospectList", data);
+  print("prospect yo bro");
+  print("my get all prospect error is $e");
+  return getAllProspectByIdtModelFromJson(response.body!);
+
+}
+
   }
   Future<GetFollowupListModel> getProspectFollowupByIdController(int prospectId) async {
     String convertToken = tokenString.replaceAll("+", "%2B");

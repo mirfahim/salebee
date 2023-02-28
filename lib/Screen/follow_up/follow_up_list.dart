@@ -90,64 +90,72 @@ class _FollowUpListState extends State<FollowUpList> {
                                                   tabs: [
                                                     badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.call!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'Call',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.message!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'Message',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.meeting!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'Meeting',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.visit!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'Visit',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent: Text(snapshot.data!.result!.others!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'Others',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent:Text(snapshot.data!.result!.email!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'Email',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent:Text(snapshot.data!.result!.sms!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'SMS',
                                                       ),
                                                     ),
                                                     badges.Badge(
                                                       badgeContent:Text(snapshot.data!.result!.file!.length.toString(), style: TextStyle(fontSize: 10),),
-                                                      badgeColor:
-                                                          Colors.greenAccent,
+                                                      badgeStyle: badges.BadgeStyle(
+                                                        badgeColor: Colors.greenAccent,
+                                                      ),
                                                       child: Tab(
                                                         text: 'File',
                                                       ),

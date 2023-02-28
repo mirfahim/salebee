@@ -59,7 +59,8 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. AIzaSyCcgCD4rxr_oQv1g6mr9VOtgWv3FnSIRb4-->
 
-
+            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1184960335490662"/>
+            <meta-data android:name="com.facebook.sdk.ClientToken" android:value="30f02a938c3c3862fe59eb0014548aad"/>
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -76,5 +77,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <meta-data
+           android:name="io.flutter.embedding.android.SplashScreenDrawable"
+           android:resource="@drawable/launch_background" />
     </application>
 </manifest>

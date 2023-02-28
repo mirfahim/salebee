@@ -4,14 +4,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:percent_indicator/percent_indicator.dart';
 //import 'package:bangla_utilities/bangla_utilities.dart';
-import 'package:bangla_utilities/bangla_utilities.dart';
+//import 'package:bangla_utilities/bangla_utilities.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
-import 'package:hive/hive.dart';
+//import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:salebee/Model/lead/get_lead_model.dart';
 import 'package:salebee/Screen/Authentication/login_page.dart';
@@ -48,7 +48,7 @@ class _SplashState extends State<Splash> {
   LeaDRepository leaDRepository = LeaDRepository();
   AttendanceRepository attendanceRepository = AttendanceRepository();
   ProspectRepository prospectRepository = ProspectRepository();
-  var hiveBox = Hive.box("manageTask");
+  //var hiveBox = Hive.box("manageTask");
   var _today = HijriCalendar.now();
   List<dynamic> todaysTaskList = [];
 
@@ -112,9 +112,9 @@ class _SplashState extends State<Splash> {
   saveDataToHive() {
     print("hive started working");
     taskRepository.getAllListForTaskController().then((value) {
-      hiveBox.put("manageTask", value);
+      //hiveBox.put("manageTask", value);
       print("hive started working 11");
-      print("my hive data is ${hiveBox.get("manageTask")}");
+     // print("my hive data is ${hiveBox.get("manageTask")}");
     });
   }
 
@@ -256,14 +256,14 @@ class _SplashState extends State<Splash> {
             ),
             Text("${DateFormat.yMd().format(DateTime.now())}"),
             //day, month and year is optional parameter! Uses provide values or current date if not provided!
-            Text(
-              '${BanglaUtility.getBanglaMonthName(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}' +
-                  ', ${BanglaUtility.getBanglaDate(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year).toString().substring(0, 2)}',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: MyColors.brown,
-                  fontWeight: FontWeight.bold),
-            ),
+            // Text(
+            //   '${BanglaUtility.getBanglaMonthName(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year)}' +
+            //       ', ${BanglaUtility.getBanglaDate(day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year).toString().substring(0, 2)}',
+            //   style: TextStyle(
+            //       fontSize: 16,
+            //       color: MyColors.brown,
+            //       fontWeight: FontWeight.bold),
+            // ),
 
             Text(
               _today.toFormat("MMMM dd yyyy"),
