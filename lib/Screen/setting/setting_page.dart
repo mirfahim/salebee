@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:salebee/Screen/A_MenuPage/the_eye/live_tracking/map_screen.dart';
 import 'package:salebee/Screen/test/test.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Data/static_data.dart';
 import '../../Service/sharedPref_service.dart';
@@ -83,15 +85,17 @@ void initState(){
                   subtitle: "Make Salebee'App yours",
                 ),
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () {
+                    _launchInWebViewWithoutJavaScript(Uri.parse("https://docs.google.com/document/d/1E2QNSS-YV4LN1JfcRHhe4GaYQGrkhcDIa2DD6b5jdJQ/edit?usp=sharing" ));
+                  },
                   icons: Icons.fingerprint,
                   iconStyle: IconStyle(
                     iconsColor: Colors.white,
                     withBackground: true,
                     backgroundColor: Colors.red,
                   ),
-                  title: 'Privacy',
-                  subtitle: "Lock Salebee'App to improve your privacy",
+                  title: 'Privacy and Policy',
+                  subtitle: "Please check our privacy policy page",
                 ),
                 SettingsItem(
                   onTap: () {},
@@ -115,7 +119,8 @@ void initState(){
                 SettingsItem(
                   onTap: () {
                     print("working ");
-                    getFcmToken();
+                    _launchInWebViewWithoutJavaScript(Uri.parse("https://salebee.net/about-us/" ));
+
                     print("end ");
                   },
                   icons: Icons.info_rounded,
@@ -132,12 +137,13 @@ void initState(){
               settingsGroupTitle: "Account",
               items: [
                 SettingsItem(
-                  onTap: () {
+                  onTap: () async {
                     SharedPreff.to.prefss.remove("token");
                     SharedPreff.to.prefss.remove("loggedIN");
                     SharedPreff.to.prefss.remove("employeeID");
                     SharedPreff.to.prefss.remove("userNAME");
                     SharedPreff.to.prefss.remove("proLink");
+                    await FirebaseAuth.instance.signOut();
 
                     Navigator.pushAndRemoveUntil<dynamic>(
                       context,
@@ -215,5 +221,31 @@ void initState(){
         ),
       ),
     );
+  }
+  launchURL() async {
+
+
+
+    final String googleMapslocationUrl = "https://docs.google.com/document/d/1E2QNSS-YV4LN1JfcRHhe4GaYQGrkhcDIa2DD6b5jdJQ/edit?usp=sharing";
+
+
+
+    final String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+
+    if (await canLaunch(encodedURl)) {
+      await launch(encodedURl);
+    } else {
+      print('Could not launch $encodedURl');
+      throw 'Could not launch $encodedURl';
+    }
+  }
+  Future<void> _launchInWebViewWithoutJavaScript(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(enableJavaScript: false),
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

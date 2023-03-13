@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 //import 'package:hive_flutter/hive_flutter.dart';
 
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
         getPages: AppPages.routes,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: "Kalpurush",
             scaffoldBackgroundColor: primaryColorLight,
             bottomAppBarTheme: BottomAppBarTheme(
               color: primaryColorLight
@@ -97,10 +99,10 @@ class MyApp extends StatelessWidget {
                 titleTextStyle: TextStyle(color: Colors.black),
                 iconTheme: IconThemeData(color: Colors.black)),
             textTheme: TextTheme(
-              headline1: TextStyle(color: Colors.black),
+              headline1: TextStyle(color: Colors.black, fontFamily: "BanglaFont"),
               headline2: TextStyle(color: Colors.black),
               bodyText2: TextStyle(color: Colors.black),
-              subtitle1: TextStyle(color: Colors.black),
+              subtitle1: GoogleFonts.anekBangla()
 
               //primarySwatch: Colors.blue,
             )),

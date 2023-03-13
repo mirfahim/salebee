@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:battery_plus/battery_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,6 +63,93 @@ class LoginPageState extends State<LoginPage> {
   getBattery()async{
     var bat = await  battery.batteryLevel;
     return bat;
+  }
+  void _login({String? email, String? pass}) async {
+    FocusScope.of(context).unfocus();
+
+
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email!,
+        password: pass!,
+      );
+      if (!mounted) return;
+     // Navigator.of(context).pop();
+    } catch (e) {
+
+
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+          content: Text(
+            e.toString(),
+          ),
+          title: const Text('Error'),
+        ),
+      );
+    }
+  }
+  void _register(
+      {String? email, String? userName, String? pass, String? imageUrl}) async {
+    FocusScope.of(context).unfocus();
+
+
+
+    try {
+      final credential =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email!,
+        password: "123456",
+      );
+      await FirebaseChatCore.instance.createUserInFirestore(
+        types.User(
+          firstName: userName,
+          id: credential.user!.uid,
+          imageUrl: 'https://i.pravatar.cc/300?u=$userName',
+          lastName: "",
+        ),
+      );
+
+      if (!mounted) return;
+      Navigator.of(context)
+        ..pop()
+        ..pop();
+    } catch (e) {
+      print("${e.toString()}");
+      if(e.toString() == "[firebase_auth/email-already-in-use] The email address is already in use by another account."){
+        _login(email:email, pass: "123456" );
+      } else{
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+            content: Text(
+              e.toString(),
+            ),
+            title: const Text('Error'),
+          ),
+        );
+      }
+
+
+
+    }
   }
   getAddressFromLatLng( double lat, double lng) async {
     String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
@@ -228,6 +318,8 @@ class LoginPageState extends State<LoginPage> {
                           circularLoad = false;
                         });
                         setPref();
+                        _register(email: textUserController.text, userName: loginResponseModel.result!.userFullName!, pass: textPwdController.text, imageUrl: "${StringsConst.MAINURL}" +
+                            "${StaticData.proLink!.replaceAll("../..", "")}" );
 
                         prospectRepository.getAllProspectListByUserIdController().then((value) {
                           print("prospect data from splash $value");

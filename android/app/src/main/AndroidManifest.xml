@@ -46,8 +46,11 @@
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs"/>
+       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+       <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
         <activity
             android:name=".MainActivity"
+
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -59,8 +62,7 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. AIzaSyCcgCD4rxr_oQv1g6mr9VOtgWv3FnSIRb4-->
 
-            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1184960335490662"/>
-            <meta-data android:name="com.facebook.sdk.ClientToken" android:value="30f02a938c3c3862fe59eb0014548aad"/>
+
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"

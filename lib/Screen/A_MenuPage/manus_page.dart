@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/A_MenuPage/chat/core_chat/main.dart';
+
 import 'package:salebee/Screen/A_MenuPage/contact_book/contact_book.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/home_page.dart';
 import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/screens/task_dashbrd.dart';
@@ -248,7 +250,7 @@ class _MenusScreenState extends State<MenusScreen> {
                             ),
 
                           ),
-                          Center(child: const Text('To Do')),
+                          Center(child: const Text('My To-Do')),
                         ],
                       ),
                     ),
@@ -387,7 +389,7 @@ class _MenusScreenState extends State<MenusScreen> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(ChatPage());
+                      Get.to(MyAppChat());
                     },
                     child: Card(
                       elevation: 10,

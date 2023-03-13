@@ -18,7 +18,7 @@ class PdfPreviewPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColorLight,
-        title: Text('PDF Preview'),
+        title: Text('PDF Previeww'),
       ),
       body: PdfPreview(
         build: (context) => makePdf(report!, yearSelection!, monthSelection),

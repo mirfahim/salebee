@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -22,7 +23,9 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
   final pdf = pw.Document();
   List<pw.Widget> widgets = [];
   widgets.add(pw.SizedBox(height: 5));
-
+  var font = await PdfGoogleFonts.bangersRegular();
+  final fontData = await rootBundle.load('assets/font/Kalpurush.ttf');
+  final ttf = pw.Font.ttf(fontData.buffer.asByteData());
 
   widgets.add(
     Column(
@@ -36,7 +39,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   Spacer(),
-                  Text("Printed on: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
+                  Text("Printed onn: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
                     style: TextStyle(
                         fontWeight: pw.FontWeight.normal, fontSize: 12),),
                 ]),
@@ -210,7 +213,12 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
                               PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
                               Text(
 
-                                  e.locationDescription.toString(), ),
+                                  e.locationDescription.toString(),
+
+                                  style: pw.TextStyle(
+                                    font: ttf,
+                                  )
+                                  ),
                             ]
                         ),
 
@@ -221,17 +229,23 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
                         child: e.logTimeOut != null ?  Column(
                             children: [
                               PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeOut))}"),
-                              PaddedText(
+                              Text(
 
-                                  e.locationDescriptionOut.toString()),
+                                  e.locationDescriptionOut.toString(),
+                              style: pw.TextStyle(
+                                font: ttf,
+                              )),
                             ]
                         )
                             :Column(
                             children: [
                               PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
-                              PaddedText(
+                              Text(
 
-                                  e.locationDescription.toString()),
+                                  e.locationDescription.toString(),
+                                  style: pw.TextStyle(
+                                    font: ttf,
+                                  )),
                             ]
                         ),
                         flex: 1,

@@ -26,6 +26,21 @@
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open and in the background.</string>
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb1184960335490662</string>
+      </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1184960335490662</string>
+    <key>FacebookClientToken</key>
+    <string>30f02a938c3c3862fe59eb0014548aad</string>
+    <key>FacebookDisplayName</key>
+    <string>SaleBee</string>
 	<key>LSApplicationQueriesSchemes</key>
     <array>
       <string>sms</string>

@@ -2,6 +2,7 @@
 // Import package
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 //import 'package:bangla_utilities/bangla_utilities.dart';
 //import 'package:bangla_utilities/bangla_utilities.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 //import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:salebee/Model/getAllMyTaskModel.dart';
 import 'package:salebee/Model/lead/get_lead_model.dart';
 import 'package:salebee/Screen/Authentication/login_page.dart';
 import 'package:salebee/Screen/Authentication/sub_domain_page.dart';
@@ -43,6 +45,7 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   //late LocationData locationData;
   //
+  List<MyTaskResult> initiatedList = [];
   //DbHelper dbHelper = DbHelper();
   TaskRepository taskRepository = TaskRepository();
   LeaDRepository leaDRepository = LeaDRepository();
@@ -50,7 +53,7 @@ class _SplashState extends State<Splash> {
   ProspectRepository prospectRepository = ProspectRepository();
   //var hiveBox = Hive.box("manageTask");
   var _today = HijriCalendar.now();
-  List<dynamic> todaysTaskList = [];
+  List<MyTaskResult> todaysTaskList = [];
 
   @override
   void initState() {
@@ -78,6 +81,8 @@ class _SplashState extends State<Splash> {
 
     getAllTask();
 
+
+
     Timer(Duration(seconds: 4), () {
       saveDataToHive();
 
@@ -90,12 +95,24 @@ class _SplashState extends State<Splash> {
 
   getAllTask() {
     todaysTaskList.clear();
-    taskRepository.getAssignedToMeTaskController().then((ele) {
-      todaysTaskList.addAll(ele.result!.where((element) =>
-          element.dueDate!.toString().substring(0, 10) ==
-          DateTime.now().toString().substring(0, 10)));
+    taskRepository.getMyTaskController().then((ele) {
+      todaysTaskList.addAll(ele.result!.where((element) {
+
+        return element.dueDate!.toString().substring(0, 10) ==
+          DateTime.now().toString().substring(0, 10) && element.statusId == 5;
+      }));
       print("my todays task list is ${todaysTaskList.length}");
       StaticData.todaysTask = todaysTaskList.length;
+      return todaysTaskList;
+    }).then((taskvalue) {
+      if(taskvalue.isNotEmpty){
+        sendTaskNotification(initiatedList
+            .where((element) =>
+        element.dueDate!.year! == DateTime.now().year &&
+            element.dueDate!.month >= DateTime.now().month &&
+            element.dueDate!.hour >= DateTime.now().hour)
+            .toList());
+      }
     });
     prospectRepository.getAllProspectListByUserIdController().then((value) {
       print("prospect data from splash $value");
@@ -291,7 +308,31 @@ class _SplashState extends State<Splash> {
       ),
     );
   }
+  sendTaskNotification(List<MyTaskResult> listDate) async {
+    await FlutterLocalNotificationsPlugin().cancelAll();
+    for (int i = 0; i < listDate.length; i++) {
+      var scheduledNotificationDateTime =
+      listDate[i].dueDate!.subtract(Duration(minutes: 20));
+      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          'your channel id', 'your channel name',
+          importance: Importance.high,
 
+          ticker: 'ticker');
+      // var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+      var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        //iOS: iOSPlatformChannelSpecifics
+      );
+
+      // Step 5: Show the notification
+      await FlutterLocalNotificationsPlugin().schedule(
+          i,
+          listDate[i].title!,
+          listDate[i].taskDesc!,
+          scheduledNotificationDateTime,
+          platformChannelSpecifics);
+    }
+  }
   double _value = 0;
   void checkIndicator({delay = 2}) {
     new Timer.periodic(Duration(milliseconds: delay * 500), (Timer timer) {

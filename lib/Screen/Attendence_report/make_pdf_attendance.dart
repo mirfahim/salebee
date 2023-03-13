@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -19,6 +21,8 @@ import '../../../Model/get_attendance_model.dart';
 
 Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSelection) async {
   final pdf = pw.Document();
+  final fontData = await rootBundle.load('assets/font/Kalpurush.ttf');
+  final ttf = pw.Font.ttf(fontData.buffer.asByteData());
   List<pw.Widget> widgets = [];
   widgets.add(pw.SizedBox(height: 5));
   int monthSelection = int.parse(DateTime.now().toString().substring(5,7));
@@ -217,9 +221,12 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                     child: e.logTimeOut != null ?  Column(
                         children: [
                           PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeOut))}"),
-                          PaddedText(
+                        Text(
 
-                              e.locationDescriptionOut.toString()),
+                              e.locationDescriptionOut.toString(),
+                        style: pw.TextStyle(
+                          font: ttf,
+                        )),
                         ]
                     )
                         :Column(
@@ -347,5 +354,13 @@ Widget PaddedText(
       child: Text(
         text,
         textAlign: align,
+        //style: TextStyle.t
+style: pw.TextStyle(
+
+)
+
+
+
+
       ),
     );

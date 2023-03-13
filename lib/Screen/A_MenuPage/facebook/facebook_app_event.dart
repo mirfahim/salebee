@@ -10,7 +10,7 @@ class FacebookAppEvent extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Facebook report'),
         ),
         body: Center(
           child: Column(

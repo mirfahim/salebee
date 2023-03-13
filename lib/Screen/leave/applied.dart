@@ -32,6 +32,7 @@ class Applied extends StatelessWidget {
                   child: Text('Apply leave request',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                        fontFamily: "BanglaFont",
                         color: Colors.white,
                         fontSize: 16
                     ),),

@@ -86,7 +86,7 @@ class _HomePageState extends State<ScheduleHomePage> {
             child: Container(
               width: double.infinity,
               decoration:  BoxDecoration(
-                  color: MyColors.appColor,
+                  color: MyColors.lightwhite,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                   boxShadow: [BoxShadow(blurRadius: 10.0)]
               ),
