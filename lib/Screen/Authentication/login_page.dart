@@ -11,7 +11,7 @@ import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Helper/api_helper.dart';
 import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Model/login_model.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Service/api_service_dio.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +47,7 @@ class LoginPageState extends State<LoginPage> {
   LoginResponseModel _allResponse = LoginResponseModel();
   LoginResponseModel loginResponseModel = LoginResponseModel();
   bool? checkedValue = false;
+  bool? checkTerm = false;
   bool circularLoad = false;
   String? fcmtoken = "";
   List<dynamic> todaysTaskList = [];
@@ -281,74 +282,92 @@ class LoginPageState extends State<LoginPage> {
 
                     // listData =  res.map((data) =>  LoginResponseModel.fromJson(data))
                     //       .toList();
-                    loginController().then((value) {
-                      print("qqqqqqq${value['IsSuccess']}");
-                      if (value['IsSuccess'] == false) {
-                        final snackBar = SnackBar(
-                          content: const Text(
-                              'Please login with valid email or password'),
-                          action: SnackBarAction(
-                            label: 'Undo',
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                          ),
-                        );
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        setState(() {
-                          circularLoad = false;
-                        });
-                      }
-                      setState(() {
-                        loginResponseModel = LoginResponseModel.fromJson(value);
-                        StaticData.name = value["Result"]["UserFullName"];
-                        //StaticData.department = value["Result"]["UserFullName"];
-                        StaticData.employeeID = value["Result"]["EmployeeId"];
-                        StaticData.designation = value["Result"]["Designation"];
-                        StaticData.proLink =
-                            value["Result"]["UserProfileImageLink"];
-                        print(
-                            "yo bro ----- ${loginResponseModel.result?.menus?.length.toString()}");
-                      });
-
-                      if (loginResponseModel.isSuccess == true) {
-
-                        setState(() {
-                          circularLoad = false;
-                        });
-                        setPref();
-                        _register(email: textUserController.text, userName: loginResponseModel.result!.userFullName!, pass: textPwdController.text, imageUrl: "${StringsConst.MAINURL}" +
-                            "${StaticData.proLink!.replaceAll("../..", "")}" );
-
-                        prospectRepository.getAllProspectListByUserIdController().then((value) {
-                          print("prospect data from splash $value");
-                          StaticData.prosepctList = value.result!;
-                          return value.result!;
-                        });
-                        leaDRepository.getLeadController().then((value) {
-                          print("lead data from splash $value");
-                          StaticData.leadList = value.result!;
-                          return value.result!;
-                        });
-
-
-                        Timer(Duration(seconds: 3), () {
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-
-                              builder: (BuildContext context) => BottomNav(A_MenuPage: false),
+                    if(checkTerm == true){
+                      loginController().then((value) {
+                        print("qqqqqqq${value['IsSuccess']}");
+                        if (value['IsSuccess'] == false) {
+                          final snackBar = SnackBar(
+                            content: const Text(
+                                'Please login with valid email or password'),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
                             ),
-                                (route) => false,//if you want to disable back feature set to false
                           );
 
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          setState(() {
+                            circularLoad = false;
+                          });
+                        }
+                        setState(() {
+                          loginResponseModel = LoginResponseModel.fromJson(value);
+                          StaticData.name = value["Result"]["UserFullName"];
+                          //StaticData.department = value["Result"]["UserFullName"];
+                          StaticData.employeeID = value["Result"]["EmployeeId"];
+                          StaticData.designation = value["Result"]["Designation"];
+                          StaticData.proLink =
+                          value["Result"]["UserProfileImageLink"];
+                          print(
+                              "yo bro ----- ${loginResponseModel.result?.menus?.length.toString()}");
                         });
 
-                        print("go to homepage ____________");
-                      }
-                    });
+                        if (loginResponseModel.isSuccess == true) {
 
+                          setState(() {
+                            circularLoad = false;
+                          });
+                          setPref();
+                          _register(email: textUserController.text, userName: loginResponseModel.result!.userFullName!, pass: textPwdController.text, imageUrl: "${StringsConst.MAINURL}" +
+                              "${StaticData.proLink!.replaceAll("../..", "")}" );
+
+                          prospectRepository.getAllProspectListByUserIdController().then((value) {
+                            print("prospect data from splash $value");
+                            StaticData.prosepctList = value.result!;
+                            return value.result!;
+                          });
+                          leaDRepository.getLeadController().then((value) {
+                            print("lead data from splash $value");
+                            StaticData.leadList = value.result!;
+                            return value.result!;
+                          });
+
+
+                          Timer(Duration(seconds: 3), () {
+                            Navigator.pushAndRemoveUntil<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+
+                                builder: (BuildContext context) => BottomNav(A_MenuPage: false),
+                              ),
+                                  (route) => false,//if you want to disable back feature set to false
+                            );
+
+                          });
+
+                          print("go to homepage ____________");
+                        }
+                      });
+                    } else {
+                      final snackBar = SnackBar(
+                        content:  Text(
+                            'User must agree on Terms and Condition!'),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+
+                    setState(() {
+                      circularLoad = false;
+                    });
                     // print("yo bro ----- ${loginResponseModel.isSuccess}");
 
                     //
@@ -390,6 +409,42 @@ class LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width - 40,
+                    child: Center(
+                      child: CheckboxListTile(
+                        title: GestureDetector(
+                          onTap: (){
+                            launchURL();
+                          },
+                          child: Text(
+                            "I agree on Terms and Conditions of this App.",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        value: checkTerm,
+                        onChanged: (newValue) {
+                          setState(() {
+
+                            checkTerm = newValue;
+                            print("my term $newValue and check $checkTerm");
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
               Center(
                 child: Text.rich(TextSpan(
                     text: 'Do you want to register your company?',
@@ -409,7 +464,23 @@ class LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  launchURL() async {
 
+
+
+    final String googleMapslocationUrl = "https://docs.google.com/document/d/1E2QNSS-YV4LN1JfcRHhe4GaYQGrkhcDIa2DD6b5jdJQ/edit?usp=sharing";
+
+
+
+    final String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+
+    if (await canLaunch(encodedURl)) {
+      await launch(encodedURl);
+    } else {
+      print('Could not launch $encodedURl');
+      throw 'Could not launch $encodedURl';
+    }
+  }
   setPref() {
     loginResponseModel.result!.menus!.forEach((element) {
       if(element.label == "Attendance"){

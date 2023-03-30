@@ -13,16 +13,16 @@ class AppPages {
 
   static final routes = [
 
-    GetPage(
-      name: _Paths.MOBILE_RECHARGE,
-      page: () => const MobileRechargeView(),
-      binding: MobileRechargeBinding(),
-    ),
-    GetPage(
-      name: _Paths.ContactFrontTab,
-      page: () => const ConatctBookFrontTab(),
-      binding: MobileRechargeBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.MOBILE_RECHARGE,
+    //   page: () => const MobileRechargeView(),
+    //   binding: MobileRechargeBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.ContactFrontTab,
+    //   page: () => const ConatctBookFrontTab(),
+    //   binding: MobileRechargeBinding(),
+    // ),
 
     GetPage(
       name: _Paths.SPLASHSCREEN,

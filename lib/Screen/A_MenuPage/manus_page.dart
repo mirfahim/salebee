@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Screen/A_MenuPage/chat/core_chat/main.dart';
-
+import 'package:badges/badges.dart' as badges;
+import 'package:salebee/Screen/A_MenuPage/chat/notification.dart';
 import 'package:salebee/Screen/A_MenuPage/contact_book/contact_book.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/home_page.dart';
 import 'package:salebee/Screen/A_MenuPage/Dashboard/dashboardManager/screens/task_dashbrd.dart';
 import 'package:salebee/Screen/A_MenuPage/dashboard/dashboardManager/screens/dashbrd_front.dart';
 import 'package:salebee/Screen/A_MenuPage/facebook/facebook_app_event.dart';
+import 'package:salebee/Screen/A_MenuPage/file_storage/team_folder.dart';
+import 'package:salebee/Screen/A_MenuPage/quize_app/quize_screen.dart';
 import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/A_MenuPage/SendEmail/send_email_pagr.dart';
 import 'package:salebee/Screen/A_MenuPage/chat/chat_screen.dart';
@@ -397,16 +401,22 @@ class _MenusScreenState extends State<MenusScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(  'images/Icons/chat.png',)
-
-                              ),
+                          badges.Badge(
+                             badgeContent: Text("${StaticData.todaysTask}"),
+                            badgeStyle: badges.BadgeStyle(
+                              badgeColor: Colors.greenAccent,
                             ),
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(  'images/Icons/chat.png',)
 
+                                ),
+                              ),
+
+                            ),
                           ),
                           Center(child: const Text('Chat')),
                         ],
@@ -415,7 +425,7 @@ class _MenusScreenState extends State<MenusScreen> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.toNamed(Routes.ContactFrontTab);
+                     // Get.toNamed(Routes.ContactFrontTab);
                     },
                     child: Card(
                       elevation: 10,
@@ -461,6 +471,58 @@ class _MenusScreenState extends State<MenusScreen> {
 
                           ),
                           Center(child: const Text('Facebook')),
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(QuizScreen());
+                    },
+                    child: Card(
+                      elevation: 10,
+                      color: Colors.teal[100],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(  'images/Icons/questions.png',)
+
+                              ),
+                            ),
+
+                          ),
+                          Center(child: const Text('Quiz')),
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(TeamFolderPage());
+                    },
+                    child: Card(
+                      elevation: 10,
+                      color: Colors.teal[100],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(  'images/Icons/questions.png',)
+
+                              ),
+                            ),
+
+                          ),
+                          Center(child: const Text('File Storage')),
                         ],
                       ),
                     ),

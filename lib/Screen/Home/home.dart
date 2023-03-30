@@ -190,6 +190,7 @@ class _HomePageState extends State<HomePage> {
   if(size.height < 650){
     print("size 650 ${size.height}");
     return Scaffold(
+
       backgroundColor: primaryColorLight,
       body: SafeArea(
         child: Column(

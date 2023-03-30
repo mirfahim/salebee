@@ -32,6 +32,9 @@ class _SettingPageState extends State<SettingPage> {
     print("my fcm token is setting $fcmtoken");
     return fcmtoken;
   }
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
   @override
 void initState(){
   super.initState();
@@ -51,173 +54,177 @@ void initState(){
     print("my screen size is $size");
 
 
-    return Scaffold(
-      backgroundColor: primaryColorLight,
-      appBar: AppBar(
-        title: Text(
-          "Settings",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: primaryColorLight,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(
+            "Settings",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: [
-            // user card
-            SimpleUserCard(
-              userName: StaticData.name != null ? StaticData.name! : "No name",
-              userProfilePic: StaticData.proLink!.startsWith(".", 0)
-                  ? NetworkImage("${StringsConst.MAINURL}" +
-                      "${StaticData.proLink!.replaceAll("../..", "")}")
-                  : NetworkImage(StaticData.proLink!),
-            ),
-            SettingsGroup(
-              items: [
-                SettingsItem(
-                  onTap: () {},
-                  icons: CupertinoIcons.pencil_outline,
-                  iconStyle: IconStyle(),
-                  title: 'Appearance',
-                  subtitle: "Make Salebee'App yours",
-                ),
-                SettingsItem(
-                  onTap: () {
-                    _launchInWebViewWithoutJavaScript(Uri.parse("https://docs.google.com/document/d/1E2QNSS-YV4LN1JfcRHhe4GaYQGrkhcDIa2DD6b5jdJQ/edit?usp=sharing" ));
-                  },
-                  icons: Icons.fingerprint,
-                  iconStyle: IconStyle(
-                    iconsColor: Colors.white,
-                    withBackground: true,
-                    backgroundColor: Colors.red,
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: ListView(
+            children: [
+              // user card
+              SimpleUserCard(
+                userName: StaticData.name != null ? StaticData.name! : "No name",
+                userProfilePic: StaticData.proLink!.startsWith(".", 0)
+                    ? NetworkImage("${StringsConst.MAINURL}" +
+                        "${StaticData.proLink!.replaceAll("../..", "")}")
+                    : NetworkImage(StaticData.proLink!),
+              ),
+              SettingsGroup(
+                items: [
+                  SettingsItem(
+                    onTap: () {},
+                    icons: CupertinoIcons.pencil_outline,
+                    iconStyle: IconStyle(),
+                    title: 'Appearance',
+                    subtitle: "Make Salebee'App yours",
                   ),
-                  title: 'Privacy and Policy',
-                  subtitle: "Please check our privacy policy page",
-                ),
-                SettingsItem(
-                  onTap: () {},
-                  icons: Icons.dark_mode_rounded,
-                  iconStyle: IconStyle(
-                    iconsColor: Colors.white,
-                    withBackground: true,
-                    backgroundColor: Colors.red,
+                  SettingsItem(
+                    onTap: () {
+                      _launchInWebViewWithoutJavaScript(Uri.parse("https://docs.google.com/document/d/1E2QNSS-YV4LN1JfcRHhe4GaYQGrkhcDIa2DD6b5jdJQ/edit?usp=sharing" ));
+                    },
+                    icons: Icons.fingerprint,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: Colors.red,
+                    ),
+                    title: 'Privacy and Policy',
+                    subtitle: "Please check our privacy policy page",
                   ),
-                  title: 'Dark mode',
-                  subtitle: "Automatic",
-                  trailing: Switch.adaptive(
-                    value: false,
-                    onChanged: (value) {},
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.dark_mode_rounded,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: Colors.red,
+                    ),
+                    title: 'Dark mode',
+                    subtitle: "Automatic",
+                    trailing: Switch.adaptive(
+                      value: false,
+                      onChanged: (value) {},
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SettingsGroup(
-              items: [
-                SettingsItem(
-                  onTap: () {
-                    print("working ");
-                    _launchInWebViewWithoutJavaScript(Uri.parse("https://salebee.net/about-us/" ));
+                ],
+              ),
+              SettingsGroup(
+                items: [
+                  SettingsItem(
+                    onTap: () {
+                      print("working ");
+                      _launchInWebViewWithoutJavaScript(Uri.parse("https://salebee.net/about-us/" ));
 
-                    print("end ");
-                  },
-                  icons: Icons.info_rounded,
-                  iconStyle: IconStyle(
-                    backgroundColor: Colors.purple,
+                      print("end ");
+                    },
+                    icons: Icons.info_rounded,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.purple,
+                    ),
+                    title: 'About',
+                    subtitle: "Learn more about Salebee'App",
                   ),
-                  title: 'About',
-                  subtitle: "Learn more about Salebee'App",
-                ),
-              ],
-            ),
-            // You can add a settings title
-            SettingsGroup(
-              settingsGroupTitle: "Account",
-              items: [
-                SettingsItem(
-                  onTap: () async {
-                    SharedPreff.to.prefss.remove("token");
-                    SharedPreff.to.prefss.remove("loggedIN");
-                    SharedPreff.to.prefss.remove("employeeID");
-                    SharedPreff.to.prefss.remove("userNAME");
-                    SharedPreff.to.prefss.remove("proLink");
-                    await FirebaseAuth.instance.signOut();
+                ],
+              ),
+              // You can add a settings title
+              SettingsGroup(
+                settingsGroupTitle: "Account",
+                items: [
+                  SettingsItem(
+                    onTap: () async {
+                      SharedPreff.to.prefss.remove("token");
+                      SharedPreff.to.prefss.remove("loggedIN");
+                      SharedPreff.to.prefss.remove("employeeID");
+                      SharedPreff.to.prefss.remove("userNAME");
+                      SharedPreff.to.prefss.remove("proLink");
+                      await FirebaseAuth.instance.signOut();
 
-                    Navigator.pushAndRemoveUntil<dynamic>(
-                      context,
-                      MaterialPageRoute<dynamic>(
+                      Navigator.pushAndRemoveUntil<dynamic>(
+                        context,
+                        MaterialPageRoute<dynamic>(
 
-                        builder: (BuildContext context) => Splash(),
-                      ),
-                          (route) => false,//if you want to disable back feature set to false
-                    );
-                    //SharedPreff.to.prefss.remove("key");
-                  },
-                  icons: Icons.exit_to_app_rounded,
-                  title: "Sign Out",
-                ),
-                SettingsItem(
-                  onTap: () {
-                    SharedPreff.to.prefss.remove("token");
-                    SharedPreff.to.prefss.remove("loggedIN");
-                    SharedPreff.to.prefss.remove("employeeID");
-                    SharedPreff.to.prefss.remove("userNAME");
-                    SharedPreff.to.prefss.remove("proLink");
-                    SharedPreff.to.prefss.remove("subDomain");
-                    //StaticData.subDomain = "";
-                    StringsConst.BASEURL = "";
-
-                    Navigator.pushAndRemoveUntil<dynamic>(
-                      context,
-                      MaterialPageRoute<dynamic>(
-
-                        builder: (BuildContext context) => Splash(),
-                      ),
-                          (route) => false,//if you want to disable back feature set to false
-                    );
-                  },
-                  icons: CupertinoIcons.repeat,
-                  title: "Change Sub-Domain",
-                ),
-                SettingsItem(
-                  onTap: () {},
-                  icons: CupertinoIcons.delete_solid,
-                  title: "Delete account",
-                  titleStyle: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
+                          builder: (BuildContext context) => Splash(),
+                        ),
+                            (route) => false,//if you want to disable back feature set to false
+                      );
+                      //SharedPreff.to.prefss.remove("key");
+                    },
+                    icons: Icons.exit_to_app_rounded,
+                    title: "Sign Out",
                   ),
-                ),
-                SettingsItem(
-                  onTap: () {
+                  SettingsItem(
+                    onTap: () {
+                      SharedPreff.to.prefss.remove("token");
+                      SharedPreff.to.prefss.remove("loggedIN");
+                      SharedPreff.to.prefss.remove("employeeID");
+                      SharedPreff.to.prefss.remove("userNAME");
+                      SharedPreff.to.prefss.remove("proLink");
+                      SharedPreff.to.prefss.remove("subDomain");
+                      //StaticData.subDomain = "";
+                      StringsConst.BASEURL = "";
 
+                      Navigator.pushAndRemoveUntil<dynamic>(
+                        context,
+                        MaterialPageRoute<dynamic>(
 
-               Get.to(StationFood());
-                  },
-                  icons: CupertinoIcons.map,
-                  title: "Wallet",
-                  titleStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                          builder: (BuildContext context) => Splash(),
+                        ),
+                            (route) => false,//if you want to disable back feature set to false
+                      );
+                    },
+                    icons: CupertinoIcons.repeat,
+                    title: "Change Sub-Domain",
                   ),
-                ),
-                SettingsItem(
-                  onTap: () {
-
-
-                  },
-                  icons: CupertinoIcons.asterisk_circle,
-                  title: "Version: $versionID + $buildNumber",
-                  titleStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                  SettingsItem(
+                    onTap: () {},
+                    icons: CupertinoIcons.delete_solid,
+                    title: "Delete account",
+                    titleStyle: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SettingsItem(
+                    onTap: () {
+
+
+                 Get.to(StationFood());
+                    },
+                    icons: CupertinoIcons.map,
+                    title: "Wallet",
+                    titleStyle: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SettingsItem(
+                    onTap: () {
+
+
+                    },
+                    icons: CupertinoIcons.asterisk_circle,
+                    title: "Version: $versionID + $buildNumber",
+                    titleStyle: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
