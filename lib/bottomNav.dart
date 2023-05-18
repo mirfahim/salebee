@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:salebee/Screen/A_MenuPage/menupage_binding.dart';
 import 'package:salebee/Screen/Charts/funnel_chart.dart';
 import 'package:salebee/Screen/notification/notification_1.dart';
 import 'package:salebee/Screen/setting/setting_page.dart';
@@ -47,7 +48,7 @@ class _BottomNavState extends State<BottomNav> {
           backgroundColor: Colors.white,
           child: Icon(Icons.menu, color: darkBlue,),
           onPressed: () {
-            Get.to(() =>  MenusScreen());
+            Get.to(() =>  MenusScreen(),binding: MenuPageBinding());
 
             //drawer(context);
           },

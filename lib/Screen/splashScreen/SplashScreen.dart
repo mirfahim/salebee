@@ -29,10 +29,10 @@ import 'package:salebee/repository/prospect_repository.dart';
 import 'package:salebee/repository/visit_repository.dart';
 import 'package:salebee/utils.dart';
 //import 'package:location/location.dart';
-import '../Data/static_data.dart';
-import '../Helper/location_helper.dart';
-import '../Service/sharedPref_service.dart';
-import '../Utils/my_colors.dart';
+import '../../Data/static_data.dart';
+import '../../Helper/location_helper.dart';
+import '../../Service/sharedPref_service.dart';
+import '../../Utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

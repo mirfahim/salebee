@@ -35,7 +35,7 @@ Future<Uint8List> makePdfFood(GetFoodExpenseModel invoice,  monthSelection, year
                      Text(
                        "Nexzen Solution Ltd",
                        style: TextStyle(
-                           fontWeight: pw.FontWeight.bold, fontSize: 16),
+                           fontWeight: pw.FontWeight.bold, fontSize: 12),
                      ),
                    ],
                  ),
@@ -47,7 +47,7 @@ Future<Uint8List> makePdfFood(GetFoodExpenseModel invoice,  monthSelection, year
                      Text(
                        "House: 545, 2nd floor, Suite A2, Road 8, Mirpur DOHS",
                        style: TextStyle(
-                           fontSize: 14, fontWeight: pw.FontWeight.normal),
+                           fontSize: 12, fontWeight: pw.FontWeight.normal),
                      ),
                    ],
                  ),
@@ -70,10 +70,10 @@ Future<Uint8List> makePdfFood(GetFoodExpenseModel invoice,  monthSelection, year
                    children: [
                      Text("Expense Sheet",
                          style: pw.TextStyle(
-                             fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                             fontSize: 12, fontWeight: pw.FontWeight.bold)),
                      Text("(Food)",
                          style: pw.TextStyle(
-                             fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                             fontSize: 12, fontWeight: pw.FontWeight.bold)),
                    ])),
            SizedBox(height: 10),
            Row(
@@ -98,7 +98,7 @@ Future<Uint8List> makePdfFood(GetFoodExpenseModel invoice,  monthSelection, year
            ]),
            pw.SizedBox(height: 20),
 
-           SizedBox(height: 40),
+
 
          ],
        ),

@@ -10,8 +10,9 @@ import 'package:salebee/utils.dart';
 class PdfPreviewPage extends StatelessWidget {
   final GetAttendanceDataModel? report;
   int? monthSelection;
+  String name;
   int? yearSelection;
-   PdfPreviewPage({Key? key, required this.report, required this.yearSelection, required this.monthSelection}) : super(key: key);
+   PdfPreviewPage({Key? key, required this.report, required this.yearSelection, required this.monthSelection,required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class PdfPreviewPage extends StatelessWidget {
         title: Text('PDF Previeww'),
       ),
       body: PdfPreview(
-        build: (context) => makePdf(report!, yearSelection!, monthSelection),
+        build: (context) => makePdf(report!, yearSelection!, monthSelection, name),
       ),
     );
   }

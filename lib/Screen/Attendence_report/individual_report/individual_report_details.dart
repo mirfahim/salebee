@@ -740,6 +740,7 @@ class _ReportState extends State<IndividualReportDetails> {
                                                 MaterialPageRoute(
                                                   builder: (builder) =>
                                                       PdfPreviewPage(
+                                                        name: widget.name!,
                                                     report: snapshot.data!,
                                                     yearSelection:
                                                         yearSelection,

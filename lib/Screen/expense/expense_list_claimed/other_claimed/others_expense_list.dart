@@ -33,6 +33,14 @@ class OtherClaimedList extends StatefulWidget {
 }
 
 class _ApprovedState extends State<OtherClaimedList> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
+
   ExpenseRepository expenseRepository = ExpenseRepository();
   String vehicleName = "";
   double totalBalance = 0.0;
@@ -155,6 +163,7 @@ class _ApprovedState extends State<OtherClaimedList> {
                                           int.parse(element.createdOn
                                               .toString()
                                               .substring(0, 4))) {
+                                    expenseList.clear();
                                     expenseList.add(element.expense!);
                                     totalBalance = expenseList.fold(0, (previousValue, element) => previousValue + element);
                                     print("total amount is  $totalBalance");

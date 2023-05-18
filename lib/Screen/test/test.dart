@@ -1,146 +1,134 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:salebee/Screen/task/task_main.dart';
-import 'package:salebee/Screen/test/food_item.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
-import '../../utils.dart';
 
-class StationFood extends StatefulWidget {
-  const StationFood({Key? key}) : super(key: key);
-
+class VFCMyApp extends StatefulWidget {
   @override
-  State<StationFood> createState() => _StationFoodState();
+  State<StatefulWidget> createState() => VFCMyAppState();
 }
 
-class _StationFoodState extends State<StationFood> {
-  String? selectName;
-  List<StationModel> stationList = [
-    StationModel(id: 1, stationName: "Komlapur", address: "dhaka", time: "20"),
-    StationModel(id: 1, stationName: "Komlapur1", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur2", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur3", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur4", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur5", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur6", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur7", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur8", address: "dhaka", time: "20"),
-
-    StationModel(id: 1, stationName: "Komlapur9", address: "dhaka", time: "20"),
-
-  ];
+class VFCMyAppState extends State<VFCMyApp> {
+  ValueNotifier<dynamic> result = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
-    selectName = stationList[0].stationName;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Station Food"),
-      ),
-      body:  Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Container(
-              height: 20,
-            ),
-            Container(
-              height: 20,
-              child: Text("Select Train"),
-            ),
-            DropdownButton<String>(
-              isExpanded: true,
-              value: selectName,
-              icon: Icon(Icons.arrow_drop_down_outlined),
-              elevation: 16,
-              style: const TextStyle(
-                  color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.transparent,
-              ),
-              onChanged: (String? value) {
-                // This is called when the user selects an item.
-
-              },
-              items:stationList
-                  .map((value) {
-                return DropdownMenuItem<String>(
-                  value: value.stationName.toString(),
-                  child: Text(value.stationName.toString()),
-                );
-              }).toList(),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height - 200,
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 150,
-                      childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
-                  itemCount: stationList.length,
-                  itemBuilder: (BuildContext ctx, index) {
-                    return InkWell(
-                      onTap: () {
-                      Get.to(FoodItemList());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: primaryColorSecond,
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30),
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 3),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    stationList[index].stationName!,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text(stationList[index].address!),
-                              Text("Estimated time to reach", style: TextStyle(fontSize: 8),),
-                              Text(stationList[index].time! + "min"),
-                            ],
-                          ),
-                        ),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('NfcManager Plugin Example')),
+        body: SafeArea(
+          child: FutureBuilder<bool>(
+            future: NfcManager.instance.isAvailable(),
+            builder: (context, ss) => ss.data != true
+                ? Center(child: Text('NfcManager.isAvailable(): ${ss.data}'))
+                : Flex(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              direction: Axis.vertical,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    margin: EdgeInsets.all(4),
+                    constraints: BoxConstraints.expand(),
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: SingleChildScrollView(
+                      child: ValueListenableBuilder<dynamic>(
+                        valueListenable: result,
+                        builder: (context, value, _) =>
+                            Text('${value ?? ''}'),
                       ),
-                    );
-                  }),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 3,
+                  child: GridView.count(
+                    padding: EdgeInsets.all(4),
+                    crossAxisCount: 2,
+                    childAspectRatio: 4,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    children: [
+                      ElevatedButton(
+                          child: Text('Tag Read'), onPressed: _tagRead),
+                      ElevatedButton(
+                          child: Text('Ndef Write'),
+                          onPressed: _ndefWrite),
+                      ElevatedButton(
+                          child: Text('Ndef Write Lock'),
+                          onPressed: _ndefWriteLock),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
-}
- class StationModel{
-  String? stationName;
-  int? id;
-  String? address;
-  String? time;
 
-  StationModel({this.id, this.time, this.address, this.stationName});
+  void _tagRead() {
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      result.value = tag.data;
+      NfcManager.instance.stopSession();
+    });
+  }
 
+  void _ndefWrite() {
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      var ndef = Ndef.from(tag);
+      if (ndef == null || !ndef.isWritable) {
+        result.value = 'Tag is not ndef writable';
+        NfcManager.instance.stopSession(errorMessage: result.value);
+        return;
+      }
 
+      NdefMessage message = NdefMessage([
+        NdefRecord.createText('Hello World!'),
+        NdefRecord.createUri(Uri.parse('https://flutter.dev')),
+        NdefRecord.createMime(
+            'text/plain', Uint8List.fromList('Hello'.codeUnits)),
+        NdefRecord.createExternal(
+            'com.example', 'mytype', Uint8List.fromList('mydata'.codeUnits)),
+      ]);
+
+      try {
+        await ndef.write(message);
+        result.value = 'Success to "Ndef Write"';
+        NfcManager.instance.stopSession();
+      } catch (e) {
+        result.value = e;
+        NfcManager.instance.stopSession(errorMessage: result.value.toString());
+        return;
+      }
+    });
+  }
+
+  void _ndefWriteLock() {
+    print("my nfc error is pol ppok +++++++");
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      print("my nfc error is pol ppok +++++++");
+      var ndef = Ndef.from(tag);
+      if (ndef == null) {
+        result.value = 'Tag is not ndef';
+        NfcManager.instance.stopSession(errorMessage: result.value.toString());
+        print("my nfc error is pol ppok +++++++");
+        return;
+      }
+
+      try {
+        await ndef.writeLock();
+        result.value = 'Success to "Ndef Write Lock"';
+        print("my nfc error is +++++++");
+        NfcManager.instance.stopSession();
+      } catch (e) {
+        result.value = e;
+        NfcManager.instance.stopSession(errorMessage: result.value.toString());
+        print("my nfc error is $e");
+        return;
+      }
+    });
+  }
 }

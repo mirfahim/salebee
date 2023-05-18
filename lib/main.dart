@@ -7,14 +7,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:salebee/Provider/language_provider/language_provider.dart';
 
 //import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:salebee/Screen/SplashScreen.dart';
+import 'package:salebee/Screen/splashScreen/SplashScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:salebee/Service/setting_service.dart';
 import 'package:salebee/Service/sharedPref_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:salebee/Service/translation_service.dart';
 import 'package:salebee/Utils/ROute/app_pages.dart';
 import 'package:salebee/utils.dart';
 import 'Provider/Login/provider_manager.dart';
@@ -42,6 +45,9 @@ void main() async {
   //await Hive.openBox("manageTask");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // await Get.putAsync<SettingsService>(() async => SettingsService());
+  // await Get.putAsync(() => TranslationService().init());
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -81,12 +87,20 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProviderManager()),
+        ChangeNotifierProvider(create: (context) => LangProvider()),
       ],
       child: GetMaterialApp(
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
+        // supportedLocales: Get.find<TranslationService>().supportedLocales(),
+        // translationsKeys: Get.find<TranslationService>().translations,
+        // locale: Get.find<SettingsService>().getLocale(),
+        // fallbackLocale: Get.find<TranslationService>().fallbackLocale,
+
+
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+
           fontFamily: "Kalpurush",
             scaffoldBackgroundColor: primaryColorLight,
             bottomAppBarTheme: BottomAppBarTheme(

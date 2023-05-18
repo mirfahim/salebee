@@ -29,6 +29,8 @@ class _ReportState extends State<AllReport> {
   GetAttendanceDataModel getAttendanceDataModel = GetAttendanceDataModel();
   //TabController _tabController;
   List listData = [];
+  String totalPresent = "";
+  String totalAbesent = "";
   int workingDays = 0;
   int onTime = 0;
   int late = 0;
@@ -214,25 +216,29 @@ class _ReportState extends State<AllReport> {
                     SizedBox(
                       height: 20,
                     ),
-                    ToggleSwitch(
-                      minHeight: 30,
-                      initialLabelIndex: todayPresent == true ? 0 : 1,
-                      activeBgColor: [Colors.lightBlue],
-                      totalSwitches: 2,
-                      inactiveBgColor: Colors.white,
-                      labels: ['Present', 'Absent'],
-                      onToggle: (index) {
-                        print('switched to: $index');
-                        if (index == 0) {
-                          setState(() {
-                            todayPresent = true;
-                          });
-                        } else {
-                          setState(() {
-                            todayPresent = false;
-                          });
-                        }
-                      },
+                    Container(
+                      width: 310,
+                      child: ToggleSwitch(
+                        minHeight: 30,
+                        minWidth: 150,
+                        initialLabelIndex: todayPresent == true ? 0 : 1,
+                        activeBgColor: [Colors.lightBlue],
+                        totalSwitches: 2,
+                        inactiveBgColor: Colors.white,
+                        labels: ['Present($totalPresent)', 'Absent($totalAbesent)'],
+                        onToggle: (index) {
+                          print('switched to: $index');
+                          if (index == 0) {
+                            setState(() {
+                              todayPresent = true;
+                            });
+                          } else {
+                            setState(() {
+                              todayPresent = false;
+                            });
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 10,
@@ -289,7 +295,13 @@ class _ReportState extends State<AllReport> {
                                       if (snapshot.data == null) {
                                         print("my data is eror ");
                                       } else {
-                                        print("my data is eror ");
+
+                                          totalPresent = snapshot.data!.result!.length.toString();
+
+
+
+
+
                                       }
                                       switch (snapshot.connectionState) {
                                         case ConnectionState.waiting:
@@ -553,6 +565,7 @@ class _ReportState extends State<AllReport> {
                                         print("present list in future builder ${presentID.length} ");
                                         print("employee list in future builder ${employeeID.length} ");
                                         print("absent list in future builder ${absentList.length} ");
+                                        totalAbesent = absentList.length.toString();
 
                                       }
                                       switch (snapshot.connectionState) {

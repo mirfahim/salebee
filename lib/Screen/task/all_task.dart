@@ -39,13 +39,15 @@ class _AssignedToMeState extends State<AllTask> {
   int selectedTap = 0;
   int repeatId = 0;
   String taskTypeS = "";
-  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
+  List<GetListForTaskDataModel> manageTaskList = [];
   String dropdownValue = DateTime.now().year.toString();
+  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
+
 
   int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
 
 
-  List<GetListForTaskDataModel> manageTaskList = [];
+
   int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
   int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
   List<String> tabs = [

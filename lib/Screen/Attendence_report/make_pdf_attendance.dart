@@ -69,7 +69,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
           ],
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
-        pw.SizedBox(height: 10),
+        pw.SizedBox(height: 05),
         Container(
             height: 60,
             width: 150,
@@ -89,7 +89,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                       style: pw.TextStyle(
                           fontSize: 16, fontWeight: pw.FontWeight.bold)),
                 ])),
-        SizedBox(height: 10),
+        SizedBox(height: 05),
         Row(
             crossAxisAlignment: pw.CrossAxisAlignment.end,
             mainAxisAlignment: pw.MainAxisAlignment.end,
@@ -112,7 +112,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
         ]),
         pw.SizedBox(height: 20),
 
-        SizedBox(height: 40),
+
 
       ],
     ),
@@ -166,7 +166,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
             ),
             Padding(
               child: Text(
-                'Note',
+                'Notes',
 
                 textAlign: TextAlign.center,
               ),
@@ -214,7 +214,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                         ]
                     ),
 
-                    flex: 1,
+                    flex: 2,
                   ),
 
                   Expanded(
@@ -237,7 +237,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                               e.locationDescription.toString(),),
                         ]
                     ),
-                    flex: 1,
+                    flex: 2,
                   ),
                   // Expanded(
                   //   child: int.parse(e.logTimeIn.substring(11,12)) < 10 ?
@@ -257,7 +257,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, monthSelection, yearSel
                   ),
                   Expanded(
                     child: PaddedText(e.checkOutNote ?? "No data"),
-                    flex: 2,
+                    flex: 1,
                   ),
                 ],
               );

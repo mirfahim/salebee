@@ -715,6 +715,8 @@ class _ReportState extends State<Report> {
                                           MaterialPageRoute(
                                             builder: (builder) =>
                                                 PdfPreviewPage(
+                                                  name: StaticData.name!,
+
                                               report: snapshot.data!,
                                               yearSelection: yearSelection,
                                               monthSelection: monthSelection,

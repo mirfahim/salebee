@@ -124,6 +124,7 @@ try{
   return getAllProspectByIdtModelFromJson(response.body!);
 }
 catch(e){
+  print("my prospect list error is $e");
   Uri url = Uri.parse("$base_url/GetAllProspectByAssignedUserId");
   final response = await http.post(
     url,

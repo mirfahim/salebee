@@ -151,6 +151,7 @@ class _ApprovedState extends State<FoodClaimedList> {
                               } else {
                                 snapshot.data!.result!.forEach((element) {
                                   if(selectMonth == int.parse(element.createdOn.toString().substring(5,7)) && yearSelection == int.parse(element.createdOn.toString().substring(0,4))){
+                                   expenseList.clear();
                                     expenseList.add(element.expense);
 
                                     totalBalance =  expenseList.fold(0, (previousValue, element) =>previousValue + element);

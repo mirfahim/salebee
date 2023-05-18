@@ -44,7 +44,63 @@ class _EmployeeListState extends State<DashBoard> {
           letterSpacing: 1.2),
     );
   }
+  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
 
+
+  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
+
+
+
+  int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
+  int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
+  List<String> tabs = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  List<int> dayTab = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ];
+  String dropdownValue = DateTime.now().year.toString();
   static CircleAvatar calendarIcon() {
     return CircleAvatar(
       radius: 25.0,
@@ -70,7 +126,123 @@ class _EmployeeListState extends State<DashBoard> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
+            DefaultTabController(
+              initialIndex: monthSelection - 1,
+              length: 12,
+              child: Container(
+                height: 30,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Container(
+                        width: 70,
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          isExpanded: true,
+                          icon: Icon(Icons
+                              .arrow_drop_down_outlined),
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors
+                                  .deepPurple),
+                          underline:
+                          Container(
+                            height: 2,
+                            color: Colors
+                                .transparent,
+                          ),
 
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              dropdownValue = value!;
+                              yearSelection = int.parse(dropdownValue);
+                            });
+                          },
+                          items: yearList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      width: MediaQuery.of(context).size.width - 150,
+
+                      child: DefaultTabController(
+                        initialIndex: monthSelection -1,
+                        length: 12,
+                        child: TabBar(
+
+
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: primaryColorSecond.withOpacity(.5)),
+                          isScrollable: true,
+                          indicatorColor: Colors.black,
+                          labelColor: Colors.black,
+
+
+                          onTap: (index){
+                            setState((){
+                              monthSelection = index+1;
+                            });
+
+                          },
+                          tabs: tabs
+                              .map((tab) => Tab(
+                            icon: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(tab,style: TextStyle(fontSize: 12),),
+                            ),
+                          ))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ],
+
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: DefaultTabController(
+                initialIndex: daySelection - 1,
+                length: 31,
+                child: Column(
+                  children: [
+                    TabBar(
+                      isScrollable: true,
+                      indicatorColor: Colors.black38,
+                      labelColor: Colors.black,
+                      onTap: (index) {
+                        setState(() {
+                          daySelection = index + 1;
+                        });
+                      },
+                      tabs: dayTab
+                          .map((tab) => Tab(
+                        icon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            tab.toString(),
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ))
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             SizedBox(
               height: 10,
             ),

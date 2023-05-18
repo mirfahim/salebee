@@ -45,7 +45,63 @@ class _EmployeeListState extends State<ProspectDashBoard > {
           letterSpacing: 1.2),
     );
   }
+  List<String> yearList = <String>[DateTime.now().year.toString(), DateTime(DateTime.now().year-1).toString().substring(0,4), DateTime(DateTime.now().year-2).toString().substring(0,4) ];
 
+
+  int yearSelection = int.parse(DateTime.now().toString().substring(0,4));
+
+
+
+  int monthSelection = int.parse(DateTime.now().toString().substring(5, 7));
+  int daySelection = int.parse(DateTime.now().toString().substring(8, 10));
+  List<String> tabs = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  List<int> dayTab = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ];
+  String dropdownValue = DateTime.now().year.toString();
   static CircleAvatar calendarIcon() {
     return CircleAvatar(
       radius: 25.0,

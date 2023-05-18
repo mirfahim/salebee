@@ -45,7 +45,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
                   Text(
                     "Nexzen Solution Ltd",
                     style: TextStyle(
-                        fontWeight: pw.FontWeight.bold, fontSize: 16),
+                        fontWeight: pw.FontWeight.bold, fontSize: 12),
                   ),
                 ],
               ),
@@ -57,7 +57,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
                   Text(
                     "House: 545, 2nd floor, Suite A2, Road 8, Mirpur DOHS",
                     style: TextStyle(
-                        fontSize: 14, fontWeight: pw.FontWeight.normal),
+                        fontSize: 12, fontWeight: pw.FontWeight.normal),
                   ),
                 ],
               ),
@@ -67,8 +67,8 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
         ),
         pw.SizedBox(height: 10),
         Container(
-            height: 60,
-            width: 150,
+            height: 40,
+            width: 140,
             decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -80,10 +80,10 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
                 children: [
                   Text("Expense Sheet",
                       style: pw.TextStyle(
-                          fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                          fontSize: 12, fontWeight: pw.FontWeight.bold)),
                   Text("All",
                       style: pw.TextStyle(
-                          fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                          fontSize: 12, fontWeight: pw.FontWeight.bold)),
                 ])),
         SizedBox(height: 10),
         Row(
@@ -108,7 +108,7 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
         ]),
         pw.SizedBox(height: 20),
 
-        SizedBox(height: 40),
+
 
       ],
     ),
@@ -119,53 +119,35 @@ Future<Uint8List> makePdf(GetAllExpenseModel invoice, monthSelection, yearSelect
       children: [
         TableRow(
           children: [
-            Padding(
-              child: Text(
-                'Date',
+            Text(
+              'Date',
 
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(5),
+              textAlign: TextAlign.center,
             ),
-            Padding(
-              child: Text(
-                'Type',
+            Text(
+              'Type',
 
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(5),
+              textAlign: TextAlign.center,
             ),
-            Padding(
-              child: Text(
-                'Purposes/ Description',
+            Text(
+              'Purposes/ Description',
 
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(5),
+              textAlign: TextAlign.center,
             ),
-            Padding(
-              child: Text(
-                'Person',
+            Text(
+              'Person',
 
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(5),
+              textAlign: TextAlign.center,
             ),
-            Padding(
-              child: Text(
-                'Cost',
+            Text(
+              'Cost',
 
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(5),
+              textAlign: TextAlign.center,
             ),
-            Padding(
-              child: Text(
-                'Status',
+            Text(
+              'Status',
 
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(5),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:salebee/Provider/language_provider/language_provider.dart';
 import 'package:salebee/Screen/expense/expense_create/expense_create_front.dart';
 import 'package:salebee/Screen/expense/expense_list_claimed/food_claimed/food_expense_list.dart';
 import 'package:salebee/Screen/expense/expense_list_claimed/other_claimed/others_expense_list.dart';
@@ -65,605 +67,669 @@ class _ClaimedState extends State<Claimed> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColorLight,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Row(
+    return Consumer<LangProvider>(
+      builder: (context, provider, widget) {
+        return Scaffold(
+          backgroundColor: primaryColorLight,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Container(
-                      width: 70,
-                      child: DropdownButton<String>(
-                        value: dropdownValue,
-                        isExpanded: true,
-                        icon: Icon(Icons.arrow_drop_down_outlined),
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.transparent,
-                        ),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            foodCostClaimed = 0.0;
-                            transposrCostClaimed = 0.0;
-                            otherCostClaimed = 0.0;
-                            transportCostList.clear();
-                            foodCostList.clear();
-                            othersCostList.clear();
-                            print("++++++++ ${othersCostList.length}");
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Container(
+                          width: 70,
+                          child: DropdownButton<String>(
+                            value: dropdownValue,
+                            isExpanded: true,
+                            icon: Icon(Icons.arrow_drop_down_outlined),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.transparent,
+                            ),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                foodCostClaimed = 0.0;
+                                transposrCostClaimed = 0.0;
+                                otherCostClaimed = 0.0;
+                                transportCostList.clear();
+                                foodCostList.clear();
+                                othersCostList.clear();
+                                print("++++++++ ${othersCostList.length}");
 
-                            dropdownValue = value!;
-                            yearSelection = int.parse(dropdownValue);
-                          });
-                        },
-                        items: yearList
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                                dropdownValue = value!;
+                                yearSelection = int.parse(dropdownValue);
+                              });
+                            },
+                            items: yearList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       ),
-                    ),
+                      DefaultTabController(
+                        initialIndex: selectMonth - 1,
+                        length: 12,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 150,
+                          child: TabBar(
+                            indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: primaryColorSecond.withOpacity(.5)),
+                            isScrollable: true,
+                            indicatorColor: Colors.black,
+                            labelColor: Colors.black,
+                            onTap: (index) {
+                              setState(() {
+                                selectMonth = index + 1;
+                              });
+                            },
+                            tabs: tabs
+                                .map((tab) => Tab(
+                                      icon: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(tab),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  DefaultTabController(
-                    initialIndex: selectMonth - 1,
-                    length: 12,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 150,
-                      child: TabBar(
-                        indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: primaryColorSecond.withOpacity(.5)),
-                        isScrollable: true,
-                        indicatorColor: Colors.black,
-                        labelColor: Colors.black,
-                        onTap: (index) {
-                          setState(() {
-                            selectMonth = index + 1;
-                          });
-                        },
-                        tabs: tabs
-                            .map((tab) => Tab(
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(tab),
+                  FutureBuilder<GetAllExpenseModel>(
+                    future: expenseRepository.getAllExpense(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<GetAllExpenseModel> snapshot) {
+                      if (snapshot.data == null) {
+                        print("no data found");
+                      } else {
+                     otherCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                            int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Others" && e.status == 0).fold(0, (previousValue, element) =>
+                     previousValue + element.cost!);
+                     otherCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                         int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Others" && e.status == 1).fold(0, (previousValue, element) =>
+                     previousValue + element.cost!);
+                     foodCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                         int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Food" && e.status == 0).fold(0, (previousValue, element) =>
+                     previousValue + element.cost!);
+                     foodCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                         int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Food" && e.status == 1).fold(0, (previousValue, element) =>
+                     previousValue + element.cost!);
+                     transposrCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                         int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Transport" && e.status == 0).fold(0, (previousValue, element) =>
+                     previousValue + element.cost!);
+                     transposrCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
+                         int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Transport" && e.status == 1).fold(0, (previousValue, element) =>
+                     previousValue + element.cost!);
+
+
+                      }
+
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Text("waiting");
+                        default:
+                          if (snapshot.hasError)
+                            return Center(child: Text('No Data Found'));
+                          if (snapshot.data == null) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return Container(
+                              height: 500,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Choose a type of expense',
+                                    style: TextStyle(
+                                        color: Colors.grey.withOpacity(.75)),
                                   ),
-                                ))
-                            .toList(),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(TransportClaimedList());
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Container(
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6),
+                                            border:
+                                                Border.all(color: primaryColor)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                'images/transportation.png',
+                                                height: 40,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              provider.bangLang ==true ?
+                                              const Text(
+                                                ' যাতায়াত',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ):
+                                              const Text(
+                                                ' Transport',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ),
+                                              Spacer(),
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Text(
+                                                            "Claimed",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          transposrCostClaimed
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Text(
+                                                            "Approved",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          transposrCostApproved
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Text(
+                                                            "Pending",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                         "${ transposrCostClaimed - transposrCostApproved
+                                                              }",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(FoodClaimedList());
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Container(
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6),
+                                            border:
+                                                Border.all(color: primaryColor)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                'images/food.png',
+                                                height: 70,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              provider.bangLang ==true ?
+                                              const Text(
+                                                ' খাদ্য',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ):
+                                              const Text(
+                                                ' Food',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18),
+                                              ),
+                                              Spacer(),
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child:  provider.bangLang ==false ?Text(
+                                                            "Claimed",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          )
+                                                              : Text(
+                                                            "ক্লেইমড",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          foodCostClaimed
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child:  provider.bangLang ==false ? Text(
+                                                      "Approved",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .normal,
+                                                          fontSize: 14,
+                                                          color:
+                                                          Colors.black54),
+                                                    )
+                                                              :Text(
+                                                            "এপ্প্রুভড ",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          foodCostApproved
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: provider.bangLang ==false ? Text(
+                                                            "Pending",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ) : Text(
+                                                            "পেন্ডিং",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                Colors.black54),
+                                                          ),
+                                                        )  ,
+                                                        Text(
+                                                          "${foodCostClaimed - foodCostApproved}"
+                                                              ,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(OtherClaimedList());
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Container(
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(6),
+                                            border:
+                                                Border.all(color: primaryColor)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                'images/more.png',
+                                                height: 70,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              provider.bangLang ==true ?
+                                              const Text(
+                                                ' অন্যান্য',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ):
+                                              const Text(
+                                                ' Others',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18),
+                                              ),
+                                              Spacer(),
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Text(
+                                                            "Claimed",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          otherCostClaimed
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Text(
+                                                            "Approved",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          otherCostApproved
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Text(
+                                                            "Pending",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontSize: 14,
+                                                                color:
+                                                                    Colors.black54),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "${otherCostClaimed - otherCostApproved}",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.normal,
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.black54),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 120,
+                                  ),
+                                  //Spacer(),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (builder) =>
+                                                AllExPdfPreviewPage(
+                                              invoice: snapshot.data!,
+                                              monthSelection: selectMonth,
+                                              yearSelection: 2023,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                              'images/Icons/utility_expense.png',
+                                            ))),
+                                          ),
+                                          provider.bangLang ==true ?
+                                          const Text(
+                                            ' PDF দেখুন',
+                                            style: TextStyle(color: Colors.black54),
+                                          ):
+                                          Text(
+                                            "View PDF",
+                                            style: TextStyle(color: Colors.black54),
+                                          ),
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            );
+                          }
+                      }
+                    },
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(ExpenseCreateFront(
+                            page: "transport",
+                          ));
+                        },
+                        child: Container(
+                          height: 48,
+                          //width: size.width,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: darkBlue),
+                          child:  Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: provider.bangLang ==true ?
+                              const Text(
+                                ' নতুন ব্যয় যুক্ত করুন',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white),
+                              ):Text(
+                                'Add New Expense',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-              FutureBuilder<GetAllExpenseModel>(
-                future: expenseRepository.getAllExpense(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<GetAllExpenseModel> snapshot) {
-                  if (snapshot.data == null) {
-                    print("no data found");
-                  } else {
-                 otherCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
-                        int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Others" && e.status == 0).fold(0, (previousValue, element) =>
-                 previousValue + element.cost!);
-                 otherCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
-                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Others" && e.status == 1).fold(0, (previousValue, element) =>
-                 previousValue + element.cost!);
-                 foodCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
-                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Food" && e.status == 0).fold(0, (previousValue, element) =>
-                 previousValue + element.cost!);
-                 foodCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
-                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Food" && e.status == 1).fold(0, (previousValue, element) =>
-                 previousValue + element.cost!);
-                 transposrCostClaimed =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
-                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Transport" && e.status == 0).fold(0, (previousValue, element) =>
-                 previousValue + element.cost!);
-                 transposrCostApproved =   snapshot.data!.result!.where((e) => int.parse(e.date.toString().substring(5, 7)) == selectMonth &&
-                     int.parse(e.date.toString().substring(0, 4)) == yearSelection && e.type == "Transport" && e.status == 1).fold(0, (previousValue, element) =>
-                 previousValue + element.cost!);
-
-
-                  }
-
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Text("waiting");
-                    default:
-                      if (snapshot.hasError)
-                        return Center(child: Text('No Data Found'));
-                      if (snapshot.data == null) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        return Container(
-                          height: 500,
-                          child: Column(
-                            children: [
-                              Text(
-                                'Choose a type of expense',
-                                style: TextStyle(
-                                    color: Colors.grey.withOpacity(.75)),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(TransportClaimedList());
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border:
-                                            Border.all(color: primaryColor)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'images/transportation.png',
-                                            height: 40,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Text(
-                                            ' Transport',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Claimed",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      transposrCostClaimed
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Approved",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      transposrCostApproved
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Pending",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                     "${ transposrCostClaimed - transposrCostApproved
-                                                          }",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(FoodClaimedList());
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border:
-                                            Border.all(color: primaryColor)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'images/food.png',
-                                            height: 70,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Text(
-                                            ' Food',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Claimed",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      foodCostClaimed
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Approved",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      foodCostApproved
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Pending",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${foodCostClaimed - foodCostApproved}"
-                                                          ,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(OtherClaimedList());
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Container(
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border:
-                                            Border.all(color: primaryColor)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'images/more.png',
-                                            height: 70,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Text(
-                                            ' Others',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Claimed",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      otherCostClaimed
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Approved",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      otherCostApproved
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                        "Pending",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "${otherCostClaimed - otherCostApproved}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.black54),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 120,
-                              ),
-                              //Spacer(),
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (builder) =>
-                                            AllExPdfPreviewPage(
-                                          invoice: snapshot.data!,
-                                          monthSelection: selectMonth,
-                                          yearSelection: 2023,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                          'images/Icons/utility_expense.png',
-                                        ))),
-                                      ),
-                                      Text(
-                                        "View PDF",
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          ),
-                        );
-                      }
-                  }
-                },
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(ExpenseCreateFront(
-                        page: "transport",
-                      ));
-                    },
-                    child: Container(
-                      height: 48,
-                      //width: size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: darkBlue),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            'Add New Expense',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 

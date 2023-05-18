@@ -11,6 +11,7 @@ import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Helper/api_helper.dart';
 import 'package:salebee/Helper/location_helper.dart';
 import 'package:salebee/Model/login_model.dart';
+import 'package:salebee/Screen/Authentication/sub_domain_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:salebee/Screen/Home/home.dart';
 import 'package:salebee/Service/api_service_dio.dart';
@@ -285,6 +286,7 @@ class LoginPageState extends State<LoginPage> {
                     if(checkTerm == true){
                       loginController().then((value) {
                         print("qqqqqqq${value['IsSuccess']}");
+
                         if (value['IsSuccess'] == false) {
                           final snackBar = SnackBar(
                             content: const Text(
@@ -445,18 +447,24 @@ class LoginPageState extends State<LoginPage> {
 
                 ],
               ),
-              Center(
-                child: Text.rich(TextSpan(
-                    text: 'Do you want to register your company?',
-                    children: <InlineSpan>[
-                      TextSpan(
-                        text: 'Help & Support',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue),
-                      )
-                    ])),
+              GestureDetector(
+                onTap: (){
+                  Get.to(SubDomainPage());
+                },
+
+                child: Center(
+                  child: Text.rich(TextSpan(
+                      text: 'Want to change Sub-Domain?',
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: 'Sub-Domain page',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue),
+                        )
+                      ])),
+                ),
               )
             ],
           ),

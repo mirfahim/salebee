@@ -19,7 +19,8 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import '../../../Model/get_attendance_model.dart';
 
-Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSelection) async {
+Future<Uint8List> makePdf(
+    GetAttendanceDataModel report, yearSelection, monthSelection, name) async {
   final pdf = pw.Document();
   List<pw.Widget> widgets = [];
   widgets.add(pw.SizedBox(height: 5));
@@ -39,18 +40,23 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
                 mainAxisAlignment: pw.MainAxisAlignment.end,
                 children: [
                   Spacer(),
-                  Text("Printed onn: ${DateFormat.yMd().format(DateTime.now())}," + " ${DateFormat.jm().format(DateTime.now())}",
+                  Text(
+                    "Printed on: ${DateFormat.yMd().format(DateTime.now())}," +
+                        " ${DateFormat.jm().format(DateTime.now())}" +
+                        " (printed by: ${StaticData.name})",
                     style: TextStyle(
-                        fontWeight: pw.FontWeight.normal, fontSize: 12),),
+                        fontWeight: pw.FontWeight.normal, fontSize: 8),
+                  ),
                 ]),
+            SizedBox(height: 05),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Nexzen Solution Ltd",
-                    style: TextStyle(
-                        fontWeight: pw.FontWeight.bold, fontSize: 16),
+                    style:
+                        TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 12),
                   ),
                 ],
               ),
@@ -62,7 +68,7 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
                   Text(
                     "House: 545, 2nd floor, Suite A2, Road 8, Mirpur DOHS",
                     style: TextStyle(
-                        fontSize: 14, fontWeight: pw.FontWeight.normal),
+                        fontSize: 8, fontWeight: pw.FontWeight.normal),
                   ),
                 ],
               ),
@@ -70,10 +76,10 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
           ],
           crossAxisAlignment: CrossAxisAlignment.start,
         ),
-        pw.SizedBox(height: 10),
+        pw.SizedBox(height: 05),
         Container(
-            height: 60,
-            width: 150,
+            height: 40,
+            width: 140,
             decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -85,36 +91,25 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
                 children: [
                   Text("Attendance Sheet",
                       style: pw.TextStyle(
-                          fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                  Text("",
-                      style: pw.TextStyle(
-                          fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                          fontSize: 12, fontWeight: pw.FontWeight.bold)),
+                  PaddedText(
+                      "${DateFormat.yMMM().format(DateTime(yearSelection, monthSelection))}"),
                 ])),
-        SizedBox(height: 10),
-        Row(
-            crossAxisAlignment: pw.CrossAxisAlignment.end,
-            mainAxisAlignment: pw.MainAxisAlignment.end,
-            children: [
-              Spacer(),
-              PaddedText("${DateFormat.yMMM().format(DateTime(yearSelection,monthSelection))}"),
-            ]),
+        SizedBox(height: 05),
         Row(children: [
           Container(
               child: Column(
                   mainAxisAlignment: pw.MainAxisAlignment.start,
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      StaticData.name!,
-                    ),
-                    Text(StaticData.designation),
-                  ])),
+                Text(
+                  "Employee Name: "+ name,
+                ),
+                //  Text(StaticData.designation),
+              ])),
           Spacer(),
         ]),
         pw.SizedBox(height: 20),
-
-        SizedBox(height: 40),
-
       ],
     ),
   );
@@ -125,28 +120,22 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
         TableRow(
           children: [
             Padding(
-              child: Text(
-                'Date',
-
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(20),
+              child: Text('Date',
+                  textAlign: TextAlign.center,
+                  style: pw.TextStyle(fontSize: 8)),
+              padding: EdgeInsets.only(top: 10),
             ),
             Padding(
-              child: Text(
-                'Check In',
-
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(20),
+              child: Text('Check In',
+                  textAlign: TextAlign.center,
+                  style: pw.TextStyle(fontSize: 8)),
+              padding: EdgeInsets.only(top: 10),
             ),
             Padding(
-              child: Text(
-                'Check Out',
-
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(20),
+              child: Text('Check Out',
+                  textAlign: TextAlign.center,
+                  style: pw.TextStyle(fontSize: 8)),
+              padding: EdgeInsets.only(top: 10),
             ),
             // Padding(
             //   child: Text(
@@ -158,138 +147,104 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
             // ),
 
             Padding(
-              child: Text(
-                'Working Hour',
-
-                textAlign: TextAlign.center,
+              child: Center(
+                child: Text('Working Hour',
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    style: pw.TextStyle(fontSize: 8)),
               ),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.only(top: 10),
             ),
             Padding(
-              child: Text(
-                'Note',
-
-                textAlign: TextAlign.center,
-              ),
-              padding: EdgeInsets.all(20),
+              child: Text('Note',
+                  textAlign: TextAlign.center,
+                  style: pw.TextStyle(fontSize: 8)),
+              padding: EdgeInsets.only(top: 10),
             ),
           ],
         ),
         ...report.result!.map(
-              (e) {
-                final hours = DateTime.parse(
-                    e.logTimeOut ??
-                        "2035-09-13T21:06:40.32")
-                    .difference(
-                    DateTime.parse(e.logTimeIn))
+          (e) {
+            final hours =
+                DateTime.parse(e.logTimeOut ?? "2035-09-13T21:06:40.32")
+                    .difference(DateTime.parse(e.logTimeIn))
                     .inHours;
-                final minutes = DateTime.parse(
-                    e.logTimeOut ??
-                        "2035-09-13T21:06:40.32")
-                    .difference(
-                    DateTime.parse(e.logTimeIn))
+            final minutes =
+                DateTime.parse(e.logTimeOut ?? "2035-09-13T21:06:40.32")
+                    .difference(DateTime.parse(e.logTimeIn))
                     .inMinutes;
-                final totalWorkingHours =
-                    '$hours.${(minutes - (hours * 60))}';
+            final totalWorkingHours = '$hours.${(minutes - (hours * 60))}';
 
-                if ( monthSelection ==
-                    int.parse(e.logTimeIn
-                        .toString()
-                        .substring(5, 7)) && yearSelection == int.parse(e.logTimeIn
-                    .toString()
-                    .substring(0, 4)) ){
-                  return TableRow(
+            if (monthSelection ==
+                    int.parse(e.logTimeIn.toString().substring(5, 7)) &&
+                yearSelection ==
+                    int.parse(e.logTimeIn.toString().substring(0, 4))) {
+              return TableRow(
+                children: [
+                  Expanded(
+                    child: PaddedText(
+                        "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: Column(children: [
+                      PaddedText(
+                          "${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
+                      Text(e.locationDescription.toString(),
+                          style: pw.TextStyle(font: ttf, fontSize: 8)),
+                    ]),
+                    flex: 2,
+                  ),
 
-                    children: [
-                      Expanded(
-                        child: PaddedText(
-
-                            "${DateFormat('EEEE').format(e.createdOn!).toString().substring(0, 3) + ","} ${e.createdOn.toString().substring(8, 10)}"),
-                        flex: 1,
-                      ),
-                      Expanded(
-                        child: Column(
-                            children: [
-                              PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
-                              Text(
-
-                                  e.locationDescription.toString(),
-
-                                  style: pw.TextStyle(
-                                    font: ttf,
-                                  )
-                                  ),
-                            ]
-                        ),
-
-                        flex: 1,
-                      ),
-
-                      Expanded(
-                        child: e.logTimeOut != null ?  Column(
-                            children: [
-                              PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeOut))}"),
-                              Text(
-
-                                  e.locationDescriptionOut.toString(),
-                              style: pw.TextStyle(
-                                font: ttf,
-                              )),
-                            ]
-                        )
-                            :Column(
-                            children: [
-                              PaddedText("${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
-                              Text(
-
-                                  e.locationDescription.toString(),
-                                  style: pw.TextStyle(
-                                    font: ttf,
-                                  )),
-                            ]
-                        ),
-                        flex: 1,
-                      ),
-                      // Expanded(
-                      //   child: int.parse(e.logTimeIn.substring(11,12)) < 10 ?
-                      //   PaddedText(int.parse(e.logTimeIn.substring(11,13)).toString()) : PaddedText("No"),
-                      //   flex: 1,
-                      // ),
-                      Expanded(
-                        child:double.parse(
-                            totalWorkingHours) >
-                            18.00 ?PaddedText(
-
-                            "No Data"):
-                        PaddedText(
-
-                            "${totalWorkingHours}" + " hrs"),
-                        flex: 1,
-                      ),
-                      Expanded(
-                        child: PaddedText(e.checkOutNote ?? "No data"),
-                        flex: 2,
-                      ),
-                    ],
-                  );
-                } else {
-                  return TableRow(
-
-                    children: [
-
-                    ],
-                  );
-                }
-
-              },
+                  Expanded(
+                    child: e.logTimeOut != null
+                        ? Column(children: [
+                            PaddedText(
+                                "${DateFormat.jm().format(DateTime.parse(e.logTimeOut))}"),
+                            Text(e.locationDescriptionOut.toString(),
+                                style: pw.TextStyle(font: ttf, fontSize: 8)),
+                          ])
+                        : Column(children: [
+                            PaddedText(
+                                "${DateFormat.jm().format(DateTime.parse(e.logTimeIn))}"),
+                            Text(e.locationDescription.toString(),
+                                style: pw.TextStyle(
+                                  font: ttf,
+                                  fontSize: 8,
+                                )),
+                          ]),
+                    flex: 2,
+                  ),
+                  // Expanded(
+                  //   child: int.parse(e.logTimeIn.substring(11,12)) < 10 ?
+                  //   PaddedText(int.parse(e.logTimeIn.substring(11,13)).toString()) : PaddedText("No"),
+                  //   flex: 1,
+                  // ),
+                  Expanded(
+                    child: double.parse(totalWorkingHours) > 18.00
+                        ? PaddedText("No Data")
+                        : PaddedText("${totalWorkingHours}" + " hrs"),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: PaddedText(e.checkOutNote ?? "No data"),
+                    flex: 1,
+                  ),
+                ],
+              );
+            } else {
+              return TableRow(
+                children: [],
+              );
+            }
+          },
         ),
         TableRow(
           children: [
             PaddedText('TOTAL', align: TextAlign.right),
             PaddedText(''),
             PaddedText(''),
-            PaddedText(
-                ""),
+            PaddedText(""),
             // '\$${(invoice.totalCost() * 1).toStringAsFixed(2)}')
           ],
         )
@@ -299,74 +254,48 @@ Future<Uint8List> makePdf(GetAttendanceDataModel report, yearSelection, monthSel
   widgets.add(
     pw.SizedBox(height: 60),
   );
-  widgets.add(
-      Row(
-          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-          children: [
-            Column(children: [
-              Container(
-                width: 100,
-                child:  Divider(
-
-                    thickness: 1
-                ),
-              ),
-              Text("Received Signature & Date"),
-              pw.SizedBox(width: 10),
-            ]),
-            Column(children: [
-              Container(
-                width: 100,
-                child:  Divider(
-
-                    thickness: 1
-                ),
-              ),
-              Text("Admin Checked"),
-              pw.SizedBox(width: 10),
-            ]),
-            Column(children: [
-              Container(
-                width: 100,
-                child:  Divider(
-
-                    thickness: 1
-                ),
-              ),
-              Text("Approved by"),
-              pw.SizedBox(width: 10),
-            ]),
-          ])
-  );
-
-
+  widgets
+      .add(Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
+    Column(children: [
+      Container(
+        width: 100,
+        child: Divider(thickness: 1),
+      ),
+      Text("User Signature & Date"),
+      pw.SizedBox(width: 10),
+    ]),
+    Column(children: [
+      Container(
+        width: 100,
+        child: Divider(thickness: 1),
+      ),
+      Text("Admin Checked"),
+      pw.SizedBox(width: 10),
+    ]),
+    Column(children: [
+      Container(
+        width: 100,
+        child: Divider(thickness: 1),
+      ),
+      Text("Approved by"),
+      pw.SizedBox(width: 10),
+    ]),
+  ]));
 
   // final imageLogo = MemoryImage((await rootBundle.load('assets/technical_logo.png')).buffer.asUint8List());
   pdf.addPage(
-
-    pw.MultiPage(
-
-        build: (context) {
-          return
-            widgets
-          ;
-        }
-    ),
+    pw.MultiPage(build: (context) {
+      return widgets;
+    }),
   );
   return pdf.save();
 }
 
 Widget PaddedText(
-    final String text, {
-      final TextAlign align = TextAlign.left,
-    }) =>
+  final String text, {
+  final TextAlign align = TextAlign.left,
+}) =>
     Padding(
-      padding: EdgeInsets.all(10),
-      child: Text(
-        text,
-        textAlign: align,
-        style: pw.TextStyle(
-
-        )
-      ),
+      padding: EdgeInsets.all(2),
+      child: Text(text, textAlign: align, style: pw.TextStyle(fontSize: 8)),
     );

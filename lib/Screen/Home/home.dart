@@ -5,9 +5,12 @@ import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 //import 'package:new_version_plus/new_version_plus.dart';
 import 'package:salebee/Data/static_data.dart';
 import 'package:salebee/Helper/location_helper.dart';
+import 'package:salebee/Provider/language_provider/language_provider.dart';
+import 'package:salebee/Screen/Home/dashboard_view.dart';
 import 'package:salebee/Screen/Prospect/prspect_front_tab.dart';
 
 import 'package:salebee/Screen/expense/aproved.dart';
@@ -193,182 +196,193 @@ class _HomePageState extends State<HomePage> {
 
       backgroundColor: primaryColorLight,
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: Consumer<LangProvider>(
+          builder: (context, provider, widget) {
+            return provider.themeView == 0 ? Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      StaticData.name != null
-                          ? Text(
-                        StaticData.name!,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
-                      )
-                          : Text(
-                        "No name",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          StaticData.name != null
+                              ? Text(
+                            StaticData.name!,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          )
+                              : Text(
+                            "No name",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          StaticData.employeeID != null
+                              ? Text(
+                            'ID: ${StaticData.employeeID}',
+                            style:
+                            TextStyle(fontSize: 16, color: Colors.grey),
+                          )
+                              : Text(
+                            'ID: ',
+                            style:
+                            TextStyle(fontSize: 16, color: Colors.grey),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      StaticData.employeeID != null
-                          ? Text(
-                        'ID: ${StaticData.employeeID}',
-                        style:
-                        TextStyle(fontSize: 16, color: Colors.grey),
-                      )
-                          : Text(
-                        'ID: ',
-                        style:
-                        TextStyle(fontSize: 16, color: Colors.grey),
-                      )
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(NotificationPage1());
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: badges.Badge(
-                        badgeStyle: badges.BadgeStyle(
-                          badgeColor: Colors.redAccent,
-                        ),
-                        badgeContent: Text('2'),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(NotificationPage1());
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(150)),
+                          child: badges.Badge(
+                            badgeStyle: badges.BadgeStyle(
+                              badgeColor: Colors.redAccent,
+                            ),
+                            badgeContent: Text('2'),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.notification_important,
+                                  color: darkBlue,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: Container(
-                  height: size.height / 1.2,
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: size.height / 1.4,
-                        transform: Matrix4.translationValues(
-                            -(size.height / 6), 0.0, 0.0),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(
-                          - ((size.height * 50 )/ size.width), ((size.height * 75) / size.width),0,),
-                        child: StaticData.proLink!.startsWith(".", 0)
-                            ? CircleAvatar(
-                          radius: size.height / 6,
-                          backgroundImage: NetworkImage(
-                              "${StringsConst.MAINURL}" +
-                                  "${StaticData.proLink!.replaceAll("../..", "")}"),
-                        )
-                            : CircleAvatar(
-                          radius: size.height / 6,
-                          backgroundImage:
-                          NetworkImage(StaticData.proLink!),
-                        ),
-                      ),
-                      Positioned(
-                        top: (size.height / 13),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to( Get.to(ExpenseList()));
-                            },
-                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
-                      ),
-
-                      Positioned(
-                          top: (size.height / 6.0),
-                          left: (size.width / 2.5),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Attendance',
-                                  (size.width / 2.7),
-                                  (size.height / 8),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 3.1),
-                        left: (size.width / 1.9),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(Task());
-                          },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0, true),
-                        ),
-                      ),
-
-                      Positioned(
-                          top: (size.height / 2.1),
-                          left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(LeadView());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Lead',
-                                  (size.width / 2.5),
-                                  (size.height / 2),
-                                  false))),
-
-                      Positioned(
-                        top: (size.height / 1.74),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ProspectFront());
-                            },
-                            child: circleRow(
-                                size,
-                                'Prospect',
-                                (size.width / 12),
-                                (size.height / 1.74),
-                                false)),
-                      ),
-                      // circleRow(size,'E', (size.width /12), (size.height /24),),
-                      //
-                      // circleRow(size,'D',(size.width /2.5),(size.height /8)),
-                      //
-                      // circleRow(size,'C',(size.width /1.9),(size.height /3.3)),
-                      //
-                      // circleRow(size,'B',(size.width /2.5),(size.height /2)),
-                      //
-                      // circleRow(size,'A',(size.width /12),(size.height /1.7)),
+                      )
                     ],
                   ),
                 ),
-              ),
-            ),
-          ],
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      height: size.height / 1.2,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: size.height / 1.4,
+                            transform: Matrix4.translationValues(
+                                -(size.height / 6), 0.0, 0.0),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(
+                              - ((size.height * 50 )/ size.width), ((size.height * 75) / size.width),0,),
+                            child: StaticData.proLink!.startsWith(".", 0)
+                                ? CircleAvatar(
+                              radius: size.height / 6,
+                              backgroundImage: NetworkImage(
+                                  "${StringsConst.MAINURL}" +
+                                      "${StaticData.proLink!.replaceAll("../..", "")}"),
+                            )
+                                : CircleAvatar(
+                              radius: size.height / 6,
+                              backgroundImage:
+                              NetworkImage(StaticData.proLink!),
+                            ),
+                          ),
+                          Positioned(
+                            top: (size.height / 13),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to( Get.to(ExpenseList()));
+                                },
+                                child: circleRow(size,  provider.bangLang == true ?  "ব্যয়" :'Expenses', 20.0, 50.0, false)),
+                          ),
+
+                          Positioned(
+                              top: (size.height / 6.0),
+                              left: (size.width / 2.5),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(AttendenceReport());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "উপস্থিতি" :
+                                      'Attendance',
+                                      (size.width / 2.7),
+                                      (size.height / 8),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 3.1),
+                            left: (size.width / 1.9),
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(Task());
+                              },
+                              child: circleRow(size,   provider.bangLang == true ?  "কাজ" :'Tasks', 240.0, 210.0, true),
+                            ),
+                          ),
+
+                          Positioned(
+                              top: (size.height / 2.1),
+                              left: (size.width / 2.3),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(LeadView());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "লিড" :
+                                      'Lead',
+                                      (size.width / 2.5),
+                                      (size.height / 2),
+                                      false))),
+
+                          Positioned(
+                            top: (size.height / 1.74),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ProspectFront());
+                                },
+                                child: provider.bangLang == true ? circleRow(
+                                    size,
+                                    'সম্ভাবনা',
+                                    (size.width / 12),
+                                    (size.height / 1.74),
+                                    false):circleRow(
+                                    size,
+                                    'Prospect',
+                                    (size.width / 12),
+                                    (size.height / 1.74),
+                                    false)),
+                          ),
+                          // circleRow(size,'E', (size.width /12), (size.height /24),),
+                          //
+                          // circleRow(size,'D',(size.width /2.5),(size.height /8)),
+                          //
+                          // circleRow(size,'C',(size.width /1.9),(size.height /3.3)),
+                          //
+                          // circleRow(size,'B',(size.width /2.5),(size.height /2)),
+                          //
+                          // circleRow(size,'A',(size.width /12),(size.height /1.7)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ) : DashboardPage();
+          }
         ),
       ),
     );
@@ -378,206 +392,217 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: Consumer<LangProvider>(
+            builder: (context, provider, widget) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        StaticData.name != null
-                            ? Text(
-                                StaticData.name!,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            : Text(
-                                "No name",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                        SizedBox(
-                          height: 2,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StaticData.name != null
+                                ? Text(
+                                    StaticData.name!,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "No name",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            StaticData.employeeID != null
+                                ? Text(
+                                    'ID: ${StaticData.employeeID}',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                                : Text(
+                                    'ID: ',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                          ],
                         ),
-                        StaticData.employeeID != null
-                            ? Text(
-                                'ID: ${StaticData.employeeID}',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                            : Text(
-                                'ID: ',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(NotificationPage1());
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(150)),
-                        child: badges.Badge(
-                          badgeStyle: badges.BadgeStyle(
-                            badgeColor: Colors.redAccent,
-                          ),
-                          badgeContent: Text("${StaticData.todaysTask}"),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.notification_important,
-                                color: darkBlue,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(NotificationPage1());
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(150)),
+                            child: badges.Badge(
+                              badgeStyle: badges.BadgeStyle(
+                                badgeColor: Colors.redAccent,
+                              ),
+                              badgeContent: Text("${StaticData.todaysTask}"),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle, color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.notification_important,
+                                    color: darkBlue,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: size.height / 1.3,
-                        transform: Matrix4.translationValues(
-                            -(size.width / 2.5), 0.0, 0.0),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink!.startsWith(".", 0)
-                            ? CircleAvatar(
-                                radius: 140,
-                                backgroundImage: NetworkImage(
-                                    "${StringsConst.MAINURL}" +
-                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
-                              )
-                            : CircleAvatar(
-                                radius: 140,
-                                backgroundImage:
-                                    NetworkImage(StaticData.proLink!),
-                              ),
-                      ),
-                      //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg -- working
-                      //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg
-                      Positioned(
-                        top: (size.height / 11),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ExpenseList());
-                            },
-                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
-                      ),
-                      Positioned(
-                          top: (size.height / 6.0),
-                          left: (size.width / 2.5),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Attendance',
-                                  (size.width / 2.7),
-                                  (size.height / 8),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 3.1),
-                        left: (size.width / 1.9),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(Task());
-                          },
-                          child: circleRow(size, 'Taskss', 240.0, 210.0, true),
-                        ),
-                      ),
-                      Positioned(
-                          top: (size.height / 2.1),
-                          left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(LeadView());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Lead',
-                                  (size.width / 2.5),
-                                  (size.height / 2),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 1.68),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ProspectFront());
-                            },
-                            child: circleRow(
-                                size,
-                                'Prospect',
-                                (size.width / 12),
-                                (size.height / 1.74),
-                                false)),
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(10.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Row(
-              //         children: [
-              //           Icon(
-              //             Icons.arrow_back,
-              //             color: darkBlue,
-              //           ),
-              //           Text(
-              //             'Prev',
-              //             style: TextStyle(color: darkBlue),
-              //           )
-              //         ],
-              //       ),
-              //       InkWell(
-              //         onTap: () {
-              //           Get.to(AdsPage());
-              //         },
-              //         child: Row(
-              //           children: [
-              //             Icon(
-              //               Icons.arrow_forward,
-              //               color: darkBlue,
-              //             ),
-              //             Text(
-              //               'Next',
-              //               style: TextStyle(color: darkBlue),
-              //             )
-              //           ],
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // )
-            ],
+                  Expanded(
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: size.height / 1.3,
+                            transform: Matrix4.translationValues(
+                                -(size.width / 2.5), 0.0, 0.0),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(
+                                -(size.width / 3.8), (size.height / 5.5), 0.0),
+                            child: StaticData.proLink!.startsWith(".", 0)
+                                ? CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage: NetworkImage(
+                                        "${StringsConst.MAINURL}" +
+                                            "${StaticData.proLink!.replaceAll("../..", "")}"),
+                                  )
+                                : CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage:
+                                        NetworkImage(StaticData.proLink!),
+                                  ),
+                          ),
+                          //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg -- working
+                          //https://app.salebee.net/UploadedFiles/app/Employee/79/Image/637990290881445074_Kamal%20Photo.jpg
+                          Positioned(
+                            top: (size.height / 11),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ExpenseList());
+                                },
+                                child: circleRow(size, provider.bangLang == true ?  "ব্যয়" :'Expenses', 20.0, 50.0, false)),
+                          ),
+                          Positioned(
+                              top: (size.height / 6.0),
+                              left: (size.width / 2.5),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(AttendenceReport());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "উপস্থিতি" :
+                                      'Attendance',
+                                      (size.width / 2.7),
+                                      (size.height / 8),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 3.1),
+                            left: (size.width / 1.9),
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(Task());
+                              },
+                              child: circleRow(size,   provider.bangLang == true ?  "কাজ" :'Taskss', 240.0, 210.0, true),
+                            ),
+                          ),
+                          Positioned(
+                              top: (size.height / 2.1),
+                              left: (size.width / 2.3),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(LeadView());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "লিড" :
+                                      'Lead',
+                                      (size.width / 2.5),
+                                      (size.height / 2),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 1.68),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ProspectFront());
+                                },
+                                child: provider.bangLang == true ?circleRow(
+                                    size,
+                                    'সম্ভাবনা',
+                                    (size.width / 12),
+                                    (size.height / 1.74),
+                                    false) : circleRow(
+                                    size,
+                                    'Prospect',
+                                    (size.width / 12),
+                                    (size.height / 1.74),
+                                    false)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(10.0),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Icon(
+                  //             Icons.arrow_back,
+                  //             color: darkBlue,
+                  //           ),
+                  //           Text(
+                  //             'Prev',
+                  //             style: TextStyle(color: darkBlue),
+                  //           )
+                  //         ],
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           Get.to(AdsPage());
+                  //         },
+                  //         child: Row(
+                  //           children: [
+                  //             Icon(
+                  //               Icons.arrow_forward,
+                  //               color: darkBlue,
+                  //             ),
+                  //             Text(
+                  //               'Next',
+                  //               style: TextStyle(color: darkBlue),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              );
+            }
           ),
         ),
       );
@@ -587,163 +612,170 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: Consumer<LangProvider>(
+            builder: (context, provider, widget) {
+              return provider.themeView == 0 ?Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        StaticData.name != null
-                            ? Text(
-                                StaticData.name! ,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            : Text(
-                                "No name",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                        SizedBox(
-                          height: 2,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StaticData.name != null
+                                ? Text(
+                                    StaticData.name! ,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "No name",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            StaticData.employeeID != null
+                                ? Text(
+                                    'ID: ${StaticData.employeeID}',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                                : Text(
+                                    'ID: ',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                          ],
                         ),
-                        StaticData.employeeID != null
-                            ? Text(
-                                'ID: ${StaticData.employeeID}',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                            : Text(
-                                'ID: ',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(NotificationPage1());
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(150)),
-                        child: badges.Badge(
-                          badgeStyle: badges.BadgeStyle(
-                            badgeColor: Colors.redAccent,
-                          ),
-                          badgeContent: Text('3'),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.notification_important,
-                                color: darkBlue,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(NotificationPage1());
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(150)),
+                            child: badges.Badge(
+                              badgeStyle: badges.BadgeStyle(
+                                badgeColor: Colors.redAccent,
+                              ),
+                              badgeContent: Text('3'),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle, color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.notification_important,
+                                    color: darkBlue,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: size.height / 1.3,
+                            transform: Matrix4.translationValues(
+                                -(size.width / 2.5), 0.0, 0.0),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(
+                                -(size.width / 3.8), (size.height / 5.5), 0.0),
+                            child: StaticData.proLink!.startsWith(".", 0)
+                                ? CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage: NetworkImage(
+                                        "${StringsConst.MAINURL}" +
+                                            "${StaticData.proLink!.replaceAll("../..", "")}"),
+                                  )
+                                : CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage:
+                                        NetworkImage(StaticData.proLink!),
+                                  ),
+                          ),
+                          Positioned(
+                            top: (size.height / 9.5),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ExpenseList());
+                                },
+                                child: circleRow(size, provider.bangLang == true ?  "ব্যয়" :'Expenses', 20.0, 50.0, false)),
+                          ),
+                          Positioned(
+                              top: (size.height / 5.0),
+                              left: (size.width / 2.3),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(AttendenceReport());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "উপস্থিতি" :
+                                      'Attendance',
+                                      (size.width / 2.7),
+                                      (size.height / 8),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 2.8),
+                            left: (size.width / 1.8),
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(Task());
+                              },
+                              child: circleRow(size,   provider.bangLang == true ?  "কাজ" :'Tasks', 240.0, 210.0, true),
+                            ),
+                          ),
+                          Positioned(
+                              top: (size.height / 2.05),
+                              left: (size.width / 2.34),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(LeadView());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "লিড" :
+                                      'Lead',
+                                      (size.width / 2.5),
+                                      (size.height / 2),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 1.85),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ProspectFront());
+                                },
+                                child: provider.bangLang == true? circleRow(size, 'সম্ভাবনা',
+                                    (size.width / 12), (size.height / 1.7), false): circleRow(size, 'Prospect',
+                                    (size.width / 12), (size.height / 1.7), false)),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: size.height / 1.3,
-                        transform: Matrix4.translationValues(
-                            -(size.width / 2.5), 0.0, 0.0),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink!.startsWith(".", 0)
-                            ? CircleAvatar(
-                                radius: 140,
-                                backgroundImage: NetworkImage(
-                                    "${StringsConst.MAINURL}" +
-                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
-                              )
-                            : CircleAvatar(
-                                radius: 140,
-                                backgroundImage:
-                                    NetworkImage(StaticData.proLink!),
-                              ),
-                      ),
-                      Positioned(
-                        top: (size.height / 9.5),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ExpenseList());
-                            },
-                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
-                      ),
-                      Positioned(
-                          top: (size.height / 5.0),
-                          left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Attendance',
-                                  (size.width / 2.7),
-                                  (size.height / 8),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 2.8),
-                        left: (size.width / 1.8),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(Task());
-                          },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0, true),
-                        ),
-                      ),
-                      Positioned(
-                          top: (size.height / 2.05),
-                          left: (size.width / 2.34),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(LeadView());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Lead',
-                                  (size.width / 2.5),
-                                  (size.height / 2),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 1.85),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ProspectFront());
-                            },
-                            child: circleRow(size, 'Prospect',
-                                (size.width / 12), (size.height / 1.7), false)),
-                      ),
-                    ],
                   ),
-                ),
-              ),
-            ],
+                ],
+              ) : DashboardPage();
+            }
           ),
         ),
       );
@@ -753,204 +785,216 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: Consumer<LangProvider>(
+            builder: (context, provider, widget) {
+              return provider.themeView == 0 ?
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        StaticData.name != null
-                            ? Text(
-                                StaticData.name!,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            : Text(
-                                "No name",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                        SizedBox(
-                          height: 2,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StaticData.name != null
+                                ? Text(
+                                    StaticData.name!,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "No name",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            StaticData.employeeID != null
+                                ? Text(
+                                    'ID: ${StaticData.employeeID}',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                                : Text(
+                                    'ID: ',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                          ],
                         ),
-                        StaticData.employeeID != null
-                            ? Text(
-                                'ID: ${StaticData.employeeID}',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                            : Text(
-                                'ID: ',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(NotificationPage1());
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(150)),
-                        child: badges.Badge(
-                          badgeStyle: badges.BadgeStyle(
-                            badgeColor: Colors.redAccent,
-                          ),
-                          badgeContent: Text('3'),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.notification_important,
-                                color: darkBlue,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(NotificationPage1());
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(150)),
+                            child: badges.Badge(
+                              badgeStyle: badges.BadgeStyle(
+                                badgeColor: Colors.redAccent,
+                              ),
+                              badgeContent: Text('3'),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle, color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.notification_important,
+                                    color: darkBlue,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: size.height / 1.4,
-                        transform: Matrix4.translationValues(
-                            -(size.width / 3), 0.0, 0.0),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(
-                            -(size.width / 4.5), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink!.startsWith(".", 0)
-                            ? CircleAvatar(
-                                radius: 140,
-                                backgroundImage: NetworkImage(
-                                    "${StringsConst.MAINURL}" +
-                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
-                              )
-                            : CircleAvatar(
-                                radius: 140,
-                                backgroundImage:
-                                    NetworkImage(StaticData.proLink!),
-                              ),
-                      ),
-                      Positioned(
-                        top: (size.height / 10),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ExpenseList());
-                            },
-                            child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
-                      ),
-                      Positioned(
-                          top: (size.height / 5.0),
-                          left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(AttendenceReport());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Attendance',
-                                  (size.width / 2.7),
-                                  (size.height / 8),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 2.8),
-                        left: (size.width / 1.9),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(Task());
-                          },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0, true),
-                        ),
-                      ),
-                      Positioned(
-                          top: (size.height / 2.1),
-                          left: (size.width / 2.5),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(LeadView());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Lead',
-                                  (size.width / 2.5),
-                                  (size.height / 2),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 1.8),
-                        left: (size.width / 9),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ProspectFront());
-                            },
-                            child: circleRow(
-                                size,
-                                'Prospect',
-                                (size.width / 13),
-                                (size.height / 2),
-                                false)),
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(10.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Row(
-              //         children: [
-              //           Icon(
-              //             Icons.arrow_back,
-              //             color: darkBlue,
-              //           ),
-              //           Text(
-              //             'Prev',
-              //             style: TextStyle(color: darkBlue),
-              //           )
-              //         ],
-              //       ),
-              //       InkWell(
-              //         onTap: () {
-              //           Get.to(AdsPage());
-              //         },
-              //         child: Row(
-              //           children: [
-              //             Icon(
-              //               Icons.arrow_forward,
-              //               color: darkBlue,
-              //             ),
-              //             Text(
-              //               'Next',
-              //               style: TextStyle(color: darkBlue),
-              //             )
-              //           ],
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // )
-            ],
+                  Expanded(
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: size.height / 1.4,
+                            transform: Matrix4.translationValues(
+                                -(size.width / 3), 0.0, 0.0),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(
+                                -(size.width / 4.5), (size.height / 5.5), 0.0),
+                            child: StaticData.proLink!.startsWith(".", 0)
+                                ? CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage: NetworkImage(
+                                        "${StringsConst.MAINURL}" +
+                                            "${StaticData.proLink!.replaceAll("../..", "")}"),
+                                  )
+                                : CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage:
+                                        NetworkImage(StaticData.proLink!),
+                                  ),
+                          ),
+                          Positioned(
+                            top: (size.height / 10),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ExpenseList());
+                                },
+                                child: circleRow(size, provider.bangLang == true ?  "ব্যয়" :'Expenses', 20.0, 50.0, false)),
+                          ),
+                          Positioned(
+                              top: (size.height / 5.0),
+                              left: (size.width / 2.3),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(AttendenceReport());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "উপস্থিতি" :
+                                      'Attendance',
+                                      (size.width / 2.7),
+                                      (size.height / 8),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 2.8),
+                            left: (size.width / 1.9),
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(Task());
+                              },
+                              child: circleRow(size,   provider.bangLang == true ?  "কাজ" :'Tasks', 240.0, 210.0, true),
+                            ),
+                          ),
+                          Positioned(
+                              top: (size.height / 2.1),
+                              left: (size.width / 2.5),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(LeadView());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "লিড" :
+                                      'Lead',
+                                      (size.width / 2.5),
+                                      (size.height / 2),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 1.8),
+                            left: (size.width / 9),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ProspectFront());
+                                },
+                                child: provider.bangLang == true ? circleRow(
+                                    size,
+                                    'সম্ভাবনা',
+                                    (size.width / 13),
+                                    (size.height / 2),
+                                    false): circleRow(
+                                    size,
+                                    'Prospect',
+                                    (size.width / 13),
+                                    (size.height / 2),
+                                    false)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(10.0),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Icon(
+                  //             Icons.arrow_back,
+                  //             color: darkBlue,
+                  //           ),
+                  //           Text(
+                  //             'Prev',
+                  //             style: TextStyle(color: darkBlue),
+                  //           )
+                  //         ],
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           Get.to(AdsPage());
+                  //         },
+                  //         child: Row(
+                  //           children: [
+                  //             Icon(
+                  //               Icons.arrow_forward,
+                  //               color: darkBlue,
+                  //             ),
+                  //             Text(
+                  //               'Next',
+                  //               style: TextStyle(color: darkBlue),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              ) : DashboardPage();
+            }
           ),
         ),
       );
@@ -960,205 +1004,216 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: primaryColorLight,
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: Consumer<LangProvider>(
+          builder: (context, provider, widget) {
+            return provider.themeView == 0 ? Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      StaticData.name != null
-                          ? Text(
-                        StaticData.name!,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
-                      )
-                          : Text(
-                        "No name",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          StaticData.name != null
+                              ? Text(
+                            StaticData.name!,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          )
+                              : Text(
+                            "No name",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          StaticData.employeeID != null
+                              ? Text(
+                            'ID: ${StaticData.employeeID}',
+                            style:
+                            TextStyle(fontSize: 16, color: Colors.grey),
+                          )
+                              : Text(
+                            'ID: ',
+                            style:
+                            TextStyle(fontSize: 16, color: Colors.grey),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      StaticData.employeeID != null
-                          ? Text(
-                        'ID: ${StaticData.employeeID}',
-                        style:
-                        TextStyle(fontSize: 16, color: Colors.grey),
-                      )
-                          : Text(
-                        'ID: ',
-                        style:
-                        TextStyle(fontSize: 16, color: Colors.grey),
-                      )
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(NotificationPage1());
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(150)),
-                      child: badges.Badge(
-                        badgeStyle: badges.BadgeStyle(
-                          badgeColor: Colors.redAccent,
-                        ),
-                        badgeContent: Text('3'),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.notification_important,
-                              color: darkBlue,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(NotificationPage1());
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(150)),
+                          child: badges.Badge(
+                            badgeStyle: badges.BadgeStyle(
+                              badgeColor: Colors.redAccent,
+                            ),
+                            badgeContent: Text('3'),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.notification_important,
+                                  color: darkBlue,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: size.height / 1.4,
-                      transform: Matrix4.translationValues(
-                          -(size.width / 3), 0.0, 0.0),
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
-                    ),
-                    Container(
-                      transform: Matrix4.translationValues(
-                          -(size.width / 4.5), (size.height / 5.5), 0.0),
-                      child: StaticData.proLink!.startsWith(".", 0)
-                          ? CircleAvatar(
-                        radius: 140,
-                        backgroundImage: NetworkImage(
-                            "${StringsConst.MAINURL}" +
-                                "${StaticData.proLink!.replaceAll("../..", "")}"),
                       )
-                          : CircleAvatar(
-                        radius: 140,
-                        backgroundImage:
-                        NetworkImage(StaticData.proLink!),
-                      ),
-                    ),
-                    Positioned(
-                      top: (size.height / 10),
-                      left: (size.width / 8),
-                      child: InkWell(
-                          onTap: () {
-                            Get.to(ExpenseList());
-                          },
-                          child: circleRow(size, 'Expenses', 20.0, 50.0, false)),
-                    ),
-                    Positioned(
-                        top: (size.height / 5.0),
-                        left: (size.width / 2.3),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(AttendenceReport());
-                            },
-                            child: circleRow(
-                                size,
-                                'Attendance',
-                                (size.width / 2.7),
-                                (size.height / 8),
-                                false))),
-                    Positioned(
-                      top: (size.height / 2.8),
-                      left: (size.width / 1.9),
-                      child: InkWell(
-                        onTap: () {
-                          Get.to(Task());
-                        },
-                        child: circleRow(size, 'Tasks', 240.0, 210.0, true),
-                      ),
-                    ),
-                    Positioned(
-                        top: (size.height / 2.1),
-                        left: (size.width / 2.5),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(LeadView());
-                            },
-                            child: circleRow(
-                                size,
-                                'Lead',
-                                (size.width / 2.5),
-                                (size.height / 2),
-                                false))),
-                    Positioned(
-                      top: (size.height / 1.8),
-                      left: (size.width / 9),
-                      child: InkWell(
-                          onTap: () {
-
-                            Get.to(ProspectFront());
-                          },
-                          child: circleRow(
-                              size,
-                              'Prospect',
-                              (size.width / 13),
-                              (size.height / 2),
-                              false)),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.all(10.0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Row(
-            //         children: [
-            //           Icon(
-            //             Icons.arrow_back,
-            //             color: darkBlue,
-            //           ),
-            //           Text(
-            //             'Prev',
-            //             style: TextStyle(color: darkBlue),
-            //           )
-            //         ],
-            //       ),
-            //       InkWell(
-            //         onTap: () {
-            //           Get.to(AdsPage());
-            //         },
-            //         child: Row(
-            //           children: [
-            //             Icon(
-            //               Icons.arrow_forward,
-            //               color: darkBlue,
-            //             ),
-            //             Text(
-            //               'Next',
-            //               style: TextStyle(color: darkBlue),
-            //             )
-            //           ],
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // )
-          ],
+                Expanded(
+                  child: Center(
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: size.height / 1.4,
+                          transform: Matrix4.translationValues(
+                              -(size.width / 3), 0.0, 0.0),
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                        ),
+                        Container(
+                          transform: Matrix4.translationValues(
+                              -(size.width / 4.5), (size.height / 5.5), 0.0),
+                          child: StaticData.proLink!.startsWith(".", 0)
+                              ? CircleAvatar(
+                            radius: 140,
+                            backgroundImage: NetworkImage(
+                                "${StringsConst.MAINURL}" +
+                                    "${StaticData.proLink!.replaceAll("../..", "")}"),
+                          )
+                              : CircleAvatar(
+                            radius: 140,
+                            backgroundImage:
+                            NetworkImage(StaticData.proLink!),
+                          ),
+                        ),
+                        Positioned(
+                          top: (size.height / 10),
+                          left: (size.width / 8),
+                          child: InkWell(
+                              onTap: () {
+                                Get.to(ExpenseList());
+                              },
+                              child: circleRow(size, provider.bangLang == true ?  "ব্যয়" :'Expenses', 20.0, 50.0, false)),
+                        ),
+                        Positioned(
+                            top: (size.height / 5.0),
+                            left: (size.width / 2.3),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(AttendenceReport());
+                                },
+                                child: circleRow(
+                                    size,
+                                    provider.bangLang == true ?  "উপস্থিতি" :
+                                    'Attendance',
+                                    (size.width / 2.7),
+                                    (size.height / 8),
+                                    false))),
+                        Positioned(
+                          top: (size.height / 2.8),
+                          left: (size.width / 1.9),
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(Task());
+                            },
+                            child: circleRow(size,   provider.bangLang == true ?  "কাজ" :'Tasks', 240.0, 210.0, true),
+                          ),
+                        ),
+                        Positioned(
+                            top: (size.height / 2.1),
+                            left: (size.width / 2.5),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(LeadView());
+                                },
+                                child: circleRow(
+                                    size,
+                                    provider.bangLang == true ?  "লিড" :
+                                    'Lead',
+                                    (size.width / 2.5),
+                                    (size.height / 2),
+                                    false))),
+                        Positioned(
+                          top: (size.height / 1.8),
+                          left: (size.width / 9),
+                          child: InkWell(
+                              onTap: () {
+
+                                Get.to(ProspectFront());
+                              },
+                              child: provider.bangLang == true ? circleRow(
+                                  size,
+                                  'সম্ভাবনা',
+                                  (size.width / 13),
+                                  (size.height / 2),
+                                  false): circleRow(
+                                  size,
+                                  'Prospect',
+                                  (size.width / 13),
+                                  (size.height / 2),
+                                  false)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Icon(
+                //             Icons.arrow_back,
+                //             color: darkBlue,
+                //           ),
+                //           Text(
+                //             'Prev',
+                //             style: TextStyle(color: darkBlue),
+                //           )
+                //         ],
+                //       ),
+                //       InkWell(
+                //         onTap: () {
+                //           Get.to(AdsPage());
+                //         },
+                //         child: Row(
+                //           children: [
+                //             Icon(
+                //               Icons.arrow_forward,
+                //               color: darkBlue,
+                //             ),
+                //             Text(
+                //               'Next',
+                //               style: TextStyle(color: darkBlue),
+                //             )
+                //           ],
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // )
+              ],
+            ) : DashboardPage();
+          }
         ),
       ),
     );
@@ -1168,202 +1223,214 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         backgroundColor: primaryColorLight,
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: Consumer<LangProvider>(
+            builder: (context, provider, widget) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        StaticData.name != null
-                            ? Text(
-                                StaticData.name!,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            : Text(
-                                "No name",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                        SizedBox(
-                          height: 2,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StaticData.name != null
+                                ? Text(
+                                    StaticData.name!,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "No name",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            StaticData.employeeID != null
+                                ? Text(
+                                    'ID: ${StaticData.employeeID}',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                                : Text(
+                                    'ID: ',
+                                    style:
+                                        TextStyle(fontSize: 16, color: Colors.grey),
+                                  )
+                          ],
                         ),
-                        StaticData.employeeID != null
-                            ? Text(
-                                'ID: ${StaticData.employeeID}',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                            : Text(
-                                'ID: ',
-                                style:
-                                    TextStyle(fontSize: 16, color: Colors.grey),
-                              )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(NotificationPage1());
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(150)),
-                        child: badges.Badge(
-                          badgeStyle: badges.BadgeStyle(
-                            badgeColor: Colors.redAccent,
-                          ),
-                          badgeContent: Text('3'),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.notification_important,
-                                color: darkBlue,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(NotificationPage1());
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(150)),
+                            child: badges.Badge(
+                              badgeStyle: badges.BadgeStyle(
+                                badgeColor: Colors.redAccent,
+                              ),
+                              badgeContent: Text('3'),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle, color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.notification_important,
+                                    color: darkBlue,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: size.height / 1.3,
-                        transform: Matrix4.translationValues(
-                            -(size.width / 2.5), 0.0, 0.0),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                      ),
-                      Container(
-                        transform: Matrix4.translationValues(
-                            -(size.width / 3.8), (size.height / 5.5), 0.0),
-                        child: StaticData.proLink!.startsWith(".", 0)
-                            ? CircleAvatar(
-                                radius: 140,
-                                backgroundImage: NetworkImage(
-                                    "${StringsConst.MAINURL}" +
-                                        "${StaticData.proLink!.replaceAll("../..", "")}"),
-                              )
-                            : CircleAvatar(
-                                radius: 140,
-                                backgroundImage:
-                                    NetworkImage(StaticData.proLink!),
-                              ),
-                      ),
-                      Positioned(
-                        top: (size.height / 22),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ExpenseList());
-                            },
-                            child: circleRow(size, 'Expenses', (size.width / 4),
-                                (size.height / 6), false)),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(AttendenceReport());
-                        },
-                        child: Positioned(
-                            top: (size.height / 6),
-                            left: (size.width / 2.2),
-                            child: circleRow(size, 'Attendance',
-                                (size.width / 2.7), (size.height / 8), false)),
-                      ),
-                      Positioned(
-                        top: (size.height / 2.6),
-                        left: (size.width / 1.75),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(Task());
-                          },
-                          child: circleRow(size, 'Tasks', 240.0, 210.0, false),
-                        ),
-                      ),
-                      Positioned(
-                          top: (size.height / 1.7),
-                          left: (size.width / 2.3),
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(LeadView());
-                              },
-                              child: circleRow(
-                                  size,
-                                  'Lead',
-                                  (size.width / 2.5),
-                                  (size.height / 2),
-                                  false))),
-                      Positioned(
-                        top: (size.height / 1.45),
-                        left: (size.width / 8),
-                        child: InkWell(
-                            onTap: () {
-                              Get.to(ProspectFront());
-                            },
-                            child: circleRow(
-                                size,
-                                'Prospect',
-                                (size.width / 12),
-                                (size.height / 1.74),
-                                false)),
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(10.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Row(
-              //         children: [
-              //           Icon(
-              //             Icons.arrow_back,
-              //             color: darkBlue,
-              //           ),
-              //           Text(
-              //             'Prev',
-              //             style: TextStyle(color: darkBlue),
-              //           )
-              //         ],
-              //       ),
-              //       InkWell(
-              //         onTap: () {
-              //           Get.to(AdsPage());
-              //         },
-              //         child: Row(
-              //           children: [
-              //             Icon(
-              //               Icons.arrow_forward,
-              //               color: darkBlue,
-              //             ),
-              //             Text(
-              //               'Next',
-              //               style: TextStyle(color: darkBlue),
-              //             )
-              //           ],
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // )
-            ],
+                  Expanded(
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: size.height / 1.3,
+                            transform: Matrix4.translationValues(
+                                -(size.width / 2.5), 0.0, 0.0),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                          ),
+                          Container(
+                            transform: Matrix4.translationValues(
+                                -(size.width / 3.8), (size.height / 5.5), 0.0),
+                            child: StaticData.proLink!.startsWith(".", 0)
+                                ? CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage: NetworkImage(
+                                        "${StringsConst.MAINURL}" +
+                                            "${StaticData.proLink!.replaceAll("../..", "")}"),
+                                  )
+                                : CircleAvatar(
+                                    radius: 140,
+                                    backgroundImage:
+                                        NetworkImage(StaticData.proLink!),
+                                  ),
+                          ),
+                          Positioned(
+                            top: (size.height / 22),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ExpenseList());
+                                },
+                                child: circleRow(size, provider.bangLang == true ?  "ব্যয়" :'Expenses', (size.width / 4),
+                                    (size.height / 6), false)),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(AttendenceReport());
+                            },
+                            child: Positioned(
+                                top: (size.height / 6),
+                                left: (size.width / 2.2),
+                                child: circleRow(size,
+                                    provider.bangLang == true ?  "উপস্থিতি" :
+                                    'Attendance',
+                                    (size.width / 2.7), (size.height / 8), false)),
+                          ),
+                          Positioned(
+                            top: (size.height / 2.6),
+                            left: (size.width / 1.75),
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(Task());
+                              },
+                              child: circleRow(size,   provider.bangLang == true ?  "কাজ" :'Tasks', 240.0, 210.0, false),
+                            ),
+                          ),
+                          Positioned(
+                              top: (size.height / 1.7),
+                              left: (size.width / 2.3),
+                              child: InkWell(
+                                  onTap: () {
+                                    Get.to(LeadView());
+                                  },
+                                  child: circleRow(
+                                      size,
+                                      provider.bangLang == true ?  "লিড" :
+                                      'Lead',
+                                      (size.width / 2.5),
+                                      (size.height / 2),
+                                      false))),
+                          Positioned(
+                            top: (size.height / 1.45),
+                            left: (size.width / 8),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ProspectFront());
+                                },
+                                child: provider.bangLang == true ? circleRow(
+                                    size,
+                                    'সম্ভাবনা',
+                                    (size.width / 12),
+                                    (size.height / 1.74),
+                                    false): circleRow(
+                                    size,
+                                    'Prospect',
+                                    (size.width / 12),
+                                    (size.height / 1.74),
+                                    false)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(10.0),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Icon(
+                  //             Icons.arrow_back,
+                  //             color: darkBlue,
+                  //           ),
+                  //           Text(
+                  //             'Prev',
+                  //             style: TextStyle(color: darkBlue),
+                  //           )
+                  //         ],
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           Get.to(AdsPage());
+                  //         },
+                  //         child: Row(
+                  //           children: [
+                  //             Icon(
+                  //               Icons.arrow_forward,
+                  //               color: darkBlue,
+                  //             ),
+                  //             Text(
+                  //               'Next',
+                  //               style: TextStyle(color: darkBlue),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              );
+            }
           ),
         ),
       );

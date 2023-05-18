@@ -9,6 +9,7 @@ abstract class Routes {
   static const SPLASHSCREEN = _Paths.SPLASHSCREEN;
 
   static const MOBILE_RECHARGE = _Paths.MOBILE_RECHARGE;
+  static const MENUPAGE = _Paths.MENUPAGE;
   static const ContactFrontTab = _Paths.ContactFrontTab;
 
 }
@@ -17,6 +18,7 @@ abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
   static const BASE = '/base';
+  static const MENUPAGE = '/menupage';
 
   static const SPLASHSCREEN = '/splashscreen';
   static const ContactFrontTab = '/contactFrontTab';
